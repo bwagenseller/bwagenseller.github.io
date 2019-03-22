@@ -1,4 +1,0 @@
-# Industry Jargon
-
-# Basics
-
