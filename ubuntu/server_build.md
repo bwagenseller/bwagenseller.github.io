@@ -1718,6 +1718,8 @@ In the base Docsify folder, 3 things must be present:
 
 !> It is assumed you have a folder set up already with a main docsify folder (the initial folder that contains the docsify files README.md, _sidebar.md, and _navbar.md) and this folder is /mnt/docsify_library. In reality, it doesn't have to be /mnt/docsify_library; what is important is that the link in /var/www/html points to another directory that holds the 'assets' folder, the initial 'index.html', and a symbolic link named 'library' which MUST be pointing to whatever folder contains your main docsify folder with the files README.md, _sidebar.md, and _navbar.md.
 
+> If you prefer to just use GitHub Pages to host a Docsify website, [here is how that is done](learn_to_code/docsify/gettingstarted?id=github-pages).
+
 1\. [Become root](/ubuntu/linux_notes?id=becoming-root)
 
 2\. [Update all packages](/ubuntu/linux_notes?id=updating-upgrading-all-packages)

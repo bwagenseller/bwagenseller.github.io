@@ -6,7 +6,76 @@
 This page is written using the Docisfy framework, which you can learn more about [at the Docisfy website](https://docsify.now.sh/). The base file is a .md (read: Markdown) file that is simply a text file with snazzy formatting.  
 If you wish to document something, you can perform a write-up of the subject in a .md file and store it to a spot on the shared drive and we will permanently have the documentation on file.
 
+# Setting-up Docsify
+
+## Local Setup
+
 For local docsify setup, [read my article here](ubuntu/server_build?id=docsify).
+
+## Github Pages
+
+Its possible to set up Docsify on [GitHub Pages](https://pages.github.com/) for free. They actually lay it how to utilize GitHub Pages [on the initial screen](https://pages.github.com/), but to recap:
+
+1\. Go to [GitHub](https://github.com/), make an account if necessary.
+
+2\. Make a [new repository](https://github.com/new) and call it `username.github.io`, where `username` is your username (or organization name) on GitHub.
+
+3\. Assuming you are [using Git](ubuntu/linux_notes?id=using-git) on Ubuntu, [initialize git](ubuntu/linux_notes?id=initializing-git) if you have not done so already.
+
+4\. Make a directory that will be used for editing your page, and then change to that directory; from here, clone your new repository with the command:
+```
+git clone https://github.com/username/username.github.io
+```
+ * `username` is your actual username for GitHub that you made in step 1.
+
+5\. Step 4 will create a directory called `username.github.io` in the current directory; change the directory to that directory with `cd username.github.io`.
+
+6\. From here you can write an `index.html` file in this folder - this index.html is critical, as your page will use this file to 'start' your webpage.
+
+7\. According to [the Docsify quickstart guide](https://docsify.now.sh/quickstart), you have to modify your `index.html` in a certain fashion to use Docsify. To do so, copy this basic template to your `index.html` file in the folder `username.github.io` (if it does not exist, create it):
+
+```
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="description" content="Description">
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <link rel="stylesheet" href="//unpkg.com/docsify/lib/themes/vue.css">
+</head>
+<body>
+  <div id="app"></div>
+  <script>
+    window.$docsify = {
+      name: 'My Docsify Page',
+      loadSidebar: true,
+      subMaxLevel: 2,
+      maxLevel: 4
+    }
+  </script>
+  <script src="//unpkg.com/docsify/lib/docsify.min.js"></script>
+</body>
+</html>
+```
+
+8\. Now make a file called `README.md` inside the folder `username.github.io`; put a few lines in there just to test this out (it can be a few sentences).
+
+9\. Now you will have to push your changes to github; to do this, run these commands from inside the folder `username.github.io`:
+
+```
+git add --all
+git commit -m "Some commit comment, its up to you"
+git push -u origin master
+```
+ * Its a good practice to change the commit comment each time.
+ * You will be asked for your GitHub username and password.
+ 
+10\. You can now be browse to https://username.github.io (replacing `username` with your own, of course) and your own Docsify page is up on GitHub Pages!
+
+11\. Read more [on the Docisfy website](https://docsify.now.sh/).
+
 
 # What is Markdown?
 
