@@ -73,6 +73,7 @@ git push -u origin master
  * You will be asked for your GitHub username and password.
  
 10\. You can now be browse to https://username.github.io (replacing `username` with your own, of course) and your own Docsify page is up on GitHub Pages!
+ * To actually navigate to your _Docsify_ implementation, you must use https://username.github.io/#/ instead
 
 11\. Read more [on the Docisfy website](https://docsify.now.sh/).
 
