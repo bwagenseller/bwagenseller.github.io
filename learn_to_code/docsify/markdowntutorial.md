@@ -331,8 +331,11 @@ Then, put the qualifier `':include :type=iframe'` in the markdown code (you also
 
 And here is what it will look like:
 
+```
 ![AI Christmas Tale](https://www.youtube.com/embed/aknucxb0xSo ':include :type=iframe width=315px height=400px')
+```
 
+!> I had to comment the above, as there seems to be a problem with Docsify on Github Pages that simply displays _only_ the above youtube video and none of the other sections (it does not work like this if you run Docsify from your own server).
 
 You can also specify the width and height as a percentage; for example,
 ```
