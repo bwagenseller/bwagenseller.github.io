@@ -263,11 +263,11 @@ For a full list of emojis you can use, [visit the emoji cheat sheet site](https:
 Pictures are very similar to links; the only difference is an exclamation point is at the very beginning before the bracket.
 
 This is an example of an embedded picture, which is of our beloved professor Bailey:<br>
-![Bailey](https://bwagenseller.github.io/#/learn_to_code/docsify/ProfessorBailey.jpg)
+![Bailey](https://bwagenseller.github.io/learn_to_code/docsify/ProfessorBailey.jpg)
 
 Code:
 ```
-![Bailey](https://bwagenseller.github.io/#/learn_to_code/docsify/ProfessorBailey.jpg)
+![Bailey](https://bwagenseller.github.io/learn_to_code/docsify/ProfessorBailey.jpg)
 
 Note you must have some text in the [brackets] but it wont display.
 ```
