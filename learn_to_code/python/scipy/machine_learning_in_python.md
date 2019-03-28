@@ -1,4 +1,5 @@
 # Machine Learning In Python
+<!-- clear for public use -->
 
 # Source Material
 

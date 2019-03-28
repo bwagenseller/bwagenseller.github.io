@@ -1,4 +1,5 @@
 # Numpy
+<!-- clear for public use -->
 
 # Before We Begin
 
