@@ -1668,7 +1668,7 @@ umount -f /mnt/cifs_share
 
 ## Basics of Docsify and Markdown
 
-If you want to know the basics of Docsify (or what we call 'Notebook'), [see my guide](tutorials/gettingstarted), and if you wish to learn a bit on the Markdown language [see my guide on that](tutorials/markdowntutorial).
+If you want to know the basics of Docsify (or what we call 'Notebook'), [see my guide](learn_to_code/docsify/gettingstarted), and if you wish to learn a bit on the Markdown language [see my guide on that](learn_to_code/docsify/markdowntutorial).
 
 ## Basics of Docsify Files and Locations
 <span style='width: 20px; display:inline-block'>:bangbang:</span>

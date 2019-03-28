@@ -15,6 +15,7 @@ I decided to do something similar here. The following notes are from a combinati
 - [Generic Ubuntu Server Build](/ubuntu/server_build) - Documents how to build an Ubuntu server from the ground up.
 
 # Learning To Code
+- [Docsify](/learn_to_code/docsify/) - Overview of how to use Docsify and Markdown. 
 - [Python](/learn_to_code/python/) - Brent's notes on his journey to learn Python.
 - [Machine Learning](/learn_to_code/machine_learning/) - Brent's notes on his journey to learn Machine Learning.
 
