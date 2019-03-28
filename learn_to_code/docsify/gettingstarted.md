@@ -14,7 +14,7 @@ For local docsify setup, [read my article here](ubuntu/server_build?id=docsify).
 
 ## Github Pages
 
-Its possible to set up Docsify on [GitHub Pages](https://pages.github.com/) for free. They actually lay it how to utilize GitHub Pages [on the initial screen](https://pages.github.com/), but to recap:
+Its possible to set up Docsify on [GitHub Pages](https://pages.github.com/) for free. They actually lay out how to utilize GitHub Pages [on the initial screen](https://pages.github.com/), but to recap (with a Docsify flavor):
 
 1\. Go to [GitHub](https://github.com/), make an account if necessary.
 
