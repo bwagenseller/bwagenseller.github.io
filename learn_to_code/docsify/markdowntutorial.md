@@ -319,6 +319,10 @@ The following is supported:
 
 ## Embedding YouTube Videos
 
+!> I had to take this section out, as there seems to be a problem with Docsify on Github Pages that simply displays _only_ the youtube video and none of the other sections; this is still in a HTML comment section below, though.
+
+<!--
+
 Embedding YouTube videos are supported, but its not instantly recognized; you need to alter the link a bit and also specify `:type=iframe` in the markdown.
 
 For example, say we wanted to embed https://www.youtube.com/watch?v=aknucxb0xSo into our page. Take the value of `v=` (in our case its 'aknucxb0xSo') and put it at the end of `https://www.youtube.com/embed/` like so: `https://www.youtube.com/embed/aknucxb0xSo`.
@@ -344,6 +348,8 @@ Which is:
 ![Synthwave](https://www.youtube.com/embed/wOMwO5T3yT4 ':include :type=iframe width=100% height=400px')
 
 !> These seem to be very touch-and-go: if they are immediately above or below other markdown they will not display. If you are having problems, make sure there is a carriage return above and below the embedded video first, and then move and test from there.
+
+-->
 
 # Tables
 
