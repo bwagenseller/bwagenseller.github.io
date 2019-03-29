@@ -14,7 +14,7 @@ Brent Wagenseller's journey to learn the intricacies of Python.
 - [Machine Learning in Python](/learn_to_code/python/scipy/machine_learning_in_python) - Machine learning in Python.
 - [Matplotlib](/learn_to_code/python/scipy/matplotlib) - Deeper dive into Scipy/Matplotlib.
 - [SQL in Python](/learn_to_code/python/python_sql) - Learning how to connect to - and utilize - a backend relational database with SQL.
-- [Multithreading in Python](/learn_to_code/python/python_sql) - Learning how to use multiprocess and multithreaded environments in Python.
+- [Multithreading in Python](/learn_to_code/python/python_multithreading) - Learning how to use multiprocess and multithreaded environments in Python.
 
 
 
