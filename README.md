@@ -1,4 +1,4 @@
-<img
+she<img
     src="./images/BrentAndMandi.jpg"
     width="88"
     style="display: block; width: 88px; margin: auto; margin-bottom: 1em"
@@ -10,13 +10,16 @@ I decided to do something similar here. The following notes are from a combinati
 
 # Linux/Ubuntu System Maintenance and Tools
 - [Linux Quick Reference](/ubuntu/linux_notes) - Some quick notes on Unix/Linux administration.
+- [KVM Notes](/ubuntu/package_operations/kvm_notes) - Day to day operations using the virtualization software KVM.
 
 # Installation
 - [Generic Ubuntu Server Build](/ubuntu/server_build) - Documents how to build an Ubuntu server from the ground up.
+- [New MySQL Server Install Instructions](/ubuntu/package_install/mysql_install) - Details on how to quickly get a new MySQL database up and running.
+- [KVM Install](/ubuntu/package_install/kvm_install) - Details on how to install the virtualization software 'KVM'.
 
 # Learning To Code
 - [Docsify](/learn_to_code/docsify/) - Overview of how to use Docsify and Markdown. 
-- [Python](/learn_to_code/python/) - Brent's notes on his journey to learn Python.
-- [Machine Learning](/learn_to_code/machine_learning/) - Brent's notes on his journey to learn Machine Learning.
+- [Python](/learn_to_code/python/) - Brent's notes on his continuous journey to document Python.
+- [Machine Learning](/learn_to_code/machine_learning/) - Brent's notes on his journey to document Machine Learning.
 
 !> Disclaimer: The contents of this page are my own opinions, and are certainly up for debate.

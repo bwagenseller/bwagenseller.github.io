@@ -41,6 +41,12 @@ If you have to enter anything into a file, these lines will appear like this:
 
 Finally, it is assumed that for the setup you will [be root](/ubuntu/linux_notes?id=becoming-root) unless otherwise stated.
 
+## Getting (and Installing) the ISO 
+
+The ISO image is the 'install' package - most operating systems use an ISO image for an install. Determine if you want a server implementation or a desktop; once you [download the Ubuntu ISO](https://www.ubuntu.com/#download), the traditional thing to do is burn its contents to a DVD (double clicking the ISO will usually prompt your DVD burner software to do this).
+
+Once the DVD is made, simply put it in the DVD drive and boot from CD; from there just follow the instructions. Once this is complete, you will have an Ubuntu system operational!
+
 # Setting up the Static IP
 
 > If the IP you are using is a static IP, follow these steps.
