@@ -1,7 +1,12 @@
 - **Maintenance Links**
  - [Linux Quick Reference](/ubuntu/linux_notes)
+ - [KVM Notes](/ubuntu/package_operations/kvm_notes)
+ - [General MySQL Maintenance](/ubuntu/package_operations/mysql_maintenance)
+ - [General MySQL Troubleshooting](/ubuntu/package_operations/mysql_troubleshooting)
 - **Ubuntu Installation Links**
  - [Generic Ubuntu Server Build](/ubuntu/server_build) 
+ - [New MySQL Server Install Instructions](/ubuntu/package_install/mysql_install)
+ - [KVM Install Instructions](/ubuntu/package_install/kvm_install)
 - **Computer Science**
  - [Docsify](/learn_to_code/docsify/)
  - [Python](/learn_to_code/python/)

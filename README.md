@@ -10,6 +10,8 @@ I decided to do something similar here. The following notes are from a combinati
 
 # Linux/Ubuntu System Maintenance and Tools
 - [Linux Quick Reference](/ubuntu/linux_notes) - Some quick notes on Unix/Linux administration.
+- [General MySQL Maintenance](/ubuntu/package_operations/mysql_maintenance) - General maintenance tips for administering a MySQL database.
+- [General MySQL Troubleshooting](/ubuntu/package_operations/mysql_troubleshooting) - General troubleshooting tips for administering a MySQL database.
 - [KVM Notes](/ubuntu/package_operations/kvm_notes) - Day to day operations using the virtualization software KVM.
 
 # Installation
@@ -19,6 +21,7 @@ I decided to do something similar here. The following notes are from a combinati
 
 # Learning To Code
 - [Docsify](/learn_to_code/docsify/) - Overview of how to use Docsify and Markdown. 
+- [SQL](/learn_to_code/SQL/sql) - My notes to get up and running in SQL quickly. 
 - [Python](/learn_to_code/python/) - Brent's notes on his continuous journey to document Python.
 - [Machine Learning](/learn_to_code/machine_learning/) - Brent's notes on his journey to document Machine Learning.
 

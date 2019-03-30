@@ -9,7 +9,7 @@ This page is to help you set up an Ubuntu server. It lays out several installs t
 
 # Before We Start (Notes On This Section)
 
-This is a page dedicated to installing various packages (in a Linux/Debian/Ubuntu environment). This assumes you currently have an Ubuntu / Debian OS.
+This is a page dedicated to getting Ubuntu up and running (as well as installing various packages I use frequently in a Linux/Debian/Ubuntu environment). This assumes you currently have an Ubuntu / Debian OS; to get started with that, [see here](ubuntu/server_build?id=getting-and-installing-the-iso).
 
 ## Section Indicators
 
@@ -43,9 +43,13 @@ Finally, it is assumed that for the setup you will [be root](/ubuntu/linux_notes
 
 ## Getting (and Installing) the ISO 
 
-The ISO image is the 'install' package - most operating systems use an ISO image for an install. Determine if you want a server implementation or a desktop; once you [download the Ubuntu ISO](https://www.ubuntu.com/#download), the traditional thing to do is burn its contents to a DVD (double clicking the ISO will usually prompt your DVD burner software to do this).
+!> You will have to decide if you want a desktop or server version of Ubuntu; the only real difference is the server version does not have a desktop GUI and has only bare-bones sources in [sources.list](ubuntu/linux_notes?id=changing-update-sources-sourceslist). I suggest getting the desktop version, even if you want a server: the desktop version can also function as a server. The only downside is it takes up more space, so if that is a concern stick with the server implementation.
+
+If you havent installed Unbuntu Linux on your desktop / server, you will have to download the ISO image first [here](https://www.ubuntu.com/#download) (you will have to pick either server or desktop). The ISO image is the 'install' package - most operating systems use an ISO image for an install. Once you have the ISO, the traditional thing to do is burn its contents to a DVD (double clicking the ISO will usually prompt your DVD burner software to do this). There are other things you can do with the ISO (like [install an OS (like Ubuntu) to a VM](ubuntu/package_operations/kvm_notes?id=creating-a-vm-in-kvm-gui)).
 
 Once the DVD is made, simply put it in the DVD drive and boot from CD; from there just follow the instructions. Once this is complete, you will have an Ubuntu system operational!
+
+!> You will have to make sure your DVD boots first before your hard drive. Unfortunately, this is different for each server / desktop, but you usually have to mash `escape` or one of the function keys (`f9`, `f10`, `f11`, and `f12` are popular candidates - see [here](https://www.lifewire.com/how-to-enter-bios-2624481) for some more tips) as soon as you turn the machine on to enter the setup. Once there, look for something that is similar to 'boot options' in the [bios](https://en.wikipedia.org/wiki/BIOS) and either boot directly from the CD/DVD or make sure the CD/DVD drive is the primary boot device.
 
 # Setting up the Static IP
 

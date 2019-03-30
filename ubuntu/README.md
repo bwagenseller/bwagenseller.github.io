@@ -9,3 +9,5 @@ These documents detail everything I care to record about the Ubuntu (Debian) Lin
 
 # MySQL Database Operations
 - [New MySQL Server Install Instructions](/ubuntu/package_install/mysql_install) - Details on how to quickly get a new MySQL database up and running.
+- [General MySQL Maintenance](/ubuntu/package_operations/mysql_maintenance) - General maintenance tips for administering a MySQL database.
+- [General MySQL Troubleshooting](/ubuntu/package_operations/mysql_troubleshooting) - General troubleshooting tips for administering a MySQL database.
