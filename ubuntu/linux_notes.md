@@ -749,6 +749,27 @@ The basic format is:
 
 Once you [source in](/ubuntu/linux_notes?id=sourcing-your-profile) your .profile file, you will now be able to type the command (in our case `beroot`) and it will actually execute the substituted command instead!
 
+## Functions in .profile
+
+Much like aliases, You can also have functions in your profile. Here is an example that combines 3 normal git commands:
+
+```
+function shortgit { git add --all;git commit -m "$1";git push -u origin master; }
+export -f shortgit
+```
+
+The basic format is:
+* The word `function` is the first word.
+* The name of the new function.
+* The command that will _actually_ be executed, wrapped in curly braces `{ }` and separated by semicolons `;`.
+ * Note that the variables are denoted with a $(N), where N is a number; the example above is `$1`
+ * You can have as many variables as you like, but just remember they will be sequential ($1, $2, $3.....$N), and they will be separated by spaces.
+* The export of the function
+
+Once you [source in](/ubuntu/linux_notes?id=sourcing-your-profile) your .profile file, you will now be able to type the command (in our case `shortgit`) and it will actually execute the substituted commands instead!
+
+We would call this by typing `shortgit "This is the commit message"` at the terminal.
+
 ## .profile Security
 
 While you can put variables and aliases in your .profile, its usually safer / more portable (meaning, you can copy the file and easily move elsewhere) to put any additional variables in another environment file, use [chmod](ubuntu/linux_notes?id=changing-file-permissions) to set the file's permissions to 600 (so only you can read and write to the file) in order to prevent othe people from potentially seeing any passwords in the file, and then sourcing in this additional file in your .profile.
