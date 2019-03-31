@@ -75,7 +75,7 @@ The <font color="blue">FROM</font> block is fairly straightforward- it will almo
  
 ## INNER JOIN 'Clause'
  
-Sometimes (actually often times) the data you need is stored across multiple tables.  In these cases you have to do something called joining the tables.  Basically what this means is joining the data on [primary keys](learn_to_code/relational_databases/sql?id=primary-key).
+Sometimes (actually often times) the data you need is stored across multiple tables.  In these cases you have to do something called joining the tables.  Basically what this means is joining the data on [primary keys](learn_to_code/relational_databases/database_key_terms?id=primary-key).
  
 For example lets say we wanted to select the EmployeeID, name, Date, and MonthlyUnitsSold.  We would do it like this: <br>
  
@@ -185,32 +185,3 @@ The <font color="blue">LIMIT</font> clause is very straightforward – it simply
  
 This can be particularly useful if you only want to do operations on a specific row.
 
-# Keys 
-
-## Primary Key
- 
-A primary key is a column – actually often multiple columns – that define a row of data.  So, for example, say you have a table with three columns: employee ID, month, and units sold.  What would define a unique row?  Obviously employee ID helps define a row, so employee ID is a primary key.  Again, we want a unique row identifier, so we have to ask ourselves: can there be multiple rows in the data with the same employee ID?  The answer is yes – since there is also a month column, this indicates an employee can be in this table multiple times, once per month listed.  So, in this example, there are two columns that define a unique row: employee ID and month.
- 
-It can be difficult figuring out primary keys (unique columns), but here are a few general guidelines (that will identify a primary key in most cases):
-
-* Any column that has the specific word “ID” in it that can be construed as “identification” is probably a primary key (or one of them).
-* Any date or date/time columns, IF it’s the only date or date/time column in the table (or if it has one DATE AND one DATETIME column, they are typically both primary key columns).  In the case of multiple date and/or date/time columns you have to use your judgment based on the name of the column.
-* Typically, if the column is a column that has numbers in it that are not IDs, it is NOT a primary key.
-* First and Last names are typically NOT primary keys.  Why?  Because there are, in theory, multiple people can have the same name.  As an example, there are 24,333 people in the US that have the name “John Smith.”  Do NOT use a first/last name as a primary key, ever – use an employee ID or some other unique identifier.
-
- 
-When joining tables, determine the primary keys in each table; then, determine which primary keys from each table should be used to join the tables together.  It is important to identify EVERY primary key pairing between both tables – the more primary keys that you can match the faster the query will execute (as well as eliminate flawed joins).
- 
-For example, consider two tables:
- 
-| <font color="purple">Employees</font> | <font color="purple">MonthlyUnitsSold</font> |
-| --- | --- |
-| EmployeeID | EmployeeID | 
-| FirstName | Date | 
-| LastName | numOfUnits | 
-| Position |  | 
-| State |   | 
-| MonthlyTargetUnits |        | 
-
- 
-For the table Employees, it seems only the EmployeeID identifies a unique row; the MonthlyUnitsSold table uses both the EmployeeID <font color="blue">AND</font> the Date columns to identify a unique row.  What columns do both tables have in common?  That’s right, the EmployeeID is the only column that both tables have in common.  Therefore, if we wanted to join these two tables, we would join them <font color="blue">ON</font> Employees.EmployeeID = MonthlyUnitsSold.EmployeeID. 
