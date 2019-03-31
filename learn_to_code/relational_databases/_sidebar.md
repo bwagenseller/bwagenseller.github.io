@@ -1,0 +1,2 @@
+- [SQL](/learn_to_code/SQL/sql)
+- [Relational DB Key Terms](/learn_to_code/relational_databases/database_key_terms)

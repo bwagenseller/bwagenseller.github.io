@@ -1,6 +1,32 @@
 # SQL 
 
+# Before We Begin
+
+## Scope
+
+The scope of this document is meant to simply get someone up and running with SQL with a reasonable amount of working knowledge. It will not get into relational database theory nor will it get too deep into the weeds (as I am not trying to write a book). 
+
+## Assumptions
+
+**<font size="4">SQL Implementation</font>**
+
+Since SQL is mostly agnostic (that is to say, different flavors like [MySQL](https://www.mysql.com/) or [Oracle (Database)](https://www.oracle.com/database/) or [HP Vertica](https://www.logianalytics.com/resources/bi-encyclopedia/hp-vertica/) share mostly the same SQL syntax), this document will pertain to most instances of SQL; that said, there are slight variations between relational database implementations of SQL. These instructions will use the MySQL version of SQL (unless otherwise stated).
+
+**<font size="4">Working MySQL Database</font>**
+
+This document assumes you have an instance of MySQL to use; if not, you can [installed MySQL](ubuntu/package_install/mysql_install) on an [Ubuntu Linux Machine](ubuntu/server_build).
+
+## GUI Clients
+
+While its possible to interact with MySQL [completely from the command line](ubuntu/package_operations/mysql_maintenance?id=logging-into-the-database), I strongly suggest a GUI. My favorite is [SQLyog (for MySQL)](https://github.com/webyog/sqlyog-community) (new download [here](https://github.com/webyog/sqlyog-community/wiki/Downloads), old download [here](https://code.google.com/p/sqlyog/wiki/Downloads)), but it is only available for Windows. If you have a Mac or are on a Linux machine, [MySQL Workbench](https://www.mysql.com/products/workbench/) (download [here](https://dev.mysql.com/downloads/workbench/)) is also an option.
+
+Finally, if you would like to use a GUI that can interact with HP Vertica or Oracle, [DBeaver](https://dbeaver.com/)(download [here](https://dbeaver.io/download/)) is available.
+
 # SELECT Query
+
+The <font color="blue">SELECT</font> query allows you to select data from one (or more) tables; the data is returned to your screen (if using a basic terminal), a client (like [SQLyog](https://github.com/webyog/sqlyog-community)), or a script (like [Python](learn_to_code/python/python_sql)).
+
+The <font color="blue">SELECT</font> query is the basic query in SQL.
 
 **<font size="4">Example of a SELECT Query</font>**
  
@@ -49,7 +75,7 @@ The <font color="blue">FROM</font> block is fairly straightforward- it will almo
  
 ## INNER JOIN 'Clause'
  
-Sometimes (actually often times) the data you need is stored across multiple tables.  In these cases you have to do something called joining the tables.  Basically what this means is joining the data on [primary keys](learn_to_code/SQL/sql?id=primary-key).
+Sometimes (actually often times) the data you need is stored across multiple tables.  In these cases you have to do something called joining the tables.  Basically what this means is joining the data on [primary keys](learn_to_code/relational_databases/sql?id=primary-key).
  
 For example lets say we wanted to select the EmployeeID, name, Date, and MonthlyUnitsSold.  We would do it like this: <br>
  
@@ -134,8 +160,6 @@ As a rule of thumb, the columns you use in the <font color="blue">GROUP BY</font
 
 ## HAVING Clause
 
-> Is this reaL?
-
 The <font color="blue">HAVING</font> block works exactly like the <font color="blue">WHERE</font> clause but for aggregate functions, and must only include an aggregate as one of the comparisons.  For example, say you only wanted to show EmployeeIDs that have sold more than 100 units. The SQL would look like this: <br>
 
 > <font color="blue">SELECT</font> EmployeeID, <font color="blue">SUM</font>(numOfUnits) <br>
@@ -186,6 +210,7 @@ For example, consider two tables:
 | LastName | numOfUnits | 
 | Position |  | 
 | State |   | 
-| MonthlyTargetUnits |   | 
+| MonthlyTargetUnits |        | 
+
  
 For the table Employees, it seems only the EmployeeID identifies a unique row; the MonthlyUnitsSold table uses both the EmployeeID <font color="blue">AND</font> the Date columns to identify a unique row.  What columns do both tables have in common?  That’s right, the EmployeeID is the only column that both tables have in common.  Therefore, if we wanted to join these two tables, we would join them <font color="blue">ON</font> Employees.EmployeeID = MonthlyUnitsSold.EmployeeID. 
