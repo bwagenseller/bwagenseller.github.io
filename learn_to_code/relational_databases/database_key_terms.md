@@ -32,6 +32,10 @@ For the table Employees, it seems only the EmployeeID identifies a unique row; t
 
 A **relational schema** (also: **table schema**) describes the [table](learn_to_code/relational_databases/database_key_terms?id=table); it contains things like the name of the table, column names, column data types, etc. 
 
+# Row-level Locking
+
+The need to update specific rows in a [table](learn_to_code/relational_databases/database_key_terms?id=table) is quite common; when **row-level locking** is used, _only_ the affected rows are 'locked' (or'claimed'), which means other entities cannot update the row until the entity that has 'locked' the row is finished and unlocks it. This is opposed to [table-level Locking](learn_to_code/relational_databases/database_key_terms?id=table-level-locking) which locks the _entire_ table instead of just specific rows.
+
 # Schema
 
 A **database schema** (commonly truncated to **schema**) is a collection of [relational schemas](learn_to_code/relational_databases/database_key_terms?id=relational-schema) that are logically connected.
@@ -45,6 +49,22 @@ When referenced in a database product (such as MySQL or Oracle or HP Vertica), a
 A **table** is simply a collection of data that has both rows and columns; it can be physically present (i.e., exists on a harddrive), but it can also be calculated at query time (which means technically a [view](learn_to_code/relational_databases/database_key_terms?id=view) is also a table).
 
 A table always has some metadata associated with it - in particular, it has a [relational schema](learn_to_code/relational_databases/database_key_terms?id=relational-schema) (not to be confused with a [database schema](learn_to_code/relational_databases/database_key_terms?id=schema)).
+
+# Table-level Locking
+
+The need to update specific rows in a [table](learn_to_code/relational_databases/database_key_terms?id=table) is quite common; when **table-level locking** is used, the _entire_ table is locked (or'claimed'), which means no other entity can update _any_ row in the table until the entity that has 'locked' the table is finished and unlocks it. This is on contrast to [row-level locking](learn_to_code/relational_databases/database_key_terms?id=row-level-locking), which only locks specific rows in the table (and not the entire table), making row-level locking more efficient.
+
+# Transaction
+
+A **transaction** symbolizes a unit of work in a database; it can be thought of as any change in a database. Transactions are 'all or nothing', either they are a full success or they have no effect on the database. A transaction has these properties:
+* _Atomic_ - An [atomic transaction](https://en.wikipedia.org/wiki/Atomicity_&#40;database_systems&#41;) is indivisible and irreducible - meaning either the entirety of the transaction happens, or nothing happens. 
+ * As an example, think of money being transferred from one bank account to another. The transaction is atomic if and only if the money is fully removed from one account and added to the other; if it fails to be removed from the original account but is added to the target account - or if it is removed from the original account but fails to be added to the target account, this would not be an atomic transaction.
+* _Consistent_ - a transaction is [consistent](https://en.wikipedia.org/wiki/Consistency_&#40;database_systems&#41;) only if it follows all of the rules laid out by the constraints laid out in the [relational schema](learn_to_code/relational_databases/database_key_terms?id=relational-schema), cascades, etc.
+* _Isolated_ - [isolation](https://en.wikipedia.org/wiki/Isolation_&#40;database_systems&#41;) determines when and how changes become visible to other operations / entities.
+* _Durable_ - [Durability](https://en.wikipedia.org/wiki/Durability_&#40;database_systems&#41;) guarantees committed transactions will survive permanently, even if there is a system failure.
+
+For more on transactions, [see here](https://en.wikipedia.org/wiki/Database_transaction).
+
 
 # View
 

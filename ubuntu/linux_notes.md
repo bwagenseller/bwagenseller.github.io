@@ -2946,6 +2946,7 @@ There are many programs that are launched by icons and not from the command line
 | notepad-plus-plus | Notepad++ |
 | vlc | VLC Media Player |
 | remmina | Remmina, a remote desktop client. |
+| mysql-workbench | MySQL Workbench client. |
 
 ---
 
