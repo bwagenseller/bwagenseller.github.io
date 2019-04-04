@@ -9,6 +9,7 @@
  - [KVM Install Instructions](/ubuntu/package_install/kvm_install)
 - **Computer Science**
  - [Docsify](/learn_to_code/docsify/)
+ - [Raspberry Pi](/learn_to_code/raspberry_pi/) 
  - [SQL](/learn_to_code/relational_databases/sql)
  - [Relational Databases](/learn_to_code/relational_databases/)
  - [Python](/learn_to_code/python/)
