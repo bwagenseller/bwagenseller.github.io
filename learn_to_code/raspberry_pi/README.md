@@ -9,4 +9,4 @@
  - [Raspberry Pi Key Terms](/learn_to_code/raspberry_pi/raspberry_pi_key_terms) - Key terms in understanding Raspberry Pi.
  - [Raspberry Pi Setup](/learn_to_code/raspberry_pi/raspberry_pi_install) - How to get a Raspberry Pi up and running. 
  - [Learning Raspbian OS](/learn_to_code/raspberry_pi/raspbian) - My notes on learning the Raspberry Pi OS 'Raspbian'. 
- 
+ - [RetroPie](/learn_to_code/raspberry_pi/retropie) - Instructions on how to turn your Pi into a gaming console. 

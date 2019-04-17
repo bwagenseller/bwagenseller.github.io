@@ -1592,6 +1592,84 @@ ssh zz9876@123.456.789.999
 * Don't forget to log out with an 'exit' command!
 * You can now use the SCP command without a password (covered earlier) as well.
 
+## Setting Up Multiple Keys
+
+Its possible to set up multiple keys for either A) multiple logins to the same server, B) logins to multiple servers, or C) some combination of 'A' and 'B'. In order to do this we must do a few things.
+
+!> You should be your own account for this - _NOT_ root!  
+
+> Note that `~` represents the directory of your home folder; so `~` really means `/home/yourLoginHere`, where your login (and home directory) is `yourLoginHere`.
+
+1\. Make sure you have [set up a SSH key and it is working properly](ubuntu/linux_notes?id=ssh-key-setup).
+
+3\. Make a new directory in your `.ssh` folder (you can call it whatever you want, but we will call it `serverA_userA`; to do this run: `mkdir ~/.ssh/serverA_userA`.
+
+4\. Change the user setting for the folder: `chmod 700 ~/.ssh/serverA_userA`
+
+5\. Move your `id_rsa` and `id_rsa.pub` to the folder made in step 3. Note I also change the name of these files to make what they are unambiguous:
+```
+mv ~/.ssh/id_rsa ~/.ssh/serverA_userA/serverA_userA_rsa
+mv ~/.ssh/id_rsa.pub ~/.ssh/serverA_userA/serverA_userA_rsa.pub
+```
+
+6\. Make sure that any `id_rsa` and `id_rsa.pub` file in your initial `~/.ssh` folder is either renamed, moved, or deleted (otherwise the system may try to use this as a default).
+
+7\. Make a file in your `~/.ssh` folder named 'config': `touch ~/.ssh/config`
+
+8\. Set the permissions of the `config` file to `700`: `chmod 700 ~/.ssh/config`
+
+9\. Place your connection information - which will contain the location of the private key file - in the `config` file. Here is an example of that config file:
+
+
+> <font color="blue">Host</font> someshortname realname.example.com  
+> &nbsp;&nbsp;&nbsp;&nbsp;<font color="blue">HostName</font> realname.example.com  
+> &nbsp;&nbsp;&nbsp;&nbsp;<font color="blue">IdentityFile</font> ~/.ssh/somefolder/realname_rsa  
+> &nbsp;&nbsp;&nbsp;&nbsp;<font color="blue">User</font> remoteusernameX  
+> &nbsp;&nbsp;&nbsp;&nbsp;<font color="blue">IdentitiesOnly yes</font>  
+>  <br>
+> <font color="blue">Host</font> serverA 10.0.0.1  
+> &nbsp;&nbsp;&nbsp;&nbsp;<font color="blue">HostName</font> 10.0.0.1  
+> &nbsp;&nbsp;&nbsp;&nbsp;<font color="blue">IdentityFile</font> ~/.ssh/serverA_userA/serverA_userA_rsa  
+> &nbsp;&nbsp;&nbsp;&nbsp;<font color="blue">User</font> userA  
+> &nbsp;&nbsp;&nbsp;&nbsp;<font color="blue">IdentitiesOnly yes</font>  
+>  <br>
+> <font color="blue">Host</font> serverA 10.0.0.1  
+> &nbsp;&nbsp;&nbsp;&nbsp;<font color="blue">HostName</font> 10.0.0.1  
+> &nbsp;&nbsp;&nbsp;&nbsp;<font color="blue">IdentityFile</font> ~/.ssh/serverA_userB/serverA_userB_rsa  
+> &nbsp;&nbsp;&nbsp;&nbsp;<font color="blue">User</font> userB  
+> &nbsp;&nbsp;&nbsp;&nbsp;<font color="blue">IdentitiesOnly yes</font>  
+>  <br>
+> <font color="blue">Host</font> serverB 10.0.0.2  
+> &nbsp;&nbsp;&nbsp;&nbsp;<font color="blue">HostName</font> 10.0.0.2  
+> &nbsp;&nbsp;&nbsp;&nbsp;<font color="blue">IdentityFile</font> ~/.ssh/serverB_userC/serverB_userC_rsa  
+> &nbsp;&nbsp;&nbsp;&nbsp;<font color="blue">User</font> userC  
+> &nbsp;&nbsp;&nbsp;&nbsp;<font color="blue">IdentitiesOnly yes</font>  
+>  <br>
+> <font color="blue">Host</font> serverC 10.0.0.3  
+> &nbsp;&nbsp;&nbsp;&nbsp;<font color="blue">HostName</font> 10.0.0.3  
+> &nbsp;&nbsp;&nbsp;&nbsp;<font color="blue">IdentityFile</font> ~/.ssh/serverC_userA/serverC_userA_rsa  
+> &nbsp;&nbsp;&nbsp;&nbsp;<font color="blue">User</font> userA  
+> &nbsp;&nbsp;&nbsp;&nbsp;<font color="blue">IdentitiesOnly yes</font>  
+>  <br>
+> <font color="blue">Host</font> serverC 10.0.0.3  
+> &nbsp;&nbsp;&nbsp;&nbsp;<font color="blue">HostName</font> 10.0.0.3  
+> &nbsp;&nbsp;&nbsp;&nbsp;<font color="blue">IdentityFile</font> ~/.ssh/serverC_userB/serverC_userB_rsa  
+> &nbsp;&nbsp;&nbsp;&nbsp;<font color="blue">User</font> userB  
+> &nbsp;&nbsp;&nbsp;&nbsp;<font color="blue">IdentitiesOnly yes</font>  
+
+* The general idea is there is one entry per server/user combination.  
+* Anything in blue are keywords and are necessary; anything not in blue you will have to provide.
+* `remoteusernameX` is the user name on the _remote_ server.
+* `IdentityFile` contains the location of the private key used for user `remoteusernameX`.
+* `IdentitiesOnly yes` attempts to disallow the use of the file `~/.ssh/id_rsa` if you forgot to delete that file.
+
+10\. Test out your SSH connection(s).
+
+
+!> You MUST make sure that any `id_rsa` and `id_rsa.pub` file in your initial `~/.ssh` folder is either renamed, moved, or deleted; otherwise the system may try to use this as a default!
+
+> If you want an example on how to do this with GitHub, [here](https://stackoverflow.com/questions/2419566/best-way-to-use-multiple-ssh-private-keys-on-one-client/3828682#3828682) is a good example of that.
+
 ## Pushing / Pulling Files With SCP
 
 > The `-q` option in scp disables the progress meter as well as warning and diagnostic messages from ssh.

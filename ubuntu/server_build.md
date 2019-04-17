@@ -638,6 +638,7 @@ These are some packages that we will need on the server for various things:
 * mysql-client is for the mysql-client, which will be used on most servers (even if the MySQL server itself is not used; the client is for connecting to both the local and remote databases)
 * libmysqlclient-dev further supports mysql-client
 * net-tools is for important networking tools (like ifconfig).
+* unrar is a tool that helps unzip .rar files. The system can do this natively, but the default package can sometimes fail giving you a 'Parsing filters not supported' message; installing unrar fixes this.
 
 Run:
 ```
@@ -647,6 +648,7 @@ apt-get install unzip
 apt-get install mysql-client
 apt-get install libmysqlclient-dev
 apt-get install net-tools
+apt-get install unrar
 ```
 
 ---
