@@ -197,8 +197,9 @@ The development community uses symbols in the ifle name to denote not only the n
 | \[f*] | Fixed to run better on copiers or emulators |
 | \[h*] | Hack |
 | \[o*] | OverDump (sometimes bad, sometimes good) |
-| \[m*] | Multilanguage |
+| \[m*] | Multilanguage |  
 * the asterisks indicate it can be followed by a number; so for example, \[a2] means its the second alternative version.
+
 
 ## Selecting An Emulator
 
@@ -253,7 +254,7 @@ The current emulators for arcade are:
 	 * Changing Retroarch controls (via the `Tab` button) seem to be mostly broken; a short list, but not exhaustive, is:
 	   * It's impossible to assign buttons to the second (or 3rd or 4th) controller.
 	     * The second/third/fourth controllers do have buttons mapped, but they appear as 'n/a' and you cannot set them.
-		 * You can assign different buttons via the core method, but yo ucan only assign 4 buttons at most to multiplayer controllers.
+		 * You can assign different buttons via the core method, but you can only assign 4 buttons at most to multiplayer controllers.
 	   * It's impossible to assign many of the keyboard keys to buttons; the the most egregious is you cannot map `Esc` to the 'UI Cancel' action.
  * [Advance Projects (AdvanceMame)](https://www.advancemame.it/)
    * Notes
@@ -284,8 +285,8 @@ The current emulators for arcade are:
      * This may not use .zip files.
 	 * As a consequence, I rarely use this emulator.
  * `pifba`
-  * This is an ancient version of Neo Geo.
-  * This should really only be used on Raspberry Pi model 1 (models 2/3 can use more advanced emulators).
+   * This is an ancient version of Neo Geo.
+   * This should really only be used on Raspberry Pi model 1 (models 2/3 can use more advanced emulators).
 
  
 
@@ -421,7 +422,7 @@ Each emulator has a config file for general controls; for example, MAME4ALL's co
 I have a specific setup I use for general controls; these are:
 
 | Action | Keyboard Button | Conroller Button | Notes |  
-| --- | --- | --- |  
+| --- | --- | --- |  --- |  
 | Retro-Arch Config | `Tab` | `Select`+`Down` | Gets into the Retroarch config screen. | 
 | UI Select | `Return` | `A` | Will make selections in the UI (i.e. the screen where you map actions to buttons). It is recommended that you set the `Enter` key to this in addition to the 'A' button on your controller. |  
 | UI Cancel | `Esc` | `Select`+`Up` | Will escape out of the current UI screen. Pressing this combination will close the UI screen, or if it is closed, it will exit the game. It is recommended that you set the `Esc` key to this in addition to the combination `Select`+`Up` on your controller. |  
