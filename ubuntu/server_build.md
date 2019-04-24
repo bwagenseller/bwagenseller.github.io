@@ -1840,7 +1840,48 @@ mokutil --import MOK.der
 * You must be in the same directory where the MOK.der file is located
 * You must change USERNAME.priv to whatever you used
 
-# Applying Proxy to Firefox
+# Installing Brave
+<span style='width: 20px; display:inline-block'>:frog:</span>  
+![brave](https://brave-browser.readthedocs.io/en/latest/_static/brave-release.svg)  
+
+[Brave](https://brave.com/) is a web browser built for privacy - this is my choice of browsers, as it natively supports adblocks, javascript blocking, and several protections against tracking.
+
+The instructions on installing Brave [can be found here for linux](https://brave-browser.readthedocs.io/en/latest/installing-brave.html#linux) (and [here](https://laptop-updates.brave.com/latest/winx64) for Windows), but here is a recap of how to install on Linux:
+
+1\. [Become root](/ubuntu/linux_notes?id=becoming-root)
+
+2\. Run:
+```
+curl -s https://brave-browser-apt-release.s3.brave.com/brave-core.asc | sudo apt-key --keyring /etc/apt/trusted.gpg.d/brave-browser-release.gpg add -
+```
+
+3\. Source in /etc/os-release:
+```
+source /etc/os-release
+```
+
+4\. Run:
+```
+echo "deb [arch=amd64] https://brave-browser-apt-release.s3.brave.com/ $UBUNTU_CODENAME main" | sudo tee /etc/apt/sources.list.d/brave-browser-release-${UBUNTU_CODENAME}.list
+```
+
+5\. [Update all packages](/ubuntu/linux_notes?id=updating-upgrading-all-packages)
+
+6\. Install Brave:
+```
+apt install brave-keyring brave-browser
+```
+
+# Adding Security To Firefox
+<span style='width: 20px; display:inline-block'>:rotating_light:</span> <span style='width: 20px; display:inline-block'>:frog:</span>
+
+!> I highly suggest that you use [Brave](ubuntu/server_build?id=installing-brave) instead of FireFox, as Brave is built for privacy.  
+
+> These suggestions are taken from [here](https://wiki.ubuntu.com/BasicSecurity) and are very popular.
+
+There are many security threats on the web; fortunately Firefox has some native add-ons that can help greatly reduce threats. 
+
+## Applying Proxy to Firefox
 <span style='width: 20px; display:inline-block'>:rotating_light:</span> <span style='width: 20px; display:inline-block'>:frog:</span>
 
 > This is different from the [proxy in wgetrc](/ubuntu/server_build?id=setting-up-the-proxy-in-wgetrc) or the [proxy in apt.cnf](/ubuntu/server_build?id=setting-up-the-proxy-in-aptconf)
@@ -1861,14 +1902,6 @@ http://your.companys.proxy.com/companyproxy.cgi
 ```
 
 5\. Click 'OK'.
-
-# Adding Security To Firefox
-<span style='width: 20px; display:inline-block'>:rotating_light:</span> <span style='width: 20px; display:inline-block'>:frog:</span>
-
-> These suggestions are taken from [here](https://wiki.ubuntu.com/BasicSecurity) and are very popular.
-
-There are many security threats on the web; fortunately Firefox has some native add-ons that can help greatly reduce threats. 
-
 
 ## Adding an Add-Ons in Firefox
 <span style='width: 20px; display:inline-block'>:rotating_light:</span> <span style='width: 20px; display:inline-block'>:frog:</span>
