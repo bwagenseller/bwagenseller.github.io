@@ -64,6 +64,26 @@ df = pd.DataFrame(index=dates)
 ```
 * The above builds an empty DataFrame; that said, the indexes _are_ defined, and they are set to our date range.
 
+## Build a DataFrame with a List
+
+Its possible to build a dataframe with an existing list (and column headers). Here is an example on how to do so:
+
+```
+	myList = [[1, 2, 'c'], [4, 5, 'f'], [7, 8, 'i']]
+	myColumns = ['first', 'second', 'letters']
+	builtDF = pd.DataFrame(myList, columns=myColumns)
+	
+	print builtDF
+```
+
+This would print:
+```
+   first  second letters
+0      1       2       c
+1      4       5       f
+2      7       8       i
+```
+
 ## Loading from CSV
 
 > This can be used to pull in [machine learning datasets from the web](learn_to_code/python/scipy/machine_learning_in_python?id=test-datasets); just replace the file name with the web address.
