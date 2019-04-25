@@ -1,4 +1,5 @@
 # Learning To Code: Python
+<!-- clear for public use -->
 
 # Before We Begin
 
@@ -372,6 +373,56 @@ In the above, 'stringOfDates' is a list of dates (in string format).
 
 > Its also quite possible to run each element of a list through a function using this method.
 
+**<font size="4">List Comprehension in Nested Lists</font>**
+
+Sometimes you will need to use list comprehension on lists nested in lists. Take this example, where each element of the main is comprised of a list of directories (repeated to match the count of files) and a list of files in that directory. How could we create two lists - one for the directories and one for the files - where both lists have the same element count?
+
+Check out this code:
+```
+masterList = [
+	[
+		['/home/uperson/Downloads', '/home/uperson/Downloads', '/home/uperson/Downloads', '/home/uperson/Downloads', '/home/uperson/Downloads'], 
+		['BusinessPlan.pdf', 'retropie-4.4-rpi2_rpi3.img', 'MASTERING_MONGODB_4X_SECOND_EDITION.pdf', 'Schools.pdf', 'code.zip']
+	], 
+	[
+		['/home/uperson/Downloads/aaa', '/home/uperson/Downloads/aaa'], 
+		['Java File.java', 'Markdown File.md']
+	], 
+	[
+		['/home/uperson/Downloads/docs'], 
+		['smile.jpg']
+	]]
+
+fileList = [listedFile for representedDirectory in masterList for listedFile in representedDirectory[1]]
+dirList = [listedDirectory for representedDirectory in masterList for listedDirectory in representedDirectory[0]]
+
+print fileList
+print dirList
+```
+
+This would print:
+```
+['BusinessPlan.pdf', 'retropie-4.4-rpi2_rpi3.img', 'MASTERING_MONGODB_4X_SECOND_EDITION.pdf', 'Schools.pdf', 'code.zip', 
+	'Java File.java', 'Markdown File.md', 'smile.jpg']
+
+['/home/uperson/Downloads', '/home/uperson/Downloads', '/home/uperson/Downloads', '/home/uperson/Downloads', '/home/uperson/Downloads', '
+	/home/uperson/Downloads/aaa', '/home/uperson/Downloads/aaa', '/home/uperson/Downloads/docs']
+
+```
+
+This correctly stores the nested lists in two separate flat lists - although the list complrehension is a bit hard to understand. It may be easier to take one and re-write it, so lets do that with the file listing. This:
+```
+fileList = [listedFile for representedDirectory in masterList for listedFile in representedDirectory[1]]
+```
+
+Could be re-written as:
+```
+fileList = []
+for representedDirectory in masterList:
+	for listedFile in representedDirectory[1]:
+		fileList.append(listedFile)
+```
+
 ## Zipping Lists
 
 Its possible to _quickly_ 'combine' lists (or `numpy.ndarray`), creating a list of tuples. This is helpful in machine learning instances, where you have the features in one list / numpy array and the labels in another and you want to join them for weight updating.
@@ -682,7 +733,7 @@ for someKey in myDictionaryOfDictionaries:
 
 ## Lists in Dictionaries
 
-You can even put lists in dictionaries; matte rof fact, let's throw in anothe rdictionary for good measure!
+You can even put lists in dictionaries; matter of fact, let's throw in anothe rdictionary for good measure!
 ```
 firstList = ['Captain Reginald Scary', 'Russford T. Diggins', 'Peter P. Squalls']
 secondList = ['Don Bruno', 'Sammy Bruno', 'Stabby Bruno', 'Moley Bruno']
