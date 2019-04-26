@@ -1,5 +1,5 @@
 # Pandas
-<!-- clear for public use -->
+<!-- clear for public use. -->
 
 !> Please note, this section is not finished - it is partially finished, but it trails off as a collection of my scripts. I will be going through this and organizing it nicely later.
 
