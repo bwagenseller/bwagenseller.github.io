@@ -27,4 +27,4 @@ I decided to do something similar here. The following notes are from a combinati
 - [Python](/learn_to_code/python/) - Brent's notes on his continuous journey to document Python.
 - [Machine Learning](/learn_to_code/machine_learning/) - Brent's notes on his journey to document Machine Learning.
 
-!> Disclaimer: The contents of this page are my own opinions, and are certainly up for debate.
+!> Disclaimer: The contents of this page are my own opinions, and are always up for debate.
