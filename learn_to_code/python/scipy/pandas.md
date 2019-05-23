@@ -198,6 +198,47 @@ df = pd.read_csv('https://archive.ics.uci.edu/ml/machine-learning-databases/iris
 newNumpyArray = df.iloc[0:100, 4].values
 ```
 
+# Sending DataFrame to Functions: apply()
+
+When possible, you should use vectorized methods to process data in dataframes; that said, sometimes it is impossible to do so and you must perform some function in a non-vectorized fashion.
+
+The below is an example of how this can be done. First, we create the function `ApplyAddition()` which accepts a single parameter (a series object); this function assumes the series has (at least) 2 columns and they are both numbers.
+
+To actually apply this function, we call the `apply()` method of a dataframe object, which needs at least one parameter sent (namely, the function to call). In the below example we also set `axis = 1` which means 'create a series object and send each row through individually' (this must be done if you wish to send more than one column to the function - I usually do it by default). 
+
+```
+
+#this is the function that will be called from apply()
+def	ApplyAddition(seriesFromDataframe):
+	#simply add the two rows together and return the result
+	return seriesFromDataframe[0] + seriesFromDataframe[1]
+
+
+if __name__ == '__main__':
+	
+	myDataFrame = pd.DataFrame({'col_A' : [17, 36, 78, 9, 3],
+						'col_B' : ['one', 'two', 'three', 'four', 'five'],
+						'col_C' : np.random.randn(5),
+						'col_D' : np.random.randn(5)})		
+	
+	#send **ONLY** col_A and col_C to the function 'ApplyAddition' - add them together and return the result to myDataFrame['newAddition']
+	myDataFrame['newAddition'] = myDataFrame[['col_A', 'col_C']].apply(ApplyAddition, axis = 1) 
+	
+	print myDataFrame
+```
+
+The above prints the following (note - since columns C and D are random, the results will be a bit different):
+```
+   col_A  col_B     col_C     col_D  newAddition
+0     17    one  0.551938  1.145122    17.551938
+1     36    two -0.104604 -1.060605    35.895396
+2     78  three  0.011524  1.050160    78.011524
+3      9   four  0.230062  1.852979     9.230062
+4      3   five -0.758047 -0.435464     2.241953
+```
+
+!> You can do something similar with for loops, but this makes things a little cleaner; regardless, you should use native functions - and avoid apply() - if at all possible, as it will not be vectoized and will thus not be optimized for speed.
+
 ---
 
 ```

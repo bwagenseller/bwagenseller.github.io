@@ -327,6 +327,17 @@ print myList.count('quad') #prints 0
 print myList.count(['quad', 'core']) #prints 1
 ```
 
+## Unique List
+
+It's possible to get only the unique elements in a list by converting it to a `set`, and then converting back to a `list`. Example:
+
+```
+myList = [1, 1, 2, 3, 4, 4, 4, 5, 6]
+newList = list(set(myList))
+```
+`newList` will now contain `[1, 2, 3, 4, 5, 6]`.
+
+
 ## Finding the Min/Max of a List
 
 There is an easy way t ofind the min (or max) of a list:
@@ -422,6 +433,17 @@ for representedDirectory in masterList:
 	for listedFile in representedDirectory[1]:
 		fileList.append(listedFile)
 ```
+
+## Limiting Lists
+
+Sometimes you will want to eliminate entries that belong in some other list; for example, let's say we have a list of items in addition to an exclusion list; we only want to keep the items in our list if they are not in the exclusion list. This can be done with [list comprehension](learn_to_code/python/python_basic?id=list-comprehension):
+```
+myList = [1,2,3,4,5,6]
+exclusionList = [2, 4, 6, 8, 10]
+newList = [x for x in myList if x not in exclusionList]
+```
+
+`newList` will have the following elements: `[1, 3, 5]`
 
 ## Zipping Lists
 
