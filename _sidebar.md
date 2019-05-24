@@ -13,5 +13,6 @@
  - [SQL](/learn_to_code/relational_databases/sql)
  - [Relational Databases](/learn_to_code/relational_databases/)
  - [Python](/learn_to_code/python/)
+ - [Java](/learn_to_code/java/)
  - [Machine Learning](/learn_to_code/machine_learning/) 
 
