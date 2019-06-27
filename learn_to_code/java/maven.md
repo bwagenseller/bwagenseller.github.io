@@ -190,7 +190,7 @@ Maven usually comes installed in Eclipse, but if its not there for some reason, 
 
 ## Building a New Maven Project in Eclipse
 
-There are two ways you can initiate a Maven Project: By Clicking 'File->New->Project...' OR by right-clicking on the 'Packagte Explorer' area and then clicking 'New->Project...'. Both are below:<br>
+There are two ways you can initiate a Maven Project: By Clicking 'File->New->Project...' OR by right-clicking on the 'Package Explorer' area and then clicking 'New->Project...'. Both are below:<br>
 <span style='width: 350px; display:inline-block'>![New Project - First Method](images/MavenInEclipse1_NewProject.jpg)</span> <span style='width: 350px; display:inline-block'>![New Project - Second Method](images/MavenInEclipse2_NewProject.jpg)</span> <br>
 
 Now pick 'Maven'/'Maven Project':
