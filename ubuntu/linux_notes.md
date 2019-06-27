@@ -2790,6 +2790,22 @@ So when we set `umask=0007`, its the equivalent of setting chmod 770.
 
 ---
 
+# Using OpenConnect
+
+OpenConnect is a VPN system, very similar to Cisco's AnyConnect. [This is how to install it](ubuntu/server_build?id=install-openconnect), but to connect simply:
+
+1\. [Become root](/ubuntu/linux_notes?id=becoming-root).
+
+2\. Connect to your server (if your server is `my.companies.openconnect.server.com`): `openconnect my.companies.openconnect.server.com`
+
+3\. Enter your login and password.
+
+4\. Let it sit in the terminal; unfortunately this means the window must stay open indefinitely. However, that said, you may be able to [send the process to the background](ubuntu/linux_notes?id=sending-running-process-to-background) which would mean you could exit that terminal.
+
+!> OpenConnect seems tempramental; if you exit it (wih `Ctrl z` or by killing the process) you may have to restart your desktop / laptop for OpenConnect to work again!
+
+---
+
 # Sending Process To Background
 
 Unfortunately, closing your terminal can stop all processes you launched from that terminal. Fortunately, there are ways around this.

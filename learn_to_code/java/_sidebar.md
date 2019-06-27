@@ -1,1 +1,8 @@
+- **Java Basics**
+- [Java Terms and Concepts](/learn_to_code/java/java_terms_and_concepts)
 - [Basics of Java](/learn_to_code/java/java_basics)
+- **IDEs**
+- [IntelliJ](/learn_to_code/java/intellij)
+- **Build Tools**
+- [Ant](/learn_to_code/java/ant)
+- [Maven](/learn_to_code/java/maven)

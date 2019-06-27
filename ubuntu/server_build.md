@@ -26,6 +26,41 @@ There are codes to indicate which sections you will need for what your server mu
 
 I have written a short document on some critical Linux commands / ideas - if you wish to read it, [its located here](/ubuntu/linux_notes).
 
+## Installing Alongside Windows
+
+Usually, you will get an option to install alongside Windows (instead of over-writing it); that said, sometimes this option does not appear. If this happens, you can either follow [this](https://www.tecmint.com/install-ubuntu-alongside-with-windows/) guide or the following instructions (I tried these exact instructions and Windows failed to load afterwards; I then followed the below instructions which seemed to work). The basic premise is to carve out a section of the disk at the end of the partition in Windows (using `diskmgmt.msc`) and then installing Ubuntu to this partition.
+
+The instructions I follow:
+
+1\. Save a Windows system image to a back-up drive (either DVD, Blue Ray, or USB hard drive). You should also create a Windows rescue disk.
+
+2\. _In Windows_, search for 'defrag' in the search box and select 'Defragment and Optimize Drives'.
+
+3\. A box will open, showing every drive Windows can optimize. Individually select each one and click the 'Optimize' button. Finish and close this box.
+
+4\. _In Windows_, search for 'partition' and select 'Create and format hard disk partitions'.
+
+5\. A box will open, showing all partitions visible to Windows. Select the partition that says 'Windows (C:)', right click it, and select 'Shrink Volume...'.
+
+6\. You will now have to select the size of the partition you want to create for Ubuntu. In the 'Enter the amount of space to shrink in MB', put the size of the partition you wish to create for Ubuntu in this box (so for example, if you wanted 100 GB for Ubuntu, place 102400 in this box). Note that you cannot give more than the free space available on the C: drive, and you will probably want to leave several free GB available to Windows (so leave some breathing room for the Windows partition).
+
+7\. Click 'Shrink', and any other affirmative boxes until all boxes related to 'Create and format hard disk partitions' are closed.
+
+8\. Put the Ubuntu install disk into the DVD drive.
+
+9\. Shut down Windows.
+
+10\. Boot the laptop to the DVD drive, which will begin the Ubuntu installation.
+
+11\. When you get to the screen 'Installation type', you will have the option to 'Install Ubuntu alongside Windows...', 'Erase Disk and Install Ubuntu', or 'Something else'; here, pick 'Install Ubuntu alongside Windows...' and continue.
+
+12\. Complete the Ubuntu installation.
+
+13\. Test both the boot to Windows and the boot to Ubtuntu; if one of them does not work, revert to your saved Windows system image.
+
+
+
+
 ## Running Terminal Commands
 If anything must be run on the command line, it will be included in a code block as such:
 ```
@@ -610,6 +645,20 @@ Acquire::http::Proxy "http://YOUR_PROXY_HERE:PORT";
 !> If you ever have to run updates and you have this set, you may need to unset this to run the updates.
 
 ---
+
+# Install OpenConnect
+
+OpenConnect is similar to Cisco's AnyConnect - it's a VPN. Here are the steps to set it up:
+
+Steps:
+
+1\. [Become root](/ubuntu/linux_notes?id=becoming-root).
+
+2\. [Update all packages](/ubuntu/linux_notes?id=updating-upgrading-all-packages).
+
+3\. Activate the TUN module: `/sbin/modprobe tun`
+
+4\. Install OpenConnect: `apt-get install openconnect`
 
 # Updating and Upgrading Packages
 <span style='width: 20px; display:inline-block'>:heart:</span>
@@ -1556,6 +1605,48 @@ To install Maven, do the following:
 ```
 apt-get install maven
 ```
+
+---
+
+# Installing Protobuf
+
+Protobuf (protocol buffers) act like 'XML' for data streams; the power behind them is you get to determine the structure.
+
+The easy way to install it is:
+
+1\. [Become root](/ubuntu/linux_notes?id=becoming-root)
+
+2\. [Update all packages](/ubuntu/linux_notes?id=updating-upgrading-all-packages)
+
+3\. Install using apt-get:
+```
+apt-get install protobuf-compiler
+```
+
+However, this may give you an old version; to get the new version you will have to get it manually / load it manually. The steps for this are:
+
+> These instructions were found on [stackExchange](https://askubuntu.com/questions/1072683/how-can-i-install-protoc-on-ubuntu-16-04).
+
+1\. [Become root](/ubuntu/linux_notes?id=becoming-root)
+
+2\. [Update all packages](/ubuntu/linux_notes?id=updating-upgrading-all-packages)
+
+3\. Download the .tar.gz file from [this page](https://github.com/protocolbuffers/protobuf/releases) (it will be called 'protobof-all-X.X.X.tar.gz', where the X.X.X will be a version number.
+
+4\. Extract the contents to a folder.
+
+5\. Enter the folder and run: `./configure`
+
+6\. Run: `make`
+
+7\. Run: `make check`
+
+8\. Run: `make install`
+
+9\. Refresh the shared library cache: `ldconfig`
+
+To check it out, run `protoc --version`; know that you may have to exit and re-enter the unix session.
+
 
 ---
 

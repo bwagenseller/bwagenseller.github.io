@@ -4,7 +4,7 @@
 
 This documentation is meant for those that have at least a basic grasp of how to write general code (so you understand what 'compile' and 'run' means, you understand 'if' conditionals, 'while' and 'for' loops, etc). This documentation is to teach people in this category the general concepts of Java first, and then we will start writing some code. <br> <br>
 
-Java has a basic formula for writing an application: you will create a [basic Java file](learn_to_code/java?id=basic-file-setup-first-java-program) that has [a class](learn_to_code/java?id=java-classes); you will [compile](learn_to_code/java?id=basic-compiling) your code, and then [run](learn_to_code/java?id=basic-script-running) it. You can re-use code with [JAR Files](learn_to_code/java?id=jar-files) if you wish.
+Java has a basic formula for writing an application: you will create a [basic Java file](learn_to_code/java/java_basics?id=basic-file-setup-first-java-program) that has [a class](learn_to_code/java/java_basics?id=java-classes); you will [compile](learn_to_code/java/java_basics?id=basic-compiling) your code, and then [run](learn_to_code/java/java_basics?id=basic-script-running) it. You can re-use code with [JAR Files](learn_to_code/java/java_basics?id=jar-files) if you wish.
 
 ## Why I Do This
 
@@ -42,11 +42,11 @@ public class DragonBorn {
 }
 ```
 * The file extension for this file must be .java.
-* Classes are a big thing in java; [we will discuss more later](learn_to_code/java?id=java-classes), but for now just know a class is a collection of functions and variables that are centered around a similar idea. I have named the class here 'DragonBorn', but feel free to name it whatever you want.
+* Classes are a big thing in java; [we will discuss more later](learn_to_code/java/java_basics?id=java-classes), but for now just know a class is a collection of functions and variables that are centered around a similar idea. I have named the class here 'DragonBorn', but feel free to name it whatever you want.
  * Know that whatever you name the class you must ALSO name the file that same thing; so for example, the above MUST be in a cile named 'DragonBorn.java'.
-* If we want the .java file to be run-able (sometimes you do not want to directly run it, but other times you do), you MUST include a function called `public static void main (String[] args) { }` as we did above. Whatever is in this will run when [we run it](learn_to_code/java?id=basic-script-running).
+* If we want the .java file to be run-able (sometimes you do not want to directly run it, but other times you do), you MUST include a function called `public static void main (String[] args) { }` as we did above. Whatever is in this will run when [we run it](learn_to_code/java/java_basics?id=basic-script-running).
 
-> If you want to use the `module-info.java` file (see below), you *must* include a 'package' as well (in the above code this is defined as 'package dragons;'). The package name *must* be a module in the file `module-info.java`. However if you do not use `module-info.java` and are just writing a quick program, you do not have to declare a 'package' in your .java file (and for small things I would not recommend it, as [there are some consequences / things you have to do differently when using a package](learn_to_code/java?id=notes-on-using-module-infojava)).
+> If you want to use the `module-info.java` file (see below), you *must* include a 'package' as well (in the above code this is defined as 'package dragons;'). The package name *must* be a module in the file `module-info.java`. However if you do not use `module-info.java` and are just writing a quick program, you do not have to declare a 'package' in your .java file (and for small things I would not recommend it, as [there are some consequences / things you have to do differently when using a package](learn_to_code/java/java_basics?id=notes-on-using-module-infojava)).
 
 
 Another file named `module-info.java` is also usually required (for more complex Java projects):
@@ -64,7 +64,7 @@ module dragons {
 Using `module-info.java` will have some consequences:
 * You MUST have a 'package' name for every .java file you write (i.e. you must declare a package like 'package dragons;' does above) AND the package name in the .java file MUST be present as a 'module' name in module_info.java.
 * You will still have to use the 'include' statement in your .java file if you are referencing other classes on the classpath (it seems that if you do not declare a package and do not use a `module-info.java` file, you may not have to 'include' it).
-* If you are using a [JAR file](learn_to_code/java?id=jar-files):
+* If you are using a [JAR file](learn_to_code/java/java_basics?id=jar-files):
  * If that JAR file was built prior to Java 9 - or if it does not have a package name - _in addition to including it on the classpath_, you MUST require it in the `module-info.java` file as well;  for example, if your current Java project package name is 'somePackageName' and you included the file `SomeJAR.jar` in the classpath, you MUST require SomeJAR in the module somePackageName in the file `module-info.java` like so:
 ```
 module somePackageName {
@@ -80,7 +80,7 @@ module somePackageName {
 
 Java classes are a bit overwhelming but the truth is, they are fairly straightforward. A class can be considered a grouping of things; so for example, there could be a 'building' class/group, and members of this group are things like house, skyscraper, shed, outhouse, etc. The idea of a 'Building' is a bit vague - and at first, classes are a bit vague - but things that are _defined_ as a building - a house, for example - is a bit more granular.
 
-Early in this document I defined a [DragonBorn class](learn_to_code/java?id=basic-file-setup-first-java-program); this was named from a concept in one of my favorite video games, [The Elder Scrolls V: Skyrim](https://en.wikipedia.org/wiki/The_Elder_Scrolls_V:_Skyrim). The [Dragonborn](http://elderscrolls.wikia.com/wiki/Dragonborn_%28Lore%29) refers to someone born with the blood and soul of a dragon, but the body of a mortal human; there are multiple people who were 'Dragonborn' throughout the history of Skyrim.
+Early in this document I defined a [DragonBorn class](learn_to_code/java/java_basics?id=basic-file-setup-first-java-program); this was named from a concept in one of my favorite video games, [The Elder Scrolls V: Skyrim](https://en.wikipedia.org/wiki/The_Elder_Scrolls_V:_Skyrim). The [Dragonborn](http://elderscrolls.wikia.com/wiki/Dragonborn_%28Lore%29) refers to someone born with the blood and soul of a dragon, but the body of a mortal human; there are multiple people who were 'Dragonborn' throughout the history of Skyrim.
 
 So, 'Dragonborn' is a class, but any _individual_ instance of a 'Dragonborn' is not a class, but a specific person (such as the main character in Skyrim). 
 
@@ -106,7 +106,7 @@ If you still need help on understandng the differences between a class and an ob
 
 Scope, in computer science terms, can be boiled down to 'what parts of the code have visibility to this entity'; practically, we must worry about the scope of several things, usually functions or variables. For example, some variables can only be seen inside of specific classes (or functions) and cannot be referenced outside of that class or function; other times, variables are _global_ and can be referenced anywhere in the code.
 
-When class functions are defined as _public_, those functions can be referenced from entities outside of the class; when declared _private_, only other functions inside the class itself can access private functions. Using our [DragonBorn class](learn_to_code/java?id=basic-file-setup-first-java-program) class, the DragonBorn class function `public static void witnessDragonBorn()` is private; if there exists some other Java code that uses the DragonBorn class, it could create a DragonBorn object and call this function directly:
+When class functions are defined as _public_, those functions can be referenced from entities outside of the class; when declared _private_, only other functions inside the class itself can access private functions. Using our [DragonBorn class](learn_to_code/java/java_basics?id=basic-file-setup-first-java-program) class, the DragonBorn class function `public static void witnessDragonBorn()` is private; if there exists some other Java code that uses the DragonBorn class, it could create a DragonBorn object and call this function directly:
 ```
 ...
 DragonBorn heroOfSkyrim = new DragonBorn();
@@ -167,11 +167,11 @@ In order to actually run the code, you must compile it (with the `javac` command
 
 The basic way to compile is `javac NAME_OF_JAVA_FILE_GOES_HERE.java`. 
 
-That said, this can _quickly_ become overwhelming for larger projects; its best to compile using [Ant](learn_to_code/java?id=compiling-with-ant), [Maven](learn_to_code/java?id=compiling-with-maven), or Gradle.
+That said, this can _quickly_ become overwhelming for larger projects; its best to compile using [Ant](learn_to_code/java/java_basics?id=compiling-with-ant), [Maven](learn_to_code/java/java_basics?id=compiling-with-maven), or Gradle.
 
 ## Advanced Compiling
 
-More often than not, your projects will be so massive that you will not want to compile dozens - or even hundreds - of .java files with `javac`. The oldest way to do this is 'make', but this is not often used in Java anymore. The two largest tools that are used to compile Java code are [Ant](learn_to_code/java?id=compiling-with-ant) and [Maven](learn_to_code/java?id=compiling-with-maven).
+More often than not, your projects will be so massive that you will not want to compile dozens - or even hundreds - of .java files with `javac`. The oldest way to do this is 'make', but this is not often used in Java anymore. The two largest tools that are used to compile Java code are [Ant](learn_to_code/java/ant) and [Maven](learn_to_code/java/maven) (my personal favorite).
 
 ## The Class File
 
@@ -185,7 +185,7 @@ There seems to be two different methods of running Java code: when a 'package' i
 
 **<font size="4">When a Package Name is Declared</font>**
 
-When a package name is declared in the .java file, after you have [compiled the single file](learn_to_code/java?id=basic-compiling), you can run it simply by running `java NAME_OF_JAVA_FILE_GOES_HERE.java`. Note that, even though the [class file is actually what runs](learn_to_code/java?id=the-class-file), we still reference the .java file here anyway.
+When a package name is declared in the .java file, after you have [compiled the single file](learn_to_code/java/java_basics?id=basic-compiling), you can run it simply by running `java NAME_OF_JAVA_FILE_GOES_HERE.java`. Note that, even though the [class file is actually what runs](learn_to_code/java/java_basics?id=the-class-file), we still reference the .java file here anyway.
 
 **<font size="4">When a Package Name is Not Declared</font>**
 
@@ -216,11 +216,11 @@ java -cp '/home/brent/awesomefunctions' DragonBorn.java
 
 If you wanted to add multiple paths, just list them and separate them with a ':' in Unix (or a semicolin ';' in Windows).
 
-!> When I tested this, I did *not* have to do any sort of 'import' statement in DragonBorn.java to use AwesomeDateTime, it just 'worked'. Note that I did not declare a package name [like I did in the example 'java file](learn_to_code/java?id=basic-file-setup-first-java-program).
+!> When I tested this, I did *not* have to do any sort of 'import' statement in DragonBorn.java to use AwesomeDateTime, it just 'worked'. Note that I did not declare a package name [like I did in the example 'java file](learn_to_code/java/java_basics?id=basic-file-setup-first-java-program).
 
 # JAR Files
 
-A Java JAR file is a collection of compiled Java classes that act as a Java application (a file with  a.jar extension); it houses Java classes that can actively be imported (and then used) in other Java projects, and (in many cases) it can directly run code. JAR files can also be thought of as a pre-compiled Java 'zipped' file: it and can be opened as a compressed file, and if you do you will likely see a directory structure (like a zipped file) with a collection of various [compiled class files](learn_to_code/java?id=the-class-file).
+A Java JAR file is a collection of compiled Java classes that act as a Java application (a file with  a.jar extension); it houses Java classes that can actively be imported (and then used) in other Java projects, and (in many cases) it can directly run code. JAR files can also be thought of as a pre-compiled Java 'zipped' file: it and can be opened as a compressed file, and if you do you will likely see a directory structure (like a zipped file) with a collection of various [compiled class files](learn_to_code/java/java_basics?id=the-class-file).
 
 ## MANIFEST.MF
 
@@ -228,7 +228,7 @@ All JAR files must have a `MANIFEST.MF` file; this file is usually in the folder
 
 ## Creating a JAR File
 
-To create a JAR file, you must first [compile the .java file](learn_to_code/java?id=basic-compiling) and then use the command `jar` like so (we will use the [basic Java file from above](learn_to_code/java?id=basic-file-setup-first-java-program), but take care to NOT include the 'package' (so delete 'package dragons;' from that file)):
+To create a JAR file, you must first [compile the .java file](learn_to_code/java/java_basics?id=basic-compiling) and then use the command `jar` like so (we will use the [basic Java file from above](learn_to_code/java/java_basics?id=basic-file-setup-first-java-program), but take care to NOT include the 'package' (so delete 'package dragons;' from that file)):
 ```
 jar -cf dragon.jar DragonBorn.class
 ```
@@ -242,7 +242,7 @@ To run a Java appication from a JAR file, you must specify the class in the file
 ```
 java -cp dragon.jar DragonBorn
 ```
-* Note we are technically putting our JAR file on [the classpath](learn_to_code/java?id=the-classpath) and then running it.
+* Note we are technically putting our JAR file on [the classpath](learn_to_code/java/java_basics?id=the-classpath) and then running it.
 
 
 ## Using JAR files in the Classpath
@@ -259,330 +259,8 @@ And then to run it we would use:
 java -cp '/home/brent/awesomefunctions/AwesomeDateTime.jar' DragonBorn.java
 ```
 
-!> Be careful when declaring a package in a .java file / using a `module-info.java` file - [you will have to handle JARs differently](learn_to_code/java?id=notes-on-using-module-infojava).
+!> Be careful when declaring a package in a .java file / using a `module-info.java` file - [you will have to handle JARs differently](learn_to_code/java/java_basics?id=notes-on-using-module-infojava).
 
-# Compiling with Ant
-
-If you wish to compile a more complex Java project, you will want to compile your project with a program called `ant` or [with a program called maven](learn_to_code/java?id=compiling-with-maven).
-
-## Installing Ant
-
-If you wish to know how to install ant on your linux system, [the instructions are here](ubuntu/server_build?id=installing-apache-ant).
-
-The fundamental idea behind Ant is compiling large Java projects with ease; its easy to just use [basic compiling](learn_to_code/java?id=basic-compiling) for one .java file, but if you have, say, 50, that can be a headache. In addition, Ant will also allow you to make a .jar file, which you can then use as a reference in another Java project. These two points are the reasons that Ant (or [Maven](learn_to_code/java?id=compiling-with-maven)) are used.
-
-## Basics of Ant
-
-Simply put, Ant is a program that takes a specifically formatted XML file and builds a java .jar file to the declared specifications; this .jar file can then be used in other Java projects / can be used as a stand-alone program. Here is a basic file that ant would accept (note I use the [basic java example](learn_to_code/java?id=basic-file-setup-first-java-program) from above as the 'project' we are compiling). Note that, by default, we would paste this into a file called `build.xml`:
-
-```
-<project name="HelloWorld" default="jar" basedir=".">
-	<description>
-		This is a sample HelloWorld project build file.
-	</description>
-	<property name="buildDir" value="build"/>
-	<property name="srcDir" value="src"/>
-	<property name="classesDir" value="${buildDir}/classes"/>
-	<property name="jarDir" value="${buildDir}/jar"/>
-	<target name="dirs">
-		<mkdir dir="${classesDir}"/>
-		<mkdir dir="${jarDir}"/>
-	</target>
-	<target name="compile" depends="dirs">
-		<javac srcdir="${srcDir}" destdir="${classesDir}"/>
-	</target>
-		<target name="jar" depends="dirs,compile">
-		<jar destfile="${jarDir}/HelloWorld.jar" basedir="${classesDir}"/>
-	</target>
-</project>
-```
-* Assumptions
- * You can run `ant` from any directory, but there *must* be a file named `build.xml` in that directory (filled out with the above info), and the file 'DragonBorn.java' must be stored in a subdirectory named 'src'.
-   * Alternatively, you can name the XML file something else, but you must specify the filename when you run ant like so: `ant -f SomeOtherFileName.xml`.
-* The project name set here is 'HelloWorld'.
-* The descrtiption is 'This is a sample HelloWorld project build file.' The description can be helpful, as this is what is displayed when a user uses the option 'projecthelp' at the command line.
-* The `property` tags are actually variables that will be used in the xml file later on; they are referenced with the `${VARIABLE_NAME_HERE}` format.
- * For example, `<property name="srcDir" value="src"/>` declares the variable `srcDir` and is set to 'src'; later on, we will reference the variable using the format `${srcDir}` and the word 'src' will be used.
-* The XML tag `target` specifies an action.
- * The 'name' property can be anything you want it to be, and will be how you reference the target action later.
-   * For example, the arbitrary name 'dirs' for the first target means that if the 'dirs' action is called, two directories will be made (in the case above, the directories 'build/classes/' and 'build/jar/' will be made).
- * The 'depends' property means 'these targets must be called before I can be run'.
-   * For example, if the 'compile' target is selected, the 'dirs' target would run _first_ (which would create the two directories), and _then_ the 'compile' target would run.
- * The actual actions are laid out in tags within the `<target>` tag.
-   * The `<mkdir>` tag makes directories and, in this example, takes one parameter: the name of the directory to be made.
-   * The `<javac>` tag actually compiles the code and, in this example, takes two parameters: the source directory (of the .java files) and the destination directory (where the .class files will be stored).
-   * The `<jar>` tag actually creates the .jar file for our project and, in this example, takes two parameters: the destination of the completed file and the base directory where the .class files are stored.
-* The default target action is 'jar', which is specified in the `<project>` tag.
-
-
-If we run ant by typing either `ant` (and naming our XML file build.xml) or `ant -f SomeOtherFileName.xml`, we will get the following output:
-
-
-```
-dirs:
-    [mkdir] Created dir: /home/brent/temp/build/classes
-    [mkdir] Created dir: /home/brent/temp/build/jar
-
-compile:
-    [javac] /home/brent/temp/SomeFile.xml:14: warning: 'includeantruntime' was not set, defaulting to build.sysclasspath=last; set to false for repeatable builds
-    [javac] Compiling 1 source file to /home/brent/temp/build/classes
-
-jar:
-      [jar] Building jar: /home/brent/temp/build/jar/HelloWorld.jar
-
-BUILD SUCCESSFUL
-Total time: 3 seconds
-```
-* The 'dirs' action was run first and two directories were created.
-* The 'compile' action was then run, with no errors.
-* The 'jar' action was then run and the .jar file was created.
-
-If we run it again we will get this:
-
-```
-Buildfile: /home/brent/temp/SomeFile.xml
-
-dirs:
-
-compile:
-    [javac] /home/brent/temp/SomeFile.xml:14: warning: 'includeantruntime' was not set, defaulting to build.sysclasspath=last; set to false for repeatable builds
-    [javac] Compiling 1 source file to /home/brent/temp/build/classes
-
-jar:
-      [jar] Building jar: /home/brent/temp/build/jar/HelloWorld.jar
-```
-* Notice how the directories were not created this time.
-
-
-# Compiling with Maven
-
-Like Ant, Maven is a (newer, and now more widely-used) tool that can compile Java projects. Many entities wanted to move away from Ant because it was _too_ general. <br>
-
-Note that you [must install Maven](ubuntu/server_build?id=installing-apache-maven) before you use it.
-
-!> It appears that Maven is _very_ specific: so much so that it may be advisable to create the project with Maven _first_, _then_ import to Eclipse (or whatever IDE you are using).
-
-## Locations of Files in Maven
-
-Its possible to change the file structure in Maven, but most do not (and most do not recommend it). The basic file structure is:
-* Source (code) files: Directory `src/`
- * Test code: `src/test/`
-   * Test Java Code: `src/test/Java/`
-   * Resources: `src/test/resources/`
- * Production Code: `src/main/`
-   * Production Java Code: `src/main/Java/`
-   * Resources: `src/main/resources/`
-* Files created by Compiling: Directory `target/`
- * JAR file
- * .class files (in a similar directory to what it is in in the source directory)
-
-## Maven XML File
-
-The XML file that Maven needs to compile the code is pom.xml (Project Object Model). This pom.xml file is _required_ to be in the root directory of your Java project (and your Java project _must_ use the directory structure [as noted above](learn_to_code/java?id=locations-of-files-in-maven)).
-
-## Creating a Project with Maven
-
-!> Make SURE that when you create your project that you want your current working directory to be the root directory for your project!
-
-Maven helps you build a skeleton for your project. You can create a Maven project with generating an 'archetype' for a project with the command `mvn archetype:generate` (an archetype is basically an initial code layout). You will now be asked several questions:
-* <font color="green">Project Type</font>: Maven will ask 'Choose a number' and will be referencing a project type. It will then list *thousands* of project types; just choose the default (which the ID can change)
-* <font color="green">Project Version</font>: Pick what you like, but the best is choice 5 (Version 1.0).
-* <font color="green">groupID</font>: A 'group' that this project will belong to; its [usually a domain name reversed](http://maven.apache.org/guides/mini/guide-naming-conventions.html) (so microsoft.com becomes com.microsoft) followed by you company's policy on naming groups. Usually any 'dot' here will represent a folder (so com.sun will become com/sun/ on the server). For our purposes we will choose 'com.vandelay.industries'
-* <font color="green">artifactID</font>: This is a description of what the code will be doing; hyphens (-) are usually used instead of underscores. Do NOT include any versions for this. I just called it 'SortTutorial'.
-* <font color="green">Version</font>: I am not sure why it asks for another version, but most use [semantic versioning](http://semver.org/), which means 'MajorRelase.MinorRelease.PatchRelease'. Also the term '-SNAPSHOT' is sometimes used at the end which means 'nightly build'; that said, Maven interprets '-SNAPSHOT' as a non-release version, which means it allows multiple versions of this to be released (versions without '-SNAPSHOT' at the end can only be used once, so be careful). Lets name ours '1.0.0-SNAPSHOT'
-* <font color="green">Package</font>: Almost exclusively the same as the 'groupID', so use that unless there is some odd reason to use something else.
-
-Maven has now created a 'SortTutorial' folder in your current directory; in SortTutorial/ Maven created the [pom.xml](learn_to_code/java?id=maven-xml-file) file. It also created two files: a test filecalled 'AppTest.java' in `SortTutorial/src/test/java/com/vandelay/industries` and a 'main' file called 'App.java' in `SortTutorial/src/main/java/com/vandelay/industries`; these use the groupIDs (and make directories separated by the dots present) combined with the [main and test files that are standard for Maven](learn_to_code/java?id=locations-of-files-in-maven).
-
-The file is a skeleton built for testing your code; in fact, Maven has included the junit library 'junit.framework.\*' (pronouncted j-unit), which is meant for unit testing your code.
-
-## Compiling Your Maven Project
-
-To compile the Maven project, go into its root directory (for us thats SortTutorial/) and type:
-```
-mvn package
-```
-
-!> The first time you run this it will download a bunch of pom files - this is fine.
-
-You should see something like this:
-```
-WARNING: An illegal reflective access operation has occurred
-WARNING: Illegal reflective access by com.google.inject.internal.cglib.core.$ReflectUtils$1 (file:/usr/share/maven/lib/guice.jar) to method java.lang.ClassLoader.defineClass(java.lang.String,byte[],int,int,java.security.ProtectionDomain)
-WARNING: Please consider reporting this to the maintainers of com.google.inject.internal.cglib.core.$ReflectUtils$1
-WARNING: Use --illegal-access=warn to enable warnings of further illegal reflective access operations
-WARNING: All illegal access operations will be denied in a future release
-[INFO] Scanning for projects...
-[INFO] 
-[INFO] ------------------------------------------------------------------------
-[INFO] Building SortTutorial 1.0.0-SNAPSHOT
-[INFO] ------------------------------------------------------------------------
-[INFO] 
-[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ SortTutorial ---
-[WARNING] Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent!
-[INFO] skip non existing resourceDirectory /home/manifest/TEMP_Eclipse/SortTutorial/src/main/resources
-[INFO] 
-[INFO] --- maven-compiler-plugin:3.8.0:compile (default-compile) @ SortTutorial ---
-[INFO] Nothing to compile - all classes are up to date
-[INFO] 
-[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ SortTutorial ---
-[WARNING] Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent!
-[INFO] skip non existing resourceDirectory /home/manifest/TEMP_Eclipse/SortTutorial/src/test/resources
-[INFO] 
-[INFO] --- maven-compiler-plugin:3.8.0:testCompile (default-testCompile) @ SortTutorial ---
-[INFO] Nothing to compile - all classes are up to date
-[INFO] 
-[INFO] --- maven-surefire-plugin:2.12.4:test (default-test) @ SortTutorial ---
-[INFO] Surefire report directory: /home/manifest/TEMP_Eclipse/SortTutorial/target/surefire-reports
-
--------------------------------------------------------
- T E S T S
--------------------------------------------------------
-Running com.vandelay.industries.AppTest
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.007 sec
-
-Results :
-
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0
-
-[INFO] 
-[INFO] --- maven-jar-plugin:2.4:jar (default-jar) @ SortTutorial ---
-[INFO] ------------------------------------------------------------------------
-[INFO] BUILD SUCCESS
-[INFO] ------------------------------------------------------------------------
-[INFO] Total time: 1.106 s
-[INFO] Finished at: 2019-01-14T21:36:19-05:00
-[INFO] Final Memory: 11M/44M
-[INFO] ------------------------------------------------------------------------
-```
-
-It did multiple things here, but most importantly: it compiled the code, created a [JAR file](learn_to_code/java?id=jar-files), and ran unit testing on the code.
-
-This created the `SortTutorial/target/` folder; in that folder is compile-realted files, including a [JAR file](learn_to_code/java?id=jar-files) of your project.
-<br>
-**<font size="4">If Compiling Led to Errors</font>** 
-
-Its possible to fail with errors looking something like this:
-```
-...
-[ERROR] COMPILATION ERROR : 
-[INFO] -------------------------------------------------------------
-[ERROR] Source option 5 is no longer supported. Use 6 or later.
-[ERROR] Target option 1.5 is no longer supported. Use 1.6 or later.
-[INFO] 2 errors 
-[INFO] -------------------------------------------------------------
-[INFO] ------------------------------------------------------------------------
-[INFO] BUILD FAILURE
-...
-```
-
-This means that your version of Maven is expecting Java 5; you need to tell it that the source code will be in Java 11 and the target (read: compiled) code should be done in Java 11.  To do so, open pom.xml and paste this in between the `<project>...</project>` tags:
-```
-  <build>
-      <plugins>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-compiler-plugin</artifactId>
-          <version>3.8.0</version>
-          <configuration>
-              <source>1.11</source>
-              <target>1.11</target>
-              <release>11</release>
-          </configuration>
-        </plugin>
-      </plugins>
-  </build>
-```
-
-Re-run with `mvn package` and it should compile.
-
-## Running The Compiled JAR File
-
-Maven makes a toy 'Hello World' program in App.java; we can run this by calling the project name and then the App class by putting the [JAR file](learn_to_code/java?id=jar-files) on the [classpath](learn_to_code/java?id=the-classpath) (run this from the `SortTutorial/` folder):
-```
-java -cp target/SortTutorial-1.0.0-SNAPSHOT.jar com.vandelay.industries.App
-```
-* The class is 'App'
-* The package for the 'App' class is 'com.vandelay.industries'
-
----
-
-# Maven In Eclipse IDE
-
-Its possible to use Maven in the Eclipse IDE. Here is a short demo on using it.
-
-## Installation of Maven in Eclipse
-
-Maven usually comes installed in Eclipse, but if its not there for some reason, [here is how you install it](ubuntu/server_build?id=installing-the-eclipse-maven-add-on) in Eclipse.
-
-## Building a New Maven Project in Eclipse
-
-There are two ways you can initiate a Maven Project: By Clicking 'File->New->Project...' OR by right-clicking on the 'Packagte Explorer' area and then clicking 'New->Project...'. Both are below:<br>
-<span style='width: 350px; display:inline-block'>![New Project - First Method](images/MavenInEclipse1_NewProject.jpg)</span> <span style='width: 350px; display:inline-block'>![New Project - Second Method](images/MavenInEclipse2_NewProject.jpg)</span> <br>
-
-Now pick 'Maven'/'Maven Project':
-![New Project - Maven](images/MavenInEclipse_PickMaven.jpg)
-
-There are some options on the next screen, but I just click 'Next': <br>
-![New Project - One](images/MavenInEclipse_NewMavenProject1.jpg)
-
-Now you will have to pick an archetype (an archetype is basically an initial code layout); if you don't know what this is, you should simply pick the default archetype (groupID 'org.apache.maven.archetype', artifact ID 'maven-archetype-quickstart', Version '1.1'). If you do not have problems, you will see the selection on the left; however [if you have problems initializing Maven](learn_to_code/java?id=problems-initializing-eclipse-maven) you will see the screen on the right, and you will have to manually pick your archetype. Do so and press 'Next': <br>
-<span style='width: 350px; display:inline-block'>![New Project - First Method](images/MavenInEclipse_NewMavenProject2.jpg)</span> <span style='width: 350px; display:inline-block'>![New Project - Second Method](images/MavenInEclipse_NewMavenProject2a.jpg)</span> <br>
-
-Finally you can fill out the unique information about your Maven project; use the information we filled in for [our project above](learn_to_code/java?id=creating-a-project-with-maven) and click 'Finish': <br>
-![New Project - Finish Maven Creation](images/MavenInEclipse_NewMavenProject3.jpg)
-
-If it works, you will see the setup is the same as it was [when the command version created the project](learn_to_code/java?id=creating-a-project-with-maven); even the [directories], the location of the pom.xml and generated JAR file, etc should be the same: <br>
-![Maven Final Setup](images/MavenInEclipse_ComparisonToMaven.jpg)
-
-!> You may have to configure the file pom.xml for Java 11 [as you did when you compiled manually](learn_to_code/java?id=compiling-your-maven-project).
-
-### Problems Initializing Eclipse-Maven
-
-> This section was influenced by the discission on [stackoverflow](https://stackoverflow.com/questions/15506043/create-a-maven-project-in-eclipse-complains-could-not-resolve-archetype).
-
-Its possible that there are problems when trying to start a Maven project in Eclipse; the biggest issues seem to stem from firewall / proxy issues, so if your firewall or proxy does not allow for the connection to common Maven sites you may have to find an alternative.
-
-When starting a Maven Project in Eclipse you may see something like this:
-```
-...
-Could not resolve archetype org.apache.maven.archetypes:maven-archetype-webapp:RELEASE from any of the configured repositories.
-Could not resolve artifact org.apache.maven.archetypes:maven-archetype-webapp:pom:RELEASE
-Failed to resolve version for org.apache.maven.archetypes:maven-archetype-webapp:pom:RELEASE: Could not find metadata org.apache.maven.archetypes:maven-archetype-webapp/maven-metadata.xml in local ....
-...
-```
-
-If you see errors like this, the first thing you should do is add the remote catalog http://repo1.maven.org/maven2/archetype-catalog.xml to the Maven Archetypes. To do this, Click 'Window->Preferances', then click 'Maven->Archetypes':
-![Maven Archetypes](images/MavenInEclipse_AddArchetypes.jpg)
-
-Click the 'Add Remote Catalog' button, then add  http://repo1.maven.org/maven2/archetype-catalog.xml to the 'Catalog File' and 'maven catalog' to the 'Description. Click 'Apply and Close'. <br><br>
-
-You may also have to alter the file 'settings.xml', which is in your home directory in the folder `.m2` (so `~/.m2/settings.xml`). Add the following to that file:
-```
-<mirror>
-  <id>ibiblio.org</id>
-  <url>http://mirrors.ibiblio.org/maven2</url>
-  <mirrorOf>central</mirrorOf>
-</mirror>
-```
-
-You will then have to tell Eclipse to re-load this file. To do this, Click 'Window->Preferances', then click 'Maven->User Settings': <br>
-![Maven XML Settings](images/MavenInEclipse_MavenXMLSettings.jpg)
-
-Simply click the 'Update Settings' button, then 'Apply and Close'.
-
-If you still cannot create a Maven project, [read more about it here](https://stackoverflow.com/questions/15506043/create-a-maven-project-in-eclipse-complains-could-not-resolve-archetype).
-
-## Running Maven In Eclipse
-
-> This info was found [here](http://www.vogella.com/tutorials/EclipseMaven/article.html#download-the-maven-index).
-
-To run the code as a Maven project, right-click the pom.xml file and select 'Run as...'
-
-![Run As Maven](images/MavenInEclipse_RunMaven.jpg)
-
-
-There are many options; [this article on stackoverflow](https://stackoverflow.com/questions/37999457/what-is-the-difference-between-maven-install-and-maven-build-with-m2eclipse) talks about most of them.  For our purposes, stick to 'Maven Clean' for now.
 
 # Variables
 
@@ -620,6 +298,7 @@ String str1 = "Brent";
 String str2 = "Jackson";
 System.out.println(str + " and " + str2 + " went to the park.");
 ```
+* Note that it seems you cannot use the single quote to wrap a string (at least in Java 8).
 
 ## String Comparison
 
@@ -698,7 +377,7 @@ There are also other assignment operators such as `*=`, `/=`, and `%=`. There ar
 | ll      | OR    |
 | &&      | AND   |
 | !   |  Negation |
-* Note the `l` above is actuall a pipe `|` but it would not render
+* Note the `l` above is actuall a pipe `|` but it would not render in docsify.
 * Logical operators are shortcut evaluated, which means the rightmost expression is only evaluated if absolutely necessary.
 
 ## Bitwise Operators
@@ -735,6 +414,8 @@ int myLength = myArrayOfNumbers.length;
 
 ```
 * Arrays are treated like objects (as they sort of operate like one)
+
+Note that [NULL](learn_to_code/java/java_basics?id=nulls) is represented as `null` and can be checked with basic operators; this can be used when iterating through arrays, specifically checking if the element has been set or not.
 
 # Basic Conditionals and Loops
 
@@ -787,7 +468,7 @@ for (int i = 0, j = 10; i < 10; i++, j--) {
 
 ## Foreach Loops
 
-Foreach loops are built for [Arrays](learn_to_code/java?id=arrays):
+Foreach loops are built for [Arrays](learn_to_code/java/java_basics?id=arrays):
 ```
 double[] myDoubleArray = {1.22, 2.3456, 17.578, 99.2};
 for (double element: myDoubleArray) {
@@ -808,6 +489,164 @@ while (true) { }
 do { } while(true);
 ```
 
+# Nulls
+
+In Java, nulls are handled via the `null` keyword; for example, here is some code that showcases how to check to see if an object is null:
+
+```
+String[] names = new String[7];
+names[0] = "Brent";
+names[1] = "Mandi";
+names[2] = "Jackson";
+names[3] = "Natalia";
+names[4] = "Bailey";
+names[5] = "Ellie";
+
+for (String element: names) {
+	if (element != null) { System.out.println(element); } else { System.out.println("Element is null"); }
+}
+```
+* Since `names` was defined with 7 elements (and we only set 6), the final output will show 'Element is null'.
+
+# Command Line Arguments
+
+> The example used here was heavily influenced by [a blog on thinkplexx](http://www.thinkplexx.com/blog/simple-apache-commons-cli-example-java-command-line-arguments-parsing).
+
+Command line arguments are important for [headless](learn_to_code/java/java_terms_and_concepts?id=headless) Java applications. You can write a parsing script yourself, but its much better to use one that is already written.
+
+The parsing package I prefer is [Apache Commons CLI](http://commons.apache.org/proper/commons-cli/) (which can be downloaded [here](http://commons.apache.org/proper/commons-cli/download_cli.cgi); the .jar file is located in this .tar.gz file, with the current jar being `commons-cli-1.4.jar`). You will have to place this jar file [on the classpath](learn_to_code/java/java_basics?id=using-jar-files-in-the-classpath), in [IntelliJ's classpath](learn_to_code/java/intellij?id=adding-jars-to-the-classpath), or in the [Maven pom.xml file](learn_to_code/java/maven?id=adding-a-jar-from-a-public-library). The specific JAR file we want from this .tar.gz file is `commons-cli-X.X.jar`, where `X.X` is replaced with the version (currently 1.4).
+
+Here is an example class in file `Cli.java`:
+```
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import org.apache.commons.cli.DefaultParser;
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.CommandLineParser;
+import org.apache.commons.cli.HelpFormatter;
+import org.apache.commons.cli.Options;
+import org.apache.commons.cli.ParseException;
+
+public class Cli {
+    private static final Logger log = Logger.getLogger(Cli.class.getName());
+    private String[] args = null;
+    private Options options = new Options();
+    private CommandLine cmd = null;
+
+    public Cli(String[] args) {
+
+        //store the arguments (will be used later)
+        this.args = args;
+
+        //here you will set the options; these are (in this order):
+        //  opt:        the short flag, to be used with one dash. Example: -v Victor
+        //  longOpt:    the long flag, to be used with two dashes; this is a bit more explicit / verbose than 'opt' but serves the same function. Example: --var Victor
+        //  hasArg:     boolean. If 'false', no variable is set (but the option still exists, so action can be taken if appropriate); if 'true', the flag translates to a variable that can be set.
+        // description: The description of the variable as it would appear in help.
+        options.addOption("h", "help", false, "show help.");
+        options.addOption("v", "var", true, "Here you can set parameter .");
+
+    }
+
+    public void parse() {
+        //define the parser type
+        CommandLineParser parser = new DefaultParser();
+
+        try {
+            //try the parse
+            this.cmd = parser.parse(options, args);
+
+            //if the option 'h' is set, show the help screen
+            if (this.cmd.hasOption("h"))
+                help();
+
+            //check to see if the 'v' option is set. Note that 'opt' and 'longOpt' are interchangeable, so if this said 'if (this.cmd.hasOption("var"))'
+            //this would work exactly the same
+            if (this.cmd.hasOption("v")) {
+                //add an INFO line to the log
+                log.log(Level.INFO, "Using cli argument -v=" + this.cmd.getOptionValue("v"));
+            } else {
+                //add a SEVERE line to the log
+                log.log(Level.SEVERE, "Missing v option");
+                //display the help again, which will also exit immediately afterwards
+                help();
+            }
+
+        } catch (ParseException e) {
+            //if there is a parse error, log it as SEVERE
+            log.log(Level.SEVERE, "Failed to parse command line properties", e);
+            help();
+        }
+    }
+
+    public String getV() {
+        //simply return the value of v / var (note the interchangeable use of opt and longOpt)
+        //if the option does not exist, return null
+        String retVal;
+        retVal = (this.cmd.hasOption("var")) ? this.cmd.getOptionValue("v") : null;
+        return retVal;
+    }
+
+    private void help() {
+        // This prints out some help
+        HelpFormatter formater = new HelpFormatter();
+
+        formater.printHelp("Main", options);
+
+        //exit the program immediately
+        System.exit(0);
+    }
+}
+```
+
+Here is some code that calls this class in a `main()`:
+```
+    public static void main(String[] args) {
+
+        Cli myArgs = new Cli(args);
+        myArgs.parse();
+        System.out.println("hello, " + myArgs.getV());
+
+    }
+```
+* This prints `hello, Victor` as I sent the arguments `-v Victor` to the application.
+
+Some notes:
+* The `Options` object is required, as it holds the different options (and their individual information).
+* The `CommandLine` object (variable name `cmd` above) holds the parsed information
+ * The `CommandLineParser` object (variable name `parser` above) is set to some form of a parser; there are many forms, but the default (which utilizes either the single dash or the double dash, i.e. `-v` or `--var`) is `DefaultParser`
+   * The `CommandLineParser` will have a `parse(options, args)` function which matches the different options to the arguments, if they exist; once this is completed, the software engineer can access `CommandLineParser`'s `hasOption()` and `getOptionValue()` to interact with the arguments.
+ * Each argument returned by `getOptionValue()` will be a [String](learn_to_code/java/java_basics?id=strings); you will have to convert it if you do not want a string.
+* There is a `HelpFormatter` class, which helps format the help message (notably, `printHelp()` which takes two arguments: a string (something to identify the help) and an `Options` object.
+
+---
+
+# Java Metadata
+
+There are some instances where you can provide information (above and beyond simply comments) that 
+
+```
+    /**
+     * This does something
+     *
+     * @deprecated
+     * This method is replaced by...something...else
+     *
+     * @param nada shows nadayadda
+     * @param zip shows zippity-do-dah
+     * @return String that shows the true light
+     */
+    @Deprecated 
+    public String getSomething(String nada, String zip) {
+        return "This is not the drone you seek";
+    }
+```
+https://www.baeldung.com/java-deprecated
+https://beginnersbook.com/2014/09/java-annotations/
+
+
+---
 
 
 # Code Example: StringSort

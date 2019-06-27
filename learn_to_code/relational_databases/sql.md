@@ -219,6 +219,8 @@ And a concrete example is:
 > &nbsp;&nbsp;&nbsp;&nbsp;FOREIGN KEY personForeignKey(inventorID) REFERENCES HumanResources.Users(personID) ON UPDATE CASCADE ON DELETE RESTRICT,   
 > &nbsp;&nbsp;&nbsp;&nbsp;KEY competitorIdentifier (competitorID)  
 > )ENGINE=InnoDB;
+
+http://www.mysqltutorial.org/mysql-foreign-key/
 	
 # MySQL Data Types
 
@@ -516,4 +518,17 @@ Memory tables are useful if:
 
 The [CSV storage engine](https://dev.mysql.com/doc/refman/5.7/en/csv-storage-engine.html) saves the [relational schema information](learn_to_code/relational_databases/database_key_terms?id=relational-schema) in a file with an extension .frm and the actual table data in a CSV file (both files are usually located somewhere in /var/lib/mysql, usually its /var/lib/mysql/SCHEMA_NAME/TABLE_NAME.frm and TABLE_NAME.csv). I wouldn't normally recommend the CSV storage engine, but if you want to dump a CSV file quickly, you can make a temp table, set its engine to CSV (or change it with the command `ALTER TABLE mySchemaName.myTableName ENGINE=CSV;`), and then just 'collect' the CSV file in /var/lib/mysql/SCHEMA_NAME.
 
+# INSERT Query
 
+!> This section is bare-bones until I finish it!
+
+If you INSERT INTO and want to update keys that already exist, here is an example:
+> <font color="blue">INSERT INTO</font> FinancialTransactionSystem.Merchants (merchantID, merchantName) 
+> <font color="blue">VALUES</font> (456, 'www.pirates.com'), (457, 'Yesterday\'s')
+> <font color="blue">ON DUPLICATE KEY UPDATE</font> merchantName = <font color="blue">VALUES</font>(merchantName);
+
+
+If you INSERT INTO and want to ignore the insert if its a duplicate.....its best not to use INSERT IGNORE, but to rather just update the key to itself. This is because ALL errors will ber ignored; here is an example:
+> <font color="blue">INSERT INTO</font> FinancialTransactionSystem.Merchants (merchantID, merchantName) 
+> <font color="blue">VALUES</font> (456, 'www.pirates.com'), (457, 'Yesterday\'s')
+> <font color="blue">ON DUPLICATE KEY UPDATE</font> merchantID = <font color="blue">VALUES</font>(merchantID);
