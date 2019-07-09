@@ -167,7 +167,7 @@ In order to actually run the code, you must compile it (with the `javac` command
 
 The basic way to compile is `javac NAME_OF_JAVA_FILE_GOES_HERE.java`. 
 
-That said, this can _quickly_ become overwhelming for larger projects; its best to compile using [Ant](learn_to_code/java/java_basics?id=compiling-with-ant), [Maven](learn_to_code/java/java_basics?id=compiling-with-maven), or Gradle.
+That said, this can _quickly_ become overwhelming for larger projects; its best to compile using [Ant](learn_to_code/java/ant), [Maven](learn_to_code/java/maven), or Gradle.
 
 ## Advanced Compiling
 
@@ -332,6 +332,107 @@ if (str2 == objString) { System.out.println("These strings are the same (== oper
 
 ```
 * Note that using objString was a hit or miss - it did NOT work in compareToIgnoreCase().
+
+---
+
+
+
+
+# ENUMs
+
+ENUMs are a special data type that should be used when a variable is confined to values in a predefined list; they MUST be one of the values listed.
+
+## Basic ENUM
+
+ENUMs are usually stored in a separate file (much like a [class](learn_to_code/java/java_basics?id=java-classes)). A basic ENUM:
+```
+public enum Employees {
+    RICK, BARBARA, TRACY, 
+    CHRIS, ROBERT
+}
+```
+
+## Referencing ENUM Values
+
+To reference an ENUM value, simply list the ENUM name and then the value you are looking for (using dot notation). Sometimes you need to save the actual value, and other times you need to convert to a string; to convert to a string, use `.toString()`. As an example of how to store a specific value and then convert to a string, the following does just that with `RICK`:
+```
+Employees singleEmployee;
+singleEmployee = Employees.RICK;
+System.out.println("The employee is " + singleEmployee.toString());
+```
+## ENUM Methods and Special Functions
+
+Java's implementation of ENUMs is much better than how other languagues implement ENUMs: 
+* Technically they are a class, and as such, you can write different methods (and variables) for the different constant values of the ENUM. 
+* ENUMs have an internal `.values()` method, which can cycle through all values of the ENUM.
+* ENUMs _do_ have constructors which can set variables for each item in the ENUM, but _you_ cannot interact with or set anything via the constructor.
+
+Here is an example of an ENUM class, `Employees.java`:
+```
+public enum Employees {
+    RICK(1970),
+    BARBARA(1955),
+    TRACY(1976),
+	CHRIS(1969), 
+    ROBERT(1958);
+
+    private final int birthyear;
+
+    Employees(int birthyear) {
+		/*
+		This is the constructor - it takes the different ENUM values and stores their variables (in this case, its each birthyear).
+		*/
+        this.birthyear = birthyear;
+    }
+
+    public double BirthYear() { return birthyear; }
+
+    int YearDelta(int myBirthYear) {
+        return birthyear - myBirthYear;
+    }
+
+}
+```
+Note that:
+* The ENUM values are listed first, comma separated and terminated with a semicolon.
+* Each ENUM value takes advantage of the constructor, which in this case saves its personal birthyear.
+ * Reminder: **YOU** cannot interact with the constructor anywhere else in the code.
+ * While it is possible to make variables public = and will allow you to set them directly - its usually not recommended.
+* To reference a specific ENUMs methods, it will be `ENUMCLASS.ENUM.method()`; for example, to reference `RICK`'s birthyear in code, it would be `Employees.RICK.BirthYear()`.
+* You can write your own methods; for example, `YearDelta()` takes a year as an argument and finds the delta between that year and the employee's birthyear.
+ * When using this, you have to somehow reference a single ENUM value; see the `for` statement below as an example.
+
+Here is how `Employees` can be implemented in a `main()`:
+```
+public class Main {
+
+    public static void main(String[] args) {
+
+        int thisYearDelta;
+        int myBirthYear;
+
+        myBirthYear = 1970;
+
+        System.out.println("This is how you turn a value into a string; the first name in the ENUM is '" + Employees.RICK.toString() + "'; his birthyear is " + Employees.RICK.BirthYear() + ".");
+
+        for (Employees employee : Employees.values()) {
+            thisYearDelta = employee.YearDelta(myBirthYear);
+            if (thisYearDelta > 0) {
+                System.out.println("You are " + thisYearDelta + " years older than " + employee + ".");
+
+            } else if (thisYearDelta < 0) {
+                System.out.println(employee + " is " + -1*thisYearDelta + " years older than you.");
+            } else {
+                System.out.println("You and " + employee + " are the same age!");
+            }
+        }
+
+    }
+}
+```
+Note the use of `.values()` in the `for` statement, which cycles through all of the ENUM values.
+
+---
 
 # Operators
 
