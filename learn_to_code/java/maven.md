@@ -1,5 +1,7 @@
 # Maven
 
+!> A big 'thank you' to Brett Tofel for answering lingering questions about Maven, which provided some insight into this tutorial!
+
 Maven is a (newer, and now more widely-used) tool that can compile Java projects. Many entities wanted to move away from Ant because it was _too_ general. <br>
 
 Note that you [must install Maven](ubuntu/server_build?id=installing-apache-maven) before you use it.
@@ -16,7 +18,8 @@ The main points of Maven:
 ## What does Maven NOT do?
 
 Maven does not:
-* Track version history - use git for that.
+* Track version history - use [git](learn_to_code/git) for that.
+* Check code errors. Well it actually does, but do not use it for this (instead, use an IDE like Eclipse or [IntelliJ](learn_to_code/java/intellij) to check your code for errors).
 
 # Locations of Files in Maven
 
