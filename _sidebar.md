@@ -9,10 +9,10 @@
  - [KVM Install Instructions](/ubuntu/package_install/kvm_install)
 - **Computer Science**
  - [Docsify](/learn_to_code/docsify/)
- - [Raspberry Pi](/learn_to_code/raspberry_pi/) 
- - [SQL](/learn_to_code/relational_databases/sql)
- - [Relational Databases](/learn_to_code/relational_databases/)
- - [Python](/learn_to_code/python/)
+ - [Git](/learn_to_code/git/) 
  - [Java](/learn_to_code/java/)
  - [Machine Learning](/learn_to_code/machine_learning/) 
-
+ - [Python](/learn_to_code/python/)
+ - [Raspberry Pi](/learn_to_code/raspberry_pi/) 
+ - [Relational Databases](/learn_to_code/relational_databases/) 
+ - [SQL](/learn_to_code/relational_databases/sql)

@@ -2,6 +2,8 @@
 - **Coding**
  - [Learning to Code](/learn_to_code/)
  - [Docsify](/learn_to_code/docsify/) 
+ - [Git](/learn_to_code/git/)
+ - [Java](/learn_to_code/java/)
  - [Python](/learn_to_code/python/)
 - **Raspberry Pi**
  - [Raspberry Pi Page](/learn_to_code/raspberry_pi/)

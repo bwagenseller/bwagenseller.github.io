@@ -21,11 +21,12 @@ I decided to do something similar here. The following notes are from a combinati
 
 # Learning To Code
 - [Docsify](/learn_to_code/docsify/) - Overview of how to use Docsify and Markdown. 
-- [SQL](/learn_to_code/relational_databases/sql) - My notes to get up and running in SQL quickly. 
-- [Relational Databases](/learn_to_code/relational_databases/) - My notes to get up to speed on relational databases. 
-- [Raspberry Pi](/learn_to_code/raspberry_pi/) - My journey learning Raspberry Pi.
-- [Python](/learn_to_code/python/) - Brent's notes on his continuous journey to document Python.
+- [Git](/learn_to_code/git/) - My notes to get up to speed on git. 
 - [Java](/learn_to_code/java/) - Brent's notes on his continuous journey to learn Java.
 - [Machine Learning](/learn_to_code/machine_learning/) - Brent's notes on his journey to document Machine Learning.
+- [Python](/learn_to_code/python/) - Brent's notes on his continuous journey to document Python.
+- [Relational Databases](/learn_to_code/relational_databases/) - My notes to get up to speed on relational databases. 
+- [Raspberry Pi](/learn_to_code/raspberry_pi/) - My journey learning Raspberry Pi.
+- [SQL](/learn_to_code/relational_databases/sql) - My notes to get up and running in SQL quickly. 
 
 !> Disclaimer: The contents of this page are my own opinions, and are always up for debate.

@@ -3042,27 +3042,6 @@ There are many programs that are launched by icons and not from the command line
 | remmina | Remmina, a remote desktop client. |
 | mysql-workbench | MySQL Workbench client. |
 
----
-
-# Using Git
-
->For more info on git, [please go here](http://git-scm.com/) or [here](https://github.com/)
-
-Git is a program that is used to share project files with others. Often times teams use git for version control.
-
-## Initializing Git
-
-To initialize git, you **must** run the following (not as root but on your own account):
-
-1\. Go to your home directory
-
-2\. Run: 
-```
-git config
-git init
-```
-
----
 
 
 

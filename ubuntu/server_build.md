@@ -1650,10 +1650,10 @@ To check it out, run `protoc --version`; know that you may have to exit and re-e
 
 ---
 
-# Installing git
+# Installing Git
 <span style='width: 20px; display:inline-block'>:rotating_light:</span> <span style='width: 20px; display:inline-block'>:bangbang:</span>
 
->For more info on git, [please go here](http://git-scm.com/) or [here](https://github.com/)
+>For more info on Git, please go to [Git-Scm](http://git-scm.com/), [Github](https://github.com/), or [my own page](/learn_to_code/git/).
 
 Git is a program that is used to share project files with others. Often times teams use git for version control.
 
@@ -1668,7 +1668,11 @@ To install:
 apt-get install git
 ```
 
-For more info on git, [please go here](/ubuntu/linux_notes?id=using-git)
+4\. <font color="purple">Optional</font>: install the GUI for Git:
+```
+apt-get install git-gui
+```
+* Note that to actually launch the GUI, you will have to type `gitk`
 
 ---
 
