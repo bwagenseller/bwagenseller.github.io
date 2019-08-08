@@ -7,6 +7,9 @@ These documents detail everything I care to record about the Ubuntu (Debian) Lin
 - [KVM Install Instructions](/ubuntu/package_install/kvm_install) - Details on how to install KVM.
 - [KVM Notes](/ubuntu/package_operations/kvm_notes) - Day to day operations in KVM.
 
+# Log Investigation
+- [journalctl](/ubuntu/package_operations/journalctl) - Investigate logging with `journalctl`.
+
 # MySQL Database Operations
 - [New MySQL Server Install Instructions](/ubuntu/package_install/mysql_install) - Details on how to quickly get a new MySQL database up and running.
 - [General MySQL Maintenance](/ubuntu/package_operations/mysql_maintenance) - General maintenance tips for administering a MySQL database.
