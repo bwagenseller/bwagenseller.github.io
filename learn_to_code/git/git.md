@@ -1,7 +1,5 @@
 # Git
 
-!> Brent - Do 6
-
 # Basics of Git
 
 >For more info on Git, [please go to Git-Scm](http://git-scm.com/), [a major online book on Git-Scm](https://git-scm.com/book/en/v2/), or [Github](https://github.com/).
@@ -680,6 +678,20 @@ git checkout my_tag_name -b new_branch
 * This technically branches off of whatever branch the tag was originally on.
 
 ---
+
+# Searching
+
+## Searching for a Commit ID
+
+Its possible to pull up information about a _specific_ [commit ID](learn_to_code/git/git_concepts?id=sha1-id) if you have the ID on hand; to do so, type:
+```
+git show --<hashID>
+```
+* The hashID is the [commit ID](learn_to_code/git/git_concepts?id=sha1-id)
+* Do not use the < or \>
+
+---
+
 
 
 # Quick Commands to Update
