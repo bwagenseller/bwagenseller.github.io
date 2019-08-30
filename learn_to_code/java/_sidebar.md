@@ -1,6 +1,8 @@
 - **Java Basics**
 - [Java Terms and Concepts](/learn_to_code/java/java_terms_and_concepts)
 - [Basics of Java](/learn_to_code/java/java_basics)
+- **Advanced Java**
+- [Akka](/learn_to_code/java/akka/)
 - **IDEs**
 - [IntelliJ](/learn_to_code/java/intellij)
 - **Build Tools**

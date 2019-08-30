@@ -144,6 +144,113 @@ This says 'we are creating a new object called 'sorter', it will be of type 'Sor
 
 The contstructor may do nothing at all, but oftentimes it helps initialize the object. There can be multiple constructors for the same class, each with a different parameter list; or, there may be no constructor at all, at which point Java will make one for the class (a bare bones constructor).
 
+You can make a constructor like so:
+```
+    //this is a constructor, which is used to initialize a School Object
+    //
+    School(String name, String address, String phone) {
+        
+        this.address = address;
+        this.name = name;
+        this.phone = phone;
+    }
+```
+* This is a `School` class - constructors should be named the same as the class itself.
+* Note there is NO type, not even void.
+* Note there is NO scope - it is assumed t obe public.
+* The `this` references class variables defined in itself; the variable that does not use the 'this' comes from the parameters. This is how you can set the class variables from parameters.
+
+You can also have multiple constructors in the same class, _provided_ they do **not** use the same configuration of parameter types. An example:
+```
+    School(String name, String address, String phone) {
+        
+        this.address = address;
+        this.name = name;
+        this.phone = phone;
+    }
+	
+    School(String name) {
+        this.name = name;
+    }
+```
+* The second constructor is OK because it does not use the same types in the same order; if we were to add a third constructor `School(String address, String name, String phone)` this would create an error as its another `School(String, String, String)` constructor.
+
+## Overriding Methods
+
+Overriding a method means to overwrite the existing method. Often, it is _required_ to override a method if you are using an interface that is expecting specific methods to be available (these methods are usually stumps or something similar anyway). Other times, it makes sense to override a method; for example, almost every class uses the `equals()` method to check for equality (**not** `==`), and the classes that do not use the `hashCode()` method to check for equality (which should always be overrided if you override `equals()`).
+
+To override a method, simply type `@Override` on the line above (or even directly in front of, at the beginning) of the line that lists the method.
+
+**<font size="4">Popular Override - equals()</font>** 
+
+The `equals()` method is popular to override, as almost all classes use `equals()` to check for equality amongst objects (and the ones that do not use `hashCode()`).  `equals()` must return a boolean true/false; usually all primitives in the two classes are compared to eath other, and if they all match, the objects are considered to be equal.
+
+Here is an example of `equals()` for my `School` class I wrote:
+```
+    @Override
+    public boolean equals(Object otherSchool) {
+        if(otherSchool == this) { return true; }
+
+        if (!(otherSchool instanceof School)) {
+            return false;
+        }
+        School foreign = (School)otherSchool;
+        return this.name==foreign.getName() && this.address==foreign.getAddress() && this.phone==foreign.getPhone();
+    }
+```
+* `name`, `address`, and `phone` are the three primitives (Strings) in the `School` class, so they are all compared (`==` can be used here).
+* The line `if(otherSchool == this) { return true; }` is comparing if the locations in memory are equal.
+
+**<font size="4">Popular Override - hashCode()</font>** 
+
+The `hashCode()` method is popular to override - and recommended if you override `equals()` - as some classes use `hashCode()` to check for equality amongst objects.  `hashCode()` must return an int representing a 'hash' of sorts; The 'hash' must utilize all primitives.
+
+Here is an example of `hashCode()` for my `School` class I wrote:
+```
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.name, this.address, this.phone);
+    }
+```
+* Note that this is very simple: just list all primitives used by the class in the method `Objects.hash()`.
+* This requires you to import `java.util.Objects`.
+
+There is also the old method of doing this - I list it for historical purposes. This was the 'standard' way to override the hashCode before JDK 7 (use the other method now, though):
+```
+    @Override
+    public int hashCode() {
+        int result = 17;
+        result = 31 * result + name.hashCode();
+        result = 31 * result + age;
+        result = 31 * result + passport.hashCode();
+        return result;
+    }
+```
+* This is not for any specific class I have written here, but know this class has three variables: two strings (name and passport) and an age (int).
+
+**<font size="4">Popular Override - toString()</font>** 
+
+`toString()` is used often enough to say that each class should override this method so it works with their given class; the example from my `School` class is:
+```
+    @Override public String toString() {
+        return this.name + ", "+ this.address + ", " + this.phone;
+    }
+```
+
+## Deep Copy Method
+
+Many 'copy' functions are <font color="purple">shallow copies</font> - meaning, you are told there is a copy of the object made and stored to a new object, but in reality, it simply references the point in memory of where the object resides and saves that. This means that if the initial object is changed, the copy **will** change as well - and vice versa. Usually this is not desirable if you make a copy - usually its more desirable to make a <font color="purple">deep copy</font>, which will avoid the original - or copy - changing when the other is changed.
+
+To ensure this happens, we usually need to make a separate copy of the object and then copy in all of its primitives, one by one; in addition, if the object has classes, we need to do this for each individual class inside the object as well (or deploy its own deep copy method, if it has one). An example is the `createCopy()` method in my [class example](learn_to_code/java/java_basics?id=class-example):
+```
+    public School createCopy() {
+        School retVal = new School(this.name, this.address, this.phone);
+        return retVal;
+    }
+```
+* We make a `School` object to start, which may be a bit weird as we are in the `School` class itself, but it is what it is.
+* We then have to set all of its primitives using our object's primitives. This is easy in this case as I do this in the constructor, but if this is not avaiable you will have to use the object's getters and setters to do this.
+* Finally, we return the object we just created, finalizing the <font color="purple">deep copy</font>.
 
 
 ## General Notes on Classes
@@ -156,6 +263,90 @@ Notes:
  * For nonstatic functions / methods, `this` will represent that _instance_ of the method /function in the object.
 * There can be multiple classes in a single .java file, but this is usually not the case.
  * This stems from an old Java practice that allowed multiple classes so long as only one was public, but this is frowned upon by developers now.
+
+## Class Example
+
+This is an example of a `School` class:
+
+```
+import java.util.Objects;
+
+public class School {
+    String name;
+    String address;
+    String phone;
+
+
+    //this is a constructor, which is used to initialize a School Object
+    //Note there is NO type, not even void - and there is no scope either
+    School(String name, String address, String phone) {
+        // the 'this' references the class variable; the variable that does not use the 'this' comes from the parameters
+        this.address = address;
+        this.name = name;
+        this.phone = phone;
+    }
+
+    //this is another constructor if the only info you know is the name
+    School(String name) {
+        // the 'this' references the class variable; the variable that does not use the 'this' comes from the parameters
+        this.name = name;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getPhone() {
+        return this.phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getAddress() {
+        return this.address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    //I like to make a createCopy() method in order to make a deep copy of the object
+    public School createCopy() {
+        School retVal = new School(this.name, this.address, this.phone);
+        return retVal;
+    }
+
+    //it should be noted that == only works for primitive variables; for everything else, == just checks to see if its the same location in memory
+    //most code that checks to see if two objects are the same uses the equals() method, so its important its overwritten for most (or maybe every) class
+    @Override
+    public boolean equals(Object otherSchool) {
+        if(otherSchool == this) { return true; }
+
+        if (!(otherSchool instanceof School)) {
+            return false;
+        }
+        School foreign = (School)otherSchool;
+        return this.name==foreign.getName() && this.address==foreign.getAddress() && this.phone==foreign.getPhone();
+    }
+
+
+    //if we override equals, its good to override hashCode() as this is used to check for equality in hash-based collections such as HashMap, HashSet, and Hashtable
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.name, this.address, this.phone);
+    }
+
+    @Override public String toString() {
+        return this.name + ", "+ this.address + ", " + this.phone;
+    }
+}
+```
 
 ---
 
@@ -282,13 +473,23 @@ General notes:
 
 ## Primitive Variables
 
-The primitive variables are: byte, short, int, long, float, double, boolean, and char.
+The primitive variables are: <font color="orange">byte</font>, <font color="orange">short</font>, <font color="orange">int</font>, <font color="orange">long</font>, <font color="orange">float</font>, <font color="orange">double</font>, <font color="orange">boolean</font>, and <font color="orange">char</font>.
 
 Sometimes, though, primitive types are required to be a class; therefore a primitive can be converted to  its matching class type using a concept called **auto-boxing**. The corresponding classes are Byte, Short, Integer, Long, Float, Double, Boolean, and Character.
+
+!> Primitive variables can _never_ be `null`.
+
+## nulls
+
+NULL is represented as `null` in code; primitives _cannot_ be null, but Strings - and every other class - can be `null`.
+
+You can check for `null` with a simple `==` operator (as, in the case of classes that are not strings, `==` checks for the location in memory - if its not set, it will be `null`).
 
 # Strings
 
 Strings are actually classes / objects with functions, so much of how they are treated are just like objects; in most cases they can also be treated like primitives, although they are not primitive.
+
+> Strings _can_ be `null`.
 
 ## Combining Strings
 
@@ -329,9 +530,9 @@ if (str2.equals(objString)) { System.out.println("These strings are the same (eq
 //finally, you can also use the == operator
 if (str2 == objString) { System.out.println("These strings are the same (== operator)."); }
 
-
 ```
 * Note that using objString was a hit or miss - it did NOT work in compareToIgnoreCase().
+* You may want to avoid using `==`, as this usually just compares memory locations. It _does_ work for primitives - as well as Strings - but you should avoid it otherwise if you can.
 
 ---
 
@@ -436,6 +637,10 @@ Note the use of `.values()` in the `for` statement, which cycles through all of 
 
 # Operators
 
+## Comparison
+
+The `==` operator _only_ works for primitive variables; for everything else, `==` just checks to see if its the same location in memory. Most code that checks to see if two objects are the same uses the `equals()` method, so its important `equals()` (and `hashCode()`) is overwritten for most (or maybe every) class.
+
 ## Standard
 
 | Operator | Description |
@@ -494,29 +699,7 @@ There are also other assignment operators such as `*=`, `/=`, and `%=`. There ar
 | ~      | Negation         |
 * Note the `l` above is actuall a pipe `|` but it would not render
 
-# Arrays
-```
-//simply declare an array
-int[] myArrayOfNumbers; //preferred
-int myArrayOfNumbers[]; //works, but not preferred
-
-//actually create the array
-myArrayOfNumbers = new int[10]
-
-//you can do both in one step
-int[] myArrayOfNumbers = new int[10];
-
-//you can create the array immediately
-double[] myDoubleArray = {1.22, 2.3456, 17.578, 99.2};
-
-//if you want to get the length, you can just use
-int myLength = myArrayOfNumbers.length;
-
-
-```
-* Arrays are treated like objects (as they sort of operate like one)
-
-Note that [NULL](learn_to_code/java/java_basics?id=nulls) is represented as `null` and can be checked with basic operators; this can be used when iterating through arrays, specifically checking if the element has been set or not.
+---
 
 # Basic Conditionals and Loops
 
@@ -569,14 +752,16 @@ for (int i = 0, j = 10; i < 10; i++, j--) {
 
 ## Foreach Loops
 
-Foreach loops are built for [Arrays](learn_to_code/java/java_basics?id=arrays):
+Foreach loops are built for [Arrays](learn_to_code/java/java_basics?id=arrays-and-lists):
 ```
 double[] myDoubleArray = {1.22, 2.3456, 17.578, 99.2};
 for (double element: myDoubleArray) {
 	System.out.println(element);
 }
-
 ```
+* `element` is used to store the element of the array we are currently inspecting.
+ * This `for` loop will loop through all items in the array, and each iteraton will give you a new `element` in the array.
+* we are using `double` here, but you must replace that with the primitive (or object) type you are using (as `element` must properly be defined).
 
 
 
@@ -608,6 +793,484 @@ for (String element: names) {
 }
 ```
 * Since `names` was defined with 7 elements (and we only set 6), the final output will show 'Element is null'.
+
+# Arrays and Lists
+
+## Basic Arrays
+
+```
+//simply declare an array
+int[] myArrayOfNumbers; //preferred
+int myArrayOfNumbers[]; //works, but not preferred
+
+//actually create the array
+myArrayOfNumbers = new int[10]
+
+//you can do both in one step
+int[] myArrayOfNumbers = new int[10];
+
+//you can create the array immediately
+double[] myDoubleArray = {1.22, 2.3456, 17.578, 99.2};
+
+//if you want to get the length, you can just use
+int myLength = myArrayOfNumbers.length;
+```
+* Arrays are treated like objects (as they sort of operate like one)
+
+Note that [NULL](learn_to_code/java/java_basics?id=nulls) is represented as `null` and can be checked with basic operators; this can be used when iterating through arrays, specifically checking if the element has been set or not.
+
+## ArrayLists
+
+An <font color="green">ArrayList</font> can keep a list of objects that also acts like an array (sort of). ArrayLists are very common and are usually defined like:
+```
+List<Thread> myThreads=new ArrayList<Thread>();
+```
+* `List<>` represnets the _interface type_, and ArrayList<> represents the _implementation type_.
+* The usage of `Thread` indicates the _type_ of object stored in the list; in our case it is a `Thread`, but this can be any non-primitive type (`String` and all other classes, but not simple things like `int`)
+ * We listed `Thread` twice, but since we wrote `List<Thread>` we could have written `ArrayList<>()` as the first implies the second (unless they are different, i.e. the <font color="purple">interface type</font> and <font color="purple">implementation type</font> are different).
+
+<font color="green">ArrayList</font>s are dynamic - you do not have to know their size beforehand. That said, if you wish to pre-define it, you can declare it like this:
+```
+List<Thread> myVar = new ArrayList<Thread>(10);
+```
+* This example sets the default to 10 objects in the <font color="green">ArrayList</font>, but if more are added it will simply add more and not error out.
+
+!> If you would like to make an <font color="green">ArrayList</font> of a [primitive](learn_to_code/java/java_basics?id=primitive-variables), you _must_ use its class equivalent (so for example, do not use `int`, use `Integer`).
+
+## Adding to ArrayLists
+
+To add to an <font color="green">ArrayList</font> its:
+```
+myVar.add(myObject)
+```
+* `myVar` is the variable name of the previously defined <font color="green">ArrayList</font>.
+* `myObject` is some object you are working with.
+
+You could also add the item at a _specific_ position if you wanted; for example if you wanted to add to the first position of the index it would be:
+```
+myVar.add(0, myObject)
+```
+
+## Adding an ArrayLists to ArrayLists
+
+To add to an entire <font color="green">ArrayList</font> to another <font color="green">ArrayList</font> its:
+```
+myVar.addAll(myArrayList)
+```
+* `myVar` is the variable name of the previously defined <font color="green">ArrayList</font>.
+* `myArrayList` is some other <font color="green">ArrayList</font> you are working with that you wish to add to the <font color="green">ArrayList</font> `myVar`.
+* If `myArrayList` is null this _will_ throw an error, so please account for that.
+
+You could also add the <font color="green">ArrayList</font> at a _specific_ position if you wanted; for example if you wanted to add to the first position of the index it would be:
+```
+myVar.addAll(0, myArrayList)
+```
+* `myVar` is the variable name of the previously defined <font color="green">ArrayList</font>.
+
+## Removing Objects from ArrayLists
+
+> Practically speaking, you should [search](learn_to_code/java/java_basics?id=searching-through-arraylists) for the index of the object you wish to remove before you actually remove anything.
+
+To remove an object from an <font color="green">ArrayList</font> by its index, use:
+```
+myVar.remove(3)
+```
+* `myVar` is the variable name of the previously defined <font color="green">ArrayList</font>.
+* This removes the object at position 4 (which is referenced with a 3, as above).
+* If the index you are trying to remove does not exist, this _will_ error out.
+
+If you have a **range** of items you would like to remove you could do so with:
+```
+myVar.removeRange(startIndex, endIndex)
+```
+* `startIndex` and `endIndex` are `int`s that represent positions in the index.
+* This will include the removal of `startIndex` but will _not_ remove `endIndex` - it will remove the position just before it.
+
+
+
+## Determining Size of ArrayLists
+
+To determine the size of an <font color="green">ArrayList</font>, use the `size()` method like so:
+```
+myVar.size()
+```
+* `myVar` is the variable name of the previously defined <font color="green">ArrayList</font>.
+* This returns the size of the array in `int` form.
+* Even though the array itself is zero based, `size()` is not - so if there is only one item in a list:
+ * `size()` would return 1.
+ * Using [get(0)](learn_to_code/java/java_basics?id=basic-arrays) on position 0 would return the element.
+ * Using `get(1)` would result in an error.
+
+## Getting Object At Index
+
+This is where an <font color="green">ArrayList</font> really differs from an array - you cannot reference items a la `myVar[x]`, you must use a method to do so.
+
+You can get an object at a specific index using `get()` like so:
+```
+myVar.get(2)
+```
+* `myVar` is the variable name of the previously defined <font color="green">ArrayList</font>.
+* We list a `2`, meaning we want to get the object in position 3 (since the list is based on 0, 0 is considered the first item - so 2 would represent the 3rd, 9 would represent the 10th, etc).
+
+!> If you use `get()` on an index that is out of range - say, the highest index is 10 and you tried to get position 11 - this _will_ error out. To avoid this, always [check the numberof elements in the list](learn_to_code/java/java_basics?id=determining-size-of-arraylists); in addition, know that the array is based on 0 but `size()` is _not_ zero-based - so if you use `size()` and it returns a 5, the highest number you can use in `get()` is 4.
+
+
+## Searching Through ArrayLists
+
+!> The [equals() method **must** be overwritten](learn_to_code/java/java_basics?id=overriding-methods) for searching to work!
+
+You can search through an <font color="green">ArrayList</font> for an object like so:
+```
+myVar.contains(myObject)
+```
+* This returns a boolean - true if the object exists, false otherwise.
+* `myVar` is the variable name of the previously defined <font color="green">ArrayList</font>.
+* `myObject` is the object you are searching for.
+
+Sometimes, you need the _specific_ location in the array of an object; to get the _first_ position it occupies, use `indexOf()`:
+```
+
+myVar.indexOf(myObject)
+```
+* This returns the index of the _first_ time the object is seen in the array (you can then use [get()](learn_to_code/java/java_basics?id=getting-object-at-index) to interact with the object, now that you have the index).
+* If the object does not exist, a -1 is returned.
+
+To get the _last_ position it occupies, use `lastIndexOf()`:
+```
+
+myVar.lastIndexOf(myObject)
+```
+* This returns the index of the _last_ time the object is seen in the array (you can then use [get()](learn_to_code/java/java_basics?id=getting-object-at-index) to interact with the object, now that you have the index).
+* If the object does not exist, a -1 is returned.
+* If this index equals the index found with `indexOf()`, there is only one instance of the object.
+
+## Replacing Objects in ArrayLists
+
+You can outright replace any object in an <font color="green">ArrayList</font> with the `set()` method:
+```
+myVar.set(intIndex, myObject)
+```
+* `myVar` is the variable name of the previously defined <font color="green">ArrayList</font>.
+* `intIndex` is the position in the array that yo uwant to replace.
+* `myObject` is the object you are going to insert into position `intIndex`.
+* This sets the position `intIndex` to the object `myObject` - the object that currently resides at `intIndex` is completely overwritten.
+
+## Converting an ArrayList to Array
+
+Sometimes, you will have to convert your <font color="green">ArrayList</font> to an [Array](learn_to_code/java/java_basics?id=basic-arrays); to do so, its:
+```
+myVar.toArray()
+```
+* `myVar` is the variable name of the previously defined <font color="green">ArrayList</font>.
+* This returns an array (not an <font color="green">ArrayList</font>) with a type that matches `myVar`.
+
+You can also directly set everything to a specific type; for example, we can create an array, and then set the object type using that array.
+
+For example:
+```
+      ArrayList<Integer> myVar = new ArrayList<Integer>();
+
+      myVar.add(5);
+      myVar.add(10);
+
+      Integer myIntegers[] = new Integer[myVar.size()];
+      myIntegers = myVar.toArray(myIntegers);
+```
+* This creates and populates ArrayList `myVar` and adds some items.
+ * Note it uses an `Integer` class and _not_ the primitive `int` - ArrayLists _cannot_ use primitives.
+* The last line saves the array to the `myIntegers`array.
+ * `toArray(myIntegers)` means it automatically changes the type to that of `myIntegers`; usually you implicitly do this, but sometimes you need a similar class and not the exact class.
+
+## Trimming ArrayLists
+
+If you simply want to clear the unused space that the <font color="green">ArrayList</font> is occupying (for example, if it has shrunk considerably via removing items), use `trimToSize()`:
+```
+myVar.trimToSize()
+```
+
+To quickly dump / clear an <font color="green">ArrayList</font> its:
+```
+myVar.clear()
+```
+* `myVar` is the variable name of the previously defined <font color="green">ArrayList</font>.
+
+
+## Cloning ArrayLists
+
+To quickly clone an <font color="green">ArrayList</font> you will use the `clone()` method:
+```
+ArrayList<Thread> arrayListClone =  (ArrayList<Thread>) myVar.clone();
+```
+* `myVar` is the variable name of the previously defined <font color="green">ArrayList</font>.
+* `arrayListClone` is the cloned list.
+
+Note that simply using `clone()` copies a _reference_ to the initial object (called a _shallow_ copy); so if you change the initial object the new object will change, and vice versa.
+
+To create a _deep_ copy - which can be modified without changing the original copy - you will have to use an `Interator` class; in addition, you will have to make either an external function or a method in your class that copies the primitives / everything else to another object. I show how t odo this in my [deep copy method](learn_to_code/java/java_basics?id=deep-copy-method).
+
+Here is an example that uses my [School class](learn_to_code/java/java_basics?id=class-example):
+```
+ArrayList<School> schoolList = new ArrayList<>(); 
+ArrayList<School> schoolListClone = new ArrayList<>();
+
+Iterator<School> iterator = schoolList.iterator();
+
+while(iterator.hasNext()) {
+	//Add the object clones
+    schoolListClone.add(iterator.next().createCopy());	
+}
+```
+* `iterator.next()` is a representation of the current object from schoolList - and all of its methods are available to you (which is why `createCopy()` is available to us).
+* Again, I want to stress that you have to create the `createCopy()` method yourself in the class; otherwise, if you do not have the ability to do that, you must get at the primitives in another way.
+
+## Looping In Arrays and Lists
+
+It is a necessity to loop through an Array or ArrayList - here are the different ways to do it.
+
+It should be noted that each example here will utilize the [School class](learn_to_code/java/java_basics?id=class-example), with an initial setup as follows (using an ArrayList as an example):.
+
+```
+    //create an ArrayList of Schools
+    List<School> mySchools=new ArrayList<>();
+
+    //make a bunch of School objects we will eventually store to our listing
+    School gaTech = new School("Georgia Institute of Technology");
+    School WCU = new School("West Chester University of Pennsylvania");
+    School albright = new School("Albright College");
+
+    //add the School objects to our ArrayList
+    mySchools.add(gaTech);
+    mySchools.add(WCU);
+	mySchools.add(albright);
+```
+
+**<font size="4">Traditional Looping</font>** 
+
+Traditional looping uses a `for` loop, incrementing the index by one each time. Here is a classic example that simply prints the name of each school:
+```
+	for(int i = 0; i < mySchools.size();i++) {
+		System.out.println(mySchools.get(i).getName());
+	}
+```
+* This works for 
+ * ArrayLists (as above).
+ * Arrays (with some modifications).
+
+**<font size="4">Item: Collection Method</font>** 
+
+You can use the following:
+```
+    //use another method to cycle through all elements of the array
+	for(School element: mySchools) {
+    	System.out.println(element.getName());
+	}
+```
+* This works for 
+ * ArrayLists (as above).
+ * Arrays.
+* This cycles through each item in the list / array; each iteration stores the current object in `element` (or whatever you wish to name it), and the next iteration of the loop will use the next object in the array / list and store that to `element`.
+ * `element` can be used just like the underlying object is used, but you _cannot_ make changes to it (well, you can, but it will not update the underlying object).
+
+**<font size="4">Lambda Functions</font>** 
+
+For ArrayLists, you can use a [lambda function](learn_to_code/java/java_basics?id=lambda-function) to loop through, which relies on the `forEach()` method:
+```
+	mySchools.forEach(
+	
+		//lambda expression
+		(schoolElement) -> {
+			System.out.println(schoolElement.getName());
+		}
+		
+	);
+```
+* This works for ArrayLists (as above).
+* This does <font color="red">not</font> work for Arrays.
+* It is implied that whatever is within the `()` will represent each object in the ArrayList - in this case, each time the loop activates it will get the next object in the list and store it to `schoolElement`.
+ * `schoolElement` can be used just like the underlying object is used, but you _cannot_ make changes to it (well, you can, but it will not update the underlying object).
+
+
+**<font size="4">Using the Iterator Class</font>** 
+
+You can also use the [Iterator class](learn_to_code/java/java_basics?id=iterator) to loop through every object in the ArrayList:
+```
+    Iterator<School> cloneIterator = mySchools.iterator();
+	while(cloneIterator.hasNext()) {
+    	System.out.println(cloneIterator.next().getName());
+	}
+```
+* This works for ArrayLists (as above).
+* This does <font color="red">not</font> work for Arrays.
+* See the [ListIterator class](learn_to_code/java/java_basics?id=listiterator) for more information.
+
+## ArrayList - Full Example
+
+Here is an example that uses most of the methods available to <font color="green">ArrayList</font>s.  
+
+This example uses my [School class](learn_to_code/java/java_basics?id=class-example):
+```
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+
+        //create an ArrayList of Schools
+        List<School> mySchools=new ArrayList<>();
+
+        //make a bunch of School objects we will eventually store to our listing
+        School gaTech = new School("Georgia Institute of Technology");
+        School hardKnocks = new School("Hard Knocks University");
+        School WCU = new School("West Chester University of Pennsylvania");
+        School secondWCU = new School("West Chester University of Pennsylvania");
+        School laSalle = new School("LaSalle University");
+        School albright = new School("Albright University");
+
+        //add the School objects to our ArrayList
+        mySchools.add(gaTech);
+        mySchools.add(WCU);
+        mySchools.add(laSalle);
+        mySchools.add(albright);
+
+        //do a deep clone of the school listing to print later
+        ArrayList<School> schoolListClone = new ArrayList<>();
+
+        Iterator<School> iterator = mySchools.iterator();
+        while(iterator.hasNext()) {
+            //Add the object clones
+            schoolListClone.add(iterator.next().createCopy());
+        }
+
+        //use traditional method to cycle through all of our schools, printing them to the screen
+        for(int i = 0; i < mySchools.size();i++) {
+            System.out.println(mySchools.get(i).getName());
+        }
+        System.out.println("  "); //make an empty line on the screen
+
+        if (mySchools.contains(secondWCU)) {
+        //IF the ArrayList contains the secondWCU object - which is equivalent to WCU, which is present - continue
+
+            //find the position of WCU (but we use secondWCU to demonstrate it doesnt have to be exactly the same object)
+            int WCU_Index = mySchools.indexOf(secondWCU);
+
+            System.out.println("The index of WCU in the ArrayList is " + WCU_Index + ", but we are going to replace with the school of hard knocks.");
+
+            //replace WCU with the school of hard knocks
+            mySchools.set(WCU_Index, hardKnocks);
+        }
+
+        //print out the new array using another cycle method, forEach and a lambda function
+        mySchools.forEach(
+                //lambda expression
+                (schoolElement) -> {
+                    System.out.println(schoolElement.getName());
+                }
+        );
+        System.out.println(" ");
+
+        //remove one item from the listing - specifically, albright
+        if (mySchools.contains(albright)) {
+
+            mySchools.remove(mySchools.indexOf(albright));
+        }
+
+        //convert the current ListArray to an Array
+        School myArrayOfSchools[] = new School[mySchools.size()];
+        myArrayOfSchools = mySchools.toArray(myArrayOfSchools);
+
+        //use another method to cycle through all elements of the array
+        for(School element: myArrayOfSchools) {
+            System.out.println(element.getName());
+        }
+        System.out.println("  "); //make an empty line on the screen
+
+        //finally, print the cloned copy to show it never changed using the final way to iterate through a list, using the Iterator class
+        Iterator<School> cloneIterator = schoolListClone.iterator();
+        while(cloneIterator.hasNext()) {
+            System.out.println(cloneIterator.next().getName());
+        }
+
+    }
+}
+```
+
+
+---
+
+# ListIterator
+
+!> I am going to be brief with the `ListIterator` class, as it is much easier for me to use [some of the other methods for looping](learn_to_code/java/java_basics?id=looping-in-arrays-and-lists). If you wish to see more in the ListIterator class, [you can check it out here](https://www.tutorialspoint.com/java/java_using_iterator.htm).
+
+
+An <font color="green">ListIterator</font> object helps to cycle through lists of objects sequentially; the only requirement is that the list object must have a `listIterator()` method (as an example, `ArrayList` objects have both an `iterator()` _and_ a `listIterator()` method, `Array` objects do not). How `ListIterator`s work is it keeps a pointer variable that points to the 'current' object (or just before it, or just after the last object) and you traverse the list by moving this pointer.
+
+The basic order of operations is:
+1\. Create an `ListIterator` object and set it equal to the target object's `listIterator()` method (which returns a `ListIterator`); an example is `ListIterator<School> myIterator = mySchools.listIterator();`  
+ * This will store things like the current pointer, beginning / end locations in memory, etc.  
+ * The `ListIterator` object is the object you reference while moving through the objects - you will _not_ refer to the actual ArrayList again when cycling through the objects (outside of initializing the ListIterator).
+ * I will refer to `myIterator` in these instructions.
+2\. Using a combination of a [while loop](learn_to_code/java/java_basics?id=while-loops) and the iterator's `hasNext()` method, you will know if there are more items in the list.
+3\. You use the `ListIterator`s `next()` method to get the next item in the list.
+
+## Iterator vs ListIterator
+
+There are actually two different classes of Iterators: `Iterator` and `ListIterator`. `Iterator` is much smaller - it only has the `hasNext()`, `next()`, and `remove()` methods.
+
+As an example, here is how one would set a `ListIterator` object:
+```
+ListIterator<School> myIterator = mySchools.listIterator();  
+```
+
+And this is how the `Iterator` object would be set:
+```
+Iterator<School> myIterator = mySchools.iterator(); 
+```
+
+The major differences are the required methods (`listIterator()` vs `iterator()`) for the objects using an interator and the greatly reduced available methods for the `Iterator` class.
+
+> Usually a simple `Iterator` is used over the more extensive `ListIterator`.
+
+## Testing And Moving The Cursor
+
+Initially, the cursor points to an area just before the first object (this is done so you must use `next()` to advance initially without weird oddities). You can use the `hasNext()` method (i.e. `myIterator.hasNext()`) to _check_ and see if there is another object after the cursor (note this does not not actually _move_ the cursor); conversely, `hasPrevious()` does the same thing, but backwards (again, it does not actually move the cursor though).
+
+Usually, `hasNext()` or `hasPrevious()` is used in a while loop to _check_ if there are more objects to loop through - if there are, you actually _access_ that object with either `next()` or `previous()` (depending on if you are going backwards or forwards). 
+
+An example (using my [School class](learn_to_code/java/java_basics?id=class-example)):
+```
+        //create an ArrayList of Schools
+        List<School> mySchools=new ArrayList<>();
+
+        //make a bunch of School objects we will eventually store to our listing
+        School gaTech = new School("Georgia Institute of Technology");
+        School WCU = new School("West Chester University of Pennsylvania");
+        School albright = new School("Albright University");
+
+        //add the School objects to our ArrayList
+        mySchools.add(gaTech);
+        mySchools.add(WCU);
+        mySchools.add(albright);
+
+        ListIterator<School> iterator = mySchools.listIterator();
+		
+		//check to see if there is an object that follows after the cursor's current location
+        while(iterator.hasNext()) {
+            //get the next object and call its 'getName()' method (which is a defined method of the School class).
+            System.out.println(iterator.next().getName());
+        }
+```
+* Notice how we do _not_ reference `mySchools` to utilize `getName()` - we use the `iterator` object.
+
+## Manipulating the ArrayList with ListIterator
+
+Its also possible to _directly_ manipulate the ArrayList through the `iterator` object:
+* We can use the `add(myObject)` method of the operator to add `myObject` to the list immediately after the cursor (and, coincidentally, in front of the object that can be accessed with `next()`).
+* We can use the `remove()` to remove the current object.
+ * This _will_ error out if you have not used `next()` yet _or_ there are no objects in the list.
+* We can use the `set(myObject)` to overwrite the current object last returned by a call to either `next()` or `previous()`.
+
+
+
+---
 
 # Command Line Arguments
 
@@ -725,6 +1388,15 @@ Some notes:
 
 # Java Metadata
 
+## Java Version
+
+To display the version of Java that is currently running, simply use this piece of code:
+```
+System.out.println( System.getProperty("java.version") );
+```
+
+## Other Metadata
+
 There are some instances where you can provide information (above and beyond simply comments) that 
 
 ```
@@ -749,6 +1421,184 @@ https://beginnersbook.com/2014/09/java-annotations/
 
 ---
 
+# Lambda Function
+
+> I read about lambdas [here](https://www.oracle.com/webfolder/technetwork/tutorials/obe/java/Lambda-QuickStart/index.html); another good reference I used is [here](https://beginnersbook.com/2017/10/java-lambda-expressions-tutorial-with-examples/).
+
+A <font color="green">lambda function</font> is an 'anonymous' function (or even class) that you can create in-line / on the fly. This can be advantageous - especially for classes - as this eliminates the need to make (in some cases) multiple files for small classes that can be handled in a few lines of code. A <font color="green">lambda function</font> are usually used when an anonymous class will be used that have only one method.
+
+Usually, lambda functions are defined as such:
+
+```
+parameters -> function
+```
+
+## General Example
+
+There seem to be multiple ways to implement a lambda function, but this i sthe most general way to do it. Here is a general example of a lambda using variables:
+```
+interface LambdaExampleWithParameters {
+    int addStuff(int a, int b, int c);
+}
+
+public class Main {
+
+    public static void main(String[] args) {
+
+        // Lambda definition
+        LambdaExampleWithParameters variableNameHere = (a, b, c) -> {
+            int d;
+            d = a + b + c;
+            return d;
+        };
+
+
+        int aa = 2, bb = 5, cc = 3;
+        int sumTotal = variableNameHere.addStuff(aa,bb,cc);
+
+        System.out.println("The results: " + sumTotal);
+    }
+}
+```
+* The `interface`
+ * It seems you cannot add more than one function definition to the `interface`; if you add more than one it will not work.
+ * The function definition could have been declared public (as in, `public int addStuff(int a, int b, int c)`), but it is assumed to be public anyway.
+* We define an interface, then create a variable that utilizes that interface (in our case `variableNameHere`) and we then write our own function internals.
+ * Later on, we can treat the sole function in the interface as we would a method of a class (which is why `variableNameHere.addStuff(aa,bb,cc)` works above).
+
+!> This is a trivial example, but there are times where an interface (and their known parameters) is commonplace, but _you_ have to write the internals of the function; later, that function will be used to perform other tasks. In these instances, the internals of the function are not known, but the parameters _and_ the output _are_ known. This is the power of the lambda.
+
+## Using a foreach Loop
+
+You can also use a lambda in a `forEach` loop that is associated with a list:
+```
+import java.util.*;
+
+interface LambdaExampleWithParameters {
+    String addLastName(String fname);
+}
+
+public class Main {
+
+    public static void main(String[] args) {
+
+        // Lambda definition (similar to the general example above)
+        LambdaExampleWithParameters seriouslyAddLastName = (pname) -> {
+            String finalName;
+            finalName = pname + " " + "Johnson";
+            return finalName;
+        };
+
+
+        List<String> myList=new ArrayList<String>();
+        myList.add("Ricky");
+        myList.add("Julian");
+        myList.add("Bubbles");
+
+        myList.forEach(
+                //lambda expression here
+                (namesQ) -> {
+                    namesQ = seriouslyAddLastName.addLastName(namesQ);
+                    System.out.println(namesQ);
+
+                }
+
+        );
+    }
+}
+```
+* This is actually using _two_ lambdas:
+ * The one that is referenced in `seriouslyAddLastName.addLastName(namesQ)`, which was covered [in the general example](learn_to_code/java/java_basics?id=general-example).
+ * The one that is `(namesQ) -> { ... }`
+   * This is the one we will focus on in this example.
+* It is assumed that whatever single parameter is listed in `(...)` will be the next object in the list.
+* Note that, in this usage, `namesQ` is read-only
+ 
+## Runnable Lambda
+
+This example utilizes a <font color="green">runnable lambda</font>, which does not need an `interface` pre-built. I could not get this to accept any parameters and try as I may, I could not find an example of a <font color="green">runnable lambda</font> that did utilize parameters; most examples were very simplistic, but the ones that were a bit mroe complex exclusively tied in launching threads with the <font color="green">runnable lambda</font> - so the main usage of these may be launching threads. A basic example:
+```
+public class Main {
+
+    public static void main(String[] args) {
+
+        System.out.println("=== RunnableTest ===");
+
+        // Anonymous Runnable
+        Runnable r1 = new Runnable(){
+
+            @Override
+            public void run(){
+                System.out.println("Hello world one!");
+            }
+        };
+
+        // Lambda Runnable
+        Runnable r2 = () -> System.out.println("Hello world two!");
+
+        // Run em!
+        r1.run();
+        r2.run();
+    }
+
+}
+```
+* There are two anonymous runnable lambdas above
+ * `r1` is the first lambda and is defined sort of like a class with one method.
+   * The sole method is named `run()`
+ * `r2` is the second lambda function, and it is implied with the syntax `() -> -> ...`.
+   * If there is only one line, the `{ ... }` can be omitted, otherwise you would need the braces a la `() -> -> { ... }`
+* The `run()` method is critical; `r1` specifies it, but `r2` implies it.
+ * It seems other classes that can use these - notably threads - use `run()` to launch.
+ 
+Example 2 (with threads):
+```
+import java.util.*;
+
+public class Main {
+
+    public static void main(String[] args) {
+
+        List<Thread> myThreads=new ArrayList<Thread>();
+        final int threadCount = 10;
+
+        // Anonymous Runnable
+        Runnable r1 = new Runnable(){
+
+            //@Override
+            public void run(){
+                System.out.println("Inside Thread: " + Thread.currentThread().getName());
+            }
+        };
+
+        System.out.println("Main : " + Thread.currentThread().getName());
+
+        System.out.println("Creating Threads...");
+        for (int i=0; i<threadCount; i++) {
+            myThreads.add(new Thread(r1));
+        }
+
+        System.out.println("Starting Threads...");
+        myThreads.forEach(
+                //lambda expression here
+                (deckThread) -> {
+                    deckThread.start();
+                } );
+    }
+}
+```
+* Two lambda functions are used here
+ * the anonymous runnable `r1`
+ * the lambda function in the `forEach()`
+* This works because the `Thread<>` class knows to look for the `run()` method; this is why having this method is important.
+
+---
+
+# Streams
+
+<font color="green">Streams</font> in Java have nothing to do with I/O: <font color="green">streams</font> are pipelines of operations that can run sequentially or in parallel.
+
+---
 
 # Code Example: StringSort
 

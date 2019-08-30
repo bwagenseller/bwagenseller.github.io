@@ -23,6 +23,7 @@ I decided to do something similar here. The following notes are from a combinati
 - [Docsify](/learn_to_code/docsify/) - Overview of how to use Docsify and Markdown. 
 - [Git](/learn_to_code/git/) - My notes to get up to speed on git. 
 - [Java](/learn_to_code/java/) - Brent's notes on his continuous journey to learn Java.
+- [Akka](/learn_to_code/java/akka/) - Brent's notes on his continuous journey to learn Akka, which is an alternative to threading in Java (and Scala).
 - [Machine Learning](/learn_to_code/machine_learning/) - Brent's notes on his journey to document Machine Learning.
 - [Python](/learn_to_code/python/) - Brent's notes on his continuous journey to document Python.
 - [Relational Databases](/learn_to_code/relational_databases/) - My notes to get up to speed on relational databases. 

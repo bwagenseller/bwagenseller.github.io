@@ -30,6 +30,18 @@ There is no official installation on a Linux desktops - simply download the `.ta
 
 # Basic Java Functions
 
+## Switching Java Version
+
+> If you are using [Maven](learn_to_code/java/maven), you will _also_ have to [change the Java version](learn_to_code/java/maven?id=wrong-java-version) in the [pom.xml](learn_to_code/java/maven?id=pomxml) file.
+
+If you have multiple versions of Java installed and you wish to switch the Java version, click `Run` -> `Edit Configurations`, then dropdown the `Templates` dropdown and select `Application`. There, you will see a `JRE:` label, and then a `...` to the right of the box. Click the `...`:
+
+![intellij_SelectJavaVersion.jpg](images/intellij_SelectJavaVersion.jpg)
+
+ From here you will have to select the base path of the version of Java you wish to use for this project (if you followed [these instructions](ubuntu/server_build?id=installing-java-from-oracle) to install Java, this will be `usr/local/java/XXX`, where 'XXX' is the specific folder that contains the version of Java you wish to use).
+ 
+!> If you ran this project as another version of Java, you will get fatal errors saying you have run this in a newer version of Java. You will probably have to delete the `target` folder at the very least, and everything that is not the `src` folder and `pom.xml` if using [Maven](learn_to_code/java/maven) (or Gradle's config file, if that is what you are using) at worst.
+
 ## Adding Jars to the Classpath
 
 Follow these instructions to add a jar to the classpath. In or example, we are adding the jar file for a nice [command line argument jar](learn_to_code/java/java_basics?id=command-line-arguments).
@@ -61,3 +73,37 @@ The tools can be accessed by clicking the square in the lower left corner:
 
 Tools will bring up 'tabs' in what is known as the **tool window bar**:
 
+---
+
+# Debugging
+
+## Break Points
+
+To make a temporary break point in IntelliJ, press `Shift`+`Ctrl`+`Alt`+`F8` while on the line where yo uwish to add the temporary breakpoint. Once that breakpoint is hit, it will be removed.
+
+## Attach Debugger To Running Process
+
+> This section was initially found [on Stack Overflow](https://stackoverflow.com/questions/21114066/attach-intellij-idea-debugger-to-a-running-java-process).
+
+Its possible to create [breakpoints](learn_to_code/java/intellij?id=break-points) in your code, and then attach your instance to a remote running instance of the Java code; this will allow you to temporarily stop the _remote code_ and inspect the values stored in all variables.
+
+First, the environment variable _must_ be set to allow this. On the host server (that is running the code), make sure the environment variable `JAVA_OPTS` is set to something like:
+```
+export JAVA_OPTS="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005"
+```
+* `address=5005` is the port to connect to; set it to the port number you wish to use.
+* You can change `suspend=n` to `suspend=y` to force the application to *not start* until you connect to it with IntelliJ. You will usually want to avoid this.
+
+
+To connect with IntelliJ, First you must set up the remote debugging session:
+
+1. Run -> Edit Configurations...
+2. Click the "+" in the upper left.
+3. Select the "Remote" option in the left-most pane.
+4. Choose a name.
+5. Put the IP of the foreign machine running the code in `Host:`.
+6. Put the port of the foreign machine running the code in `Port:`.
+7. Click "OK" to save.
+
+
+Once set up, you can interact with the session. To actually connect, click `Run` and you will see a `Debug XXX` option, where `XXX` is the name you gave the session above. It will connect (in the console window) and give you some commands in the console window. These are important, as if a breakpoint is hit _you will have to hit play after you are done inspecting, otherwise the code will be paused indefinitely on the remote server_. To exit the remote debugger, hit the `stop` button.

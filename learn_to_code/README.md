@@ -7,6 +7,7 @@
 # General Programming
 - [Git](/learn_to_code/git/) - My notes to get up to speed on git. 
 - [Java](/learn_to_code/java/) - Brent's notes on his continuous journey to learn Java.
+- [Akka](/learn_to_code/java/akka/) - Brent's notes on his continuous journey to learn Akka, which is an alternative to threading in Java (and Scala).
 - [Python](/learn_to_code/python/) - Brent Wagenseller's notes on his journey to learn Python.
 
 # Docsify

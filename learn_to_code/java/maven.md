@@ -18,8 +18,32 @@ The main points of Maven:
 ## What does Maven NOT do?
 
 Maven does not:
-* Track version history - use [git](learn_to_code/git) for that.
+* Track version history - use [git](learn_to_code/git/) for that.
 * Check code errors. Well it actually does, but do not use it for this (instead, use an IDE like Eclipse or [IntelliJ](learn_to_code/java/intellij) to check your code for errors).
+
+# Installing Maven
+
+## Ubuntu Install
+
+To install Maven on Ubuntu:
+
+1\. [Become root](/ubuntu/linux_notes?id=becoming-root).
+
+2\. [Update all packages](/ubuntu/linux_notes?id=updating-upgrading-all-packages).
+
+3\. Install Maven:
+```
+apt-get install maven
+```
+
+## Windows Install
+
+> These instructions were initially found [here](https://www.mkyong.com/maven/how-to-install-maven-in-windows/).
+
+1\. Download the `.zip` file from [here](https://maven.apache.org/download.cgi).
+
+2\. Follow [these](https://www.mkyong.com/maven/how-to-install-maven-in-windows/) instructions.
+
 
 # Locations of Files in Maven
 
@@ -154,6 +178,8 @@ Some basic notes:
 * `groupId`, `artifactId`, and `version` all come from [initially creating the project with maven](learn_to_code/java/maven?id=creating-a-project-with-maven)
  * The package name will _always_ be the `groupId` unless you specify it with the `-Dpackage=XXX` flag (so for example, we could have said `-Dpackage=com.yourcompany.mavenexample.differentpackagename` above).
 * `name` seems to be the same as `artifactId`.
+
+> Note the above sets the Java version to 7 (1.7) - you will probably have to change this.
 
 ## Override Default Folders
 
@@ -346,6 +372,26 @@ This means that your version of Maven is expecting Java 5; you need to tell it t
   </build>
 ```
 
+And if you are still running Java 8, use these in the `configuration` tabs instead:
+```
+          <configuration>
+              <source>1.8</source>
+              <target>1.8</target>
+              <release>8</release>
+          </configuration>
+```
+
+Another way to change the Java version is by using tags like this in the pom.xml file. Note this is _not_ in the `<build>` tag (like the other example) - it is in the `<properties>` tag, which is just under the `<project>` tag:
+```
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <maven.compiler.source>1.7</maven.compiler.source>
+    <maven.compiler.target>1.7</maven.compiler.target>
+  </properties>
+```
+* This sets the version to Java 7 (aka 1.7).
+
+
 Re-run with `mvn package` and it should compile.
 
 
@@ -365,6 +411,19 @@ export MAVEN_OPTS="-Xmx1024m -XX:MaxPermSize=128m"
 ```
 
 !> If you need to set other Maven options, you MUST do it in the same line - so if you are already setting `MAVEN_OPTS`, make sure to update that instead of overwriting it with the above statement!
+
+## Forced Updates Needed
+
+Occasionally you may see errors like this when trying to load packages:
+
+> was cached in the local repository, resolution will not be reattempted until the update interval of repo.yourcompany.com has elapsed or updates are forced.
+
+This means that the versions you are trying to download vs what is in your local repository do not match.
+
+To fix, simply re-run with the `-U` flag.
+
+[See this link](https://stackoverflow.com/questions/4856307/when-maven-says-resolution-will-not-be-reattempted-until-the-update-interval-of) for more on this
+
 
 ---
 
@@ -412,12 +471,12 @@ The directory `repository` will be created under your `~/.m2` directory, which w
 
 **Integration testing** is a bit different than unit testing for two reasons:
 * Integration testing is meant to test code that interacts with foreign entities (for example, databases). 
- * Technically you can test the functionality in unit testing, but doing something like connecting to / pulling data from a database is beyond the scope of unit testing: for a pure unit test, you need to effectively avoid utilizing the foreign resource (in this case the database) and simply _simulate_ the functionality (in this exampl, make mock data).
+ * Technically you can test the functionality in unit testing, but doing something like connecting to / pulling data from a database is beyond the scope of unit testing: for a pure unit test, you need to effectively avoid utilizing the foreign resource (in this case the database) and simply _simulate_ the functionality (in this example, make mock data).
 * As far as Maven is concerned, integration testing runs _after_ most other phases (including the artifact build phase); you may want to test the artifact _after_ it is built, and the only way to do that is to have the code successfully compile.
 
 ## Integration Testing and pom.xml
 
-In order to utilize integration testing you must include a specific `<plugin>` tag, which will be nested in the larger `<plugins>` tag which is nested in the `<build>` tag:
+In order to utilize integration testing you must include a specific `<plugin>` tag in [pom.xml](learn_to_code/java/maven?id=pomxml), which will be nested in the larger `<plugins>` tag which is nested in the `<build>` tag:
 ```
   <build>
     <plugins>

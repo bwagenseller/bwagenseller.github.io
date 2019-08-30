@@ -11,6 +11,7 @@
  - [Docsify](/learn_to_code/docsify/)
  - [Git](/learn_to_code/git/) 
  - [Java](/learn_to_code/java/)
+ - [Akka](/learn_to_code/java/akka/)
  - [Machine Learning](/learn_to_code/machine_learning/) 
  - [Python](/learn_to_code/python/)
  - [Raspberry Pi](/learn_to_code/raspberry_pi/) 
