@@ -4,11 +4,22 @@
     style="display: block; width: 88px; margin: auto; margin-bottom: 1em"
 /><span style="display: block; text-align: center; font-size: 1.75em;"> Wagenseller Notes </span>
 
-# General Programming
-- [Git](/learn_to_code/git/) - My notes to get up to speed on git. 
-- [Java](/learn_to_code/java/) - Brent's notes on his continuous journey to learn Java.
+# Java
+- [Java](/learn_to_code/java/) - Brent Wagenseller's notes on his journey to learn Java.
+- [Java Terms and Concepts](/learn_to_code/java/java_terms_and_concepts) - Important terms and concepts in Java.
+- [Basics of Java](/learn_to_code/java/java_basics) - The basics of Java.
 - [Akka](/learn_to_code/java/akka/) - Brent's notes on his continuous journey to learn Akka, which is an alternative to threading in Java (and Scala).
+- [Logback](/learn_to_code/java/logback) - Powerful logging tool in Java.
+- [Ant](/learn_to_code/java/ant) - The Ant tool, which is used to build Java projects.
+- [Maven](/learn_to_code/java/maven) - The Maven tool, which is used to build Java projects.
+- [IntelliJ](/learn_to_code/java/intellij) - Using the IDE 'IntelliJ'.
+
+
+# Python
 - [Python](/learn_to_code/python/) - Brent Wagenseller's notes on his journey to learn Python.
+
+# Git
+- [Git](/learn_to_code/git/) - Brent Wagenseller's notes on his journey to learn Git.
 
 # Docsify
 - [Main Docsify Page](/learn_to_code/docsify/) - My main page for Docsify.

@@ -30,11 +30,36 @@ The basic file setup for a basic java program is:
 package dragons;
 
 public class DragonBorn {
+	private static AtomicInteger dragonSoulCount =  new AtomicInteger();
+	private int level;
+	
+	//This is a constructor - put things in here that must be initialized
+	DragonBorn() {
+		dragonSoulCount.set(0);
+		level = 1;
+	}
 
 	public static void witnessDragonBorn() {
 		System.out.println("You.....you took it's soul.");
 	}
 
+	public void increaseSoulsTaken() {
+		//increase soul count by 1
+		dragonSoulCount.incrementAndGet();
+	}
+	
+	public int showSoulCountTaken() {
+		return dragonSoulCount.get();
+	}
+	
+	public void increaseLevel() {
+		level++;
+	}	
+	
+	public int showLevel() {
+		return level;
+	}		
+	
 	public static void main (String[] args) {
 		DragonBorn.witnessDragonBorn();
 	}
@@ -45,6 +70,11 @@ public class DragonBorn {
 * Classes are a big thing in java; [we will discuss more later](learn_to_code/java/java_basics?id=java-classes), but for now just know a class is a collection of functions and variables that are centered around a similar idea. I have named the class here 'DragonBorn', but feel free to name it whatever you want.
  * Know that whatever you name the class you must ALSO name the file that same thing; so for example, the above MUST be in a cile named 'DragonBorn.java'.
 * If we want the .java file to be run-able (sometimes you do not want to directly run it, but other times you do), you MUST include a function called `public static void main (String[] args) { }` as we did above. Whatever is in this will run when [we run it](learn_to_code/java/java_basics?id=basic-script-running).
+* The `main` function (`public static void main (String[] args)`) is the code that is launched when called from the command line.
+ * `main()` must be [static](learn_to_code/java/java_basics?id=defining-static-methods-in-classes); unfortunately, if a method is `static` it cannot call any non-static methods, so the initial class that holds the `main()` must be pretty much bare-bones, only call other static methods in itself, _or_ create a copy of itself, sending a new instantiated object of itself to its own starting method.
+   * For example, if you had a `start()` method that handled the contents of `main()` above you could simply write `new DragonBorn().start(args);` in your `main()` method, which creates an instance of itself that _can_ call non-static methods.
+* The method `DragonBorn()` is a [constructor](learn_to_code/java/java_basics?id=class-constructors).
+* The variable `dragonSoulCount` - and its associated methods `increaseSoulsTaken()` and `showSoulCountTaken()` - are a bit advanced, but you can read a bit more about them [here](learn_to_code/java/java_basics?id=defining-static-variables-in-classes).
 
 > If you want to use the `module-info.java` file (see below), you *must* include a 'package' as well (in the above code this is defined as 'package dragons;'). The package name *must* be a module in the file `module-info.java`. However if you do not use `module-info.java` and are just writing a quick program, you do not have to declare a 'package' in your .java file (and for small things I would not recommend it, as [there are some consequences / things you have to do differently when using a package](learn_to_code/java/java_basics?id=notes-on-using-module-infojava)).
 
@@ -116,7 +146,7 @@ heroOfSkyrim.witnessDragonBorn();
 
 This would print "You.....you took it's soul."
 
-## Defining Static Entities in Classes
+## Defining Static Methods in Classes
 
 We see the word _static_ in the defintion of the witnessDragonBorn() function: this means that we dont necessairly have to declare an object, we can just call this function from the class directly;  this means that instead of writing 
 ```
@@ -132,6 +162,35 @@ heroOfSkyrim.witnessDragonBorn();
 DragonBorn.witnessDragonBorn();
 ...
 ```
+
+## Defining Static Variables in Classes
+
+Methods can be static (see above), but variables can also be static. When a variable is static, _every_ instance of that class will share that variable.
+
+Consider the [DragonBorn](learn_to_code/java/java_basics?id=basic-file-setup-first-java-program) - it has two variables, `dragonSoulCount` and `level`. If we were to create two instances of the `DragonBorn` class and then call `increaseSoulsTaken()` on each, the variable `dragonSoulCount`for _both_ instances would be 2; so for example, if we put this code in `main()`:
+```
+	DragonBorn heroOfSkyrim = new DragonBorn();
+	DragonBorn anotherHeroOfSkyrim = new DragonBorn();
+	
+	heroOfSkyrim.increaseSoulsTaken();
+	anotherHeroOfSkyrim.increaseSoulsTaken();
+	
+	System.out.println("The number of souls taken for heroOfSkyrim is " + heroOfSkyrim.showSoulCountTaken() + " and the number of souls taken for anotherHeroOfSkyrim is " + anotherHeroOfSkyrim.showSoulCountTaken() + ".");
+```
+
+This would print "The number of souls taken for heroOfSkyrim is 2 and the number of souls taken for anotherHeroOfSkyrim is 2.", because the variable `dragonSoulCount` is shared by both `heroOfSkyrim` and `anotherHeroOfSkyrim`.
+
+You will notice `dragonSoulCount` is not an `int`, its an `AtomicInteger`. This is because `int` is not <font color="purple">thread safe</font>. <font color="purple">Threads</font> are a way to run code in parallel (so basically you run two batches of code concurrently) - if you do not understand threading yet you will not have to use this (as you will know when using a thread), but you should know of their existance. <font color="purple">Thread safe</font> means since this is a shared variable, if multiple threads are using this class and they all try to use `dragonSoulCount` at the same time you may get an incorrect result.
+
+When using static variables in a class, you should always make sure you are using a <font color="purple">thread safe</font> variable; [primitive variables](learn_to_code/java/java_basics?id=primitive-variables) - such as `int`, `double`, etc - are _not_ <font color="purple">thread safe</font>. Here are primitive variables and what yo ushould use instead if using a `static` variable:
+
+| Primitive Type | Use Instead | 
+| --- | --- | 
+| int | AtomicInteger | 
+| long | AtomicLong | 
+| boolean | AtomicBoolean | 
+
+Note that there are no atomic classes for `byte`, `short`, `char`, `float`, and `double`; the makers of Java did not want to spend the time on these and officially tell you to use one of the above and convert them. For `float`, the maintainers of Java suggest using the conversions `Float.floatToIntBits` and `Float.intBitstoFloat`; for `double`, they suggest using `Double.doubleToLongBits` and `Double.longBitsToDouble`.
 
 ## Class Constructors
 
@@ -1418,6 +1477,26 @@ There are some instances where you can provide information (above and beyond sim
 https://www.baeldung.com/java-deprecated
 https://beginnersbook.com/2014/09/java-annotations/
 
+
+---
+
+# Getting OS Information
+
+## Hostname
+
+To get the hostname its:
+```
+        String system_name;
+
+        try {
+            system_name = InetAddress.getLocalHost().getHostName();
+        } catch (UnknownHostException e1) {
+            system_name = "uhoh";
+        }
+
+        System.out.println("This system's name is: " + system_name + "");
+```
+* Note `getLocalHost()` _requires_ the try/catch block.
 
 ---
 

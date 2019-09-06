@@ -22,9 +22,65 @@ This document was made for Java version 8.
 
 [Go here](https://www.jetbrains.com/idea/download) and download the version of IntelliJ IDEA for your desktop / laptop.
 
+
 ## Linux Installation
 
 There is no official installation on a Linux desktops - simply download the `.tar.gz` file and unzip to the directory of your choice. Within that directory will be a bin directory, and within that directory will be a file called `idea.sh`; simply run this file to launch IntelliJ IDEA.
+
+# Plugin Installation
+
+## Install Plugin From Marketplace
+
+To install a plugin from the internal IntelliJ marketplace:
+
+1\. Press `Ctrl` + `Alt` + `S` to enter the settings menu.
+
+2\. Click `Plugins`:
+
+![IntelliJ_Plugins.jpg](images/IntelliJ_Plugins.jpg)
+
+3\. Search for your plugin (example is of <font color="purple">Codota</font>), and then press <font color="green">Install</font>:
+
+![IntelliJ_SearchPlugins.jpg](images/IntelliJ_SearchPlugins.jpg)
+
+4\. Click <font color="green">Restart IDE</font> and then <font color="blue">Restart</font>:
+
+![IntelliJ_PluginRestart.png](images/IntelliJ_PluginRestart.png)
+
+
+## Install Plugin From File
+
+To install a plugin from a file you have downloaded (usually something like a <font color="purple">.zip</font> file):
+
+1\. Download your file.
+
+2\. Press `Ctrl` + `Alt` + `S` to enter the settings menu.
+
+3\. Click `Plugins` (as above).
+
+4\. Click the 'Settings' gear (shown here) and then pick <font color="blue">Install Plugin from Disk...</font>:
+
+![IntelliJ_PluginFromDisk.jpg](images/IntelliJ_PluginFromDisk.jpg)
+
+5\. The plugin will show under `Downloaded` (as does the <font color="purple">Codota</font> example below). Click <font color="green">Restart IDE</font>:
+
+![IntelliJ_PluginFromDiskFinal.jpg](images/IntelliJ_PluginFromDiskFinal.jpg)
+
+## Suggested Plugins
+
+**<font size="4">Codota</font>**
+
+<font color="purple">Codota</font> is a plugin that allows you to see examples of publicly available classes on the fly. To do so, simply right-click on a class name and then click <font color="green">Get relevant examples</font>. An example of what is displayed is below (I clicked on the `ActorSystem` class):
+
+![IntelliJ_Codota.jpg](images/IntelliJ_Codota.jpg)
+
+Doing so brings up code examples on the right - I believe they are from GitHub (as a requirement to use <font color="purple">Codota</font>, you must log in with your GitHub, Facebook, or a few other accounts). These are all publicly available pieces of code.
+
+To install <font color="purple">Codota</font>, you can [find it in IntelliJ's marketplace](learn_to_code/java/intellij?id=install-plugin-from-marketplace) or you can download the zip file [here](https://plugins.jetbrains.com/plugin/7638-codota-) and then [install it manually](learn_to_code/java/intellij?id=install-plugin-from-file).
+
+**<font size="4">Jira Integration</font>**
+
+If your team uses Jira, you can load it [from IntelliJ's marketplace](learn_to_code/java/intellij?id=install-plugin-from-marketplace).
 
 ---
 
@@ -75,6 +131,21 @@ Tools will bring up 'tabs' in what is known as the **tool window bar**:
 
 ---
 
+# Shortcuts
+
+| Key Combo | Effect | 
+| --- | --- | 
+| `Ctrl` + `F` | <font color="purple">Find</font> (Current Window) | 
+| `Ctrl` + `Shift` + `F` | <font color="purple">Find</font> (Entire Project) | 
+| `F3` | <font color="purple">Find</font> Next | 
+| `Shift` + `F3` | <font color="purple">Find</font> Previous | 
+| `Ctrl` + `F3` | <font color="purple">Find</font> Word at Cursor | 
+| `Ctrl` + `R` | <font color="green">Replace</font> (Current Window) | 
+| `Ctrl` + `Shift` + `R` | <font color="green">Replace</font> (Entire Project) | 
+
+
+---
+
 # Debugging
 
 ## Break Points
@@ -107,3 +178,16 @@ To connect with IntelliJ, First you must set up the remote debugging session:
 
 
 Once set up, you can interact with the session. To actually connect, click `Run` and you will see a `Debug XXX` option, where `XXX` is the name you gave the session above. It will connect (in the console window) and give you some commands in the console window. These are important, as if a breakpoint is hit _you will have to hit play after you are done inspecting, otherwise the code will be paused indefinitely on the remote server_. To exit the remote debugger, hit the `stop` button.
+
+# Maven In IntelliJ
+
+## Importing a Maven Project
+
+To import a [Maven](learn_to_code/java/maven) project, select `File` -> `Open` and then pick the project's associated [pom.xml](learn_to_code/java/maven?id=pomxml).  You will then be prompted to <font color="blue">Open as Project</font> - do so.
+
+## Fixing Maven Import
+
+Sometimes the IntelliJ project becomes out of sync with Maven's [pom.xml](learn_to_code/java/maven?id=pomxml) file - usually this happens when new dependencies are imported. To fix this (and other issues), right-click the project and then pick `Maven` -> `Reimport`:
+
+![IntelliJ_ReimportMaven.png](images/IntelliJ_ReimportMaven.png)
+
