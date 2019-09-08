@@ -17,6 +17,15 @@
 
 # Python
 - [Python](/learn_to_code/python/) - Brent Wagenseller's notes on his journey to learn Python.
+- [Basics of Python](/learn_to_code/python/python_basic) - The basics of Python.
+- [Scipy](/learn_to_code/python/scipy/) - Everything Scipy, from Anaconda to Pandas to Numpy to Matplotlib and beyond.
+- [Pandas](/learn_to_code/python/scipy/pandas) - Deeper dive into Scipy/Pandas.
+- [Numpy](/learn_to_code/python/scipy/numpy) - Deeper dive into Scipy/Numpy.
+- [Machine Learning in Python](/learn_to_code/python/scipy/machine_learning_in_python) - Machine learning in Python.
+- [Matplotlib](/learn_to_code/python/scipy/matplotlib) - Deeper dive into Scipy/Matplotlib.
+- [Media in Python](/learn_to_code/python/python_media) - ways to interact with media files (audio, video, YouTube, etc) in Python.
+- [SQL in Python](/learn_to_code/python/python_sql) - Learning how to connect to - and utilize - a backend relational database with SQL.
+- [Multithreading in Python](/learn_to_code/python/python_multithreading) - Learning how to use multiprocess and multithreaded environments in Python.
 
 # Git
 - [Git](/learn_to_code/git/) - Brent Wagenseller's notes on his journey to learn Git.

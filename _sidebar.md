@@ -17,3 +17,5 @@
  - [Raspberry Pi](/learn_to_code/raspberry_pi/) 
  - [Relational Databases](/learn_to_code/relational_databases/) 
  - [SQL](/learn_to_code/relational_databases/sql)
+- **Microsoft Office**
+ - [Vlookup](/office/excel_vlookup) 

@@ -30,4 +30,7 @@ I decided to do something similar here. The following notes are from a combinati
 - [Raspberry Pi](/learn_to_code/raspberry_pi/) - My journey learning Raspberry Pi.
 - [SQL](/learn_to_code/relational_databases/sql) - My notes to get up and running in SQL quickly. 
 
+# Microsoft Office
+- [Vlookup](/office/excel_vlookup) - Working tips on how to use VLookup in Excel (and Ubuntu's LibreOffice).
+
 !> Disclaimer: The contents of this page are my own opinions, and are always up for debate.
