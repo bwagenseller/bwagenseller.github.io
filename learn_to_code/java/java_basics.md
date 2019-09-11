@@ -1500,6 +1500,266 @@ To get the hostname its:
 
 ---
 
+# Dates and DateTimes
+
+Here is a basic primer on the new classes that manipulate dates and times. The old date-time classes (`java.util.Date`, `java.util.Calendar`, and `java.text.SimpleDateFormat`, as examples) are practically deprecated; moving forward (starting in Java 8), use the `java.time` classes.
+
+## Getting Current Local Time
+
+Use the `LocalDateTime` class to get the current time, and the `DateTimeFormatter` class to format the time:
+
+```
+import java.time.format.DateTimeFormatter;
+import java.time.LocalDateTime;
+
+...
+...
+
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+        LocalDateTime now = LocalDateTime.now();
+        System.out.println(dtf.format(now));
+		
+```
+* The pattern `yyyy/MM/dd HH:mm:ss` can be set in any combination by you,
+
+## DateTimeFormatter Patterns
+
+The following are popular `DateTimeFormatter` patterns:
+
+| Symbol | Meaning | Notes | 
+| --- | --- | --- | 
+| `y` or `Y` | Year | 1, 3, or 4 of these in a row yield a year in `YYYY` format; two gives `YY` |
+| `M` | Month (Number) | `MM` or `M` gives the number of the month, `MMM` gives the 3 character code, and `MMMM` gives the full Month's name. | 
+| `d` | Day (Number) | `d` gives the date (number), `dd` simply puts a zero in front of numbers < 10. | 
+| `Q` | Quarter of year (1 through 4) | 1 `Q` gives a single number, `QQ` gives a zero and then the quarter, `QQ` will print a Q before the quarter. | 
+| `H` | Hour (24-Hour time) | `H` gives the hour, `HH` ensures hours < 10 have a zero in front. | 
+| `h` | Hour (12-Hour time) | `h` gives the hour, `hh` ensures hours < 10 have a zero in front. | 
+| `m` | Minutes | `m` gives the minute, `mm` ensures minutes < 10 have a zero in front. | 
+| `s` | Seconds | `s` gives the second, `ss` ensures seconds < 10 have a zero in front. | 
+| `w` | Week Number (Year) | `w` gives the current week of the year, `ww` ensures the weeks < 10 have a zero in front. | 
+| `W` | Week Number (Month) | `W` gives the current week number of the current month. | 
+| `e` | Day of Week | `e` gives the current numeric day of the week (Sunday = 1), `ee` ensures the weeks < 10 have a zero in front, `eee` gives the three character representation of the day (i.e. Tue), `eeee` gives the full day name. | 
+| `a` | AM or PM | | 
+| `S` | Fraction of a second | This can be pretty precise. I gave up on `SSSSSSS` | 
+| `A` | Millisecond of the day. | Use as many `A`'s as necessary. 
+| `n` | Nano of second. | |
+| `N` | Nano of day. | |
+| `z` | Time zone. | `z`, `zz`, and `zzz` work here - one gives an abbreviated and one gives the full name (not sure which as my example was in `GMT`). Do **not** use this for times that do not have a zone (like `LocalDateTime`). | 
+| `x` | Time zone offset. | `x` gives `+/-XX`, `xx` gives `+/-XX00`, `xxx` gives `+/-XX:00`.  Do **not** use this for times that do not have a zone (like `LocalDateTime`). | 
+
+## Setting LocalDateTime / ZonedDateTime
+
+`LocalDateTime` and `ZonedDateTime` are almost interchangeable - the only major difference being you will use `ZonedDateTime` for times you want to use a timezone (`LocalDateTime` does not support timezones).
+
+There are multiple ways to set `LocalDateTime` and `ZonedDateTime`. The first just sets it to the current time:
+```
+LocalDateTime currTime = LocalDateTime.now();
+ZonedDateTime currTime = ZonedDateTime.now();//uses local time
+ZonedDateTime currTime = ZonedDateTime.now(ZoneId.of("GMT"));//specific timezone
+```
+* The first and second lines are examples of setting each type to the current time.
+* The last line shows how you can set a `ZonedDateTime` variable to the current time using the specified timezone (in this case, GMT).
+* Note the use of the [ZoneId](learn_to_code/java/java_basics?id=zoneid-class) class.
+
+You can also set the time to `now()` but alter it by chaining functions off of the `now()`; for example, 
+```
+LocalDateTime currTime = LocalDateTime.now().withYear(2010).withMonth(12).withDayOfMonth(8).withHour(8).withMinute(0).withSecond(0).withNano(0);
+ZonedDateTime  currTime = ZonedDateTime.now().withYear(2010).withMonth(12).withDayOfMonth(8).withHour(8).withMinute(0).withSecond(0).withNano(0);
+```
+* Both of these use the `now()` as a base, and set each individual component of the time.
+
+The above is a bit clunky if you intend on setting the entire time - it may be best to use the `of()` function instead:
+```
+LocalDateTime currTime = LocalDateTime.of(2010, 12, 8, 8, 0, 0, 0);
+ZonedDateTime currTime = ZonedDateTime.of(2010, 12, 8, 16, 0, 0, 0, ZoneId.of("GMT"));
+```
+* Sets the year, month, day, hour, minute, second, and nanosecond.
+* In the case of ZonedDateTime, the timezone is set with the [ZoneId](learn_to_code/java/java_basics?id=zoneid-class) class.
+
+## ZoneId Class
+
+The `ZoneId` class (from `java.time.ZoneId`) helps set timezones for `ZonedDateTime`.  
+
+To list all timezones available you can use `ZoneId.getAvailableZoneIds()`; that said, the predominant ones for the US are:
+```
+GMT, UTC, US/Eastern, US/Central, US/Mountain, US/Pacific, US/Alaska, US/Arizona, US/Hawaii, 
+Pacific/Guam, America/Puerto_Rico, US/Samoa, Pacific/Samoa, America/Barbados
+```
+* `America/Barbados` is used for the Virgin Islands.
+
+In most cases the timezone has to be converted from a string; this is done with the `of()` method of `ZoneId`. So, for example, `ZoneId.of("US/Eastern")` would return the timezone for `US/Eastern`.
+
+Finally, 'ZoneId.systemDefault()' gets the default (if you wish to use this instead).
+
+## Adding and Subtracting DateTime
+
+There are many methods to add and subtract time quickly; for example, to add one month its:
+```
+ZonedDateTime currTime = ZonedDateTime.now(ZoneId.of("GMT"));
+currTime = currTime.plusMonths(1);
+```
+* Note this is _not_ done in-place.
+
+The above uses `plusMonths()` but there are all kinds of 'plus' methods (and 'minus' methods too).
+
+There are also base `plus()` and `minus()` methods that take a long and a unit; to use this, you will need the ENUMs from `java.time.temporal.ChronoUnit`. For example, to add one day (using milliseconds) it would be:
+```
+ZonedDateTime currTime = ZonedDateTime.now(ZoneId.of("GMT"));
+currTime = currTime.plus(86400000, ChronoUnit.MILLIS);
+```
+* There is also `ChronoUnit.MONTHS`, `ChronoUnit.DAYS`, `ChronoUnit.HOURS`, etc.
+* Note this is _not_ done in-place.
+
+## Adding and Subtracting Epoch Milliseconds
+
+> Unfortunately, milliseconds from the Epoch (Jan 1st, 1970) is a very large number; the normal `long` gives us problems, as typing a literal long in the code will error out. Because of this, we must use the class `BigInteger` (`java.math.BigInteger`) instead of a `long`.
+
+Many times we have to deal with milliseconds from the Epoch (Jan 1st, 1970); these can be handled without too much of a headache.
+
+To convert to milliseconds from the Epoch its:
+```
+ZonedDateTime currTime = ZonedDateTime.now(ZoneId.of("GMT"));//specific timezone
+long long_millis = currTime.toInstant().toEpochMilli();
+```
+* `long_millis` is a long that holds the value.
+* `LocalDateTime` does **not** work here - it _must_ be a `ZonedDateTime` class type.
+
+To convert back to a time, we are forced to use the `java.time.Instant` class:
+```
+Instant inst = Instant.ofEpochMilli(long_millis);
+currTime = ZonedDateTime.ofInstant(inst, ZoneId.of("GMT"));
+```
+* Note the timezone is unknown from the long number alone - you _must_ supply it.
+* `currTime` is now of type `ZonedDateTime`.
+ * `LocalDateTime` does **not** work here - it _must_ be a `ZonedDateTime` class type.
+
+To subtract (we could have just as easily used add) we use two instances of `BigInteger`:
+```
+BigInteger millis = new BigInteger(String.valueOf(long_millis));
+
+BigInteger secondNum = new BigInteger("86400000");
+millis = millis.subtract(secondNum);
+
+currTime = ZonedDateTime.ofInstant(Instant.ofEpochMilli(millis.longValue()), ZoneId.of("GMT"));
+System.out.println("Base date (Readable): " + dtf.format(currTime));
+```
+* A new `BigInteger` _must_ be initialized with a `String` and not a `long`, so we convert the long to a String in the first line.
+* Unfortunately, BigInteger does NOT add / subtract well with other datatypes - you have to add / subtract it using another instance of the BigInteger class (as we have done with `secondNum`).
+ * Since we will be subtracting times, we need a second number to add usingBigInt - the first instance (i.e. `millis`) will subtract one day (86400000 milliseconds is a day) from what is stored in `currTime`.
+* The last two lines convert the `BigInteger` to a `long`, which is then converted to a `ZonedDateTime`; immediately after this, the readable datetime is printed to the screen.
+
+## Comparing DateTimes
+
+`ZonedDateTime` objects can use the `compareTo()` method to see if they are greater than (`compareTo()` returns a positive number), less than (`compareTo()` returns a negative number), or equal to (`compareTo()` returns 0) another date.
+
+```
+ZonedDateTime currTime = ZonedDateTime.of(2010, 12, 8, 16, 0, 0, 0, ZoneId.of("GMT"));
+
+if(currTime.compareTo(ZonedDateTime.now(ZoneId.of("GMT"))) > 0) {
+	System.out.println("currTime is greater than now()");
+
+} else if(currTime.compareTo(ZonedDateTime.now(ZoneId.of("GMT"))) < 0) {
+	System.out.println("currTime is less than now()");
+} else {
+	System.out.println("currTime is exactly now()");
+}
+```
+* The timezones do not actually have to be the same above.
+
+> If both timezones are equal, the functions `isAfter()`, `isBefore()`, and `isEqual()` can also be used in place of `compareTo()`.
+
+
+
+## Full DateTime Example
+
+```
+import java.math.BigInteger;
+import java.time.Instant;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
+import java.time.ZoneId;
+import java.time.LocalDateTime;
+
+public class DateTimeExample {
+
+    private static final Logger logger   = LoggerFactory.getLogger("wagdaemon");
+
+    public static void main( String[] args )
+    {
+
+		//Many different ways to set the time are below, using LocalDateTime and ZonedDateTime
+        //LocalDateTime currTime = LocalDateTime.now().withYear(2010).withMonth(12).withDayOfMonth(8).withHour(8).withMinute(0).withSecond(0).withNano(0);
+        //ZonedDateTime  currTime = ZonedDateTime.now().withYear(2010).withMonth(12).withDayOfMonth(8).withHour(8).withMinute(0).withSecond(0).withNano(0);
+        //LocalDateTime currTime = LocalDateTime.of(2010, 12, 8, 8, 0, 0, 0);
+        //ZonedDateTime currTime = ZonedDateTime.now();//uses local time
+        //ZonedDateTime currTime = ZonedDateTime.now(ZoneId.of("GMT"));//specific timezone
+        ZonedDateTime currTime = ZonedDateTime.of(2010, 12, 8, 16, 0, 0, 0, ZoneId.of("GMT"));
+
+        ZonedDateTime currTime = ZonedDateTime.of(2010, 12, 8, 16, 0, 0, 0, ZoneId.of("GMT"));
+
+        if(currTime.compareTo(ZonedDateTime.now(ZoneId.of("GMT"))) > 0) {
+            System.out.println("currTime is greater than now()");
+
+        } else if(currTime.compareTo(ZonedDateTime.now(ZoneId.of("GMT"))) < 0) {
+            System.out.println("currTime is less than now()");
+        } else {
+            System.out.println("currTime is exactly now()");
+        }
+		
+        //converting to milliseconds since 1970-01-01 ONLY works with ZonedDateTime, NOT LocalDateTime
+        //'System.currentTimeMillis()' was the default use but that only works if you are using the JVM timezone, and thats only for the current time
+        long long_millis = currTime.toInstant().toEpochMilli();
+
+        //show how the time in milliseconds since the Epoch will work
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss z  ");
+        System.out.println("Time test: " + dtf.format(currTime));
+        System.out.println("Time test (milliseconds): " + long_millis);
+
+        //re-buld from Epoch milliseconds
+        Instant inst = Instant.ofEpochMilli(long_millis);
+        currTime = ZonedDateTime.ofInstant(inst, ZoneId.of("GMT"));
+        System.out.println("Re-built time: " + dtf.format(currTime));
+
+        //get base of the date used in milliseconds; note BigInteger must use a string so we convert it
+        BigInteger millis = new BigInteger(String.valueOf(long_millis));
+
+        //Unfortunately, BigInteger does NOT add well with other datatypes - you have to add it using the BigInteger class.
+        //Since we will be adding times, we need a second number to add usingBigInt - the first instance will add one day (86400000 milliseconds is a day) to the current date.
+        BigInteger secondNum = new BigInteger("86400000");
+        millis = millis.subtract(secondNum);
+
+        currTime = ZonedDateTime.ofInstant(Instant.ofEpochMilli(millis.longValue()), ZoneId.of("GMT"));
+        System.out.println("Base date (Readable): " + dtf.format(currTime));
+
+        //add exactly 5 minutes to the previous time - this will be the start time (note BigInteger only accepts strings)
+        secondNum = new BigInteger(String.valueOf(60000*5));
+        millis = millis.add(secondNum);
+        System.out.println("start: " + millis.longValue());
+
+        currTime = ZonedDateTime.ofInstant(Instant.ofEpochMilli(millis.longValue()), ZoneId.of("GMT"));
+        System.out.println("Start (Readable): " + dtf.format(currTime));
+
+        //add exactly 3 minutes to the previous time - this will be the end time (note BigInteger only accepts strings)
+        secondNum = new BigInteger(String.valueOf(60000*3));
+        millis = millis.add(secondNum);
+        System.out.println("end: " + millis.longValue());
+
+        currTime = ZonedDateTime.ofInstant(Instant.ofEpochMilli(millis.longValue()), ZoneId.of("GMT"));
+        System.out.println("End (Readable): " + dtf.format(currTime));
+
+        currTime = currTime.plus(86400000, ChronoUnit.MILLIS);
+        System.out.println("Add 1 day (using Milliseconds): " + dtf.format(currTime));
+
+        currTime = currTime.minus(1, ChronoUnit.MONTHS);
+        System.out.println("Subtract 1 month: " + dtf.format(currTime));
+    }
+}
+
+```
+
+---
+
 # Lambda Function
 
 > I read about lambdas [here](https://www.oracle.com/webfolder/technetwork/tutorials/obe/java/Lambda-QuickStart/index.html); another good reference I used is [here](https://beginnersbook.com/2017/10/java-lambda-expressions-tutorial-with-examples/).

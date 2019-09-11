@@ -4,7 +4,20 @@
 
 > The official Logback manual can be found [here](https://logback.qos.ch/manual/index.html). There is a nice introduction on [mograblog](http://www.mograblog.com/2013/03/slf4j-with-logback-in-maven-project.html), and [memorynotfound](https://memorynotfound.com/logback-logback-xml-configuration-example/) has a nice example of logback.xml.
 
-<font color="purple">Logback</font> is a logging system in Java that is intended to be a successor to the log4j project (designed by Ceki Gülcü, the same guy who made log4j). It is purported to have a smaller footprint than other logging systems.
+<font color="green">Logback</font> is a logging system in Java that is intended to be a successor to the log4j project (designed by Ceki Gülcü, the same guy who made log4j). It is purported to have a smaller footprint than other logging systems.
+
+There are 3 modules in <font color="green">Logback</font>:
+* <font color="purple">logback-core</font>
+ * lays the groundwork for all 3 modules
+* <font color="purple">logback-classic</font>
+ * extends <font color="purple">logback-core</font>.
+ * Implements the SLF4J API, so you can switch between log4j and java.util.logging as well
+ * _This is the most common of the 3.
+* <font color="purple">logback-access</font>
+ * This provides HTTP-access log functionality - see [here](https://logback.qos.ch/access.html) for that documentation.
+
+
+
 
 # Requirements In Project
 
@@ -60,13 +73,67 @@ Finally, although `slf4j-api` is required, you can avoid it if you are using [Ak
 Logback uses configuration files that are meant to sit at the root of your [compiled jar file](learn_to_code/java/java_basics?id=jar-files) - if they do not exist, Logback will still work, but you will lose some powerful functionality of the tool.
 
 These files are:
-* logback.xml
+* [logback.xml](learn_to_code/java/logback?id=logbackxml)
+* logback-test.xml
+* logback.groovy - I believe this is much like [logback.xml](learn_to_code/java/logback?id=logbackxml), but is used for the Apache Groovy Language instead of Java. Currently I will not be covering Groovy, but I may in the future.
 
 
 ## Location of Files in Maven
 
 In order for these configuration files to be present in [the compiled jar file that is created by Maven](learn_to_code/java/maven?id=the-compiled-jar-file), you must put these files in the [resources folder](learn_to_code/java/maven?id=resources-in-maven) of the project.
 
+# Levels of Severity
+
+All loggers have a severity level (it may be assigned, but if its not, its always inherited by its parent) - these levels are, in order from least to most severe, are:
+1. `TRACE`
+2. `DEBUG`
+3. `INFO`
+4. `WARN`
+5. `ERROR`
+
+
+
 
 # Logback.xml
+
+<font color="green">Logback.xml</font> is a configuration file that details information about the file (things like log location, log name, etc). This file is specifically used by Java.
+
+!> This file defines where the logs should be stored; if the path does not exist, Logback will create the path and file _provided_ the user running the Java application has [the rights](ubuntu/linux_notes?id=changing-file-permissions) to do so.
+
+## Example Logback.xml
+
+```
+<configuration scan="false" debug="true">
+	<conversionRule conversionWord="traceToken" converterClass="kamon.trace.logging.LogbackTraceTokenConverter"/>
+	<statusListener class="ch.qos.logback.core.status.OnConsoleStatusListener" />
+	
+	<appender name="waglog" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<prudent>true</prudent>
+		<file>/home/manifest/logs/waglog.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>/home/manifest/logs/waglog.log-%d{yyyy.MM.dd,UTC}</fileNamePattern>
+			<maxHistory>15</maxHistory>
+		</rollingPolicy>
+		<encoder>
+			<charset>UTF-8</charset>
+			<pattern>%d{yyyy-MM-dd HH:mm:ss,SSS} %level [%X{sourceThread}] %logger{36} %X{akkaSource} %msg%n</pattern>
+		</encoder>
+	</appender>
+	
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<charset>UTF-8</charset>
+			<pattern>%d{yyyy-MM-dd HH:mm:ss,SSS} %-5level [%X{sourceThread}] %logger{36} %X{akkaSource} %msg%n</pattern>
+		</encoder>
+	</appender>
+	
+	<logger name="waglog" level="DEBUG"/>
+	<logger name="io.netty.handler.codec.http" level="WARN"/>
+
+	<root level="DEBUG">
+		<appender-ref ref="waglog" />
+		<appender-ref ref="STDOUT" />
+	</root>
+</configuration>
+```
 

@@ -191,3 +191,19 @@ Sometimes the IntelliJ project becomes out of sync with Maven's [pom.xml](learn_
 
 ![IntelliJ_ReimportMaven.png](images/IntelliJ_ReimportMaven.png)
 
+---
+
+# Git in IntelliJ
+
+## Commit Changes
+
+Press `Ctrl`+`k` to bring up the commit dialog.
+* uncheck 'perform code analysis' and 'check TODO'
+* type comment - usually for one change
+
+## Push Changes
+
+Press `Ctrl`+`Shift`+`k` to push the branch.
+
+
+
