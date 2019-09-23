@@ -544,6 +544,31 @@ NULL is represented as `null` in code; primitives _cannot_ be null, but Strings 
 
 You can check for `null` with a simple `==` operator (as, in the case of classes that are not strings, `==` checks for the location in memory - if its not set, it will be `null`).
 
+## Final Variables
+
+If a variable is marked as <font color="green">final</font>, it can only be initialized _once_ - if you try to initialize it after that you will get an error.
+
+For example, this will work:
+```
+final int someInt = 5;
+```
+
+And this will work:
+```
+final int someInt;
+someInt = 10;
+```
+
+...but this will _not_ work:
+```
+final int someInt;
+someInt = 10;
+someInt = 5;
+```
+* This will error out when trying to initialize to 5, as it already initialized to 10.
+
+Note this does _not_ mean whatever is set is _immutable_, it just means it cannot be _initialized_ again. [Primitive variables](learn_to_code/java/java_basics?id=primitive-variables) are _effectively_ immutable, as you can basically only set them or use them; that said, it sometimes makes sense to set [objects built from classes](learn_to_code/java/java_basics?id=java-classes) as final; while it is true they can only be initialized once, any internal variables can be set as many times as you like.
+
 # Strings
 
 Strings are actually classes / objects with functions, so much of how they are treated are just like objects; in most cases they can also be treated like primitives, although they are not primitive.

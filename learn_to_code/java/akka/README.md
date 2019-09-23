@@ -12,4 +12,5 @@ Brent Wagenseller's journey to learn the intricacies of Akka.
 # Akka Basics
 - [Akka Basics and Definitions](/learn_to_code/java/akka/akka_basics) - My notes on the basic conceptss and definitions in Akka. 
 
-
+# Akka Examples
+- [Akka Examples](/learn_to_code/java/akka/akka_basic_examples) - Basic Akka examples. 

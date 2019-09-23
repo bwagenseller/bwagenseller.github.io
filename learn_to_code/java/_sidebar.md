@@ -3,6 +3,7 @@
 - [Basics of Java](/learn_to_code/java/java_basics)
 - **Advanced Java**
 - [Akka](/learn_to_code/java/akka/)
+- [Protobuf](/learn_to_code/java/protobuf)
 - [Logback](/learn_to_code/java/logback)
 - **IDEs**
 - [IntelliJ](/learn_to_code/java/intellij)

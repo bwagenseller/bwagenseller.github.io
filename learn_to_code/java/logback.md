@@ -2,7 +2,7 @@
 
 # What Is Logback?
 
-> The official Logback manual can be found [here](https://logback.qos.ch/manual/index.html). There is a nice introduction on [mograblog](http://www.mograblog.com/2013/03/slf4j-with-logback-in-maven-project.html), and [memorynotfound](https://memorynotfound.com/logback-logback-xml-configuration-example/) has a nice example of logback.xml.
+> The official Logback manual can be found [here](https://logback.qos.ch/manual/index.html). There is a nice introduction on [mograblog](http://www.mograblog.com/2013/03/slf4j-with-logback-in-maven-project.html), and [memorynotfound](https://memorynotfound.com/logback-logback-xml-configuration-example/) has a nice example of logback.xml. Finally, [igorski.co](https://igorski.co/java/logging/log-hierarchy-logback/) gives an example of hierarchy.
 
 <font color="green">Logback</font> is a logging system in Java that is intended to be a successor to the log4j project (designed by Ceki Gülcü, the same guy who made log4j). It is purported to have a smaller footprint than other logging systems.
 
@@ -135,5 +135,43 @@ All loggers have a severity level (it may be assigned, but if its not, its alway
 		<appender-ref ref="STDOUT" />
 	</root>
 </configuration>
+```
+
+# Example Project
+
+!> This requires [logback.xml](learn_to_code/java/logback?id=logbackxml) to be accessible to your code (usually it sits at the root level of your jar file).
+
+```
+package com.wagenseller;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+
+public class LogbackExample {
+
+    private static final Logger logger   = LoggerFactory.getLogger("waglog");
+    private static final Logger sec_logger   = LoggerFactory.getLogger("Second Log");
+
+    public static void main( String[] args )
+    {
+        logger.info("TEST-OOOOOOOOOO");
+        sec_logger.info("second stuff is here!");
+        logger.debug("This is a debug message");
+        logger.warn("This is a WARNING");
+        sec_logger.error("CRITICAL ERROR!");
+        
+        System.out.println( "Hello World!" );
+    }
+}
+```
+
+This will print the following:
+```
+2019-09-12 01:56:49 INFO [] waglog  TEST-OOOOOOOOOO
+2019-09-12 01:56:49 INFO [] Second Log  second stuff is here!
+2019-09-12 01:56:49 DEBUG [] waglog  This is a debug message
+2019-09-12 01:56:49 WARN [] waglog  This is a WARNING
+2019-09-12 01:56:49 ERROR [] Second Log  CRITICAL ERROR!
 ```
 

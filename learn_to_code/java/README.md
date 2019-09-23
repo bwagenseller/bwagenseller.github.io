@@ -10,9 +10,10 @@ Brent Wagenseller's journey to learn the intricacies of Java.
 - [Java Terms and Concepts](/learn_to_code/java/java_terms_and_concepts) - Important terms and concepts in Java.
 - [Basics of Java](/learn_to_code/java/java_basics) - The basics of Java.
 - [Logback](/learn_to_code/java/logback) - Powerful logging tool in Java.
-- [Akka](/learn_to_code/java/akka/) - Akka, which is an alternative to threading in Java (and Scala).
 - [Maven](/learn_to_code/java/maven) - The Maven tool, which is used to build Java projects.
 - [Ant](/learn_to_code/java/ant) - The Ant tool, which is used to build Java projects.
+- [Akka](/learn_to_code/java/akka/) - Using Akka, the actor manager.
+- [Protobuf](/learn_to_code/java/protobuf) - Using Google's Protobuf in Java.
 - [IntelliJ](/learn_to_code/java/intellij) - Using the IDE 'IntelliJ'.
 
 

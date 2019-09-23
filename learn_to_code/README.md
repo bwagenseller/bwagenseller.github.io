@@ -9,6 +9,7 @@
 - [Java Terms and Concepts](/learn_to_code/java/java_terms_and_concepts) - Important terms and concepts in Java.
 - [Basics of Java](/learn_to_code/java/java_basics) - The basics of Java.
 - [Akka](/learn_to_code/java/akka/) - Brent's notes on his continuous journey to learn Akka, which is an alternative to threading in Java (and Scala).
+- [Protobuf](/learn_to_code/java/protobuf) - Using Google's Protobuf in Java.
 - [Logback](/learn_to_code/java/logback) - Powerful logging tool in Java.
 - [Ant](/learn_to_code/java/ant) - The Ant tool, which is used to build Java projects.
 - [Maven](/learn_to_code/java/maven) - The Maven tool, which is used to build Java projects.

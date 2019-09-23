@@ -4,3 +4,4 @@
 - **Akka**
 - [Akka Main Page](/learn_to_code/java/akka/)
 - [Akka Basics and Definitions](/learn_to_code/java/akka/akka_basics)
+- [Akka Basic Examples](/learn_to_code/java/akka/akka_basic_examples)
