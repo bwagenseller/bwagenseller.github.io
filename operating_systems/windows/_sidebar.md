@@ -1,3 +1,0 @@
-- **Windows 10 Installation Links**
- - [Windows 10 Page](/windows/)
- - [Generic Windows 10 Laptop Build](/operating_systems/windows/windows_laptop_build)

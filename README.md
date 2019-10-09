@@ -15,9 +15,6 @@ I decided to do something similar here. The following notes are from a combinati
 - [KVM Install](/operating_systems/ubuntu/package_install/kvm_install) - Details on how to install KVM.
 - [KVM Notes](/operating_systems/ubuntu/package_operations/kvm_notes) - Day to day operations in KVM.
 
-# Windows 10
-- [Generic Windows 10 Laptop Build](/operating_systems/windows/windows_laptop_build) - Documents my personal preferences for a Windows 10 laptop.
-
 # Raspberry Pi
 - [Raspberry Pi](/operating_systems/raspberry_pi/) - My journey learning Raspberry Pi.
 

@@ -11,9 +11,6 @@
 - [KVM Notes](/operating_systems/ubuntu/package_operations/kvm_notes) - Day to day operations in KVM.
 - [journalctl](/operating_systems/ubuntu/package_operations/journalctl) - Investigate logging with `journalctl`.
 
-# Windows 10
-- [Generic Windows Laptop Build](/operating_systems/windows/windows_laptop_build) - Documents how to build a generic Windows laptop.
-
 # Raspberry Pi
 - [Raspberry Pi Key Terms](/operating_systems/raspberry_pi/raspberry_pi_key_terms) - Key terms in understanding Raspberry Pi.
 - [Raspberry Pi Setup](/operating_systems/raspberry_pi/raspberry_pi_install) - How to get a Raspberry Pi up and running. 

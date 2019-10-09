@@ -4,8 +4,6 @@
  - [KVM Install Instructions](/operating_systems/ubuntu/package_install/kvm_install)
  - [KVM Notes](/operating_systems/ubuntu/package_operations/kvm_notes)
  - [journalctl](/operating_systems/ubuntu/package_operations/journalctl) 
-- **Windows 10**
- - [Generic Windows 10 Laptop Build](/operating_systems/windows/windows_laptop_build) 
 - **Raspberry Pi**
  - [Raspberry Pi](/operating_systems/raspberry_pi/) 
 - **Databases**
