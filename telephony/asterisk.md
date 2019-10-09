@@ -23,7 +23,7 @@ asterisk -rvvvvv
 
 !> Note that changing the ARI debug messages can _completely_ hose the Asterisk server - if calls stop processing, turn the debug off (whichever you turned on) and see if calls work again. Its always a good idea to turn off ARI debug messages you turned on once your work is complete.
 
-To turn on ARI debug messages, [launch the Asterisk interface](ubuntu/package_operations/asterisk?id=launching-asterisk-interface) and then type:  
+To turn on ARI debug messages, [launch the Asterisk interface](telephony/asterisk?id=launching-asterisk-interface) and then type:  
 ```
 ari set debug XXX on
 ```
@@ -37,7 +37,7 @@ where `XXX` is one of the following:
 
 > If you ever forget the list of which can be turned on, simply type `ari set debug` and then press `Tab` twice.
 
-To turn ARI debug messages off, [launch the Asterisk interface](ubuntu/package_operations/asterisk?id=launching-asterisk-interface) (if you are not in it already) and then type:  
+To turn ARI debug messages off, [launch the Asterisk interface](telephony/asterisk?id=launching-asterisk-interface) (if you are not in it already) and then type:  
 ```
 ari set debug XXX off
 ```
@@ -49,12 +49,12 @@ where `XXX` is one of the above options.
 
 # SIP Debug Messages
 
-To turn on SIP debug messages, [launch the Asterisk interface](ubuntu/package_operations/asterisk?id=launching-asterisk-interface) and then type:  
+To turn on SIP debug messages, [launch the Asterisk interface](telephony/asterisk?id=launching-asterisk-interface) and then type:  
 ```
 sip set debug on
 ```
 
-To turn of SIP debug messages, [launch the Asterisk interface](ubuntu/package_operations/asterisk?id=launching-asterisk-interface) (if you are not in it already) and then type:  
+To turn of SIP debug messages, [launch the Asterisk interface](telephony/asterisk?id=launching-asterisk-interface) (if you are not in it already) and then type:  
 ```
 sip set debug off
 ```
