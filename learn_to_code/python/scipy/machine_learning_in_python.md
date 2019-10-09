@@ -46,7 +46,7 @@ Often times, it will be required to randomize the rows in a dataset (for example
 The scikit-learn package in Python contains many helpful packages and algorithms that will aid in facilitating machine learning on Python. 
 
 Here are some facts about scikit-learn:
-* It is included in the [Anaconda](ubuntu/server_build?id=python-anaconda-install) version of Python (but can be downloaded separately).
+* It is included in the [Anaconda](operating_systems/ubuntu/server_build?id=python-anaconda-install) version of Python (but can be downloaded separately).
 * Many algorithms automatically utilize the [One-vs.-Rest (OvR)](learn_to_code/machine_learning/machine_learning?id=one-vs-rest-ovr) approach to the classification of multiple labels.
 
 ## Scikit-learn: Datasets

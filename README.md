@@ -9,15 +9,25 @@ Hello! I am Brent Wagenseller, and I tend to take detailed notes on things (in o
 I decided to do something similar here. The following notes are from a combination of notes on my own personal experience, frantic searches on [Stack Overflow](https://stackoverflow.com/), technical books I have read (and will reference), and classes I have taken. Please note that these are continuously 'in progress' - as this is both a hobby and a massive undertaking, there will be mistakes / holes / portions that are clearly unfinished.
 
 # Linux/Ubuntu System Maintenance and Tools
-- [Linux Quick Reference](/ubuntu/linux_notes) - Some quick notes on Unix/Linux administration.
-- [General MySQL Maintenance](/ubuntu/package_operations/mysql_maintenance) - General maintenance tips for administering a MySQL database.
-- [General MySQL Troubleshooting](/ubuntu/package_operations/mysql_troubleshooting) - General troubleshooting tips for administering a MySQL database.
-- [KVM Notes](/ubuntu/package_operations/kvm_notes) - Day to day operations using the virtualization software KVM.
+- [Linux Quick Reference](/operating_systems/ubuntu/linux_notes) - Some quick notes on Unix/Linux administration.
+- [Generic Ubuntu Server Build](/operating_systems/ubuntu/server_build) - Documents how to build an Ubuntu server from the ground up.
+- [journalctl](/operating_systems/ubuntu/package_operations/journalctl) - Investigate logging with `journalctl`.
+- [KVM Install](/operating_systems/ubuntu/package_install/kvm_install) - Details on how to install KVM.
+- [KVM Notes](/operating_systems/ubuntu/package_operations/kvm_notes) - Day to day operations in KVM.
 
-# Installation
-- [Generic Ubuntu Server Build](/ubuntu/server_build) - Documents how to build an Ubuntu server from the ground up.
-- [New MySQL Server Install Instructions](/ubuntu/package_install/mysql_install) - Details on how to quickly get a new MySQL database up and running.
-- [KVM Install](/ubuntu/package_install/kvm_install) - Details on how to install the virtualization software 'KVM'.
+# Windows 10
+- [Generic Windows 10 Laptop Build](/operating_systems/windows/windows_laptop_build) - Documents my personal preferences for a Windows 10 laptop.
+
+# Raspberry Pi
+- [Raspberry Pi](/operating_systems/raspberry_pi/) - My journey learning Raspberry Pi.
+
+# Databases
+- [Relational Databases](/databases/relational_databases/) - My notes to get up to speed on relational databases. 
+- [SQL](/databases/relational_databases/sql) - My notes to get up and running in SQL quickly. 
+- [MySQL Server Install Instructions](/databases/mysql/mysql_install) - Details on how to quickly get a new MySQL database up and running.
+- [General MySQL Maintenance](/databases/mysql/mysql_maintenance) - General maintenance tips for administering a MySQL database.
+- [General MySQL Troubleshooting](/databases/mysql/mysql_troubleshooting) - General troubleshooting tips for administering a MySQL database.
+- [Couchbase Cluster Install Instructions](/databases/couchbase/couchbase_install) - Details on how to quickly get a new Couchbase cluster up and running.
 
 # Learning To Code
 - [Docsify](/learn_to_code/docsify/) - Overview of how to use Docsify and Markdown. 
@@ -26,9 +36,9 @@ I decided to do something similar here. The following notes are from a combinati
 - [Akka](/learn_to_code/java/akka/) - Brent's notes on his continuous journey to learn Akka, which is an alternative to threading in Java (and Scala).
 - [Machine Learning](/learn_to_code/machine_learning/) - Brent's notes on his journey to document Machine Learning.
 - [Python](/learn_to_code/python/) - Brent's notes on his continuous journey to document Python.
-- [Relational Databases](/learn_to_code/relational_databases/) - My notes to get up to speed on relational databases. 
-- [Raspberry Pi](/learn_to_code/raspberry_pi/) - My journey learning Raspberry Pi.
-- [SQL](/learn_to_code/relational_databases/sql) - My notes to get up and running in SQL quickly. 
+
+# Telephony
+- [Asterisk Operations](/telephony/asterisk) - Day to day operations in Asterisk.
 
 # Microsoft Office
 - [Vlookup](/office/excel_vlookup) - Working tips on how to use VLookup in Excel (and Ubuntu's LibreOffice).

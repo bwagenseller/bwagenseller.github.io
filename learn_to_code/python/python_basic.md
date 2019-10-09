@@ -7,17 +7,17 @@ Much of this comes in the form of code examples I picked up throughout my time l
 
 ## Assumed System
 
-This document assumes you are working on an [Ubuntu operating system](https://www.ubuntu.com/download) (a bit more specifically, version 18.04); generic install instructions [can be found here](ubuntu/server_build). You can do this on Windows or Mac as well, but the install will be very different and the directory structure will be different for files.
+This document assumes you are working on an [Ubuntu operating system](https://www.ubuntu.com/download) (a bit more specifically, version 18.04); generic install instructions [can be found here](operating_systems/ubuntu/server_build). You can do this on Windows or Mac as well, but the install will be very different and the directory structure will be different for files.
 
 ## Python Anaconda Installation
 
-This document will use much of scipy in Python as well as MySQL; scipy is easily installed with the [Anaconda](https://www.anaconda.com/) version of Python, and the install instructions are [here](ubuntu/server_build?id=python-anaconda-install); its also advisable to install [other Python supporting packages](ubuntu/server_build?id=python-supporting-packages) as well, as many of them are referenced here.
+This document will use much of scipy in Python as well as MySQL; scipy is easily installed with the [Anaconda](https://www.anaconda.com/) version of Python, and the install instructions are [here](operating_systems/ubuntu/server_build?id=python-anaconda-install); its also advisable to install [other Python supporting packages](operating_systems/ubuntu/server_build?id=python-supporting-packages) as well, as many of them are referenced here.
 
 # Basics of Python
 
 ## Shebang Line
 
-The shebang line begins with a `#!` and is followed by the absolute path of the version of Python you with to run (i.e. where it was installed, either the default location or [if you installed Anaconda](ubuntu/server_build?id=python-anaconda-install). This has to be the very _first_ line in the script. In the following example we use the Anaconda installation which was installed in `/usr/bin/anaconda/python2.7/bin`:
+The shebang line begins with a `#!` and is followed by the absolute path of the version of Python you with to run (i.e. where it was installed, either the default location or [if you installed Anaconda](operating_systems/ubuntu/server_build?id=python-anaconda-install). This has to be the very _first_ line in the script. In the following example we use the Anaconda installation which was installed in `/usr/bin/anaconda/python2.7/bin`:
 
 ```
 #!/usr/bin/anaconda/python2.7/bin/python
@@ -25,7 +25,7 @@ The shebang line begins with a `#!` and is followed by the absolute path of the 
 
 Now if you want to run a python script (say, learn.py) you can simply type `./learn.py` (if its in the working directory) or the absolute path `/home/brent/python.py`; if you did not have the shebang line you would have to type `python /home/brent/python.py`.
 
-!> The file MUST be set to executable via [chmod](ubuntu/linux_notes?id=changing-file-permissions).
+!> The file MUST be set to executable via [chmod](operating_systems/ubuntu/linux_notes?id=changing-file-permissions).
 
 ## Python Comments
 
@@ -140,7 +140,7 @@ Now in your code, anywhere you would reference 'sys' you could just use 's' inst
 
 ## Running a Python Script
 
-To run a python script, you must have a [main function](learn_to_code/python?id=main-function); after that, if you set-up the [shebang](learn_to_code/python?id=shebang-line) correctly and set the [file's permissions]((ubuntu/linux_notes?id=changing-file-permissions)) to executable, simply open a command line and (assuming our script is called 'learn.py' in the directory '/home/brent') run the command `./learn.py` (if its in the working directory) or the absolute path `/home/brent/python.py`; if you did not have the shebang line set-up correctly, you would have to type `python /home/brent/python.py`.
+To run a python script, you must have a [main function](learn_to_code/python?id=main-function); after that, if you set-up the [shebang](learn_to_code/python?id=shebang-line) correctly and set the [file's permissions]((operating_systems/ubuntu/linux_notes?id=changing-file-permissions)) to executable, simply open a command line and (assuming our script is called 'learn.py' in the directory '/home/brent') run the command `./learn.py` (if its in the working directory) or the absolute path `/home/brent/python.py`; if you did not have the shebang line set-up correctly, you would have to type `python /home/brent/python.py`.
 
 ## Exiting a Script Imediately
 

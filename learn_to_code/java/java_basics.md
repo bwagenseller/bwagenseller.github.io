@@ -20,7 +20,7 @@ This document was made for Java version 11.
 
 ## Installing Java
 
-I wrote how to install java either [with the default jre](ubuntu/server_build?id=install-java-jre) or [from Oracle](ubuntu/server_build?id=installing-java-from-oracle).
+I wrote how to install java either [with the default jre](operating_systems/ubuntu/server_build?id=install-java-jre) or [from Oracle](operating_systems/ubuntu/server_build?id=installing-java-from-oracle).
 
 ## Basic File Setup / First Java Program
 

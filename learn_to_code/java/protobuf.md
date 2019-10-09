@@ -16,7 +16,7 @@ While sharing data structures across the wire is the main point of Protobuf, you
 
 ## Installation on Ubuntu
 
-[Follow these instructions](ubuntu/server_build?id=installing-protobuf) to install Protobuf on Ubuntu.
+[Follow these instructions](operating_systems/ubuntu/server_build?id=installing-protobuf) to install Protobuf on Ubuntu.
 
 # Protobuf In Maven
 

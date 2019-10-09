@@ -1,21 +1,28 @@
-- **Maintenance Links**
- - [Linux Quick Reference](/ubuntu/linux_notes)
- - [KVM Notes](/ubuntu/package_operations/kvm_notes)
- - [General MySQL Maintenance](/ubuntu/package_operations/mysql_maintenance)
- - [General MySQL Troubleshooting](/ubuntu/package_operations/mysql_troubleshooting)
-- **Ubuntu Installation Links**
- - [Generic Ubuntu Server Build](/ubuntu/server_build) 
- - [New MySQL Server Install Instructions](/ubuntu/package_install/mysql_install)
- - [KVM Install Instructions](/ubuntu/package_install/kvm_install)
+- **Ubuntu Links**
+ - [Linux Quick Reference](/operating_systems/ubuntu/linux_notes)
+ - [Generic Ubuntu Server Build](/operating_systems/ubuntu/server_build)
+ - [KVM Install Instructions](/operating_systems/ubuntu/package_install/kvm_install)
+ - [KVM Notes](/operating_systems/ubuntu/package_operations/kvm_notes)
+ - [journalctl](/operating_systems/ubuntu/package_operations/journalctl) 
+- **Windows 10**
+ - [Generic Windows 10 Laptop Build](/operating_systems/windows/windows_laptop_build) 
+- **Raspberry Pi**
+ - [Raspberry Pi](/operating_systems/raspberry_pi/) 
+- **Databases**
+ - [Relational Databases](/databases/relational_databases/)
+ - [SQL](/databases/relational_databases/sql)
+ - [MySQL Server Install Instructions](/databases/mysql/mysql_install)
+ - [MySQL Maintenance](/databases/mysql/mysql_maintenance)
+ - [MySQL Troubleshooting](/databases/mysql/mysql_troubleshooting)
+ - [Couchbase Cluster Install Instructions](/databases/couchbase/couchbase_install)
 - **Computer Science**
  - [Docsify](/learn_to_code/docsify/)
- - [Git](/learn_to_code/git/) 
+ - [Git](/learn_to_code/git/)
  - [Java](/learn_to_code/java/)
  - [Akka](/learn_to_code/java/akka/)
- - [Machine Learning](/learn_to_code/machine_learning/) 
  - [Python](/learn_to_code/python/)
- - [Raspberry Pi](/learn_to_code/raspberry_pi/) 
- - [Relational Databases](/learn_to_code/relational_databases/) 
- - [SQL](/learn_to_code/relational_databases/sql)
+ - [Machine Learning](/learn_to_code/machine_learning/)  
+- **Telephony**
+ - [Asterisk Operations](/telephony/asterisk) 
 - **Microsoft Office**
- - [Vlookup](/office/excel_vlookup) 
+ - [Vlookup](/office/excel_vlookup)

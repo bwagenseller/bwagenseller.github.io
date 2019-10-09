@@ -10,7 +10,7 @@ If you wish to document something, you can perform a write-up of the subject in 
 
 ## Local Setup
 
-For local docsify setup, [read my article here](ubuntu/server_build?id=docsify).
+For local docsify setup, [read my article here](operating_systems/ubuntu/server_build?id=docsify).
 
 ## Github Pages
 
@@ -20,7 +20,7 @@ Its possible to set up Docsify on [GitHub Pages](https://pages.github.com/) for 
 
 2\. Make a [new repository](https://github.com/new) and call it `username.github.io`, where `username` is your username (or organization name) on GitHub.
 
-3\. Assuming you are [using Git](ubuntu/linux_notes?id=using-git) on Ubuntu, [initialize git](ubuntu/linux_notes?id=initializing-git) if you have not done so already.
+3\. Assuming you are [using Git](operating_systems/ubuntu/linux_notes?id=using-git) on Ubuntu, [initialize git](operating_systems/ubuntu/linux_notes?id=initializing-git) if you have not done so already.
 
 4\. Make a directory that will be used for editing your page, and then change to that directory; from here, clone your new repository with the command:
 ```
@@ -84,7 +84,7 @@ Markdown is like a computer language (loosely defined), and its a simplified way
 
 # Where Do We Put Files?
 
-[See these notes here](ubuntu/server_build?id=docsify) for more information on where files should go.
+[See these notes here](operating_systems/ubuntu/server_build?id=docsify) for more information on where files should go.
 
 
 # Files Needed
@@ -99,7 +99,7 @@ Docsify allows different 'pages' under its main folder. Your Docsify will be loc
 * _sidebar.md - This file populates the sidebar navigation menu on the left of the page.
 * ???.md - This file will be named something logical that describes your documentation (so if this was documentation about birds, it may be called birds.md, for example). This file will be the main document that houses all of the critical information contained in your documentation, describing whatever process you are covering in detail.
 
-If you want more information on the needed files for Docsify, [we have put together some information here](/ubuntu/server_build?id=basics-of-docsify-files-and-locations).
+If you want more information on the needed files for Docsify, [we have put together some information here](/operating_systems/ubuntu/server_build?id=basics-of-docsify-files-and-locations).
 
 
 # How Do We Make the .md Files?
@@ -124,7 +124,7 @@ Now, this is for your document file - but if you wanted to link to a directory y
 This is where README.md becomes important, as whatever in the README.md is used as the default display when you navigate to a directory this way.
 
 
-For an example, say we have a file called gettingstarted.md (which is this file) and its located in the folder /mnt/docsify_library/learn_to_code/docsify (as specified [here](ubuntu/server_build?id=docsify-setup); when referencing the file you lop off the base, so this will just be /learn_to_code/docsify/.  If we wanted to link to this file in Markdown we could say
+For an example, say we have a file called gettingstarted.md (which is this file) and its located in the folder /mnt/docsify_library/learn_to_code/docsify (as specified [here](operating_systems/ubuntu/server_build?id=docsify-setup); when referencing the file you lop off the base, so this will just be /learn_to_code/docsify/.  If we wanted to link to this file in Markdown we could say
 
 ```
 [Click HERE](/learn_to_code/docsify/gettingstarted)

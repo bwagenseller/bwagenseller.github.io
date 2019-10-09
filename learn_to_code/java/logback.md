@@ -98,7 +98,7 @@ All loggers have a severity level (it may be assigned, but if its not, its alway
 
 <font color="green">Logback.xml</font> is a configuration file that details information about the file (things like log location, log name, etc). This file is specifically used by Java.
 
-!> This file defines where the logs should be stored; if the path does not exist, Logback will create the path and file _provided_ the user running the Java application has [the rights](ubuntu/linux_notes?id=changing-file-permissions) to do so.
+!> This file defines where the logs should be stored; if the path does not exist, Logback will create the path and file _provided_ the user running the Java application has [the rights](operating_systems/ubuntu/linux_notes?id=changing-file-permissions) to do so.
 
 ## Example Logback.xml
 

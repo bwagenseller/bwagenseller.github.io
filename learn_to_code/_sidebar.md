@@ -6,11 +6,6 @@
  - [Java](/learn_to_code/java/)
  - [Akka](/learn_to_code/java/akka/)
  - [Python](/learn_to_code/python/)
-- **Raspberry Pi**
- - [Raspberry Pi Page](/learn_to_code/raspberry_pi/)
- - [Raspberry Pi Key Terms](/learn_to_code/raspberry_pi/raspberry_pi_key_terms)
- - [Raspberry Installation](/learn_to_code/raspberry_pi/raspberry_pi_install)
- - [Learning Raspbian OS](/learn_to_code/raspberry_pi/raspbian) 
 - **Machine Learning**
  - [Machine Learning](/learn_to_code/machine_learning/)
  

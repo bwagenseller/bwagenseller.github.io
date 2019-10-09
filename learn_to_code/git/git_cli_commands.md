@@ -210,6 +210,8 @@ git log --since=2019-06-01 --until=2019-07-04
 
 # Checkout
 
+!> If you have any changes that are not committed - be they staged or unstaged - those changes _will_ persist even after checking out another branch. You must either commit those changes _first_, **or** [remove them](learn_to_code/git/git?id=removing-non-committed-files-with-the-cli).  
+
 To [checkout](learn_to_code/git/git_concepts?id=checkout) either a [commit](learn_to_code/git/git_concepts?id=commit) or [branch](learn_to_code/git/git_concepts?id=branch), use the `git checkout` command.
 
 * To checkout by the [SHA1 hash](learn_to_code/git/git_concepts?id=sha1-id), use the command `git checkout <SHA1 ID>`

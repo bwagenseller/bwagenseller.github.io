@@ -66,7 +66,7 @@ Using the [branch example](learn_to_code/git/git_concepts?id=branch-example) giv
 
 A practical example would be: you are asked to make some changes to the code. You <font color="green">checkout</font> the current development [branch](learn_to_code/git/git_concepts?id=branch) of your repository, create a new [branch](learn_to_code/git/git_concepts?id=branch) off that (giving it a name), and start making your changes in code. If the code is suggessful and awesome, you [merge](learn_to_code/git/git_concepts?id=merge) your new branch in with the branch you branched it from; if the code stinks, you can just delete this entire new branch and forget it never happened (as in, you can <font color="green">checkout</font> the current development [branch](learn_to_code/git/git_concepts?id=branch) again, and it's like your changes never happened).
 
-Practically speaking, you can issue a checkout based on the [branch name](learn_to_code/git/git_concepts?id=branch), the [hash](ubuntu/linux_notes?id=file-hashes) of the commit (as a hash is given for _every_ commit made), the tag name, or use relative syntax (HEAD^, HEAD~1). Using anything but the [branch name](learn_to_code/git/git_concepts?id=branch) can come at a price, though, as **using anything but the branch name will result in a [detached HEAD](learn_to_code/git/git_concepts?id=detached-head)**.
+Practically speaking, you can issue a checkout based on the [branch name](learn_to_code/git/git_concepts?id=branch), the [hash](operating_systems/ubuntu/linux_notes?id=file-hashes) of the commit (as a hash is given for _every_ commit made), the tag name, or use relative syntax (HEAD^, HEAD~1). Using anything but the [branch name](learn_to_code/git/git_concepts?id=branch) can come at a price, though, as **using anything but the branch name will result in a [detached HEAD](learn_to_code/git/git_concepts?id=detached-head)**.
 
 # Clone
 
@@ -206,7 +206,7 @@ A <font color="green">reset</font> means to restore the current working branch t
 
 # SHA1 ID
 
-Every commit will give a <font color="green">SHA1 ID</font> (also known as a <font color="green">commit ID</font>), which is a SHA-1 [hash](ubuntu/linux_notes?id=file-hashes) that uniquely identifies the commit. These IDs are critical when [checking out](learn_to_code/git/git_concepts?id=checkout) various [commits](learn_to_code/git/git_concepts?id=commit), so be mindful of their existence.
+Every commit will give a <font color="green">SHA1 ID</font> (also known as a <font color="green">commit ID</font>), which is a SHA-1 [hash](operating_systems/ubuntu/linux_notes?id=file-hashes) that uniquely identifies the commit. These IDs are critical when [checking out](learn_to_code/git/git_concepts?id=checkout) various [commits](learn_to_code/git/git_concepts?id=commit), so be mindful of their existence.
 
 > For Git, the SHA1 hash is _not_ of the files themselves but of the changes made in the commit.
 

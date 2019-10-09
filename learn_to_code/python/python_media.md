@@ -14,7 +14,7 @@ These libraries are designed to help you interact with media (audio, video, etc)
 
 ## pytube Installation
 
-To install pytube, [become root](ubuntu/linux_notes?id=becoming-root) and then run:
+To install pytube, [become root](operating_systems/ubuntu/linux_notes?id=becoming-root) and then run:
 ```
 pip install pytube
 ```
@@ -45,7 +45,7 @@ if __name__ == '__main__':
 
 ## youtube_dl Installation
 
-To install youtube_dl, [become root](ubuntu/linux_notes?id=becoming-root) and then run:
+To install youtube_dl, [become root](operating_systems/ubuntu/linux_notes?id=becoming-root) and then run:
 ```
 pip install --upgrade youtube-dl
 ```

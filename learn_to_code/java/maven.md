@@ -4,7 +4,7 @@
 
 Maven is a (newer, and now more widely-used) tool that can compile Java projects. Many entities wanted to move away from Ant because it was _too_ general. <br>
 
-Note that you [must install Maven](ubuntu/server_build?id=installing-apache-maven) before you use it.
+Note that you [must install Maven](operating_systems/ubuntu/server_build?id=installing-apache-maven) before you use it.
 
 !> Careful with running Maven in IDEs: it appears that Maven is _very_ specific, and as such it may be advisable to create the project with Maven _first_, _then_ import to your IDE.
 
@@ -27,9 +27,9 @@ Maven does not:
 
 To install Maven on Ubuntu:
 
-1\. [Become root](/ubuntu/linux_notes?id=becoming-root).
+1\. [Become root](/operating_systems/ubuntu/linux_notes?id=becoming-root).
 
-2\. [Update all packages](/ubuntu/linux_notes?id=updating-upgrading-all-packages).
+2\. [Update all packages](/operating_systems/ubuntu/linux_notes?id=updating-upgrading-all-packages).
 
 3\. Install Maven:
 ```
@@ -722,7 +722,7 @@ Its possible to use Maven in the Eclipse IDE. Here is a short demo on using it.
 
 ## Installation of Maven in Eclipse
 
-Maven usually comes installed in Eclipse, but if its not there for some reason, [here is how you install it](ubuntu/server_build?id=installing-the-eclipse-maven-add-on) in Eclipse.
+Maven usually comes installed in Eclipse, but if its not there for some reason, [here is how you install it](operating_systems/ubuntu/server_build?id=installing-the-eclipse-maven-add-on) in Eclipse.
 
 ## Building a New Maven Project in Eclipse
 

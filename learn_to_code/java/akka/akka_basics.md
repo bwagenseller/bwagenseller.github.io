@@ -3,6 +3,8 @@
 # Akka References
 
 Here are some good Akka references I used:
+* [doc.akka.io](https://doc.akka.io/docs/akka/current/actors.html#introduction)
+ * [untyped actors on doc.akka.io](https://doc.akka.io/docs/akka/2.1/java/untyped-actors.html)
 * [lightbend.com](https://developer.lightbend.com/guides/akka-quickstart-java/index.html)
 * Unit Testing
  * [UNIT TESTING 1](https://developer.lightbend.com/guides/akka-quickstart-java/testing-actors.html) 
@@ -88,7 +90,7 @@ Most of the installs revolve around <font color="purple">Typesafe Activator</fon
 
 !> I use [Maven](learn_to_code/java/maven) for all of my Java projects (including my Akka examples). In order for you to run any examples I have, you will have to understand a bit about [Maven](learn_to_code/java/maven), how to [compile a Maven project](learn_to_code/java/maven?id=compiling-your-maven-project), and [its directory structure](learn_to_code/java/maven?id=locations-of-files-in-maven). If you do not know what Maven is, [here is a brief overview](learn_to_code/java/maven?id=what-is-the-main-idea-behind-maven).
 
-The nice thing about [Maven](learn_to_code/java/maven) is it can bundle all necessary jar files for your project - including Akka - where the only installs required are [Maven](learn_to_code/java/maven?id=ubuntu-install) and [Java](ubuntu/server_build?id=installing-java-from-oracle) itself.
+The nice thing about [Maven](learn_to_code/java/maven) is it can bundle all necessary jar files for your project - including Akka - where the only installs required are [Maven](learn_to_code/java/maven?id=ubuntu-install) and [Java](operating_systems/ubuntu/server_build?id=installing-java-from-oracle) itself.
 
 To install Akka to [Maven](learn_to_code/java/maven), use [these dependency entries in Maven](learn_to_code/java/maven?id=adding-dependencies-to-maven):
 
@@ -136,18 +138,18 @@ Download Typesafe Activator from [here](http://www.typesafe.com/get-started).
 
 1\. Download Typesafe Activator from [here](http://www.typesafe.com/activator/download), and if that does not work, try [here](http://www.typesafe.com/get-started).
 
-2\. [Become root](/ubuntu/linux_notes?id=becoming-root).
+2\. [Become root](/operating_systems/ubuntu/linux_notes?id=becoming-root).
 
-3\. Determine where you would like to open the zip file - a good choice would be `/opt/activator`. If this does not exist, create it, then move the `.zip` file to this folder and use the [unzip command](ubuntu/linux_notes?id=unzip-extracting-files) to unzip it.
+3\. Determine where you would like to open the zip file - a good choice would be `/opt/activator`. If this does not exist, create it, then move the `.zip` file to this folder and use the [unzip command](operating_systems/ubuntu/linux_notes?id=unzip-extracting-files) to unzip it.
 
-> `unzip` keeps the structure of its folders, so it will create any folders inside of it. I am not sure if the Typesafe Activator `.zip` file has an immediate subdirectory (with nothing else on the first level); if this is the case, you can probably just store the `.zip` file in `/opt` and then [unzip](ubuntu/linux_notes?id=unzip-extracting-files) it from there; these instructions will assume the base path is `opt/activator` but if it is not, you will have to slightly modify the instructions from here on out for the install.
+> `unzip` keeps the structure of its folders, so it will create any folders inside of it. I am not sure if the Typesafe Activator `.zip` file has an immediate subdirectory (with nothing else on the first level); if this is the case, you can probably just store the `.zip` file in `/opt` and then [unzip](operating_systems/ubuntu/linux_notes?id=unzip-extracting-files) it from there; these instructions will assume the base path is `opt/activator` but if it is not, you will have to slightly modify the instructions from here on out for the install.
 
 4\. Make the Activator executable:
 ```
 chmod 755 /opt/activator/activator
 ```
 
-5\. Add the Activator to (everyone's) path by editing the bottom of `/etc/profile` (we are using [VI](ubuntu/linux_notes?id=using-vi), but if you are not comfortable with VI use another text editor):
+5\. Add the Activator to (everyone's) path by editing the bottom of `/etc/profile` (we are using [VI](operating_systems/ubuntu/linux_notes?id=using-vi), but if you are not comfortable with VI use another text editor):
 ```
 vi /etc/profile
 ```

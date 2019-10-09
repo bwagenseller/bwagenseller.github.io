@@ -2,7 +2,7 @@
 
 # Installing Ant
 
-If you wish to know how to install ant on your linux system, [the instructions are here](ubuntu/server_build?id=installing-apache-ant).
+If you wish to know how to install ant on your linux system, [the instructions are here](operating_systems/ubuntu/server_build?id=installing-apache-ant).
 
 The fundamental idea behind Ant is compiling large Java projects with ease; its easy to just use [basic compiling](learn_to_code/java/java_basics?id=basic-compiling) for one .java file, but if you have, say, 50, that can be a headache. In addition, Ant will also allow you to make a .jar file, which you can then use as a reference in another Java project. These two points are the reasons that Ant (or [Maven](learn_to_code/java/java_basics?id=compiling-with-maven)) are used.
 

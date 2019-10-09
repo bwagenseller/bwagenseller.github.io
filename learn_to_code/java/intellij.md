@@ -94,7 +94,7 @@ If you have multiple versions of Java installed and you wish to switch the Java 
 
 ![intellij_SelectJavaVersion.jpg](images/intellij_SelectJavaVersion.jpg)
 
- From here you will have to select the base path of the version of Java you wish to use for this project (if you followed [these instructions](ubuntu/server_build?id=installing-java-from-oracle) to install Java, this will be `usr/local/java/XXX`, where 'XXX' is the specific folder that contains the version of Java you wish to use).
+ From here you will have to select the base path of the version of Java you wish to use for this project (if you followed [these instructions](operating_systems/ubuntu/server_build?id=installing-java-from-oracle) to install Java, this will be `usr/local/java/XXX`, where 'XXX' is the specific folder that contains the version of Java you wish to use).
  
 !> If you ran this project as another version of Java, you will get fatal errors saying you have run this in a newer version of Java. You will probably have to delete the `target` folder at the very least, and everything that is not the `src` folder and `pom.xml` if using [Maven](learn_to_code/java/maven) (or Gradle's config file, if that is what you are using) at worst.
 
@@ -142,7 +142,8 @@ Tools will bring up 'tabs' in what is known as the **tool window bar**:
 | `Ctrl` + `F3` | <font color="purple">Find</font> Word at Cursor | 
 | `Ctrl` + `R` | <font color="green">Replace</font> (Current Window) | 
 | `Ctrl` + `Shift` + `R` | <font color="green">Replace</font> (Entire Project) | 
-
+| `Alt` + `Shift` + `Left` | Move cursor backward. | 
+| `Alt` + `Shift` + `Right` | Move cursor forward. | 
 
 ---
 

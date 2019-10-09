@@ -34,7 +34,7 @@ You can use a GUI for Git in Ubuntu. I will try to mention both the <font color=
 
 **<font size="4">Git on Ubuntu</font>**
 
-I covered how to install Git for Ubuntu (the command line interface (<font color="purple">CLI</font>)) for Git [here](ubuntu/server_build?id=installing-git).
+I covered how to install Git for Ubuntu (the command line interface (<font color="purple">CLI</font>)) for Git [here](operating_systems/ubuntu/server_build?id=installing-git).
 
 **<font size="4">GUI on Ubuntu</font>**
 
@@ -225,6 +225,45 @@ To remove a [staged file](learn_to_code/git/git_concepts?id=staged-file), simply
 
 The file will _not_ be a part of the next commit if it is removed in such a fashion.
 
+## Removing (Non-Committed) Files with the CLI
+
+!> Note that in some cases, even if you change branches, _your non-committed changes (both staged and unstaged) will persist_. Knowing how to get rid of these changes is critical.
+
+> These instructions were first found [here](https://githowto.com/undoing_staged_changes).  
+
+If you have non-committed changes that you wish to drop, first check their status with a `git status`. An example is below:
+```
+Changes to be committed:
+  (use "git reset HEAD <file>..." to unstage)
+
+	modified:   src/main/java//hello.java
+```
+
+It appears the file `src/main/java//hello.java` was staged, so first we have to unstage it:
+```
+git reset HEAD src/main/java//hello.java
+```
+
+If we try `git status` again, we can see the changes were unstaged:
+```
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git checkout -- <file>..." to discard changes in working directory)
+
+	modified:   src/main/java//hello.java
+```
+
+Since the changes to `src/main/java//hello.java` are now not staged, we can simply blow out the changes with `git checkout <file>`:
+```
+git checkout src/main/java//hello.java
+```
+
+Now, if a `git status` is run, you should see:
+```
+nothing to commit, working tree clean
+```
+
+
 ---
 
 # Updating Files
@@ -302,7 +341,7 @@ When you [add](learn_to_code/git/git?id=adding-files-to-a-project) or [update](l
 > See more CLI commands on [Git-SCM](https://git-scm.com/docs/git-checkout).
 
 Git heavily relies on the concept of a 'checkout', which you can read more about [here](learn_to_code/git/git_concepts?id=checkout). In order to [checkout](learn_to_code/git/git_concepts?id=checkout) a previous [commit](learn_to_code/git/git_concepts?id=commit), you can do so in a few ways:
-Practically speaking, you can issue a commit based on the [hash](ubuntu/linux_notes?id=file-hashes) of the commit (as a hash is given for _every_ commit made), the branch name, the tag name, or use relative syntax (HEAD^, HEAD~1).
+Practically speaking, you can issue a commit based on the [hash](operating_systems/ubuntu/linux_notes?id=file-hashes) of the commit (as a hash is given for _every_ commit made), the branch name, the tag name, or use relative syntax (HEAD^, HEAD~1).
 * use the [SHA-1 hash ID](learn_to_code/git/git_concepts?id=sha1-id).
 * use the [branch](learn_to_code/git/git_concepts?id=branch) name.
 * use the [tag]((learn_to_code/git/git?id=tag)) name.
