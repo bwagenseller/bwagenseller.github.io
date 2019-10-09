@@ -1,7 +1,7 @@
 **Installation**
-- [**Generic Ubuntu Server Build**](/ubuntu/server_build)
-- [**KVM Install Instructions**](/ubuntu/package_install/kvm_install)
+- [**Generic Ubuntu Server Build**](/operating_systems/ubuntu/server_build)
+- [**KVM Install Instructions**](/operating_systems/ubuntu/package_install/kvm_install)
 **Maintenance**
-- [**Linux Quick Reference**](/ubuntu/linux_notes)
-- [**KVM Notes**](/ubuntu/package_operations/kvm_notes)
-- [**journalctl**](/ubuntu/package_operations/journalctl)
+- [**Linux Quick Reference**](/operating_systems/ubuntu/linux_notes)
+- [**KVM Notes**](/operating_systems/ubuntu/package_operations/kvm_notes)
+- [**journalctl**](/operating_systems/ubuntu/package_operations/journalctl)

@@ -1,3 +1,3 @@
-- [**Linux Quick Reference**](/ubuntu/linux_notes)
-- [**journalctl**](/ubuntu/package_operations/journalctl)
-- [**KVM Notes**](/ubuntu/package_operations/kvm_notes)
+- [**Linux Quick Reference**](/operating_systems/ubuntu/linux_notes)
+- [**journalctl**](/operating_systems/ubuntu/package_operations/journalctl)
+- [**KVM Notes**](/operating_systems/ubuntu/package_operations/kvm_notes)
