@@ -71,10 +71,10 @@ public class DragonBorn {
  * Know that whatever you name the class you must ALSO name the file that same thing; so for example, the above MUST be in a cile named 'DragonBorn.java'.
 * If we want the .java file to be run-able (sometimes you do not want to directly run it, but other times you do), you MUST include a function called `public static void main (String[] args) { }` as we did above. Whatever is in this will run when [we run it](learn_to_code/java/java_basics?id=basic-script-running).
 * The `main` function (`public static void main (String[] args)`) is the code that is launched when called from the command line.
- * `main()` must be [static](learn_to_code/java/java_basics?id=defining-static-methods-in-classes); unfortunately, if a method is `static` it cannot call any non-static methods, so the initial class that holds the `main()` must be pretty much bare-bones, only call other static methods in itself, _or_ create a copy of itself, sending a new instantiated object of itself to its own starting method.
+ * `main()` must be [static](learn_to_code/java/java_classes?id=defining-static-methods-in-classes); unfortunately, if a method is `static` it cannot call any non-static methods, so the initial class that holds the `main()` must be pretty much bare-bones, only call other static methods in itself, _or_ create a copy of itself, sending a new instantiated object of itself to its own starting method.
    * For example, if you had a `start()` method that handled the contents of `main()` above you could simply write `new DragonBorn().start(args);` in your `main()` method, which creates an instance of itself that _can_ call non-static methods.
-* The method `DragonBorn()` is a [constructor](learn_to_code/java/java_basics?id=class-constructors).
-* The variable `dragonSoulCount` - and its associated methods `increaseSoulsTaken()` and `showSoulCountTaken()` - are a bit advanced, but you can read a bit more about them [here](learn_to_code/java/java_basics?id=defining-static-variables-in-classes).
+* The method `DragonBorn()` is a [constructor](learn_to_code/java/java_classes?id=class-constructors).
+* The variable `dragonSoulCount` - and its associated methods `increaseSoulsTaken()` and `showSoulCountTaken()` - are a bit advanced, but you can read a bit more about them [here](learn_to_code/java/java_classes?id=defining-static-variables-in-classes).
 
 > If you want to use the `module-info.java` file (see below), you *must* include a 'package' as well (in the above code this is defined as 'package dragons;'). The package name *must* be a module in the file `module-info.java`. However if you do not use `module-info.java` and are just writing a quick program, you do not have to declare a 'package' in your .java file (and for small things I would not recommend it, as [there are some consequences / things you have to do differently when using a package](learn_to_code/java/java_basics?id=notes-on-using-module-infojava)).
 
@@ -106,306 +106,15 @@ module somePackageName {
 	   
 # Java Classes
 
-## Description of a Class
-
 Java classes are a bit overwhelming but the truth is, they are fairly straightforward. A class can be considered a grouping of things; so for example, there could be a 'building' class/group, and members of this group are things like house, skyscraper, shed, outhouse, etc. The idea of a 'Building' is a bit vague - and at first, classes are a bit vague - but things that are _defined_ as a building - a house, for example - is a bit more granular.
 
 Early in this document I defined a [DragonBorn class](learn_to_code/java/java_basics?id=basic-file-setup-first-java-program); this was named from a concept in one of my favorite video games, [The Elder Scrolls V: Skyrim](https://en.wikipedia.org/wiki/The_Elder_Scrolls_V:_Skyrim). The [Dragonborn](http://elderscrolls.wikia.com/wiki/Dragonborn_%28Lore%29) refers to someone born with the blood and soul of a dragon, but the body of a mortal human; there are multiple people who were 'Dragonborn' throughout the history of Skyrim.
 
 So, 'Dragonborn' is a class, but any _individual_ instance of a 'Dragonborn' is not a class, but a specific person (such as the main character in Skyrim). 
 
-## Class vs Object
+I will not get much into classes here, but my section on [Java classes](/learn_to_code/java/java_classes) has much more info on them.  
 
-You must know the difference between a class an an object; a class is a grouping, but an object is an instance of that class; that is to say, class:object as Dragonborn:(main character in Skyrim).
-
-Objects are declared with the `new` keyword.
-
-If you still need help on understandng the differences between a class and an object, [this handy website](https://www.javatpoint.com/difference-between-object-and-class) sums it up nicely:
-
-| Object | Class |
-|    ---   |   --- | 
-| Object is an instance of a class. | Class is a blueprint or template from which objects are created. |
-| Object is a real world entity such as pen, laptop, mobile, bed, keyboard, mouse, chair etc. | Class is a group of similar objects. |
-| Object is a physical entity. | Class is a logical entity. |
-| Object is created through new keyword mainly <br> e.g. Student s1=new Student(); | Class is declared using class keyword <br> e.g. class Student{} |
-| Object is created many times as per requirement. | Class is declared once. |
-| Object allocates memory when it is created. | Class doesn't allocated memory when it is created. |
-| There are many ways to create object in java such as new keyword, newInstance() method, clone() method, factory method and deserialization. | There is only one way to define class in java using clas |
-
-## Defining Scopes in Classes
-
-Scope, in computer science terms, can be boiled down to 'what parts of the code have visibility to this entity'; practically, we must worry about the scope of several things, usually functions or variables. For example, some variables can only be seen inside of specific classes (or functions) and cannot be referenced outside of that class or function; other times, variables are _global_ and can be referenced anywhere in the code.
-
-When class functions are defined as _public_, those functions can be referenced from entities outside of the class; when declared _private_, only other functions inside the class itself can access private functions. Using our [DragonBorn class](learn_to_code/java/java_basics?id=basic-file-setup-first-java-program) class, the DragonBorn class function `public static void witnessDragonBorn()` is private; if there exists some other Java code that uses the DragonBorn class, it could create a DragonBorn object and call this function directly:
-```
-...
-DragonBorn heroOfSkyrim = new DragonBorn();
-heroOfSkyrim.witnessDragonBorn();
-...
-```
-
-This would print "You.....you took it's soul."
-
-## Defining Static Methods in Classes
-
-We see the word _static_ in the defintion of the witnessDragonBorn() function: this means that we dont necessairly have to declare an object, we can just call this function from the class directly;  this means that instead of writing 
-```
-...
-DragonBorn heroOfSkyrim = new DragonBorn();
-heroOfSkyrim.witnessDragonBorn();
-...
-```
-
-...we could simply write:
-```
-...
-DragonBorn.witnessDragonBorn();
-...
-```
-
-## Defining Static Variables in Classes
-
-Methods can be static (see above), but variables can also be static. When a variable is static, _every_ instance of that class will share that variable.
-
-Consider the [DragonBorn](learn_to_code/java/java_basics?id=basic-file-setup-first-java-program) - it has two variables, `dragonSoulCount` and `level`. If we were to create two instances of the `DragonBorn` class and then call `increaseSoulsTaken()` on each, the variable `dragonSoulCount`for _both_ instances would be 2; so for example, if we put this code in `main()`:
-```
-	DragonBorn heroOfSkyrim = new DragonBorn();
-	DragonBorn anotherHeroOfSkyrim = new DragonBorn();
-	
-	heroOfSkyrim.increaseSoulsTaken();
-	anotherHeroOfSkyrim.increaseSoulsTaken();
-	
-	System.out.println("The number of souls taken for heroOfSkyrim is " + heroOfSkyrim.showSoulCountTaken() + " and the number of souls taken for anotherHeroOfSkyrim is " + anotherHeroOfSkyrim.showSoulCountTaken() + ".");
-```
-
-This would print "The number of souls taken for heroOfSkyrim is 2 and the number of souls taken for anotherHeroOfSkyrim is 2.", because the variable `dragonSoulCount` is shared by both `heroOfSkyrim` and `anotherHeroOfSkyrim`.
-
-You will notice `dragonSoulCount` is not an `int`, its an `AtomicInteger`. This is because `int` is not <font color="purple">thread safe</font>. <font color="purple">Threads</font> are a way to run code in parallel (so basically you run two batches of code concurrently) - if you do not understand threading yet you will not have to use this (as you will know when using a thread), but you should know of their existance. <font color="purple">Thread safe</font> means since this is a shared variable, if multiple threads are using this class and they all try to use `dragonSoulCount` at the same time you may get an incorrect result.
-
-When using static variables in a class, you should always make sure you are using a <font color="purple">thread safe</font> variable; [primitive variables](learn_to_code/java/java_basics?id=primitive-variables) - such as `int`, `double`, etc - are _not_ <font color="purple">thread safe</font>. Here are primitive variables and what yo ushould use instead if using a `static` variable:
-
-| Primitive Type | Use Instead | 
-| --- | --- | 
-| int | AtomicInteger | 
-| long | AtomicLong | 
-| boolean | AtomicBoolean | 
-
-Note that there are no atomic classes for `byte`, `short`, `char`, `float`, and `double`; the makers of Java did not want to spend the time on these and officially tell you to use one of the above and convert them. For `float`, the maintainers of Java suggest using the conversions `Float.floatToIntBits` and `Float.intBitstoFloat`; for `double`, they suggest using `Double.doubleToLongBits` and `Double.longBitsToDouble`.
-
-## Class Constructors
-
-Each time we wish to use a class (by creating an object), we must do something like so:
-```
-Sort sorter = new Sort();
-```
-
-This says 'we are creating a new object called 'sorter', it will be of type 'Sort', and we wish to create this now (with `new Sort()`)'. Each time this is done, the class **constructor** is called, which is a function that is called when an object is created. Technically, a constructor does not return a value because it returns the object itself.
-
-The contstructor may do nothing at all, but oftentimes it helps initialize the object. There can be multiple constructors for the same class, each with a different parameter list; or, there may be no constructor at all, at which point Java will make one for the class (a bare bones constructor).
-
-You can make a constructor like so:
-```
-    //this is a constructor, which is used to initialize a School Object
-    //
-    School(String name, String address, String phone) {
-        
-        this.address = address;
-        this.name = name;
-        this.phone = phone;
-    }
-```
-* This is a `School` class - constructors should be named the same as the class itself.
-* Note there is NO type, not even void.
-* Note there is NO scope - it is assumed t obe public.
-* The `this` references class variables defined in itself; the variable that does not use the 'this' comes from the parameters. This is how you can set the class variables from parameters.
-
-You can also have multiple constructors in the same class, _provided_ they do **not** use the same configuration of parameter types. An example:
-```
-    School(String name, String address, String phone) {
-        
-        this.address = address;
-        this.name = name;
-        this.phone = phone;
-    }
-	
-    School(String name) {
-        this.name = name;
-    }
-```
-* The second constructor is OK because it does not use the same types in the same order; if we were to add a third constructor `School(String address, String name, String phone)` this would create an error as its another `School(String, String, String)` constructor.
-
-## Overriding Methods
-
-Overriding a method means to overwrite the existing method. Often, it is _required_ to override a method if you are using an interface that is expecting specific methods to be available (these methods are usually stumps or something similar anyway). Other times, it makes sense to override a method; for example, almost every class uses the `equals()` method to check for equality (**not** `==`), and the classes that do not use the `hashCode()` method to check for equality (which should always be overrided if you override `equals()`).
-
-To override a method, simply type `@Override` on the line above (or even directly in front of, at the beginning) of the line that lists the method.
-
-**<font size="4">Popular Override - equals()</font>** 
-
-The `equals()` method is popular to override, as almost all classes use `equals()` to check for equality amongst objects (and the ones that do not use `hashCode()`).  `equals()` must return a boolean true/false; usually all primitives in the two classes are compared to eath other, and if they all match, the objects are considered to be equal.
-
-Here is an example of `equals()` for my `School` class I wrote:
-```
-    @Override
-    public boolean equals(Object otherSchool) {
-        if(otherSchool == this) { return true; }
-
-        if (!(otherSchool instanceof School)) {
-            return false;
-        }
-        School foreign = (School)otherSchool;
-        return this.name==foreign.getName() && this.address==foreign.getAddress() && this.phone==foreign.getPhone();
-    }
-```
-* `name`, `address`, and `phone` are the three primitives (Strings) in the `School` class, so they are all compared (`==` can be used here).
-* The line `if(otherSchool == this) { return true; }` is comparing if the locations in memory are equal.
-
-**<font size="4">Popular Override - hashCode()</font>** 
-
-The `hashCode()` method is popular to override - and recommended if you override `equals()` - as some classes use `hashCode()` to check for equality amongst objects.  `hashCode()` must return an int representing a 'hash' of sorts; The 'hash' must utilize all primitives.
-
-Here is an example of `hashCode()` for my `School` class I wrote:
-```
-    @Override
-    public int hashCode() {
-        return Objects.hash(this.name, this.address, this.phone);
-    }
-```
-* Note that this is very simple: just list all primitives used by the class in the method `Objects.hash()`.
-* This requires you to import `java.util.Objects`.
-
-There is also the old method of doing this - I list it for historical purposes. This was the 'standard' way to override the hashCode before JDK 7 (use the other method now, though):
-```
-    @Override
-    public int hashCode() {
-        int result = 17;
-        result = 31 * result + name.hashCode();
-        result = 31 * result + age;
-        result = 31 * result + passport.hashCode();
-        return result;
-    }
-```
-* This is not for any specific class I have written here, but know this class has three variables: two strings (name and passport) and an age (int).
-
-**<font size="4">Popular Override - toString()</font>** 
-
-`toString()` is used often enough to say that each class should override this method so it works with their given class; the example from my `School` class is:
-```
-    @Override public String toString() {
-        return this.name + ", "+ this.address + ", " + this.phone;
-    }
-```
-
-## Deep Copy Method
-
-Many 'copy' functions are <font color="purple">shallow copies</font> - meaning, you are told there is a copy of the object made and stored to a new object, but in reality, it simply references the point in memory of where the object resides and saves that. This means that if the initial object is changed, the copy **will** change as well - and vice versa. Usually this is not desirable if you make a copy - usually its more desirable to make a <font color="purple">deep copy</font>, which will avoid the original - or copy - changing when the other is changed.
-
-To ensure this happens, we usually need to make a separate copy of the object and then copy in all of its primitives, one by one; in addition, if the object has classes, we need to do this for each individual class inside the object as well (or deploy its own deep copy method, if it has one). An example is the `createCopy()` method in my [class example](learn_to_code/java/java_basics?id=class-example):
-```
-    public School createCopy() {
-        School retVal = new School(this.name, this.address, this.phone);
-        return retVal;
-    }
-```
-* We make a `School` object to start, which may be a bit weird as we are in the `School` class itself, but it is what it is.
-* We then have to set all of its primitives using our object's primitives. This is easy in this case as I do this in the constructor, but if this is not avaiable you will have to use the object's getters and setters to do this.
-* Finally, we return the object we just created, finalizing the <font color="purple">deep copy</font>.
-
-
-## General Notes on Classes
-
-Notes:
-* Class names start with upper-case letters.
-* Static methods / functions in the same class do not need the class name to be called.
-* The `this` keyword can be useful.
- * For static functions in the class, `this` just represents that function.
- * For nonstatic functions / methods, `this` will represent that _instance_ of the method /function in the object.
-* There can be multiple classes in a single .java file, but this is usually not the case.
- * This stems from an old Java practice that allowed multiple classes so long as only one was public, but this is frowned upon by developers now.
-
-## Class Example
-
-This is an example of a `School` class:
-
-```
-import java.util.Objects;
-
-public class School {
-    String name;
-    String address;
-    String phone;
-
-
-    //this is a constructor, which is used to initialize a School Object
-    //Note there is NO type, not even void - and there is no scope either
-    School(String name, String address, String phone) {
-        // the 'this' references the class variable; the variable that does not use the 'this' comes from the parameters
-        this.address = address;
-        this.name = name;
-        this.phone = phone;
-    }
-
-    //this is another constructor if the only info you know is the name
-    School(String name) {
-        // the 'this' references the class variable; the variable that does not use the 'this' comes from the parameters
-        this.name = name;
-    }
-
-    public String getName() {
-        return this.name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getPhone() {
-        return this.phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public String getAddress() {
-        return this.address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    //I like to make a createCopy() method in order to make a deep copy of the object
-    public School createCopy() {
-        School retVal = new School(this.name, this.address, this.phone);
-        return retVal;
-    }
-
-    //it should be noted that == only works for primitive variables; for everything else, == just checks to see if its the same location in memory
-    //most code that checks to see if two objects are the same uses the equals() method, so its important its overwritten for most (or maybe every) class
-    @Override
-    public boolean equals(Object otherSchool) {
-        if(otherSchool == this) { return true; }
-
-        if (!(otherSchool instanceof School)) {
-            return false;
-        }
-        School foreign = (School)otherSchool;
-        return this.name==foreign.getName() && this.address==foreign.getAddress() && this.phone==foreign.getPhone();
-    }
-
-
-    //if we override equals, its good to override hashCode() as this is used to check for equality in hash-based collections such as HashMap, HashSet, and Hashtable
-    @Override
-    public int hashCode() {
-        return Objects.hash(this.name, this.address, this.phone);
-    }
-
-    @Override public String toString() {
-        return this.name + ", "+ this.address + ", " + this.phone;
-    }
-}
-```
+> For more on Java classes [see here](/learn_to_code/java/java_classes).  
 
 ---
 
@@ -571,9 +280,27 @@ Note this does _not_ mean whatever is set is _immutable_, it just means it canno
 
 # Strings
 
-Strings are actually classes / objects with functions, so much of how they are treated are just like objects; in most cases they can also be treated like primitives, although they are not primitive.
+Strings are actually classes / objects with functions, so much of how they are treated are just like objects; in most cases they can also be treated like primitives, although they are not primitive. Strings are usually encased in double quotes; for example, `"This sentence is a string in Java"`; more confusingly, numbers wrapped in double quotes (like this: `"139"`) are _also_ considered to be strings. Anything wrapped in double quotes is a string, which can be manipulated as a variable.
 
 > Strings _can_ be `null`.
+
+Since strings are a bit of an odd duck, you can directly call functions from the double quotes. For example, if you wanted for force a string to be upper case, you would normally do something like this:  
+```
+String myString = "Hello.";
+myString = myString.toUpperCase();
+System.out.println(myString);
+```  
+* Prints `HELLO.` 
+
+But you can apply the `toUpperCase()` method to the double quoted section as well:  
+```
+System.out.println("Hello.".toUpperCase());
+```  
+* Prints `HELLO.` 
+
+This will work with any method designed for strings.  
+
+> Since strings are objects, you can use methods written for the `String` class, even on 'bare' strings!  
 
 ## Combining Strings
 
@@ -585,38 +312,416 @@ System.out.println(str + " and " + str2 + " went to the park.");
 ```
 * Note that it seems you cannot use the single quote to wrap a string (at least in Java 8).
 
+## Finding NULL And Blank Strings 
+
+!> Under most circumstances, if you try any operation - including methods in the `String` class - on a `null` string, Java will throw an exception. To avoid this, its best to check and see if the `String` object is `null` after it is set before anything else is done.
+
+
+**<font size="4">Check if Empty - isEmpty()</font>**  
+
+In order to check and see if a string is empty - that is to say, is `""` which is defined but _NOT_ `null` - you can use `isEmpty()`. Example:  
+```
+String myString = "";
+if (myString.isEmpty()) System.out.println("The condition was true.");
+```   
+
+> If you try to use `isEmpty()` on a string that was never set / is set to `null`, Java will throw an error.  
+
+**<font size="4">Check if Blank - isBlank()</font>**  
+
+In order to check and see if a string is blank - that is to say, is `""` _or_ is comprised of whitespace characters but _NOT_ `null` - you can use `isBlank()`. Example:  
+```
+String myString = "       ";
+if (myString.isBlank()) System.out.println("The condition was true.");
+```   
+
+_How is this different from `isEmpty()`_? This is different from `isEmpty()` because `isBlank()` _can_ accept whitespaces (and only whitespaces) while `isEmpty()` cannot accept whitespaces.  
+
+> If you try to use `isBlank()` on a string that was never set / is set to `null`, Java will throw an error.  
+
+## Trimming Whitespace
+
+Often, we wish to eliminate leading whitespace, trailing whitespace, or both from a string - there are several methods to do this.  
+
+**<font size="4">Eliminate All Whitespace - strip()</font>**  
+
+> This is currently the accepted method of trimming whitespace in Java for general-purpose use.  
+
+If you wish to eliminate whitespace at both the beginning _and_ end of a string, its best to use `strip()` - here is an example: 
+```
+String myString = "   hello   programmer    ";
+String otherString = myString.strip();
+System.out.println("aaa" + otherString + "bbb");
+```  
+
+**<font size="4">Eliminate All Whitespace - trim()</font>**  
+
+> In most cases, you will want to use `strip()` aover `trim()` - this is because `trim()` is the older version of the two and only eliminates characers less than `spacebar` on the ASCII chart, whereas `strip()` includes more modern-day characters as well. In short: if you want to use `trim()`, most of the time you will actually want to use `strip()` instead.  
+
+If you wish to eliminate whitespace at both the beginning _and_ end of a string, `trim()` can be used - here is an example: 
+```
+String myString = "   hello   programmer    ";
+String otherString = myString.trim();
+System.out.println("aaa" + otherString + "bbb");
+```  
+
+**<font size="4">Eliminate Leading Whitespace - stripLeading()</font>**  
+
+If you wish to eliminate whitespace _only at the beginning of a string_, `stripLeading()` can be used - here is an example: 
+```
+String myString = "   hello   programmer    ";
+String otherString = myString.stripLeading();
+System.out.println("aaa" + otherString + "bbb");
+```  
+
+**<font size="4">Eliminate Trailing Whitespace - stripTrailing()</font>**  
+
+If you wish to eliminate whitespace _only at the end of a string_, `stripTrailing()` can be used - here is an example: 
+```
+String myString = "   hello   programmer    ";
+String otherString = myString.stripTrailing();
+System.out.println("aaa" + otherString + "bbb");
+```  
+
+## Length
+
+To find the string length, simply use `.length()` as follows:
+```
+String myString = "hello!";
+System.out.println("The number of characters in 'myString' equals " + myString.length() + ".");
+```  
+* There are 6 characters: `h` `e` `l` `l` `o` `!`  
+
+## Converting to Upper / Lower Case  
+
+It is often convienent to convert a string to either upper or lower case - this can be done with `toUpperCase()` and `toLowerCase()`. Here is an example:  
+```
+String myString = "Hello, Traveller!";
+System.out.println(myString);
+System.out.println(myString.toUpperCase());
+System.out.println(myString.toLowerCase());
+```  
+
+This prints:  
+```
+Hello, Traveller!
+HELLO, TRAVELLER!
+hello, traveller!
+```  
+
 ## String Comparison
 
-Code Example:
+Here are a few ways you can compare strings. For the pruposes of this example we will define the following variables (and set them equal to a value):
 ```
 String str1 = "Brent";
 String str2 = "Brent";
 String str3 = "brent";
 String str4 = "Jackson";
-Object objString = str1;
+```
 
-//The compareTo() gives an integer as a return
-////if its less than 0, the main string object is before / is 'greater than' the string passed to it
-////if its 0 the strings are equal
-////if its greater than 0, the main string object is after / is 'less than' the string passed to it
+**<font size="4">compareTo(String anotherString)</font>**  
+
+The `compareTo()` method gives an integer as a return. 
+* If its less than 0, the main string object is before / is 'greater than' the string passed to it.  
+* If its 0, the strings are equal.  
+* If its greater than 0, the main string object is after / is 'less than' the string passed to it.  
+
+Example: 
+```
 if (str1.compareTo(str4) > 0) {
 	System.out.println("'" + str1 + "' comes after '" + str4 + "'");
 } else if (str1.compareTo(str4) < 0) {
 	System.out.println("'" + str1 + "' comes before '" + str4 + "'");
 }
-
-//compareToIgnoreCase is similar to compareTo, but obviously ignores the case
-if (str3.compareToIgnoreCase(str2) == 0) { System.out.println("These strings are the same (compareToIgnoreCase())."); }
-
-//the equals() method simply gives a boolean as a result
-if (str2.equals(objString)) { System.out.println("These strings are the same (equals())."); }
-
-//finally, you can also use the == operator
-if (str2 == objString) { System.out.println("These strings are the same (== operator)."); }
-
 ```
-* Note that using objString was a hit or miss - it did NOT work in compareToIgnoreCase().
-* You may want to avoid using `==`, as this usually just compares memory locations. It _does_ work for primitives - as well as Strings - but you should avoid it otherwise if you can.
+
+**<font size="4">compareToIgnoreCase(String str)</font>**  
+
+`compareToIgnoreCase()` is similar to `compareTo()`, but obviously ignores the case:  
+```
+if (str3.compareToIgnoreCase(str2) == 0) { System.out.println("These strings are the same (compareToIgnoreCase())."); }
+```  
+
+**<font size="4">contentEquals(StringBuffer sb) / contentEquals(CharSequence cs)</font>**  
+
+> This will also work with a `String`, _not_ just `StringBuffer` or `CharSequence`.  
+
+The contentEquals() method simply checks to see if the strings are _exactly_ the same and gives a boolean as a result:  
+```
+if (str1.contentEquals(str2)) System.out.println("The condition was true.");
+```
+
+**<font size="4">equals(Object anObject)</font>**  
+
+> This will also work with a `String`, _not_ just `Object` (it was overwritten).  
+
+The equals() method simply checks to see if the strings are _exactly_ the same and gives a boolean as a result:  
+```
+if (str2.equals(objString)) { System.out.println("These strings are the same (equals())."); }
+```
+
+_How is this different from contentEquals()_? The difference is `equals()` checks to see if the object is a `String` object, while `contentEquals()` does not check the class type and just the contents.  
+
+**<font size="4">equalsIgnoreCase(String anotherString)</font>**  
+
+If you want to simply operate off a boolean while ignoring the case of the characters, you can use `equalsIgnoreCase()`:  
+```
+if (str1.equalsIgnoreCase(str3)) System.out.println("The condition was true.");
+``` 
+
+**<font size="4">== (Operator)</font>**  
+
+Finally, you can also use the == operator : 
+```
+if (str1 == str2) { System.out.println("These strings are the same (== operator)."); }
+```
+
+!> You may want to avoid using `==`, as this usually just compares memory locations. It _does_ work for primitives - and sometimes for Strings (as it does above) - but you should avoid it otherwise if you can. For Strings, your bread and butter will be `.equals()`, so use that instead of `==` !
+
+## Substrings
+
+<font color="green">Substrings</font> are usually a small snippet from a larger string; for example, the string `Hello` contains multiple substrings:   
+* `Hello` 
+* `ello` 
+* `ell` 
+* `l` 
+* `lo` 
+* `Hell` 
+* and many more. 
+
+The substring must contain contiguous letters from the larger string (so for example, `Ho` is _not_ a substring from `Hello`). 
+
+There are a few subclasses to the idea of a substring in Java.  
+
+## Determine Substring Existence  
+
+> This section assumes you know what a [substring](learn_to_code/java/java_basics?id=substrings) is.  
+
+There are a few ways to determine if a substring is contained in a larger string.  
+
+**<font size="4">contains(CharSequence s)</font>**  
+
+> This will also work with a `String`, _not_ just `CharSequence`.  
+
+If you simply want to know if a substring exists in a string, use `contains(CharSequence s)` which returns a boolean. Example: 
+```
+String myString = "hello!";
+String otherString = "llo";
+if (myString.contains(otherString)) System.out.println("The condition was true.");
+```
+
+**<font size="4">startsWith(String prefix)</font>**  
+
+If you simply want to know if a string starts with a specific substring, use `startsWith(String prefix)` which returns a boolean. Example: 
+```
+String myString = "hello!";
+String otherString = "hel";
+if (myString.startsWith(otherString)) System.out.println("The condition was true.");
+```
+
+**<font size="4">endsWith(String suffix)</font>**  
+
+If you simply want to know if a string ends with a specific substring, use `endsWith(String suffix)` which returns a boolean. Example: 
+```
+String myString = "hello!";
+String otherString = "o!";
+if (myString.endsWith(otherString)) System.out.println("The condition was true.");
+```
+
+## Determine Location of Substrings 
+
+> This section assumes you know what a [substring](learn_to_code/java/java_basics?id=substrings) is; also, its helpful to know [if the substring actually exists](learn_to_code/java/java_basics?id=determine-substring-existence).  
+
+Often, its important to know the beginning [index](learn_to_code/java/java_lists_arrays_hashmaps?id=index) of a [substring](learn_to_code/java/java_basics?id=substrings) in order to [extract a substring](learn_to_code/java/java_basics?id=extracting-substrings). Usually, being able to pick out a known substring is of little worth, but the utility comes into play when you figure out where the position of substring (along with its length) in a larger substring, then you can pick out other strings that surround the substring (using a little math).  
+
+**<font size="4">indexOf(String str)</font>**  
+
+If you wish to find the first position / [index](learn_to_code/java/java_lists_arrays_hashmaps?id=index) of a substring in a larger string, use `indexOf(String str)`. For example, this will return `1`, as `1` is the first position of the _full_ word `ello`:  
+```
+String myString = "hello, mello yellow";
+int myIndex = myString.indexOf("ello");
+System.out.println("Index position: " + myIndex);
+```  
+* Prints `Index position: 1`  
+
+If we were to make that `myString.indexOf("ello", 1)`, it _would_ have returned the position of that first `ello` (that is to say, if we switched the `2` to a `1`). 
+
+If the substring does not exist at all, `indexOf(String str)` returns `-1`.  
+
+**<font size="4">indexOf(String str, int fromIndex)</font>**  
+
+If you wish to find the position / [index](learn_to_code/java/java_lists_arrays_hashmaps?id=index) of a substring _after a certain position_, use `indexOf(String str, int fromIndex)`. For example, this will return `8`, as `8` is the position of the _full_ word `ello` starting at position 2 (possition 2 is the first `l` in `hello`, so we are already past the first 'e' so that `ello` does not count):  
+```
+String myString = "hello, mello yellow";
+int myIndex = myString.indexOf("ello", 2);
+System.out.println("Index position: " + myIndex);
+```  
+* Prints `Index position: 8`  
+
+If we were to make that `myString.indexOf("ello", 1)`, it _would_ have returned the position of that first `ello` (that is to say, if we switched the `2` to a `1`). 
+
+If the substring does not exist at all, `indexOf(String str, int fromIndex)` returns `-1`.  
+
+**<font size="4">lastIndexOf(String str)</font>**  
+
+If you wish to find the last position / [index](learn_to_code/java/java_lists_arrays_hashmaps?id=index) of a substring in a larger string, use `lastIndexOf(String str)`. For example, this will return `14`, as `14` is the position of the substring `ello` in the word `yellow`:  
+```
+String myString = "hello, mello yellow";
+int myIndex = myString.lastIndexOf("ello");
+System.out.println("Index position: " + myIndex);
+```  
+
+If the substring does not exist at all, `lastIndexOf(String str)` returns `-1`.  
+
+**<font size="4">lastIndexOf(String str, int fromIndex)</font>**  
+
+If you wish to find the last position / [index](learn_to_code/java/java_lists_arrays_hashmaps?id=index) of a substring _before a certain position_, use `lastIndexOf(String str, int fromIndex)`. For example, this will return `8`, as `8` is the last  position of the _full_ word `ello` before 13 inclusive (position 13 is the `y` in `yellow`, so the `ello` in `yellow` is eliminated and does not count):  
+```
+String myString = "hello, mello yellow";
+int myIndex = myString.lastIndexOf("ello", 13);
+System.out.println("Index position: " + myIndex);
+```  
+* Prints `Index position: 8`  
+
+If we were to make that `myString.lastIndexOf("ello", 14)`, it _would_ have returned the position of that last `ello` (that is to say, if we switched the `13` to a `14`, `lastIndex()` would have returned `14`). 
+
+If the substring does not exist at all, `lastIndexOf(String str, int fromIndex)` returns `-1`.  
+
+## Extracting Substrings
+
+**<font size="4">substring(int beginIndex)</font>**  
+
+The `substring(int beginIndex)` method simply carves out a substring starting with the [index](learn_to_code/java/java_lists_arrays_hashmaps?id=index) position `beginindex`. For example, the following prints `ello!`, as it starts with position / index 1 (recall that position 0 is actually the first position, so index 1 is actually the second position hence `ello!`): 
+```
+String myString = "hello!";
+String otherString = myString.substring(1);
+System.out.println("The selected substring is: " + otherString + ".");
+```  
+
+**<font size="4">substring(int beginIndex, int endIndex)</font>**  
+
+The `substring(int beginIndex, int endIndex)` method simply carves out a substring starting with the [index'] position `beginIndex` and ends with (but does _not_ include) position `endIndex`. For example, the following prints `el`, as it starts with position / index 1 (recall that position 0 is actually the first position, so index 1 is actually the second position) and ends with (but does _not_ include) position / index 3:: 
+```
+String myString = "hello!";
+String otherString = myString.substring(1,3);
+System.out.println("The selected substring is: " + otherString + ".");
+```
+
+!> Note that since `endIndex` does _not_ include the last position, its possible to use up to the length of the string (and we could use either the literal integer `6` here _or_ `myString.length()`); however, if we use an integer _higher_ than `.length()` Java will throw an error.  
+
+## Replacing Substrings  
+
+Its possible to find a [substring](learn_to_code/java/java_basics?id=substrings) in a larger string and replace the substring with something else.  These methods replace substrings with other strings.  
+
+**<font size="4">replace(CharSequence target, CharSequence replacement)</font>**  
+
+> Even though `CharSequence` objects are specified, you can use `String` as well.  
+
+A simple way to replace _all_ matched substrings is with the method `replace(CharSequence target, CharSequence replacement)`. For example, the following code snippet finds all `ello` substrings and replaces them with `xyz`:  
+```
+String myString = "hello, mello yellow";
+String otherString = myString.replace("ello", "xyz");
+System.out.println(otherString);
+```  
+
+The above starts with `hello, mello yellow` but ends up printing `hxyz, mxyz yxyzw` as all instances of `ello` were replaced with `xyz`.  
+
+**<font size="4">replaceAll(String regex, String replacement)</font>**  
+
+> This method uses a regex - you can read a good tutorial on regexes [here](https://www.vogella.com/tutorials/JavaRegularExpressions/article.html). If you wish to replace all instances of a substring and you do _not_ need a regex, its more efficient to use `replace()` instead of `replaceAll()` - that said, if you need a regex, please continue.  
+
+Another way to replace _all_ matched substrings is with the method `replaceAll(String regex, String replacement)`. Note the difference between `replace()` and `replaceAll()` is `replaceAll()` uses a <font color="purple">regular expression</font>, whereas `replace()` simply takes a `CharSequence` (or `String`). A <font color="purple">regular expression</font> (or <font color="purple">regex</font> for short) is far more powerful; it looks like a string, but regexes are actually a form of code in and of itself. I would strongly suggest you learn about regexes ([here is a good tutorial](https://www.vogella.com/tutorials/JavaRegularExpressions/article.html)), but for now, just know that you can use alphanumeric characters with `replaceAll()` with no issue, but any other character is probably some form of a regex, and you will need to understand what the character in question does in a regex (and even things like `.` have a special meaning).
+
+
+For example, the following code snippet finds all `ello` substrings and replaces them with `xyz`:  
+```
+String myString = "hello, mello yellow";
+String otherString = myString.replaceAll("el{2}o", "xyz");
+System.out.println(otherString);
+```  
+
+The above starts with `hello, mello yellow` but ends up printing `hxyz, mxyz yxyzw` as all instances of `ello` were replaced with `xyz`.  
+
+The substring we are searching for is a regular expression: `el{2}o`. The `{2}` means 'the character before `{2}` _must_ be repeated twice (hence, `ll`). 
+
+Here is a more complex example. In this example, there is a space separated (and the number of spaces can vary) list of websites - we wish to carve off the `www.` and the `.com` OR `.net` from the end of the address (we just want to save the middle portion). Here is how that is done:  
+```
+String myString = "www.vandelayindustries.com      www.costanza.net www.monkscafe.com";
+String[] baseWebAddresses = myString.replaceAll("(\\s*www\\.)(.+?)((\\.com)|(\\.net))", "$2 ").strip().split("\\s");
+System.out.println("There are " + baseWebAddresses.length + " items in the array, and they are: '" + baseWebAddresses[0] + "', '"  + baseWebAddresses[1] + "', '"  + baseWebAddresses[2] + "'");
+```  
+* This prints `There are 3 items in the array, and they are: 'vandelayindustries', 'costanza', 'monkscafe'`  
+
+The first thing we gotta know is the parenthesis `()` are _groupings_ in regexes, and the `$` can identify the group when it comes time to note the replacement; so you see a regex with a bunch of parenthesis and then a `$2` in the `replacement` field - this means we want to replace the entire match with whatever the second grouping is; since we are going to group each web address as `(www)` (group 1) `(something)` (group 2) `(.com)` (group 3), we will simply end up with `(something)` and the `www` and `com` portions will be discarded.
+
+The first regex grouping is `(\\s*www\\.)`, which means:
+* `\\s` means a whitespace, and a `*` after that means there can be 0 (or more) instances of whatever was before this (so this will match no or multiple whitespace characters). 
+* `www` is the literal characters `www`.  
+* `\\.` is the literal character `.` (we need to escape it as a dot means something in egex).
+
+The second grouping is `(.+?)`, which means:  
+* `.+` means 'match any letter, making sure there is at least one'. 
+* The `?` is critical here, as that basically says 'match the minimum'; without this, the match would just go on indefinitely until the last `.com` is encountered (meaning there would be exactly one match for the string, no matter how many web addresses were listed); with the `?`, as _soon_ as something that could match grouping #3 is encountered, the `?` will end the second grouping's boundary and grouping #3 will begin.  
+
+The last grouping is `((\\.com)|(\\.net))`, which means 'the final grouping _must_ either be `.com` _OR_ `.net`. This may be a bit confusing, as there are additional parenthesis in this grouping - do they count in the overall `$` markers? I do not think they do, I think its only the outer groupings that count.  
+
+To round out the `replaceAll()` statement, the `$2` says 'replace the expression found with whatever is in the second grouping'.  Next, we strip off any whitespace from the very beginning and very end of the new string, then we split on whitespace (note the _replacement_ has a single `space` at the end of the `$2` - this was left intentionally so we could `split()`, and the `strip()` will get rid of the last space). Finally you see the base of each website was stored in the array.  
+
+
+**<font size="4">replaceFirst(String regex, String replacement)</font>**  
+
+> This method uses a regex - you can read a good tutorial on regexes [here](https://www.vogella.com/tutorials/JavaRegularExpressions/article.html). 
+
+`replaceFirst(String regex, String replacement)` works much like `replaceAll(String regex, String replacement)`, but it only replaces the first match it finds. Example:    
+```
+String myString = "hello, mello yellow";
+String otherString = myString.replaceFirst("el{2}o", "xyz");
+System.out.println(otherString);
+```  
+
+This prints `hxyz, mello yellow`. Only the first instance of `ello` was replaced with `xyz`.  
+
+## Split String into Array
+
+You can split a string into an array of strings using one of the versions of the `split()` method. `split()` takes a <font color="purple">regular expression</font> and splits the larger string up into chunks divided by that substring.  
+
+**<font size="4">split(String regex)</font>**  
+
+> This method uses a regex - you can read a good tutorial on regexes [here](https://www.vogella.com/tutorials/JavaRegularExpressions/article.html). 
+
+You can split on any character (or character sequence) using the `split(String regex)` method; for example, the following splits the string on whitespaces:  
+```
+String myString = "hello mello yellow";
+String[] arrayOfStrings = myString.split("\\s");
+System.out.println("The first element in the array is '" + arrayOfStrings[0] + "', and the array length is " + arrayOfStrings.length);
+```  
+
+This prints `The first element in the array is 'hello', and the array length is 3`.  The split is done on whitespaces (`\s` denotes a whitespace in regex, but we need a second `\` to act as an escape character so the first one is passed to the regex). We split on all spaces, and there are 3 present in the original string; therefore, the original string is split into an array of 3 `String` elements.  
+
+**<font size="4">split(String regex, int limit)</font>**  
+
+`split(String regex, int limit)` works like `split(String regex)` with a twist: if the array size would be bigger than `int limit`, the strings that would be split are simply left as-is in the last position in the array once that limit is hit.  For example:    
+```
+String myString = "hello mello yellow";
+String[] arrayOfStrings = myString.split("\\s", 2);
+System.out.println("The first element in the array is '" + arrayOfStrings[0] + "', the last is '" + arrayOfStrings[1] + "', and the array length is " + arrayOfStrings.length);
+```  
+
+This prints:  
+```
+The first element in the array is 'hello', the last is 'mello yellow', and the array length is 2
+```  
+* Since the limit was 2 elements on the array, `mello yellow` is stuffed into the last index and not split.  
+
+## Repeating Strings
+
+If you simply need a string repeated X number of times, simply use the `repeat(int count)` method:
+```
+String myString = "hello, ";
+String otherString = myString.repeat(3);
+System.out.println(otherString + "...HELLO!");
+```  
+This prints `hello, hello, hello, ...HELLO!`  
 
 ---
 
@@ -836,7 +941,7 @@ for (int i = 0, j = 10; i < 10; i++, j--) {
 
 ## Foreach Loops
 
-Foreach loops are built for [Arrays](learn_to_code/java/java_basics?id=arrays-and-lists):
+Foreach loops are built for [Arrays](learn_to_code/java/java_lists_arrays_hashmaps):
 ```
 double[] myDoubleArray = {1.22, 2.3456, 17.578, 99.2};
 for (double element: myDoubleArray) {
@@ -878,481 +983,9 @@ for (String element: names) {
 ```
 * Since `names` was defined with 7 elements (and we only set 6), the final output will show 'Element is null'.
 
-# Arrays and Lists
+# Arrays Lists, and HashMaps
 
-## Basic Arrays
-
-```
-//simply declare an array
-int[] myArrayOfNumbers; //preferred
-int myArrayOfNumbers[]; //works, but not preferred
-
-//actually create the array
-myArrayOfNumbers = new int[10]
-
-//you can do both in one step
-int[] myArrayOfNumbers = new int[10];
-
-//you can create the array immediately
-double[] myDoubleArray = {1.22, 2.3456, 17.578, 99.2};
-
-//if you want to get the length, you can just use
-int myLength = myArrayOfNumbers.length;
-```
-* Arrays are treated like objects (as they sort of operate like one)
-
-Note that [NULL](learn_to_code/java/java_basics?id=nulls) is represented as `null` and can be checked with basic operators; this can be used when iterating through arrays, specifically checking if the element has been set or not.
-
-## ArrayLists
-
-An <font color="green">ArrayList</font> can keep a list of objects that also acts like an array (sort of). ArrayLists are very common and are usually defined like:
-```
-List<Thread> myThreads=new ArrayList<Thread>();
-```
-* `List<>` represnets the _interface type_, and ArrayList<> represents the _implementation type_.
-* The usage of `Thread` indicates the _type_ of object stored in the list; in our case it is a `Thread`, but this can be any non-primitive type (`String` and all other classes, but not simple things like `int`)
- * We listed `Thread` twice, but since we wrote `List<Thread>` we could have written `ArrayList<>()` as the first implies the second (unless they are different, i.e. the <font color="purple">interface type</font> and <font color="purple">implementation type</font> are different).
-
-<font color="green">ArrayList</font>s are dynamic - you do not have to know their size beforehand. That said, if you wish to pre-define it, you can declare it like this:
-```
-List<Thread> myVar = new ArrayList<Thread>(10);
-```
-* This example sets the default to 10 objects in the <font color="green">ArrayList</font>, but if more are added it will simply add more and not error out.
-
-!> If you would like to make an <font color="green">ArrayList</font> of a [primitive](learn_to_code/java/java_basics?id=primitive-variables), you _must_ use its class equivalent (so for example, do not use `int`, use `Integer`).
-
-## Adding to ArrayLists
-
-To add to an <font color="green">ArrayList</font> its:
-```
-myVar.add(myObject)
-```
-* `myVar` is the variable name of the previously defined <font color="green">ArrayList</font>.
-* `myObject` is some object you are working with.
-
-You could also add the item at a _specific_ position if you wanted; for example if you wanted to add to the first position of the index it would be:
-```
-myVar.add(0, myObject)
-```
-
-## Adding an ArrayLists to ArrayLists
-
-To add to an entire <font color="green">ArrayList</font> to another <font color="green">ArrayList</font> its:
-```
-myVar.addAll(myArrayList)
-```
-* `myVar` is the variable name of the previously defined <font color="green">ArrayList</font>.
-* `myArrayList` is some other <font color="green">ArrayList</font> you are working with that you wish to add to the <font color="green">ArrayList</font> `myVar`.
-* If `myArrayList` is null this _will_ throw an error, so please account for that.
-
-You could also add the <font color="green">ArrayList</font> at a _specific_ position if you wanted; for example if you wanted to add to the first position of the index it would be:
-```
-myVar.addAll(0, myArrayList)
-```
-* `myVar` is the variable name of the previously defined <font color="green">ArrayList</font>.
-
-## Removing Objects from ArrayLists
-
-> Practically speaking, you should [search](learn_to_code/java/java_basics?id=searching-through-arraylists) for the index of the object you wish to remove before you actually remove anything.
-
-To remove an object from an <font color="green">ArrayList</font> by its index, use:
-```
-myVar.remove(3)
-```
-* `myVar` is the variable name of the previously defined <font color="green">ArrayList</font>.
-* This removes the object at position 4 (which is referenced with a 3, as above).
-* If the index you are trying to remove does not exist, this _will_ error out.
-
-If you have a **range** of items you would like to remove you could do so with:
-```
-myVar.removeRange(startIndex, endIndex)
-```
-* `startIndex` and `endIndex` are `int`s that represent positions in the index.
-* This will include the removal of `startIndex` but will _not_ remove `endIndex` - it will remove the position just before it.
-
-
-
-## Determining Size of ArrayLists
-
-To determine the size of an <font color="green">ArrayList</font>, use the `size()` method like so:
-```
-myVar.size()
-```
-* `myVar` is the variable name of the previously defined <font color="green">ArrayList</font>.
-* This returns the size of the array in `int` form.
-* Even though the array itself is zero based, `size()` is not - so if there is only one item in a list:
- * `size()` would return 1.
- * Using [get(0)](learn_to_code/java/java_basics?id=basic-arrays) on position 0 would return the element.
- * Using `get(1)` would result in an error.
-
-## Getting Object At Index
-
-This is where an <font color="green">ArrayList</font> really differs from an array - you cannot reference items a la `myVar[x]`, you must use a method to do so.
-
-You can get an object at a specific index using `get()` like so:
-```
-myVar.get(2)
-```
-* `myVar` is the variable name of the previously defined <font color="green">ArrayList</font>.
-* We list a `2`, meaning we want to get the object in position 3 (since the list is based on 0, 0 is considered the first item - so 2 would represent the 3rd, 9 would represent the 10th, etc).
-
-!> If you use `get()` on an index that is out of range - say, the highest index is 10 and you tried to get position 11 - this _will_ error out. To avoid this, always [check the numberof elements in the list](learn_to_code/java/java_basics?id=determining-size-of-arraylists); in addition, know that the array is based on 0 but `size()` is _not_ zero-based - so if you use `size()` and it returns a 5, the highest number you can use in `get()` is 4.
-
-
-## Searching Through ArrayLists
-
-!> The [equals() method **must** be overwritten](learn_to_code/java/java_basics?id=overriding-methods) for searching to work!
-
-You can search through an <font color="green">ArrayList</font> for an object like so:
-```
-myVar.contains(myObject)
-```
-* This returns a boolean - true if the object exists, false otherwise.
-* `myVar` is the variable name of the previously defined <font color="green">ArrayList</font>.
-* `myObject` is the object you are searching for.
-
-Sometimes, you need the _specific_ location in the array of an object; to get the _first_ position it occupies, use `indexOf()`:
-```
-
-myVar.indexOf(myObject)
-```
-* This returns the index of the _first_ time the object is seen in the array (you can then use [get()](learn_to_code/java/java_basics?id=getting-object-at-index) to interact with the object, now that you have the index).
-* If the object does not exist, a -1 is returned.
-
-To get the _last_ position it occupies, use `lastIndexOf()`:
-```
-
-myVar.lastIndexOf(myObject)
-```
-* This returns the index of the _last_ time the object is seen in the array (you can then use [get()](learn_to_code/java/java_basics?id=getting-object-at-index) to interact with the object, now that you have the index).
-* If the object does not exist, a -1 is returned.
-* If this index equals the index found with `indexOf()`, there is only one instance of the object.
-
-## Replacing Objects in ArrayLists
-
-You can outright replace any object in an <font color="green">ArrayList</font> with the `set()` method:
-```
-myVar.set(intIndex, myObject)
-```
-* `myVar` is the variable name of the previously defined <font color="green">ArrayList</font>.
-* `intIndex` is the position in the array that yo uwant to replace.
-* `myObject` is the object you are going to insert into position `intIndex`.
-* This sets the position `intIndex` to the object `myObject` - the object that currently resides at `intIndex` is completely overwritten.
-
-## Converting an ArrayList to Array
-
-Sometimes, you will have to convert your <font color="green">ArrayList</font> to an [Array](learn_to_code/java/java_basics?id=basic-arrays); to do so, its:
-```
-myVar.toArray()
-```
-* `myVar` is the variable name of the previously defined <font color="green">ArrayList</font>.
-* This returns an array (not an <font color="green">ArrayList</font>) with a type that matches `myVar`.
-
-You can also directly set everything to a specific type; for example, we can create an array, and then set the object type using that array.
-
-For example:
-```
-      ArrayList<Integer> myVar = new ArrayList<Integer>();
-
-      myVar.add(5);
-      myVar.add(10);
-
-      Integer myIntegers[] = new Integer[myVar.size()];
-      myIntegers = myVar.toArray(myIntegers);
-```
-* This creates and populates ArrayList `myVar` and adds some items.
- * Note it uses an `Integer` class and _not_ the primitive `int` - ArrayLists _cannot_ use primitives.
-* The last line saves the array to the `myIntegers`array.
- * `toArray(myIntegers)` means it automatically changes the type to that of `myIntegers`; usually you implicitly do this, but sometimes you need a similar class and not the exact class.
-
-## Trimming ArrayLists
-
-If you simply want to clear the unused space that the <font color="green">ArrayList</font> is occupying (for example, if it has shrunk considerably via removing items), use `trimToSize()`:
-```
-myVar.trimToSize()
-```
-
-To quickly dump / clear an <font color="green">ArrayList</font> its:
-```
-myVar.clear()
-```
-* `myVar` is the variable name of the previously defined <font color="green">ArrayList</font>.
-
-
-## Cloning ArrayLists
-
-To quickly clone an <font color="green">ArrayList</font> you will use the `clone()` method:
-```
-ArrayList<Thread> arrayListClone =  (ArrayList<Thread>) myVar.clone();
-```
-* `myVar` is the variable name of the previously defined <font color="green">ArrayList</font>.
-* `arrayListClone` is the cloned list.
-
-Note that simply using `clone()` copies a _reference_ to the initial object (called a _shallow_ copy); so if you change the initial object the new object will change, and vice versa.
-
-To create a _deep_ copy - which can be modified without changing the original copy - you will have to use an `Interator` class; in addition, you will have to make either an external function or a method in your class that copies the primitives / everything else to another object. I show how t odo this in my [deep copy method](learn_to_code/java/java_basics?id=deep-copy-method).
-
-Here is an example that uses my [School class](learn_to_code/java/java_basics?id=class-example):
-```
-ArrayList<School> schoolList = new ArrayList<>(); 
-ArrayList<School> schoolListClone = new ArrayList<>();
-
-Iterator<School> iterator = schoolList.iterator();
-
-while(iterator.hasNext()) {
-	//Add the object clones
-    schoolListClone.add(iterator.next().createCopy());	
-}
-```
-* `iterator.next()` is a representation of the current object from schoolList - and all of its methods are available to you (which is why `createCopy()` is available to us).
-* Again, I want to stress that you have to create the `createCopy()` method yourself in the class; otherwise, if you do not have the ability to do that, you must get at the primitives in another way.
-
-## Looping In Arrays and Lists
-
-It is a necessity to loop through an Array or ArrayList - here are the different ways to do it.
-
-It should be noted that each example here will utilize the [School class](learn_to_code/java/java_basics?id=class-example), with an initial setup as follows (using an ArrayList as an example):.
-
-```
-    //create an ArrayList of Schools
-    List<School> mySchools=new ArrayList<>();
-
-    //make a bunch of School objects we will eventually store to our listing
-    School gaTech = new School("Georgia Institute of Technology");
-    School WCU = new School("West Chester University of Pennsylvania");
-    School albright = new School("Albright College");
-
-    //add the School objects to our ArrayList
-    mySchools.add(gaTech);
-    mySchools.add(WCU);
-	mySchools.add(albright);
-```
-
-**<font size="4">Traditional Looping</font>** 
-
-Traditional looping uses a `for` loop, incrementing the index by one each time. Here is a classic example that simply prints the name of each school:
-```
-	for(int i = 0; i < mySchools.size();i++) {
-		System.out.println(mySchools.get(i).getName());
-	}
-```
-* This works for 
- * ArrayLists (as above).
- * Arrays (with some modifications).
-
-**<font size="4">Item: Collection Method</font>** 
-
-You can use the following:
-```
-    //use another method to cycle through all elements of the array
-	for(School element: mySchools) {
-    	System.out.println(element.getName());
-	}
-```
-* This works for 
- * ArrayLists (as above).
- * Arrays.
-* This cycles through each item in the list / array; each iteration stores the current object in `element` (or whatever you wish to name it), and the next iteration of the loop will use the next object in the array / list and store that to `element`.
- * `element` can be used just like the underlying object is used, but you _cannot_ make changes to it (well, you can, but it will not update the underlying object).
-
-**<font size="4">Lambda Functions</font>** 
-
-For ArrayLists, you can use a [lambda function](learn_to_code/java/java_basics?id=lambda-function) to loop through, which relies on the `forEach()` method:
-```
-	mySchools.forEach(
-	
-		//lambda expression
-		(schoolElement) -> {
-			System.out.println(schoolElement.getName());
-		}
-		
-	);
-```
-* This works for ArrayLists (as above).
-* This does <font color="red">not</font> work for Arrays.
-* It is implied that whatever is within the `()` will represent each object in the ArrayList - in this case, each time the loop activates it will get the next object in the list and store it to `schoolElement`.
- * `schoolElement` can be used just like the underlying object is used, but you _cannot_ make changes to it (well, you can, but it will not update the underlying object).
-
-
-**<font size="4">Using the Iterator Class</font>** 
-
-You can also use the [Iterator class](learn_to_code/java/java_basics?id=iterator) to loop through every object in the ArrayList:
-```
-    Iterator<School> cloneIterator = mySchools.iterator();
-	while(cloneIterator.hasNext()) {
-    	System.out.println(cloneIterator.next().getName());
-	}
-```
-* This works for ArrayLists (as above).
-* This does <font color="red">not</font> work for Arrays.
-* See the [ListIterator class](learn_to_code/java/java_basics?id=listiterator) for more information.
-
-## ArrayList - Full Example
-
-Here is an example that uses most of the methods available to <font color="green">ArrayList</font>s.  
-
-This example uses my [School class](learn_to_code/java/java_basics?id=class-example):
-```
-import java.util.*;
-
-public class Main {
-    public static void main(String[] args) {
-
-        //create an ArrayList of Schools
-        List<School> mySchools=new ArrayList<>();
-
-        //make a bunch of School objects we will eventually store to our listing
-        School gaTech = new School("Georgia Institute of Technology");
-        School hardKnocks = new School("Hard Knocks University");
-        School WCU = new School("West Chester University of Pennsylvania");
-        School secondWCU = new School("West Chester University of Pennsylvania");
-        School laSalle = new School("LaSalle University");
-        School albright = new School("Albright University");
-
-        //add the School objects to our ArrayList
-        mySchools.add(gaTech);
-        mySchools.add(WCU);
-        mySchools.add(laSalle);
-        mySchools.add(albright);
-
-        //do a deep clone of the school listing to print later
-        ArrayList<School> schoolListClone = new ArrayList<>();
-
-        Iterator<School> iterator = mySchools.iterator();
-        while(iterator.hasNext()) {
-            //Add the object clones
-            schoolListClone.add(iterator.next().createCopy());
-        }
-
-        //use traditional method to cycle through all of our schools, printing them to the screen
-        for(int i = 0; i < mySchools.size();i++) {
-            System.out.println(mySchools.get(i).getName());
-        }
-        System.out.println("  "); //make an empty line on the screen
-
-        if (mySchools.contains(secondWCU)) {
-        //IF the ArrayList contains the secondWCU object - which is equivalent to WCU, which is present - continue
-
-            //find the position of WCU (but we use secondWCU to demonstrate it doesnt have to be exactly the same object)
-            int WCU_Index = mySchools.indexOf(secondWCU);
-
-            System.out.println("The index of WCU in the ArrayList is " + WCU_Index + ", but we are going to replace with the school of hard knocks.");
-
-            //replace WCU with the school of hard knocks
-            mySchools.set(WCU_Index, hardKnocks);
-        }
-
-        //print out the new array using another cycle method, forEach and a lambda function
-        mySchools.forEach(
-                //lambda expression
-                (schoolElement) -> {
-                    System.out.println(schoolElement.getName());
-                }
-        );
-        System.out.println(" ");
-
-        //remove one item from the listing - specifically, albright
-        if (mySchools.contains(albright)) {
-
-            mySchools.remove(mySchools.indexOf(albright));
-        }
-
-        //convert the current ListArray to an Array
-        School myArrayOfSchools[] = new School[mySchools.size()];
-        myArrayOfSchools = mySchools.toArray(myArrayOfSchools);
-
-        //use another method to cycle through all elements of the array
-        for(School element: myArrayOfSchools) {
-            System.out.println(element.getName());
-        }
-        System.out.println("  "); //make an empty line on the screen
-
-        //finally, print the cloned copy to show it never changed using the final way to iterate through a list, using the Iterator class
-        Iterator<School> cloneIterator = schoolListClone.iterator();
-        while(cloneIterator.hasNext()) {
-            System.out.println(cloneIterator.next().getName());
-        }
-
-    }
-}
-```
-
-
----
-
-# ListIterator
-
-!> I am going to be brief with the `ListIterator` class, as it is much easier for me to use [some of the other methods for looping](learn_to_code/java/java_basics?id=looping-in-arrays-and-lists). If you wish to see more in the ListIterator class, [you can check it out here](https://www.tutorialspoint.com/java/java_using_iterator.htm).
-
-
-An <font color="green">ListIterator</font> object helps to cycle through lists of objects sequentially; the only requirement is that the list object must have a `listIterator()` method (as an example, `ArrayList` objects have both an `iterator()` _and_ a `listIterator()` method, `Array` objects do not). How `ListIterator`s work is it keeps a pointer variable that points to the 'current' object (or just before it, or just after the last object) and you traverse the list by moving this pointer.
-
-The basic order of operations is:
-1\. Create an `ListIterator` object and set it equal to the target object's `listIterator()` method (which returns a `ListIterator`); an example is `ListIterator<School> myIterator = mySchools.listIterator();`  
- * This will store things like the current pointer, beginning / end locations in memory, etc.  
- * The `ListIterator` object is the object you reference while moving through the objects - you will _not_ refer to the actual ArrayList again when cycling through the objects (outside of initializing the ListIterator).
- * I will refer to `myIterator` in these instructions.
-2\. Using a combination of a [while loop](learn_to_code/java/java_basics?id=while-loops) and the iterator's `hasNext()` method, you will know if there are more items in the list.
-3\. You use the `ListIterator`s `next()` method to get the next item in the list.
-
-## Iterator vs ListIterator
-
-There are actually two different classes of Iterators: `Iterator` and `ListIterator`. `Iterator` is much smaller - it only has the `hasNext()`, `next()`, and `remove()` methods.
-
-As an example, here is how one would set a `ListIterator` object:
-```
-ListIterator<School> myIterator = mySchools.listIterator();  
-```
-
-And this is how the `Iterator` object would be set:
-```
-Iterator<School> myIterator = mySchools.iterator(); 
-```
-
-The major differences are the required methods (`listIterator()` vs `iterator()`) for the objects using an interator and the greatly reduced available methods for the `Iterator` class.
-
-> Usually a simple `Iterator` is used over the more extensive `ListIterator`.
-
-## Testing And Moving The Cursor
-
-Initially, the cursor points to an area just before the first object (this is done so you must use `next()` to advance initially without weird oddities). You can use the `hasNext()` method (i.e. `myIterator.hasNext()`) to _check_ and see if there is another object after the cursor (note this does not not actually _move_ the cursor); conversely, `hasPrevious()` does the same thing, but backwards (again, it does not actually move the cursor though).
-
-Usually, `hasNext()` or `hasPrevious()` is used in a while loop to _check_ if there are more objects to loop through - if there are, you actually _access_ that object with either `next()` or `previous()` (depending on if you are going backwards or forwards). 
-
-An example (using my [School class](learn_to_code/java/java_basics?id=class-example)):
-```
-        //create an ArrayList of Schools
-        List<School> mySchools=new ArrayList<>();
-
-        //make a bunch of School objects we will eventually store to our listing
-        School gaTech = new School("Georgia Institute of Technology");
-        School WCU = new School("West Chester University of Pennsylvania");
-        School albright = new School("Albright University");
-
-        //add the School objects to our ArrayList
-        mySchools.add(gaTech);
-        mySchools.add(WCU);
-        mySchools.add(albright);
-
-        ListIterator<School> iterator = mySchools.listIterator();
-		
-		//check to see if there is an object that follows after the cursor's current location
-        while(iterator.hasNext()) {
-            //get the next object and call its 'getName()' method (which is a defined method of the School class).
-            System.out.println(iterator.next().getName());
-        }
-```
-* Notice how we do _not_ reference `mySchools` to utilize `getName()` - we use the `iterator` object.
-
-## Manipulating the ArrayList with ListIterator
-
-Its also possible to _directly_ manipulate the ArrayList through the `iterator` object:
-* We can use the `add(myObject)` method of the operator to add `myObject` to the list immediately after the cursor (and, coincidentally, in front of the object that can be accessed with `next()`).
-* We can use the `remove()` to remove the current object.
- * This _will_ error out if you have not used `next()` yet _or_ there are no objects in the list.
-* We can use the `set(myObject)` to overwrite the current object last returned by a call to either `next()` or `previous()`.
-
-
+Arrays, lists, and hashMaps are collections of [objects](learn_to_code/java/java_classes?id=class-vs-object). These are very useful when you need to store a collection of smaller items. To read more on arrays, lists, and hashMaps, [please see this page on lists, arrays, and hashMaps](/learn_to_code/java/java_lists_arrays_hashmaps). 
 
 ---
 

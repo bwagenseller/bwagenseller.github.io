@@ -1,5 +1,5 @@
-# CouchBase Install
+# Couchbase Install
 
-#Installing Couchbase
+# Installing Couchbase
 
 

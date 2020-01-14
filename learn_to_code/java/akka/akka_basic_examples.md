@@ -305,6 +305,384 @@ The first thing of note is the each Actor must extend some Akka Actor class - th
 
 The first `match()` looks for an incoming <font color="purple">WhoToGreet</font> object; if one is sent via a `tell()`, the <font color="purple">wtg</font> variable represents the incoming object and the greeting is set with the name (<font color="purple">wtg.who</font>). The second `match()` looks for a <font color="purple">Greet</font> class, and if one is found a `tell()` is sent to the Printer actor. The final `match()` looks for a <font color="purple">RaisingArizonaGreeter</font> object, and if one is sent it names the object <font color="purple">baby</font> and sends a <font color="purple">Greeting</font> `tell()` to the printer actor.
 
+# Parent Actors and Children Example
+
+This file uses [this particular pom.xml file for Maven](learn_to_code/java/akka/akka_basic_examples?id=pomxml) and 4 other files (all 4 .java files are in the same directory):  
+* AkkaDev.java - This is the main class that will launch the parent.  
+* AkkaPArent.java - The parent actor.  
+* AkkaChild.java - The child actor.  
+* DeadLetterListener.java - the actor that is independent of the parent and child actors and is listening for dead letters.  
+
+## AkkaDev.java
+
+```
+package com.wagenseller;
+
+import java.io.IOException;
+import akka.actor.ActorRef;
+import akka.actor.ActorSystem;
+
+public class AkkaDev {
+    /*
+    This test is to showcase a few things:
+    * Parent / Child relationships.
+       * Get counts of children.
+    * The scheduler, both one-time and continuous.
+
+
+    See here for more on stop, poisonPill, and kill: https://petabridge.com/blog/how-to-stop-an-actor-akkadotnet/
+    See here fore scheduleers needing to be manually stopped: https://stackoverflow.com/questions/16299692/using-the-default-scheduler-in-akka-do-i-need-to-manually-cancel-events-when-th
+    See here for more on DeadLetters: https://stackoverflow.com/questions/23902900/how-to-view-akka-dead-letters
+
+     */
+
+    private static void runCode(String[] args) {
+        //create the container in which Akka will run
+
+        final ActorSystem system = ActorSystem.create("helloakka");
+
+        try {
+            //Create the parent actor - We will have only one parent in this example.
+            final ActorRef parentActor = system.actorOf(AkkaParent.props("some message"), "parentActorName");
+
+            /*
+            Create the deadLetter listener.
+
+            In Akka, DeadLetters are messages sent to actors that no longer exist. These messages can cause annoying warnings in Akka, but they can be intercepted (in a sense).
+
+            This is most common with scheduled messages; often, the ActorSystem itself is responsible for sending scheduled messages (the ActorSystem can also 'mask' the sending
+            actor to make it look as if another actor sent the scheduled message).
+            */
+            final ActorRef deadLetterListenerActor = system.actorOf(DeadLetterListener.props(), "deadLetterActorName");
+
+            System.out.println(">>> Press ENTER to exit <<<");
+            System.in.read();
+        } catch (IOException ioe) {
+        } finally {
+            //this breaks down the actor system - THIS IS CRITICAL
+            system.terminate();
+        }
+
+    }
+
+    public static void main(String[] args) {
+        runCode(args);
+    }
+}
+```
+
+## AkkaParent.java
+
+```
+package com.wagenseller;
+
+import akka.actor.*;
+import java.time.Duration;
+import java.util.Iterator;
+
+//Extend the AbstractActor, which requires an override of 'createReceive()'
+public class AkkaParent extends AbstractActor {
+
+    int historicalNumberOfChildren = 0;
+    private static Cancellable childCountSchedule;
+    private static Cancellable haveAnotherChildSchedule;
+    private static Cancellable killNextChildSchedule;
+
+    static public Props props(String message) {
+        return Props.create(AkkaParent.class, () -> new AkkaParent(message));
+    }
+
+    public void preStart() throws InterruptedException {
+        /*
+        The preStart() method kicks off as the actor is launched.
+        */
+
+        /*
+        Below is a way for an actor to send a message to itself in order to set off a re-occurring call; in particular, this scheduler goes off every 3 seconds.
+
+        Parameters:
+            * First time is the initial launch (in milliseconds); so if this is set for 3000, the first time this will be launched is 3 seconds _after_ this is put in the scheduler.
+                If you want to just launch immediately, set this to java.time.Duration.ZERO
+            * Second time is the frequency (in milliseconds) - so if this is 10000, this will kick off every 10 seconds. Note this starts _after_ the initial launch, which is controlled
+                by the first time above (so if the first timer is for 3 seconds and this timer for 10 seconds, after 3 seconds this is launched, then 10 seconds after that this is
+                launched again, and then every subsequent 10 seconds).
+            * Third is the actor this scheduler is for (unconfirmed).
+            * Fourth is the message being sent, each time.
+            * Fifth is the dispatcher (which, in this case, is the ActorSystem itself). Note that it is _not_ the actor that is sending this to itself - it will be the
+                ActorSystem and it will mask itself as the parent actor.
+            * Last is the actor this will appear to come from (in this case, the parent actor itself).
+
+        Note that we set it equal to an object of type 'Cancellable' - this is not necessary, but it is necessary if you ever wish to interact with this scheduler again (note there
+        is no name for the scheduler). It is _critical_ to set to a Cancellable object if you wish to properly stop its messages after the actor is torn down (as, remember, its
+        actually the ActorSystem that will send the schedule messages and it can and will do so after the parent actor's death).
+        */
+
+        //this scheduler tells the parent to create another child; it starts after 3 seconds and goes every 3 seconds after.
+        haveAnotherChildSchedule = getContext().getSystem().scheduler()
+                .schedule(java.time.Duration.ofMillis(3000), java.time.Duration.ofMillis(3000), self(),
+                        new MsgHaveAnotherChild(), getContext().getSystem().dispatcher(), self());
+
+        //this scheduler simply gets a count of children; it starts immediately and gets a count every 500 milliseconds.
+        childCountSchedule = getContext().getSystem().scheduler()
+                .schedule(java.time.Duration.ZERO, java.time.Duration.ofMillis(500), self(),
+                        new MsgChildCount(), getContext().getSystem().dispatcher(), self());
+
+        //this is a one-time schedule - after 14 seconds, we send a message to kill the first child. This fires exactly one time.  Note there is no cancellable object for
+        //this, as there is little need. In reality, if the parent died before 14 seconds, this would indeed be a dead letter.
+        getContext().getSystem().scheduler().
+                scheduleOnce(Duration.ofMillis(14000),
+                        self(), new MsgKillFirstBorn(),
+                        getContext().getSystem().dispatcher(), self());
+
+        //this schedule tells the parent to kill a child. It starts after 20 seconds - giving time for children to be born - and then kills them every 1 second after that.
+        //This is designed to kill children faster than they are born starting after 20 seconds.
+        killNextChildSchedule = getContext().getSystem().scheduler()
+                .schedule(java.time.Duration.ofMillis(20000), java.time.Duration.ofMillis(1000), self(),
+                        new MsgKillNextChild(), getContext().getSystem().dispatcher(), self());
+    }
+
+    public void postStop() {
+        /*
+        The postStop() method kicks off just before the actor is torn down.
+        */
+
+        /*
+        Note that you _could_ stop the cancellable objects here (in order to prevent dead letters), but when I tested it, dead letters were still created (albeit inconsistently).
+        Its best to stop the schedules in a conditional statement elsewhere before postStop() (I call them in KillNextChild(), as that method is the harbinger for the desctruction
+        of the parent (it initiates it).
+        */
+
+        System.out.println("I am dying.");
+    }
+
+    //This class is purely used to instruct the parent to have another child. The class is defined here, but its empty - all that its used for is to trigger having a child.
+    static private class MsgHaveAnotherChild {
+        public MsgHaveAnotherChild() {
+        }
+    }
+
+    //This class is purely used to instruct the parent to count its children. The class is defined here, but its empty - all that its used for is to trigger a child count.
+    static private class MsgChildCount {
+        public MsgChildCount() {
+        }
+    }
+
+    //This class is purely used to instruct the parent to kill the next child. The class is defined here, but its empty.
+    static private class MsgKillNextChild {
+        public MsgKillNextChild() {
+        }
+    }
+
+    //This class is purely used to instruct the parent to kill the first-born child.
+    static public class MsgKillFirstBorn {
+        public MsgKillFirstBorn() {
+        }
+    }
+
+    public void pleaseHaveAnotherChild() {
+
+        // create child actor. Note the use of context() instead of 'system' - getContext() (or context(), same thing) declares the defined actor a child of the _current_ actor
+        // instead of having the system as a parent
+        ActorRef myChild = getContext().actorOf(AkkaChild.props(), "AkkaChild_" + this.historicalNumberOfChildren);
+
+        //This watch() method watches the child for termination - if the child dies / is stopped / is given a PoisonPill this actor (in this case the parent) will be notified.
+        // If this is not present, the parent has no idea that a child died - so this is important
+        getContext().watch(myChild);
+
+        this.historicalNumberOfChildren++;
+    }
+
+    public void KillFirstBorn() {
+        //This simply kills the first child with a stop() - it tells the child to stop
+        // See here for more on stop, poisonPill, and kill: https://petabridge.com/blog/how-to-stop-an-actor-akkadotnet/
+
+        // warning - getChild is deprecated. It seems Akka is taking out all easy ways to get a single ActorRef. To do this in the future, you will have to cycle through
+        // to get the correct child (see the Iterator<ActorRef> in KillNextChild() OR the method childCountReport() for an example).
+        getContext().stop(getContext().getChild("AkkaChild_0"));
+    }
+
+    public void KillNextChild() {
+        // This method simply gets the next child and kills it with a PoisonPill.
+        // The PoisonPill method differs from the stop() method (above) as it allows for all preceding messages to be processed before the child ends (as opposed to stop, which
+        // only allows the current message to be processed before death).
+
+        // The only way to get the children is either through an iterator or shotgun something to all of them. Since we only want to interact with one, we must use the iterator
+        Iterator<ActorRef> iterChild = getContext().getChildren().iterator();
+
+        // Check the iterator object to see if there is one next - if there is it means children still exist, so simply get the next one and send a PoisonPill message to it
+        if (iterChild.hasNext()) { iterChild.next().tell(PoisonPill.getInstance(), self()); }
+
+        // if the childcount is zero, initiate shutdown of the parent
+        if (childCountReport() == 0) {
+            System.out.println("All my children are dead! Ending it.");
+
+            //end the schedules now - these are technically 'Cancellable' objects
+            // Again, its best to do this here (as opposed to postStop()) as we know for a fact its about to be terminated
+            childCountSchedule.cancel();
+            haveAnotherChildSchedule.cancel();
+            killNextChildSchedule.cancel();
+
+            //The parent sends a stop() to itself
+            getContext().stop(self());
+        }
+
+    }
+
+    public int childCountReport() {
+
+        int numChildren = 0;
+        ActorRef currentActor;
+
+        //This string is not necessary, I just want to showcase how to get the path and name of the actor
+        String myMessage;
+
+        // The only way to get the children is either through an iterator or shotgun something to all of them. Since we only want to interact with one, we must use the iterator
+        Iterator<ActorRef> iterChild = getContext().getChildren().iterator();
+
+        // Check the iterator object to see if there is one next (this is a linked list, with the pointer starting just before the first object initially).
+        while(iterChild.hasNext()) {
+
+            // Get the next child (which is an ActorRef)
+            currentActor = iterChild.next();
+            numChildren++;
+
+            // Again we do not use myMessage, I was just showcasing how to get the child's path and name if necessary
+            myMessage = "One Child's path (including its name) is: " + currentActor.path() + " and its specific name is " + currentActor.path().name();
+        }
+
+        return numChildren;
+
+
+    }
+
+    //you will notice the usage of 'final' in the variables - this is because messages should be immutable as they are shared between different threads. The idea is to lock in the
+    //values _first_, _then_ send the unchangeable object through the actor threads.
+    private final String message;
+
+    public AkkaParent(String message) {
+        this.message = message;
+    }
+
+    public void handleKilledChild(Terminated killedActor) {
+        System.out.println("Oh no I grieve for " + killedActor.actor().path().name() + ".");
+    }
+
+    @Override
+    public Receive createReceive() {
+        return receiveBuilder()
+                .match(MsgHaveAnotherChild.class, wtg -> {
+                    pleaseHaveAnotherChild();
+                })
+                .match(MsgChildCount.class, x -> {
+                    int numChildren = childCountReport();
+                    System.out.println("I have " + numChildren + " children.");
+                })
+                .match(MsgKillFirstBorn.class, x -> {
+                    KillFirstBorn();
+                })
+                .match(MsgKillNextChild.class, x -> {
+                    KillNextChild();
+                })
+
+                .match(Terminated.class, killedActor -> {
+                    /*
+                    Terminated.class is a special Akka class that is used to send actor death notices to any actor that has used watch() on it. When the actor dies,
+                    A 'Terminated' object is sent to all other actors that were watching for it.
+                    */
+
+                    handleKilledChild(killedActor);
+                    /*
+                    Its also possible to immediately resurrect the actor with the same name here; for example, if "AkkaChild_0" died, you can get its name
+                        with 'killedActor.actor().path().name()' and then resurrect it immediately with no consequence with:
+                    getContext().watch(getContext().actorOf(AkkaChild.props(), killedActor.actor().path().name()));
+                    */
+                })
+                .build();
+    }
+}
+
+```
+
+## AkkaChild.java
+
+```
+package com.wagenseller;
+
+import akka.actor.AbstractActor;
+import akka.actor.Props;
+
+public class AkkaChild extends AbstractActor {
+    static public Props props() {
+        return Props.create(AkkaChild.class, () -> new AkkaChild());
+    }
+
+    public AkkaChild() {
+    }
+
+    public void preStart() throws InterruptedException {
+        System.out.println("I am born - my path is " + getSelf().path() + " and my name is " + getSelf().path().name());
+
+    }
+
+    public void postStop() {
+        System.out.println("I, " + getSelf().path().name() + " am taking a dirt nap (in my own postStop()).");
+    }
+
+    // I just put this class here as a placeholder - DoSomething is never actually used
+    private class DoSomething {
+        public DoSomething() {
+        }
+    }
+
+    @Override
+    public Receive createReceive() {
+        return receiveBuilder()
+                .match(DoSomething.class, greeting -> {
+                    System.out.println("");
+                })
+                .build();
+    }
+}
+
+```
+
+## DeadLetterListener.java
+
+```
+package com.wagenseller;
+
+import akka.actor.*;
+
+public class DeadLetterListener extends AbstractActor {
+
+    static public Props props() {
+        return Props.create(DeadLetterListener.class, () -> new DeadLetterListener());
+    }
+
+    public DeadLetterListener() {
+
+    }
+
+    public void preStart() throws InterruptedException {
+        // This allows this class to listen for dead letters - it uses getContext() to reference itself, then it finds its system and subscribes to specific messages
+        // Note 'subscribe(self(), DeadLetter.class)' - its subscribing itself to the system and it will listen for DeadLetter messages.
+        getContext().getSystem().eventStream().subscribe(self(), DeadLetter.class);
+    }
+
+        @Override
+    public Receive createReceive() {
+        return receiveBuilder()
+                .match(DeadLetter.class, myDeadLetter -> {
+                    System.out.println("Dead letter found! from:::::to:::::Message: " + myDeadLetter.sender() + " ::::: " + myDeadLetter.recipient() + " ::::: " + myDeadLetter.message());
+                })
+                .build();
+    }
+}
+
+
+```
+
+
 
 # Index
 

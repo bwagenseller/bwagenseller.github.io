@@ -1,6 +1,8 @@
 - **Java Basics**
 - [Java Terms and Concepts](/learn_to_code/java/java_terms_and_concepts)
 - [Basics of Java](/learn_to_code/java/java_basics)
+- [Java Classes](/learn_to_code/java/java_classes) 
+- [Java Lists, Arrays, and HashMaps](/learn_to_code/java/java_lists_arrays_hashmaps)
 - **Advanced Java**
 - [Akka](/learn_to_code/java/akka/)
 - [Protobuf](/learn_to_code/java/protobuf)

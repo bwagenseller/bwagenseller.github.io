@@ -24,7 +24,9 @@ I decided to do something similar here. The following notes are from a combinati
 - [MySQL Server Install Instructions](/databases/mysql/mysql_install) - Details on how to quickly get a new MySQL database up and running.
 - [General MySQL Maintenance](/databases/mysql/mysql_maintenance) - General maintenance tips for administering a MySQL database.
 - [General MySQL Troubleshooting](/databases/mysql/mysql_troubleshooting) - General troubleshooting tips for administering a MySQL database.
-- [Couchbase Cluster Install Instructions](/databases/couchbase/couchbase_install) - Details on how to quickly get a new Couchbase cluster up and running.
+- [Non-Relational Databases](/databases/nonrelational_databases/nonrelational_databases) - Introducing Non-relational databases.  
+- [Couchbase Cluster Install Instructions](/databases/couchbase/couchbase_install) - Details on how to quickly get a new Couchbase cluster up and running.  
+- [Couchbase Basics](/databases/couchbase/couchbase_basics) - The basics of Couchbase.  
 
 # Learning To Code
 - [Docsify](/learn_to_code/docsify/) - Overview of how to use Docsify and Markdown. 

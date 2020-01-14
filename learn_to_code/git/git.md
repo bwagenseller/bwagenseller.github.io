@@ -691,6 +691,20 @@ git push origin --tags
 ```
 * `origin` is the [remote name](learn_to_code/git/git_concepts?id=remote-name); it is usually `origin`.
 
+## Moving Tags
+
+> This was first found [here](https://stackoverflow.com/questions/8044583/how-can-i-move-a-tag-on-a-git-branch-to-a-different-commit#8044605).  
+
+Sometimes you may wish to move an existing tag; to do so:  
+```
+git tag -f -a <tagname>
+```  
+
+Then to push to the remote server:  
+```
+git push -f --tags
+```  
+
 ## Deleting Tags
 
 To delete a tag locally, its:

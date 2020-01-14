@@ -7,5 +7,7 @@
 # Install
 - [Couchbase Cluster Install Instructions](/databases/couchbase/couchbase_install) - Details on how to quickly get a new Couchbase cluster up and running.
 
+# Fundamentals
+- [Couchbase Basics](/databases/couchbase/couchbase_basics) - The basics of Couchbase.
 
 Or, if you wish, [take me back to the main database page](/databases/).

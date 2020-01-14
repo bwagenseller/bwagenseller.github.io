@@ -1,2 +1,4 @@
-- [**Databases**](/databases/)
-- [Couchbase Cluster Install](/databases/couchbase/couchbase_install) 
+- [**Main Database Page**](/databases/)  
+- [**Main Couchbase Page**](/databases/couchbase/)  
+- [**Couchbase Cluster Install**](/databases/couchbase/couchbase_install) 
+- [**Couchbase Basics**](/databases/couchbase/couchbase_basics) 

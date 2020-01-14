@@ -33,7 +33,7 @@ git branch
 
 ## Displaying All Remote Branches
 
-!> This does **not** query the remote repository before its issued, nor does it prune deleted branches from the remote repository; its best to perform a [pull](learn_to_code/git/git_cli_commands?id=simple-pull) first and then [prune deleted remote branches](learn_to_code/git/git_cli_commands?id=clean-up-remote-branches) before issuing this command.
+!> This does **not** query the remote repository before its issued, nor does it prune deleted branches from the remote repository; its best to perform a [pull](learn_to_code/git/git_cli_commands?id=simple-pull) first and then [prune deleted remote branches](learn_to_code/git/git_cli_commands?id=clean-up-remote-branches) before issuing this command; in addition, if yo uwish to update your local remote branch listing, [run this](learn_to_code/git/git_cli_commands?id=updating-remote-branches).
 
 To display all remote [branches](learn_to_code/git/git_concepts?id=branch), type:
 ```
@@ -45,6 +45,13 @@ This will show all remote branches.
 > Sometimes the list will be different because someone else deleted a remote branch - if this is the case, you will have to [prune your remote branches](learn_to_code/git/git_cli_commands?id=clean-up-remote-branches).  
 
 !> You cannot alter remote branches directly; to do so, you have to [checkout](learn_to_code/git/git_cli_commands?id=checkout) the branch locally (by [creating a new local branch of the remote branch](learn_to_code/git/git_cli_commands?id=create-new-branch-and-checkout)) and alter that.
+
+## Updating Remote Branches
+
+To update your local remote branch listing:  
+```
+git remote update origin --prune
+```
 
 ## Creating New Branch
 

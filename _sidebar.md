@@ -7,12 +7,15 @@
 - **Raspberry Pi**
  - [Raspberry Pi](/operating_systems/raspberry_pi/) 
 - **Databases**
+ - [Main Database Page](/databases/)  
  - [Relational Databases](/databases/relational_databases/)
  - [SQL](/databases/relational_databases/sql)
  - [MySQL Server Install Instructions](/databases/mysql/mysql_install)
  - [MySQL Maintenance](/databases/mysql/mysql_maintenance)
  - [MySQL Troubleshooting](/databases/mysql/mysql_troubleshooting)
+ - [Non-Relational Databases](/databases/nonrelational_databases/nonrelational_databases)  
  - [Couchbase Cluster Install Instructions](/databases/couchbase/couchbase_install)
+ - [Couchbase Basics](/databases/couchbase/couchbase_basics)  
 - **Computer Science**
  - [Docsify](/learn_to_code/docsify/)
  - [Git](/learn_to_code/git/)

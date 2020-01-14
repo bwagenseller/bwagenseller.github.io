@@ -526,7 +526,7 @@ input_state_slot_increase_btn = "h0right"
 input_state_slot_decrease_btn = "h0left"
 ```
 
-I personally like the below better - Note the use of  \*\_axis in addition to the use of \*\_btn below! **ALSO NOTE** this was rendered invalid as of the late May 2019 update (the update that removed lr-fbalpha and started using lr-fbneo). I am leaving this here for historical purposes, but you are better off using the last listed (below this one): 
+I personally like the below better - Note the use of  \*\_axis in addition to the use of \*\_btn below! **ALSO NOTE** this was rendered invalid as of the late May 2019 update (the update that removed lr-fbalpha and started using lr-fbneo), but it seems to be **back as the standard** as of November 2019: 
 ```
 input_device = "Gamepad"
 input_driver = "udev"
@@ -564,7 +564,7 @@ input_state_slot_increase_axis = "+0"
 input_state_slot_decrease_axis = "-0"
 ```
 
-This is the setup I currently use (after the late May 2019 update, the update that removed lr-fbalpha and started using lr-fbneo):
+This is the setup that was valid from May 2019 to possibly November 2019, but post November 2019 **this is no longer valid - use the above configuration instead**.  I am leaving this here for historical purposes, especially if this changes yet again:
 ```
 input_device = "Gamepad"
 input_driver = "udev"
