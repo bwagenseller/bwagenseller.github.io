@@ -57,11 +57,12 @@ List<Thread> myThreads=new ArrayList<Thread>();
 * The usage of `Thread` indicates the _type_ of object stored in the list; in our case it is a `Thread`, but this can be any non-primitive type (`String` and all other classes, but not simple things like `int`)
  * We listed `Thread` twice, but since we wrote `List<Thread>` we could have written `ArrayList<>()` as the first implies the second (unless they are different, i.e. the <font color="purple">interface type</font> and <font color="purple">implementation type</font> are different).
 
-<font color="green">ArrayList</font>s are dynamic - you do not have to know their size beforehand. That said, if you wish to pre-define it, you can declare it like this:
+ <font color="green">ArrayList</font>s are dynamic - you do not have to know their size beforehand. That said, if you wish to pre-define it, you can declare it like this:  
 ```
 List<Thread> myVar = new ArrayList<Thread>(10);
 ```
-* This example sets the default to 10 objects in the <font color="green">ArrayList</font>, but if more are added it will simply add more and not error out.
+
+* This example sets the default to 10 objects in the <font color="green">ArrayList</font>, but if more are added it will simply add more and not error out.  
 
 !> If you would like to make an <font color="green">ArrayList</font> of a [primitive](learn_to_code/java/java_basics?id=primitive-variables), you _must_ use its class equivalent (so for example, do not use `int`, use `Integer`).
 
@@ -410,7 +411,7 @@ For ArrayLists, you can use a [lambda function](learn_to_code/java/java_basics?i
  * `schoolElement` can be used just like the underlying object is used, but you _cannot_ make changes to it (well, you can, but it will not update the underlying object).
 
 
-## Using the Iterator Class 
+## Using the Iterator Class (Lists)
 
 You can also use the [Iterator class](learn_to_code/java/java_basics?id=iterator) to loop through every object in the ArrayList:
 ```
@@ -423,8 +424,437 @@ You can also use the [Iterator class](learn_to_code/java/java_basics?id=iterator
 * This does <font color="red">not</font> work for Arrays.
 * See the [ListIterator class](learn_to_code/java/java_lists_arrays_hashmaps?id=listiterator) for more information.
 
+**<font size="4">Testing And Moving The Cursor</font>**
+
+Initially, the cursor points to an area just before the first object (this is done so you must use `next()` to advance initially without weird oddities). You can use the `hasNext()` method (i.e. `myIterator.hasNext()`) to _check_ and see if there is another object after the cursor (note this does not not actually _move_ the cursor); conversely, `hasPrevious()` does the same thing, but backwards (again, it does not actually move the cursor though).
+
+Usually, `hasNext()` or `hasPrevious()` is used in a while loop to _check_ if there are more objects to loop through - if there are, you actually _access_ that object with either `next()` or `previous()` (depending on if you are going backwards or forwards). 
+
+An example (using my [School class](learn_to_code/java/java_classes?id=class-example)):
+```
+        //create an ArrayList of Schools
+        List<School> mySchools=new ArrayList<>();
+
+        //make a bunch of School objects we will eventually store to our listing
+        School gaTech = new School("Georgia Institute of Technology");
+        School WCU = new School("West Chester University of Pennsylvania");
+        School albright = new School("Albright University");
+
+        //add the School objects to our ArrayList
+        mySchools.add(gaTech);
+        mySchools.add(WCU);
+        mySchools.add(albright);
+
+        ListIterator<School> iterator = mySchools.listIterator();
+		
+		//check to see if there is an object that follows after the cursor's current location
+        while(iterator.hasNext()) {
+            //get the next object and call its 'getName()' method (which is a defined method of the School class).
+            System.out.println(iterator.next().getName());
+        }
+```
+* Notice how we do _not_ reference `mySchools` to utilize `getName()` - we use the `iterator` object.
+
+**<font size="4">Manipulating the ArrayList with ListIterator</font>**
+
+Its also possible to _directly_ manipulate the ArrayList through the `iterator` object:
+* We can use the `add(myObject)` method of the operator to add `myObject` to the list immediately after the cursor (and, coincidentally, in front of the object that can be accessed with `next()`).
+* We can use the `remove()` to remove the current object.
+ * This _will_ error out if you have not used `next()` yet _or_ there are no objects in the list.
+* We can use the `set(myObject)` to overwrite the current object last returned by a call to either `next()` or `previous()`.
+
+--- 
+
+# Maps  
+
+## Different Types of Maps  
+
+Typically, a `Map` is a lookup - you have the thing you want to look up (a <font color="purple">key</font>) and a <font color="purple">value</font> associated with that <font color="purple">key</font>, For example, some examples of key/value pairs are:  
+* Social Security Number / Taxpayer Name  
+* Employee ID / Employee Address
+* Individual's School ID / Major of Study
+
+More useful is if the <font color="purple">key</font> _uniquely identifies_ an entity and the <font color="purple">value</font> is a _collection of information_ (i.e. what could be an entire JAva [class](/learn_to_code/java/java_classes): 
+* Social Security Number / Taxpayer's Tax Return History (which can be an array, list, etc itself).  
+* Employee ID / Employee Evaluation.  
+* Individual's School ID / History of Student's Classes Taken.  
+
+Most maps can accept a `null` value (with the **exception of** `ConcurrentHashMap`) as either the <font color="purple">key</font> or <font color="purple">value</font>; maps _cannot_ contain duplicate keys (i.e. the keys **must** be unique).  
+
+Java has a few different types of maps: 
+* <font color="green">Map</font>
+ * Actually `Map` is simply an [interface](learn_to_code/java/java_classes?id=interface) and cannot directly be used.  
+* <font color="purple">HashMap</font> (implements `Map`)
+ * Good for general use of a `Map` if concurrency or order is needed.  
+ * `HashMap` is _not_ thread safe - if you need a thread-safe `Map`, use `ConcurrentHashMap`.  
+* <font color="purple">LinkedHashMap</font> (implements `Map`)
+ * Is _not_ thread safe - if you need a thread-safe `Map`, use `ConcurrentHashMap`.   
+ * Guarantees order of keys via insertion order.  
+ * Slightly slower in speed when compared to `HashMap`.  
+ * You have the option of setting thie order to 'access order' too, but the default is insertion order (see [the documentation](https://docs.oracle.com/javase/6/docs/api/java/util/LinkedHashMap.html#LinkedHashMap(int,%20float,%20boolean&#41;)).
+   * If set to access order, the methods `get()`, `put()`, and `putAll()` _will_ change the order (other method calls will not).  
+ * _This seems to be the best pick if you do not have to worry about concurrency but do worry about insertion order_.
+* <font color="purple">ConcurrentHashMap</font>
+ * Use this instead of a `HashMap` when the `Map` will be utilized in a threaded environment.  
+ * There is no guaranteed order for the keys for `ConcurrentHashMap`.  
+ * **Cannot** accept a null key (most other `Map` items can).  
+* <font color="purple">TreeMap</font> 
+ * Is _not_ thread safe - if you need a thread-safe `Map`, use `ConcurrentHashMap`.   
+ * Guarantees order of keys via keys sorted by ascending order (whatever `Object` type that is the key, it _must_ have either the `Comparable` or `Comparator` methods overridden).  
+ * Considerably slower in speed when compared to `HashMap` (O(log(n)) vs O(1)).  
+
+> For more information on Maps in general, [this page](http://www.javapractices.com/topic/TopicAction.do?Id=65) shows a good comparison of older `Maps`, [here](https://stackoverflow.com/questions/10710193/how-to-preserve-insertion-order-in-hashmap) is a discussion on `HashMap` vs `LinkedHashMap`, [here](https://www.baeldung.com/java-treemap-vs-hashmap) is a resource on `HashMap` vs `TreeMap`, and [here](https://www.java67.com/2012/08/difference-between-hashmap-and-concurrentHashMap-java-collection.html) is a resource on `HashMap` vs `ConcurrentHashMap`.   
+
+!> [This site](https://javarevisited.blogspot.com/2011/04/difference-between-concurrenthashmap.html) claims that knowing the difference between a ConcurrentHashMap vs Hashtable vs Synchronized map is a constant question in Java coding interviews.  Hashtable is legacy and uses synchronized methods to get thread safety - its slow when there are multiple threads accessing it.  Synchronized Map is similar to Hashtable - with the same defects - but its newer and can wrap around any `Map` object.  The best choice for speed is `ConcurrentHashMap` if the `Map` will be accessed by multiple threads, potentially at once.  
+
+## Basic Map Example  
+
+**<font size="4">HashMapPassedReferenceTest.java</font>**  
+```
+package com.wagenseller;
+
+import java.util.Map;
+
+public class HashMapPassedReferenceTest {
+
+    public static void ReferenceTest(Map<String, String> tempMap, String name, String state) {
+        tempMap.put(name,state);
+    }
+}
+```
+
+**<font size="4">Main.java</font>**  
+```
+package com.wagenseller;
+
+
+import java.util.*;
+
+public class Main {
+
+    public static void main(String[] args) {
+
+        Map<String,String> myMap = new LinkedHashMap<>();
+
+        myMap.put("Brent","Pennsylvania");
+        myMap.put("Rick","Wisconsin");
+        myMap.put("Robert","New Jersey");
+        myMap.put("Barbara","New Jersey");
+        myMap.put("Chris","Illinois");
+
+        HashMapPassedReferenceTest.ReferenceTest(myMap,"Tracy","Georgia");
+        HashMapPassedReferenceTest.ReferenceTest(myMap,"Marlow","Pennsylvania");
+
+        //print out the list
+        for (String key : myMap.keySet()) {
+            String state = myMap.get(key);
+            System.out.println(key + " - State: " + state);
+        }
+
+        String emptySetTest = myMap.get("");
+        System.out.println("Empty Set test returned (should be null): " + emptySetTest);
+
+        String nullTest = myMap.get(null);
+        System.out.println("Null test returned (should be null): " + nullTest);
+
+        String removedPersonsState = myMap.remove("Chris");
+        System.out.println("Removed Person's State: " + removedPersonsState);
+
+        System.out.println("There are now " + myMap.size() + " people left in the HashMap.");
+
+        //print out the list again - we should be missing the removed person (Chris from Illinois) 
+        for (String key : myMap.keySet()) {
+            String state = myMap.get(key);
+            System.out.println(key + " - State: " + state);
+        }
+	}
+}
+```
+
+> The `for` loop basically extracts the pairs, one by one; more on this [here](learn_to_code/java/java_lists_arrays_hashmaps?id=looping-via-for-maps), and the superior (yet more cumbersome) way [here](learn_to_code/java/java_lists_arrays_hashmaps?id=looping-via-the-iterator-class-maps). Know that this `for` loop method can potentially error out if an element is removed from the map while its being trafersed, hence [utilizing the Iterator class is recommended](learn_to_code/java/java_lists_arrays_hashmaps?id=looping-via-the-iterator-class-maps).  
+
+
+## Advanced Map Example 1
+
+The [basic map example](learn_to_code/java/java_lists_arrays_hashmaps?id=basic-map-example) simply used a `<String, String>` as the `<key, value>`; this example uses something a bit more advanced (a `<String, ArrayList<HashMapTestClass>>`).  Using a `ArrayList<HashMapTestClass>` allows for an entire array as the <font color="purple">value</font> of a single <font color="purple">key</font> in the original `Map` object. 
+
+> If we wanted to use a different type of object other than `String` as the <font color="purple">key</font>, we would have to make sure that `equals()` and `hashCode()` are overridden for whatever object is used (see [here](learn_to_code/java/java_classes?id=overriding-methods) for more on overriding those two methods).  
+
+**<font size="4">HashMapTestClass.java</font>**
+```
+package com.wagenseller;
+
+public class HashMapTestClass {
+
+    private int someInt;
+    private String someString;
+
+    public HashMapTestClass(int someInt, String someString) {
+        this.someInt = someInt;
+        this.someString = someString;
+
+    }
+
+    public int getSomeInt() { return someInt; }
+    public void setSomeInt(int someInt) { this.someInt = someInt; }
+
+    public String getSomeString() { return someString; }
+    public void setSomeString(String someString) { this.someString = someString; }
+}
+
+```
+
+
+**<font size="4">Main.java</font>**  
+```
+package com.wagenseller;
+
+import java.util.*;
+
+public class Main {
+
+    public static void main(String[] args) {
+
+        Map<String, ArrayList<HashMapTestClass>> myHashMap = new HashMap<>();
+
+        HashMapTestClass lifeEvent;
+
+		//create a new ArrayList that will house our ArrayList of life events
+        ArrayList<HashMapTestClass> lifeEvents = new ArrayList<>();
+
+        /////start out with John
+		//We need to create a new HashMapTestClass for each lifeEvent, and then we will stuff that onto the ArrayList lifeEvents
+        lifeEvent = new HashMapTestClass(1988,"Birth");
+        lifeEvents.add(lifeEvent);
+
+        lifeEvent = new HashMapTestClass(2006,"Graduated High School");
+        lifeEvents.add(lifeEvent);
+
+        lifeEvent = new HashMapTestClass(2011,"Graduated College");
+        lifeEvents.add(lifeEvent);
+
+        lifeEvent = new HashMapTestClass(2016,"Got Scolded");
+        lifeEvents.add(lifeEvent);
+
+        lifeEvent = new HashMapTestClass(2017,"Got Married");
+        lifeEvents.add(lifeEvent);
+
+        lifeEvent = new HashMapTestClass(2019,"Got New Job");
+        lifeEvents.add(lifeEvent);
+
+		//add the key and value (in this case the ArrayList<HashMapTestClass> "lifeEvents") onto our HashMap
+        myHashMap.put("John", lifeEvents);
+
+        /////now for Heather
+		//We MUST re-initialize lifeEvents, otherwise it will still contain the information from John
+        lifeEvents = new ArrayList<>();
+
+        lifeEvent = new HashMapTestClass(1992,"Birth");
+        lifeEvents.add(lifeEvent);
+
+        lifeEvent = new HashMapTestClass(2011,"Graduated High School");
+        lifeEvents.add(lifeEvent);
+
+        lifeEvent = new HashMapTestClass(2016,"Graduated College");
+        lifeEvents.add(lifeEvent);
+
+        lifeEvent = new HashMapTestClass(2017,"Got Married");
+        lifeEvents.add(lifeEvent);
+
+        lifeEvent = new HashMapTestClass(2018,"Got New Job");
+        lifeEvents.add(lifeEvent);
+
+        myHashMap.put("Heather", lifeEvents);
+
+        /////now for James
+        lifeEvents = new ArrayList<>();
+
+        lifeEvent = new HashMapTestClass(2017,"Birth");
+        lifeEvents.add(lifeEvent);
+
+        lifeEvent = new HashMapTestClass(2020,"Attended Pre-K");
+        lifeEvents.add(lifeEvent);
+
+        myHashMap.put("James", lifeEvents);
+
+        /////now for Rose
+        lifeEvents = new ArrayList<>();
+
+        lifeEvent = new HashMapTestClass(2019,"Birth");
+        lifeEvents.add(lifeEvent);
+
+        myHashMap.put("Rose", lifeEvents);
+
+        for (String key : myHashMap.keySet()) {
+            ArrayList<HashMapTestClass> tempLifeEvents = myHashMap.get(key);
+
+            for(HashMapTestClass oneEvent: tempLifeEvents) {
+                if (oneEvent.getSomeInt() == 2016 && oneEvent.getSomeString().equals("Got Scolded")) {
+                    oneEvent.setSomeString("Was....corrrrrrrected.");
+                }
+                System.out.println(key + " - Year: " + oneEvent.getSomeInt() + " Event: " + oneEvent.getSomeString());
+            }
+        }
+	}
+}
+```
+
+## Defining a Map
+
+> This section uses [the basic map example](learn_to_code/java/java_lists_arrays_hashmaps?id=basic-map-example).  
+
+We can define a `Map` like so:
+```
+Map<String,String> myMap = new LinkedHashMap<>();
+```
+
+> Neither the <font color="purple">key</font>s - nor <font color="purple">value</font>s - have to be `String` - they can be any object.  
+
+Above, we define the [interface](learn_to_code/java/java_classes?id=interface) as `Map<String,String>` with a <font color="red">(</font><font color="orange">MapInterface</font><font color="purple"><</font>(Key Object Type, Value Object Type)<font color="purple">></font><font color="red">)</font> - in our case, both the <font color="purple">key</font> and <font color="purple">value</font> for each entry will be of type `String`, so we just use `String, String`.  
+	
+In the interface we said `Map<String,String>`, but notice in the variable definition we said `new LinkedHashMap<>()` - we could have said `new LinkedHashMap<String, String>()` instead, but that would have been redundant (this is how it used to be in Java).  
+
+> Note that we could have used any [interface](learn_to_code/java/java_classes?id=interface) from anything that uses the `Map` interface (a short selection is [here](learn_to_code/java/java_lists_arrays_hashmaps?id=different-types-of-maps), but we stuck with `Map` as we want to leave our options open for sending this map to a different method without having to [downcast or upcast](learn_to_code/java/java_classes?id=downcasting-upcasting) the interface. 
+
+## Adding to a Map
+
+> This section uses [the basic map example](learn_to_code/java/java_lists_arrays_hashmaps?id=basic-map-example).  
+
+Each element is placed in the Map with `.put(keyObject,valueObject)`; for the first line in [the basic map example](learn_to_code/java/java_lists_arrays_hashmaps?id=basic-map-example), we had `myMap.put("Brent","Pennsylvania");`, which created a <font color="purple">key</font> as a String "Brent" and with a <font color="purple">value</font> of "Pennsylvania".  
+
+> Neither the <font color="purple">key</font>s - nor <font color="purple">value</font>s - have to be `String` - they can be any object.  
+
+## Maps Passed by Reference
+
+> This section uses [the basic map example](learn_to_code/java/java_lists_arrays_hashmaps?id=basic-map-example).  
+
+We passed the map along with a <font color="purple">key</font> and <font color="purple">value</font> (a key of "Tracy" and a value of "Georgia") to the static method `HashMapPassedReferenceTest.ReferenceTest(tempMap,name,state)` in [the basic map example](learn_to_code/java/java_lists_arrays_hashmaps?id=basic-map-example).  I passed the map to this method to simply show that if the map is passed as a variable elsewhere, it can be modified elsewhere and the changes will be retained once that method call ends (the states for both "Tracy" and "Marlow" persist in the for loop that prints the <font color="purple">key</font> / <font color="purple">value</font>s).  
+
+!> Know that any object stored in multiple maps will persist until it is removed in the final map it belongs to.  
+
+## Extracting Map Values
+
+> This section uses [the basic map example](learn_to_code/java/java_lists_arrays_hashmaps?id=basic-map-example).  
+
+The base way to get the object <font color="purple">value</font> from the map (given the <font color="purple">key</font>) is via the `get()` method:  
+```
+String state = myMap.get(key);
+```
+
+This returns the object as <font color="purple">value</font> (which in the example's case is a String).  A `null` is returned if the key does not exist.  
+
+!> Most map classes can indeed use both a `null` <font color="purple">key</font> and/or <font color="purple">value</font>, with the notable exception of `ConcurrentHashMap`; `ConcurrentHashMap` will throw an error if a `null` key is stored or even searched via [get()](learn_to_code/java/java_lists_arrays_hashmaps?id=extracting-map-values).  
+
+## Removing Map Values
+
+> This section uses [the basic map example](learn_to_code/java/java_lists_arrays_hashmaps?id=basic-map-example).  
+
+To extract an object _and_ remove it from the map at the same time we can use `.remove()` as such:  
+```
+String removedPersonsState = myMap.remove("Chris");
+```  
+The above attempts to remove <font color="purple">value</font> associated with the <font color="purple">key</font> "Chris" _and at the same time_ will store the object (in our case the <font color="purple">value</font> String) to a variable.  If no  <font color="purple">key</font> exists that matches the given key (in our case "Chris") a `null` is returned.  
+
+!> Most map classes can handle a `null` object as a key (in our example if we did something like `String removedPersonsState = myMap.remove(null)`), but it should be noted that `ConcurrentHashMap` will throw an error if a `null` key is used in a `remove()`.  
+
+## Getting Count of Map Values  
+
+Getting the count of map values is simple: use `.size()`:  
+```
+myMap.size()
+```  
+
+## Looping via the Iterator Class (Maps)
+
+> See the [ListIterator class](learn_to_code/java/java_lists_arrays_hashmaps?id=listiterator) for more information.  The basis of this discussion was found [here](https://stackoverflow.com/questions/1066589/iterate-through-a-hashmap).  
+
+You can use the [Iterator class](learn_to_code/java/java_basics?id=iterator) to loop through every object in the Map:
+```
+        Map<Integer,String> myHashMap = new HashMap<>();
+
+        for (int i=0; i<100;i++) {
+            myHashMap.put(Integer.valueOf(i), "a");
+        }
+
+        Iterator iterator = myHashMap.entrySet().iterator();
+        while (iterator.hasNext()) {
+            Map.Entry pair = (Map.Entry) iterator.next();
+			
+			//iterator.remove(); //This is commented out, but you could remove this item here without issue (it is removed from the Map, but the pair variable still holds the key and value safely)
+			
+            Integer myKey = (Integer) pair.getKey();
+            String myValue = (String) pair.getValue();
+
+            System.out.println("Key: " + myKey.intValue() + "   value: " + myValue);
+        }
+```
+* This works for most Maps.
+* We use `entrySet().iterator()` to get the iterator for the `Map` (in this case a HashMap).  
+* We use the [interface](learn_to_code/java/java_classes?id=interface) `Map.Entry` to interact with each pair.
+* We use `getKey()` and `getValue()` to get the key and value (we have to cast the class as their respective classes).  
+
+Initially, the cursor points to an area just before the first object (this is done so you must use `next()` to advance initially without weird oddities). You can use the `hasNext()` method (i.e. `iterator.hasNext()`) to _check_ and see if there is another object after the cursor (note this does not not actually _move_ the cursor).
+
+Usually, `hasNext()` is used in a while loop to _check_ if there are more objects to loop through - if there are, you actually _access_ that object with `next()`. 
+
+Finally, its also possible to remove an element off the map too: the above code has `iterator.remove()` commented out, but that is how it could be done. `iterator.remove()` doesnt return anything; it is removed from the Map, but the `pair` variable still holds the key and value safely.   
+
+!> Using the `Iterator` method is preferred; its also possible to [simply use a for loop](learn_to_code/java/java_lists_arrays_hashmaps?id=looping-via-for-maps), but that can error out if you attempt to remove anything in the loop (or some other thread removes an item).  
+
+## Looping via For (Maps)
+
+Its also possible to simply loop through the `Map` with a `for` loop like so:  
+```
+	Map<Integer,String> myHashMap = new HashMap<>();
+
+	// store values
+	for (int i=0; i<100;i++) {
+		myHashMap.put(Integer.valueOf(i), "a");
+	}
+		
+	// use a for loop to extract each key/pair
+	for (Integer key : myHashMap.keySet()) {
+		System.out.println("Key: " + key.intValue() + "   value: " + myHashMap.get(key));
+	}
+```
+
+This is far more straightforward than the [iterator version](learn_to_code/java/java_lists_arrays_hashmaps?id=looping-via-the-iterator-class-maps), but it comes at a price: if an element is removed from the `Map` while this loops, you *will* have an error thrown (even if its not another thread that removes the current item - an error will be thrown if you try to remove an item in the above for loop itself). This method should _only_ be used if you are absolutely certain that: 
+* You will not be removing any elements from the `Map` in the loop.  
+* No other process / thread will remove an item from the `Map` while you are looping here. 
+
+## Map Order Test
+
+This function can be placed anywhere and called - it can test to see if the order of one of the various [map types](learn_to_code/java/java_lists_arrays_hashmaps?id=different-types-of-maps) performs as expected.  
+```
+    public void testHashMapOrder() {
+
+        int potentialIndex;
+        int nextNum;
+
+        Map<Integer, Integer> myHashMap = new LinkedHashMap<>();
+        List<Integer> myList = new ArrayList<Integer>();
+        int testWorked = 1;
+
+        //fill hashmap
+        nextNum = 0;
+        for(int i = 0; i < 100; i++) {
+
+            //mix up the indexes just to make sure the index does not matter
+            do  { potentialIndex = random.nextInt(1000000); } while (myHashMap.get(potentialIndex) != null);
+            myHashMap.put(new Integer(potentialIndex), new Integer(nextNum));
+            myList.add(nextNum);
+            nextNum++;
+        }
+
+        System.out.println("The values were added sequentially in order.");
+        for (Integer key : myHashMap.keySet()) {
+            System.out.println("key: " + key.intValue() + " ::: value: " + myHashMap.get(key).intValue());
+        }
+    }
+```
 
 ---
+
 
 # ListIterator
 
@@ -459,42 +889,4 @@ The major differences are the required methods (`listIterator()` vs `iterator()`
 
 > Usually a simple `Iterator` is used over the more extensive `ListIterator`.
 
-## Testing And Moving The Cursor
-
-Initially, the cursor points to an area just before the first object (this is done so you must use `next()` to advance initially without weird oddities). You can use the `hasNext()` method (i.e. `myIterator.hasNext()`) to _check_ and see if there is another object after the cursor (note this does not not actually _move_ the cursor); conversely, `hasPrevious()` does the same thing, but backwards (again, it does not actually move the cursor though).
-
-Usually, `hasNext()` or `hasPrevious()` is used in a while loop to _check_ if there are more objects to loop through - if there are, you actually _access_ that object with either `next()` or `previous()` (depending on if you are going backwards or forwards). 
-
-An example (using my [School class](learn_to_code/java/java_classes?id=class-example)):
-```
-        //create an ArrayList of Schools
-        List<School> mySchools=new ArrayList<>();
-
-        //make a bunch of School objects we will eventually store to our listing
-        School gaTech = new School("Georgia Institute of Technology");
-        School WCU = new School("West Chester University of Pennsylvania");
-        School albright = new School("Albright University");
-
-        //add the School objects to our ArrayList
-        mySchools.add(gaTech);
-        mySchools.add(WCU);
-        mySchools.add(albright);
-
-        ListIterator<School> iterator = mySchools.listIterator();
-		
-		//check to see if there is an object that follows after the cursor's current location
-        while(iterator.hasNext()) {
-            //get the next object and call its 'getName()' method (which is a defined method of the School class).
-            System.out.println(iterator.next().getName());
-        }
-```
-* Notice how we do _not_ reference `mySchools` to utilize `getName()` - we use the `iterator` object.
-
-## Manipulating the ArrayList with ListIterator
-
-Its also possible to _directly_ manipulate the ArrayList through the `iterator` object:
-* We can use the `add(myObject)` method of the operator to add `myObject` to the list immediately after the cursor (and, coincidentally, in front of the object that can be accessed with `next()`).
-* We can use the `remove()` to remove the current object.
- * This _will_ error out if you have not used `next()` yet _or_ there are no objects in the list.
-* We can use the `set(myObject)` to overwrite the current object last returned by a call to either `next()` or `previous()`.
 

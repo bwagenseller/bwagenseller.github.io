@@ -6,6 +6,10 @@ This documentation is meant for those that have at least a basic grasp of how to
 
 Java has a basic formula for writing an application: you will create a [basic Java file](learn_to_code/java/java_basics?id=basic-file-setup-first-java-program) that has [a class](learn_to_code/java/java_basics?id=java-classes); you will [compile](learn_to_code/java/java_basics?id=basic-compiling) your code, and then [run](learn_to_code/java/java_basics?id=basic-script-running) it. You can re-use code with [JAR Files](learn_to_code/java/java_basics?id=jar-files) if you wish.
 
+## Useful Links
+
+* [Here](https://javarevisited.blogspot.com/2011/04/top-20-core-java-interview-questions.html) is a helpful link on frequently asked Java questions in a coding interview.  
+
 ## Why I Do This
 
 I find that I have to write things down, in a format I understand, in order for me to fully understand a topic; therefore I take notes on subjects I try to learn. These notes are an artifact of that line of thinking.
@@ -926,6 +930,12 @@ You can also use it right in the middle of building a variable!
 greetingString = "Hello " + (person.IsMan() ? "Mr." : (person.IsMarried() ? "Mrs." : "Miss")) + " " + person.lastName();
 ```
 
+These can also be chained; for example, this would print `7`:
+```
+int someNum = ((3<5) ? ((5>3) ? 7 : -1): 0);
+System.out.println(someNum);
+```
+
 ## For Loops
 
 ```
@@ -1162,6 +1172,22 @@ To get the hostname its:
 
 Here is a basic primer on the new classes that manipulate dates and times. The old date-time classes (`java.util.Date`, `java.util.Calendar`, and `java.text.SimpleDateFormat`, as examples) are practically deprecated; moving forward (starting in Java 8), use the `java.time` classes.
 
+## Basic Time Delta
+
+Here is a basic way to time code. Replace the try/catch block with the actual code you are timing:  
+```
+        long initTime = System.currentTimeMillis();
+
+        try {
+            Thread.sleep(3051);
+        } catch (Exception e) {
+
+        }
+
+        double deltaTime = (System.currentTimeMillis() - initTime) / (1000.0);
+        System.out.println((System.currentTimeMillis() - initTime) + " delta (milliseconds), " + deltaTime + " delta (seconds)");
+```
+
 ## Getting Current Local Time
 
 Use the `LocalDateTime` class to get the current time, and the `DateTimeFormatter` class to format the time:
@@ -1178,7 +1204,7 @@ import java.time.LocalDateTime;
         System.out.println(dtf.format(now));
 		
 ```
-* The pattern `yyyy/MM/dd HH:mm:ss` can be set in any combination by you,
+* The pattern `yyyy/MM/dd HH:mm:ss` can be set in any combination by you (see [below](learn_to_code/java/java_basics?id=datetimeformatter-patterns)).  
 
 ## DateTimeFormatter Patterns
 
@@ -1326,6 +1352,64 @@ if(currTime.compareTo(ZonedDateTime.now(ZoneId.of("GMT"))) > 0) {
 
 > If both timezones are equal, the functions `isAfter()`, `isBefore()`, and `isEqual()` can also be used in place of `compareTo()`.
 
+## Getting Time To Next Period 
+
+> [The Epoch Converter website](https://www.epochconverter.com/) is very helpful here.  
+
+In many statistic collection strategies, there exists a concept of a <font color="green">period</font>; a <font color="green">period</font> is a unit of chunked time (and its usually an hour or less). For example, if we wanted our base <font color="green">period</font> to be 15 minutes, there would be 4 <font color="green">period</font>s each hour:
+* `00:00` to `15:00` (the first period in the hour) 
+* `15:00` to `30:00` 
+* `30:00` to `45:00` 
+* `45:00` to `00:00 (next hour start)` (the last period in the hour) 
+
+Usually, these two things are true about a period: 
+* The name associated with a <font color="green">period</font> is usually the datetime of the beginning of the period (so for the 15 minute period that encompasses the timeframe `2019-02-02 01:15:00` to `2019-02-02 01:30:00` would be known as the `2019-02-02 01:15:00` time period).  
+* They usually neatly align with the hour (so if we were using 15 minute <font color="green">period</font>s, they would start _exactly_ when the hour started (or a 15 minute derivative) and not shifted).  
+
+This 'not shifted' property can be difficult, as sometimes we need to start a timer to let us know when the next timer will begin (say, to kick off a process that dumps the statistics to a database) - but if we start that timer at some random time that is not at the top of the natural time a <font color="green">period</font> would start, we need a way to find the time between the current time and the next natural <font color="green">period</font> start time to kick off that process at _exactly_ the right natural <font color="green">period</font> start time.  
+
+We need to find the exact milliseconds it will take to align the schedule with our chosen time period; once we do, we use this number as our first 'launch' and we will be aligned with the natural <font color="green">period</font> time. To do this, we:
+* `(A)` take the current time and divide by 86400000 (number of milliseconds in a day) – this gives us the midnight of today, exactly, if converted from the epoch time
+* `(B)` take the current time mod 86400000, which gives us the remaining milliseconds in today (after midnight)
+* `(C)` take (floor) `(B)` and divide by 3600000 (the number of milliseconds in an hour), which gives us the number of hours after midnight as a result
+* `(D)` take `(B)` mod 3600000, which gives us the remainder of milliseconds in the current hour
+* `(E)` take (floor) `(D)` and divide by 60000 (the number of milliseconds in an hour), which gives us the exact minutes in the hour
+* `(F)` take `(D)` mod 60000, which gives us the remainder of seconds in the current minute
+
+Once we have `(F)` remainder of minutes, we can get a baseline: we take `(F)` and divide by the number of minutes that 1) evenly divide into 60 and 2) we are using as a time base (in our case the base is 15 minutes - so we will use 15 as a default, but we will reference as X); this gives us how many 'units' of time has passed (so if the minutes were 52, 3\*15 = 45 so 3 units have passed). We add one to this number (which gives us the next 'unit' bracket) and then multiply that by 1000\*60\*X, then subtract `(D)` and you will get the time (in milliseconds) it will take to reach the next <font color="green">period</font> 'step' (which we will use as the initial launching time).
+
+The code below is an example of how to do this; it assumes a period (`myBase`, which is a 15 minute <font color="green">period</font> in the code below) is A) less than or equal to an hour and B) neatly divides into an hour (so a 1 minute period, 5 minute period, 10 minute period, 15 min period, 20 minute period, 30 minute period, or 60 minute period would all work well).  
+
+```
+package com.wagenseller;
+
+public class Main {
+
+    public static void main(String[] args) {
+
+        int myBase = 15;
+        long current = System.currentTimeMillis();//1575600850810l
+        long baseDayAfterEpoch = (long)Math.floor((double)current/(double)86400000l); // (A)
+        long remainderOfDay = current % 86400000l; // (B)
+        long baseHour = (long)Math.floor((double)remainderOfDay/(double)3600000l); // (C)
+        int remainderOfHour = (int)(remainderOfDay % 3600000); // (D)
+        int baseMinute = (int)Math.floor((double)remainderOfHour/(double)60000); // (E)
+        int remainderOfMinute = remainderOfHour % 60000; // (F)
+        int baseX = (int)Math.floor((double)baseMinute/(double)myBase);
+
+        //this gives the datetime, but with the minutes, seconds, and milliseocnds stripped out
+        long reconstructExactDateHour = (baseDayAfterEpoch*86400000l) + (baseHour*60*60*1000);
+
+        int toNext = ((baseX+1)*1000*60*myBase) - remainderOfHour;
+        System.out.println("Base Epoch Hour (milliseconds): " + reconstructExactDateHour);
+        System.out.println("Use this to find base day:  "  + baseDayAfterEpoch + " remainder: " + remainderOfDay + " baseHour: " + baseHour + "  remainderOfHour: " + remainderOfHour + " baseMinute: " + baseMinute + "  remainderOfMinute: " + remainderOfMinute);
+        System.out.println("Number of Periods Passed This Hour (not including current period):  "  + baseX + "   milliseconds to next period: " + toNext);
+        System.out.println("Next Period Starts at this Epoch Timestamp:  "  + (current + toNext));
+
+    }
+}
+
+```
 
 
 ## Full DateTime Example
@@ -1588,6 +1672,24 @@ public class Main {
  * the anonymous runnable `r1`
  * the lambda function in the `forEach()`
 * This works because the `Thread<>` class knows to look for the `run()` method; this is why having this method is important.
+
+---
+
+# Wait
+
+Its possible to wait in Java by using `Thread.sleep(milliseconds)`; example: 
+```
+	try {
+		Thread.sleep(3000);
+	} catch (Exception e) {
+
+	}
+```  
+
+
+The above waits for 3 seconds (3000 milliseconds). Just note that `Thread.sleep(milliseconds)` _must_ be in a try/catch block.
+
+!> This will make the _entire_ thread sleep; if this is run on the thread that is controlling other threads, the _entire program_ will sleep. Be careful!  
 
 ---
 
