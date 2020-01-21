@@ -154,9 +154,17 @@ You can also have multiple constructors in the same class, _provided_ they do **
 ```
 * The second constructor is OK because it does not use the same types in the same order; if we were to add a third constructor `School(String address, String name, String phone)` this would create an error as its another `School(String, String, String)` constructor.
 
-# Superclass / Subclass 
+# Extending Classes  
+
+Its possible for a class to access another class' _public_ (but not private) methods as its own if it <font color="green">extends</font> that class. This section will cover classes extending other classes.  
+
+!> A class can only extend **ONE** class, not multiple classes!  
+
+## Superclass / Subclass 
 
 A class can implement another class (or an [interface](learn_to_code/java/java_classes?id=interface)) - what this means is class `B` can extend class `A` - and when that happens, `B` can access / utilize all _public_ variables and methods (but not _private_ methods and variables) of `A` _in addition to_ any new variables or methods intorduced by `B`.  In this case, the base class (`A`) is the <font color="green">superclass</font> and the derivative `B` is the <font color="green">subclass</font>.  This is done via the `extends` keyword (in the [example](learn_to_code/java/java_classes?id=superclass-subclass-example), you can see that `Sedan` extends `Automobile`). 
+
+!> A class can only extend **ONE** class, not multiple classes!  
 
 ## Superclass / Subclass Example
 
@@ -404,7 +412,7 @@ We can also <font color="green">upcast</font> in a method call; for example, if 
 
 Using this, you can have a method `someMethod` that accepts either a `Sedan` _or_ a `PickupTruck` and either object type would be valid to be sent to this method; that said, you will be limited to only the methods available in `Automobile` for that object (although you can cheat a bit with overriding methods, as the overridden methods will use the <font color="green">subclass</font> version).  
 
----  
+---
 
 # Interface 
 
@@ -577,7 +585,208 @@ In reality there are two things going on here: you are defining the <font color=
 
 ## Extending Interfaces
 
-Its also possible to add methods to an existing <font color="green">interface</font> - simply use the word `extends` after the <font color="green">interface</font> name where defined in the <font color="green">interface</font>'s file.  
+Its possible to add methods to an existing <font color="green">interface</font> - simply use the word `extends` after the <font color="green">interface</font> name where defined in the <font color="green">interface</font>'s file.  
+
+For example, we could have another <font color="green">interface</font> `Truck` extend `Automobile` like so:
+```
+public interface Truck extends Automobile {
+    public int DieselGasMilage();
+}
+```  
+
+Any class that would implement `Truck` would have to implement `DieselGasMilage()` _in addition to_ the methods in `Automobile`.  
+
+## Multiple Interfaces
+
+Its also possible for a class to extend _multiple_ <font color="green">interface</font>s - for example, say we had this very simple `Truck` <font color="green">interface</font>:  
+```
+public interface Truck extends Automobile {
+    public int DieselGasMilage();
+}
+```  
+
+We could have `PickupTruck` implement _both_ `Automobile` and `Truck` like so:  
+```
+public class PickupTruck implements Automobile, Truck {
+...
+}
+```  
+
+Any class that would implement `Truck` would now have to implement `DieselGasMilage()` (the only method in `Truck`) _in addition to_ the methods in `Automobile`.  
+
+---  
+
+# Abstract Classes  
+
+
+
+An <font color="green">abstract class</font> is a mix of [extending a class](learn_to_code/java/java_classes?id=extending-classes) and [implementing an interface](learn_to_code/java/java_classes?id=interface).  Like an [interface](learn_to_code/java/java_classes?id=interface) you cannot directly instantiate an <font color="green">abstract class</font>, but other classes _can_ extend your <font color="green">abstract class</font> (as well as implement all interfaces you wish).  The advantage of an <font color="green">abstract class</font> is the <font color="green">abstract class</font> can implement methods that will likely not change while abstracting methods (i.e. making the class that extends the <font color="green">abstract class</font> implement the methods).   
+
+> If an <font color="green">abstract class</font> actually defines a method, any class that extends it will not have to re-write that class if it does not wish to do so.  The methods that are abstract, however, _must_ be written by the class that extends the <font color="green">abstract class</font>.  
+
+## Abstract Class Example  
+
+**<font size="4">Automobile.java</font>**  
+```
+package com.wagenseller;
+
+abstract public class Automobile {
+
+    private String autoMake = "";
+    public String autoModel = "";
+    int employeeDiscount;
+
+    Automobile(int employeeDiscount) {
+        this.employeeDiscount = employeeDiscount;
+
+        System.out.println("This is an Automobile constructor!");
+    }
+
+    abstract void setEmployeeDiscount(int employeeDiscount);
+
+    public int getEmployeeDiscount() {
+        return this.employeeDiscount;
+    }
+
+    public void setMake(String autoMake) {
+        this.autoMake = autoMake;
+    }
+
+    public String getMake() { return this.autoMake; }
+
+    public void setModel(String autoModel) {
+        this.autoModel = autoModel;
+    }
+
+    public String getModel() {
+        return this.autoModel;
+    }
+
+    public String saySalesPitch() {
+        return "Please buy our automobile!";
+    }
+```  
+
+**<font size="4">Truck.java</font>**  
+```
+package com.wagenseller;
+
+abstract class Truck extends Automobile  {
+
+    Truck(int employeeDiscount) {
+        //we are forced to call the constructor in Automobile
+        super(employeeDiscount);
+
+        System.out.println("This is a basic Truck constructor!");
+    }
+
+    abstract String setDieselGasMilage();
+}
+```  
+
+**<font size="4">PickupTruck.java</font>**  
+```
+package com.wagenseller;
+
+public class PickupTruck extends Truck {
+    private int bedLength = 0;
+
+    public PickupTruck(int employeeDiscount) {
+        //we are forced to call the constructor in Truck (which, in turn, will call the constructor in Automobile)
+        super(employeeDiscount);
+
+        System.out.println("This is a Pickup Truck constructor!");
+    }
+
+    public String saySalesPitch() {
+        return "Pickups are for men with gun racks!";
+    }
+
+    public void setEmployeeDiscount(int employeeDiscount) {
+        this.employeeDiscount = employeeDiscount;
+    }
+
+    public String setDieselGasMilage() {
+        return "50 mpg";
+    }
+
+    private void printEmployeeDiscount() {
+        System.out.println(this.getEmployeeDiscount());
+    }
+
+    private void setBedLength(int bedLength) { this.bedLength = bedLength; }
+
+    private int getBedLength() { return this.bedLength; }
+}
+```  
+
+**<font size="4">Main.java</font>**  
+```
+package com.wagenseller;
+
+public class Main {
+
+    public static void main(String[] args) {
+
+		Automobile myCar = new PickupTruck(50);
+
+        myCar.setMake("Ford");
+        System.out.println("My Pickup is a " + myCar.getMake() + "!");
+    }
+}
+```  
+
+In our example, `PickupTruck` extends the abstract class `Truck`, which, in turn, extends the abstract class `Automobile`.  
+
+## Declaring Abstract Classes / Methods  
+
+As said in the opener for thie section, <font color="green">abstract class</font>es are similar to [implementing an interface](learn_to_code/java/java_classes?id=interface) - an <font color="green">abstract class</font> cannot be directly instantiated (like an interface); furthermore, much like an interface, you can declare methods in the <font color="green">abstract class</font> that _must_ be implemented by any class that extends it.
+
+To declare an <font color="green">abstract class</font> we can look to [our abstract class example](learn_to_code/java/java_classes?id=abstract-class-example):  
+```
+abstract public class Automobile {
+```  
+* The <font color="green">abstract class</font> _cannot_ be `private` or `protected`.  
+
+To declare an abstract method in the <font color="green">abstract class</font>, we can look to [our abstract class example](learn_to_code/java/java_classes?id=abstract-class-example) for an example:  
+```
+abstract void setEmployeeDiscount(int employeeDiscount);
+```  
+* This class is not fleshed out here, only defined; any class that will extend the <font color="green">abstract class</font> _must_ flesh this method out, though.  
+* We could have set this to `public` or `protected`; `private` is _not_ allowed as a modifier on an abstract class.  
+
+## Similarities w/ Interfaces + Extensions  
+
+> Classes that extend an <font color="green">abstract class</font> are free to implement any number of [interfaces](learn_to_code/java/java_classes?id=interface); that said, extending an <font color="green">abstract class</font> still counts as extending a class, and a class is allowed to extend only _one_ class!  
+
+An <font color="green">abstract class</font> is similar to [interfaces](learn_to_code/java/java_classes?id=interface) in that: 
+* They cannot be instantiated directly.  
+* They lay out the basic blueprints for whatever implements it.
+
+In addition, extending an <font color="green">abstract class</font> is similar to [extending a class](learn_to_code/java/java_classes?id=extending-classes) in almost every aspect, with some mentionable similarities:
+* You cannot access the <font color="green">abstract class</font>' private variables or methods.  
+* You are required to satisfy all requirements of the <font color="green">abstract class</font>' constructor in the constructor of the non-abstract class.  
+
+The one noted difference is abstract methods declared in the <font color="green">abstract class</font> _must_ be declared AND must be `public` _or_ `protected`.
+
+## Abstract Class Extensions and Implementations
+
+Its certainly possible for an <font color="green">abstract class</font> `B` to extend another <font color="green">abstract class</font> `A`; furthermore, `B` is _not_ required to implement any of the `abstract` methods defined in `A`; however, as soon as a non-abstract class extends `B`, that class _must_ implement any `abstract` methods not implemented in `B` **or** `A`.  
+
+Conversely, an <font color="green">abstract class</font> that implements an [interface](learn_to_code/java/java_classes?id=interface) does _not_ have to implement any method of that interface; however, again, any non-abstract class that extends the <font color="green">abstract class</font> is _required_ to implement any method in the interface not implemented in the <font color="green">abstract class</font>.  
+
+## Use Abstract Class or Interface?  
+
+> This info appears on [Oracle's Java documentation page](https://docs.oracle.com/javase/tutorial/java/IandI/abstract.html).  
+
+Sometimes you wonder if you should use an [interface](learn_to_code/java/java_classes?id=interface) or if you should use an <font color="green">abstract class</font>.  Use an <font color="green">abstract class</font> if:  
+* You want to write some of the base code without having to re-write it for closely related classes.  
+* Classes that extend your <font color="green">abstract class</font> will have common methods or fields.  
+* You want to have non-static or non-final fields.  
+
+Conversely, you should use an [interface](learn_to_code/java/java_classes?id=interface) if:  
+* Unrelated classes would use it.  
+* You want to take advantage of [casting](learn_to_code/java/java_classes?id=downcasting-upcasting) the interface type.  
 
 ---  
 

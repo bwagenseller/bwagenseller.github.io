@@ -251,6 +251,34 @@ Sometimes, though, primitive types are required to be a class; therefore a primi
 
 !> Primitive variables can _never_ be `null`.
 
+**<font size="4">Typecasting Primitive Variables</font>**  
+
+Often, you will try to, say, divide one integer by another and find that the result is _always_ an integer; this is because you need to subtly cast the number from an `int` (or `long`, or whatever) to one that has a decimal point.  This is easy to do in Java - any literal involved you can turn into a `double` - which will turn the entire result into a `double` - simply by adding a decimal point.  Here is an example:  
+```
+long mytime = 18000000;
+double myPosition2 = (mytime/1000.0/59.0/5.0);
+```  
+* With the addition of the `.0` to some of the hardcoded numbers, the result will not be of type `long` but will be a `double`.  
+
+Conversely, you can just typecast _one_ of those numbers as a `(double)` which will have the same effect:  
+```
+double myPosition3 = (mytime/((double) 1000)/59/5);
+```  
+
+Here is an extended example:  
+```
+        long mytime = 18000000;
+        double myPosition = (mytime/1000/59/5);
+        double myPosition2 = (mytime/1000.0/59.0/5.0);
+        double myPosition3 = (mytime/((double) 1000)/59/5);
+        System.out.println(myPosition + "   " + myPosition2 + "     " + myPosition3);
+```  
+
+This prints:  
+```
+61.0   61.016949152542374     61.016949152542374
+```
+
 ## nulls
 
 NULL is represented as `null` in code; primitives _cannot_ be null, but Strings - and every other class - can be `null`.
@@ -281,6 +309,25 @@ someInt = 5;
 * This will error out when trying to initialize to 5, as it already initialized to 10.
 
 Note this does _not_ mean whatever is set is _immutable_, it just means it cannot be _initialized_ again. [Primitive variables](learn_to_code/java/java_basics?id=primitive-variables) are _effectively_ immutable, as you can basically only set them or use them; that said, it sometimes makes sense to set [objects built from classes](learn_to_code/java/java_basics?id=java-classes) as final; while it is true they can only be initialized once, any internal variables can be set as many times as you like.
+
+# Primitive Math Tricks
+
+## Floor
+
+Its possible to find the floor of a number simply by casting the result to an (int); for example:  
+```
+int myNumber = 36;
+double myResult = (myNumber/23.0);
+double myResult2 = (int) (myNumber/23.0);
+int myResult3 = (int) (myNumber/23.0);
+System.out.println(myResult + "   " + myResult2 + "    " + myResult3);
+```  
+This prints:  
+```
+1.565217391304348   1.0    1
+```  
+
+> Realistically, you probably will not have many hard-coded values so you will rely on the `(int)` casting.  
 
 # Strings
 
