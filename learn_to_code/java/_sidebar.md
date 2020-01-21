@@ -2,11 +2,13 @@
 - [Java Terms and Concepts](/learn_to_code/java/java_terms_and_concepts)
 - [Basics of Java](/learn_to_code/java/java_basics)
 - [Java Classes](/learn_to_code/java/java_classes) 
-- [Java Lists, Arrays, and HashMaps](/learn_to_code/java/java_lists_arrays_hashmaps)
+- [Java Data Structures](/learn_to_code/java/java_data_structures)  
+- [File Manipulation in Java](/learn_to_code/java/java_file_manipulation) 
 - **Advanced Java**
 - [Akka](/learn_to_code/java/akka/)
 - [Protobuf](/learn_to_code/java/protobuf)
 - [Logback](/learn_to_code/java/logback)
+- [ND4J](/learn_to_code/java/nd4j)
 - **IDEs**
 - [IntelliJ](/learn_to_code/java/intellij)
 - **Build Tools**

@@ -7,16 +7,23 @@
 Brent Wagenseller's journey to learn the intricacies of Java.
 
 # Topics
+
+**Java Basics**
 - [Java Terms and Concepts](/learn_to_code/java/java_terms_and_concepts) - Important terms and concepts in Java.
 - [Basics of Java](/learn_to_code/java/java_basics) - The basics of Java.
 - [Java Classes](/learn_to_code/java/java_classes) - The basics of classes in Java.
-- [Java Lists, Arrays, and HashMaps](/learn_to_code/java/java_lists_arrays_hashmaps) - The basics of lists, arrays, hashMaps, and similar data collections in Java.
-- [Logback](/learn_to_code/java/logback) - Powerful logging tool in Java.
-- [Maven](/learn_to_code/java/maven) - The Maven tool, which is used to build Java projects.
-- [Ant](/learn_to_code/java/ant) - The Ant tool, which is used to build Java projects.
+- [Java Data Structures](/learn_to_code/java/java_data_structures) - The basics of Java data structures - lists, arrays, hashMaps, and similar data collections in Java.
+- [File Manipulation in Java](/learn_to_code/java/java_file_manipulation) - The basics of file manipulation in Java.
+
+**Advanced Java**
 - [Akka](/learn_to_code/java/akka/) - Using Akka, the actor manager.
 - [Protobuf](/learn_to_code/java/protobuf) - Using Google's Protobuf in Java.
+- [Logback](/learn_to_code/java/logback) - Powerful logging tool in Java.
+- [ND4J](/learn_to_code/java/nd4j) - Using ND4J, the Java's answer to Numpy and Pandas (i.e. vectorized linear algebra).
+
+**IDEs**
 - [IntelliJ](/learn_to_code/java/intellij) - Using the IDE 'IntelliJ'.
 
-
-
+**Build Tools**
+- [Ant](/learn_to_code/java/ant) - The Ant tool, which is used to build Java projects.
+- [Maven](/learn_to_code/java/maven) - The Maven tool, which is used to build Java projects.

@@ -536,11 +536,11 @@ if (myString.endsWith(otherString)) System.out.println("The condition was true."
 
 > This section assumes you know what a [substring](learn_to_code/java/java_basics?id=substrings) is; also, its helpful to know [if the substring actually exists](learn_to_code/java/java_basics?id=determine-substring-existence).  
 
-Often, its important to know the beginning [index](learn_to_code/java/java_lists_arrays_hashmaps?id=index) of a [substring](learn_to_code/java/java_basics?id=substrings) in order to [extract a substring](learn_to_code/java/java_basics?id=extracting-substrings). Usually, being able to pick out a known substring is of little worth, but the utility comes into play when you figure out where the position of substring (along with its length) in a larger substring, then you can pick out other strings that surround the substring (using a little math).  
+Often, its important to know the beginning [index](learn_to_code/java/java_data_structures?id=index) of a [substring](learn_to_code/java/java_basics?id=substrings) in order to [extract a substring](learn_to_code/java/java_basics?id=extracting-substrings). Usually, being able to pick out a known substring is of little worth, but the utility comes into play when you figure out where the position of substring (along with its length) in a larger substring, then you can pick out other strings that surround the substring (using a little math).  
 
 **<font size="4">indexOf(String str)</font>**  
 
-If you wish to find the first position / [index](learn_to_code/java/java_lists_arrays_hashmaps?id=index) of a substring in a larger string, use `indexOf(String str)`. For example, this will return `1`, as `1` is the first position of the _full_ word `ello`:  
+If you wish to find the first position / [index](learn_to_code/java/java_data_structures?id=index) of a substring in a larger string, use `indexOf(String str)`. For example, this will return `1`, as `1` is the first position of the _full_ word `ello`:  
 ```
 String myString = "hello, mello yellow";
 int myIndex = myString.indexOf("ello");
@@ -554,7 +554,7 @@ If the substring does not exist at all, `indexOf(String str)` returns `-1`.
 
 **<font size="4">indexOf(String str, int fromIndex)</font>**  
 
-If you wish to find the position / [index](learn_to_code/java/java_lists_arrays_hashmaps?id=index) of a substring _after a certain position_, use `indexOf(String str, int fromIndex)`. For example, this will return `8`, as `8` is the position of the _full_ word `ello` starting at position 2 (possition 2 is the first `l` in `hello`, so we are already past the first 'e' so that `ello` does not count):  
+If you wish to find the position / [index](learn_to_code/java/java_data_structures?id=index) of a substring _after a certain position_, use `indexOf(String str, int fromIndex)`. For example, this will return `8`, as `8` is the position of the _full_ word `ello` starting at position 2 (possition 2 is the first `l` in `hello`, so we are already past the first 'e' so that `ello` does not count):  
 ```
 String myString = "hello, mello yellow";
 int myIndex = myString.indexOf("ello", 2);
@@ -568,7 +568,7 @@ If the substring does not exist at all, `indexOf(String str, int fromIndex)` ret
 
 **<font size="4">lastIndexOf(String str)</font>**  
 
-If you wish to find the last position / [index](learn_to_code/java/java_lists_arrays_hashmaps?id=index) of a substring in a larger string, use `lastIndexOf(String str)`. For example, this will return `14`, as `14` is the position of the substring `ello` in the word `yellow`:  
+If you wish to find the last position / [index](learn_to_code/java/java_data_structures?id=index) of a substring in a larger string, use `lastIndexOf(String str)`. For example, this will return `14`, as `14` is the position of the substring `ello` in the word `yellow`:  
 ```
 String myString = "hello, mello yellow";
 int myIndex = myString.lastIndexOf("ello");
@@ -579,7 +579,7 @@ If the substring does not exist at all, `lastIndexOf(String str)` returns `-1`.
 
 **<font size="4">lastIndexOf(String str, int fromIndex)</font>**  
 
-If you wish to find the last position / [index](learn_to_code/java/java_lists_arrays_hashmaps?id=index) of a substring _before a certain position_, use `lastIndexOf(String str, int fromIndex)`. For example, this will return `8`, as `8` is the last  position of the _full_ word `ello` before 13 inclusive (position 13 is the `y` in `yellow`, so the `ello` in `yellow` is eliminated and does not count):  
+If you wish to find the last position / [index](learn_to_code/java/java_data_structures?id=index) of a substring _before a certain position_, use `lastIndexOf(String str, int fromIndex)`. For example, this will return `8`, as `8` is the last  position of the _full_ word `ello` before 13 inclusive (position 13 is the `y` in `yellow`, so the `ello` in `yellow` is eliminated and does not count):  
 ```
 String myString = "hello, mello yellow";
 int myIndex = myString.lastIndexOf("ello", 13);
@@ -595,7 +595,7 @@ If the substring does not exist at all, `lastIndexOf(String str, int fromIndex)`
 
 **<font size="4">substring(int beginIndex)</font>**  
 
-The `substring(int beginIndex)` method simply carves out a substring starting with the [index](learn_to_code/java/java_lists_arrays_hashmaps?id=index) position `beginindex`. For example, the following prints `ello!`, as it starts with position / index 1 (recall that position 0 is actually the first position, so index 1 is actually the second position hence `ello!`): 
+The `substring(int beginIndex)` method simply carves out a substring starting with the [index](learn_to_code/java/java_data_structures?id=index) position `beginindex`. For example, the following prints `ello!`, as it starts with position / index 1 (recall that position 0 is actually the first position, so index 1 is actually the second position hence `ello!`): 
 ```
 String myString = "hello!";
 String otherString = myString.substring(1);
@@ -951,7 +951,7 @@ for (int i = 0, j = 10; i < 10; i++, j--) {
 
 ## Foreach Loops
 
-Foreach loops are built for [Arrays](learn_to_code/java/java_lists_arrays_hashmaps):
+Foreach loops are built for [Arrays](learn_to_code/java/java_data_structures):
 ```
 double[] myDoubleArray = {1.22, 2.3456, 17.578, 99.2};
 for (double element: myDoubleArray) {
@@ -995,7 +995,7 @@ for (String element: names) {
 
 # Arrays Lists, and HashMaps
 
-Arrays, lists, and hashMaps are collections of [objects](learn_to_code/java/java_classes?id=class-vs-object). These are very useful when you need to store a collection of smaller items. To read more on arrays, lists, and hashMaps, [please see this page on lists, arrays, and hashMaps](/learn_to_code/java/java_lists_arrays_hashmaps). 
+Arrays, lists, and hashMaps are collections of [objects](learn_to_code/java/java_classes?id=class-vs-object). These are very useful when you need to store a collection of smaller items. To read more on arrays, lists, and hashMaps, [please see this page on lists, arrays, and hashMaps](/learn_to_code/java/java_data_structures). 
 
 ---
 

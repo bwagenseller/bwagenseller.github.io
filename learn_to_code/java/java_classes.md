@@ -10,6 +10,14 @@ Early in the java basics document I defined a [DragonBorn class](learn_to_code/j
 
 So, 'Dragonborn' is a class, but any _individual_ instance of a 'Dragonborn' is not a class, but a specific person (such as the main character in Skyrim). 
 
+# General Notes on Classes
+
+Notes:
+* Class names start with upper-case letters.
+* Static methods / functions in the same class do not need the class name to be called.
+* There can be multiple classes in a single .java file, but this is usually not the case.
+ * This stems from an old Java practice that allowed multiple classes so long as only one was public, but this is frowned upon by developers now.
+
 # Class vs Object
 
 You must know the difference between a class an an object; a class is a grouping, but an object is an instance of that class; that is to say, class:object as Dragonborn:(main character in Skyrim).
@@ -361,7 +369,9 @@ For example, in order to <font color="green">downcast</font> we could do this (u
 
 This example makes an `Automobile` named `myCar`, then a _second_ variable named `someCar` which we can <font color="green">downcast</font> to the <font color="purple">subclass</font> `Sedan` -  and now `someCar` gains the methods available to `Sedan` (i.e. `returnBaseSalesPitch()` which is _not_ available to `Automobile`).  Curiously, `someCar` is a reference to `myCar`, so even though we set `myCar.setModel("Ford");` _after_ the downcast it will still display in `System.out.println(someCar.returnBaseSalesPitch() + " " + someCar.getModel());`.  
 
-We could have also rolled it into one line with `(Sedan) myCar)`:  
+> The actual cast is done by putting the desired class in parenthesis before the object - so, for example, `(Sedan) myCar` casts `myCar` as a `Sedan` (note: it is not cast in-place, you have to set it equal to something or use it in a line otherwise).  
+
+We could have also rolled it into one line with `((Sedan) myCar)`:  
 ```
         Automobile myCar = new Sedan();
 
@@ -569,6 +579,207 @@ In reality there are two things going on here: you are defining the <font color=
 
 Its also possible to add methods to an existing <font color="green">interface</font> - simply use the word `extends` after the <font color="green">interface</font> name where defined in the <font color="green">interface</font>'s file.  
 
+---  
+
+# Identifying Class From Object 
+
+Its fully possible to get the variable type from the variable itself, as well as see if its an instance of another class (or [interface](learn_to_code/java/java_classes?id=interface)). Matter of fact, you can get a host of information from the object's `getClass()` method (every object has access to `getClass()`). 
+
+## Identifying Class Example
+
+> This example re-uses the classes **Automobile.java**, **Sedan.java**, and **PickupTruck.java** from the [interface example](learn_to_code/java/java_classes?id=interface-example) - so we will not replicate them here, please go there and copy them.  
+
+**<font size="4">Main.java</font>**  
+```
+package com.wagenseller;
+
+import java.util.Arrays;
+
+public class Main {
+
+    public static void acceptAnObject(Object someObject, String description) {
+
+		//check to see if the object is an instance of Automobile
+        if (someObject instanceof Automobile) {
+            System.out.println(description + " - registers as an Automobile with instanceof!");
+        }
+
+        if  (someObject instanceof Sedan) {
+            System.out.println(description + " - registers as a Sedan with instanceof!");
+        }
+
+        if  (someObject instanceof PickupTruck) {
+            System.out.println(description + " - registers as a Pickup Truck with instanceof!");
+        }
+
+		//check to see if the object is an instance of Automobile (using a different method)
+        if (someObject.getClass() == Automobile.class) {
+            System.out.println(description + " - registers as an Automobile.class with '.getClass() == .class'!");
+        }
+
+        if (someObject.getClass() == Sedan.class) {
+            System.out.println(description + " - registers as a Sedan.class with '.getClass() == .class'!");
+        }
+
+        if (someObject.getClass() == PickupTruck.class) {
+            System.out.println(description + " - registers as a PickupTruck.class with '.getClass() == .class'!");
+        }
+
+        if (someObject instanceof Automobile) {
+		
+			//this is required to get a listing of all associated interfaces of the object
+            Class[] i = someObject.getClass().getInterfaces();
+			
+            System.out.println(description + " - downcasting to Automobile! Currently of type '" + someObject.getClass().getTypeName() + "' and current class name = '" + someObject.getClass().getName() + "' with interfaces of " + Arrays.asList(i) );
+
+			// downcast from Object to Automobile
+            Automobile castObject = (Automobile) someObject;
+        }
+    }
+
+    public static void main(String[] args) {
+
+        Sedan mySedan = new Sedan();
+        PickupTruck myPickupTruck = new PickupTruck();
+
+        acceptAnObject(mySedan, "Object is a Sedan");
+        System.out.println("-------------------------------------------------------");
+        acceptAnObject(myPickupTruck, "Object is a Pickup Truck");
+    }
+}
+```
+
+This is the output:  
+```
+Object is a Sedan - registers as an Automobile with instanceof!
+Object is a Sedan - registers as a Sedan with instanceof!
+Object is a Sedan - registers as a Sedan.class with '.getClass() == .class'!
+Object is a Sedan - upcasting to Automobile! Currently of type 'com.wagenseller.Sedan' and current class name = 'com.wagenseller.Sedan' with interfaces of [interface com.wagenseller.Automobile]
+-------------------------------------------------------
+Object is a Pickup Truck - registers as an Automobile with instanceof!
+Object is a Pickup Truck - registers as a Pickup Truck with instanceof!
+Object is a Pickup Truck - registers as a PickupTruck.class with '.getClass() == .class'!
+Object is a Pickup Truck - upcasting to Automobile! Currently of type 'com.wagenseller.PickupTruck' and current class name = 'com.wagenseller.PickupTruck' with interfaces of [interface com.wagenseller.Automobile]
+```
+
+## .getClass() == .class Comparison
+
+> The examples used here use the [identifying class example](learn_to_code/java/java_classes?id=identifying-class-example).  
+
+We can check the object's class by comparing it to the class' `.class` property; in the [identifying class example](learn_to_code/java/java_classes?id=identifying-class-example), this is done in the method `acceptAnObject(Object someObject, String description)`:  
+```
+if (someObject.getClass() == Automobile.class)
+...
+if (someObject.getClass() == Sedan.class)
+...
+if (someObject.getClass() == PickupTruck.class)
+...
+```  
+
+This works - if `Object someObject` is one of those classes (whose structure is literally `ClassName.class`), the `if` will be triggered. The important distinction with this is the class must match _exactly_ - for `Sedan` for example, this only triggered for the comparison to `Sedan.class` and _not_ the `Automobile.class`line.  
+
+> For more on the example that compares `.getClass() == .class` and `instanceof`, see [this stackoverflow article](https://stackoverflow.com/questions/4989818/instanceof-vs-getclass).  
+
+## instanceof Comparison
+
+> The examples used here use the [identifying class example](learn_to_code/java/java_classes?id=identifying-class-example).  
+
+!> If you need to match the class _exactly_, you may be better off using the [.getClass() == .class](learn_to_code/java/java_classes?id=getclass-class-comparison) comparison method.  
+
+`instanceof` checks to see if an object's class is an instance of another class, _including_ superclasses _and_ [interfaces](learn_to_code/java/java_classes?id=interface). For example, the [identifying class example](learn_to_code/java/java_classes?id=identifying-class-example) checks to see if an object (in our example, `Object someOBject`) is an `Automobile` class (which is actually an [interface](learn_to_code/java/java_classes?id=interface), a `Sedan` class, or a `PickupTruck` class. Edited for brevity: 
+```
+if (someObject instanceof Automobile)
+...
+if  (someObject instanceof Sedan)
+...
+if  (someObject instanceof PickupTruck)
+```  
+
+For the object defined in main as `PickupTruck myPickupTruck = new PickupTruck();`, this triggered the following `instanceof` lines:   
+```
+Object is a Pickup Truck - registers as an Automobile with instanceof!
+Object is a Pickup Truck - registers as a Pickup Truck with instanceof!
+```
+
+So clearly, the `if` statements comparing the `instanceof` to `Automobile` _and_ `PickupTruck` were triggered. `instanceof` is good if you need to cast a wide (or general) net when looking to see if an object shares an ancestor with the `.class` you provide. Please note that I also created another class called `ExtendedPickup` (which extended `PickupTruck`) and `ExtendedPickup` triggered `Automobile`, `PickupTruck`, _and_ `ExtendedPickup` (I did not inclue `ExtendedPickup` in the example, but this was the behavior).  
+
+> For more on the example that compares `.getClass() == .class` and `instanceof`, see [this stackoverflow article](https://stackoverflow.com/questions/4989818/instanceof-vs-getclass).  
+
+## Generalizing a Java Variable
+
+> The examples used here use the [identifying class example](learn_to_code/java/java_classes?id=identifying-class-example).  
+
+Outside of [primatives](learn_to_code/java/java_basics?id=primitive-variables), all Java classes are a [subclasses](learn_to_code/java/java_classes?id=superclass-subclass) of the `Object` class. This is helpful, because if we need to accept an object as a variable in a method and that object may be of a variety of types, we can simply declare the interface as `Object` for the variable and then we can check (and then cast) that variable using [downcasting or upcasting](learn_to_code/java/java_classes?id=downcasting-upcasting).  
+
+In the [identifying class example](learn_to_code/java/java_classes?id=identifying-class-example), the generalized object `Object someObject` is passed as a referenced variable to `acceptAnObject`, and in the code we check to see the class of is checked using either the [.getClass() == .class](learn_to_code/java/java_classes?id=getclass-class-comparison) method or the [instanceof](learn_to_code/java/java_classes?id=instanceof-comparison) method.  For our purposes, we will look at an [example](learn_to_code/java/java_classes?id=identifying-class-example) that uses `instanceof`:  
+```
+        if (someObject instanceof Automobile) {
+            //this is required to get a listing of all associated interfaces of the object
+            Class[] i = someObject.getClass().getInterfaces();
+
+            System.out.println(description + " - downcasting to Automobile! Currently of type '" + someObject.getClass().getTypeName() + "' and current class name = '" + someObject.getClass().getName() + "' with interfaces of " + Arrays.asList(i) );
+
+			// downcast from Object to Automobile
+            Automobile castObject = (Automobile) someObject;
+        }
+```
+
+If `someObject` was an instance of the [interface](learn_to_code/java/java_classes?id=interface) `Automobile`, we printed some class specific information about the object, but we also [downcasted](learn_to_code/java/java_classes?id=downcasting-upcasting) it too (from `Object` to `Automobile`, remember all Java classes use `Object` as a base for the parent) in the line:  
+```
+Automobile castObject = (Automobile) someObject;
+```
+
+This was an important step, because before this point, `someObject` - while actually of type `Sedan` or `PickupTruck` - was still using the `Object` interface, which usually isnt very helpful.  The above allows is to use [downcasting](learn_to_code/java/java_classes?id=downcasting-upcasting) to convert that interface from an `Object` to an `Automobiile` so we can then use the methods available to the `Automobile` interface.  Moving forward, we can treat `castObject` as we would any `Automobile` object, which is very helpful.
+
+> The fact that all objects are of base `Object` and can be downcasted to be a more approriate interface is a very powerful feature in Java.  
+
+---  
+
+# Getting an Object's Class
+
+> The official object we will use is `String someString`, but it could literally be any object variable that is not a [primative](learn_to_code/java/java_basics?id=primitive-variables).  
+
+The ability to get any object's class is an important feature of Java objects; all java objects have a `getClass()` method, and more information can be extracted from there; for our examples, this will be `someString.getClass()`.  
+
+!> I am only going to mention a few class properties that I find useful, but know there are dozens of properties to peruse.  
+
+Class[] i = someObject.getClass().getInterfaces();
+System.out.println(description + " - upcasting to Automobile! Currently of type '" + someObject.getClass().getTypeName() + "' and with interfaces of " + Arrays.asList(i) );
+Object is a Pickup Truck - upcasting to Automobile! Currently of type 'com.wagenseller.PickupTruck' and current class name = 'com.wagenseller.PickupTruck' with interfaces of 
+
+
+## Getting Class Name
+
+To get a class name, use `.getClass().getName()` like so:
+```
+someString.getClass().getName()
+```
+
+This will return the `packagename.className` (in the [identifying class example](learn_to_code/java/java_classes?id=identifying-class-example), this was `com.wagenseller.PickupTruck` for the `PickupTruck` class).  
+
+## Getting Class TypeName
+
+To get a class type name, use `.getClass().getTypeName()` like so:
+```
+someString.getClass().getTypeName()
+```
+
+This is "an informative string for the name of this type", but is not the official name - for that, use [the class name](learn_to_code/java/java_classes?id=getting-class-name).  
+
+This will return the `packagename.className` (in the [identifying class example](learn_to_code/java/java_classes?id=identifying-class-example), this was `com.wagenseller.PickupTruck` for the `PickupTruck` class).  
+
+## Getting Class Interfaces 
+
+Its possible to get class interfaces (with an 's', as there can be multiple interfaces). For example, we can get the interfaces in an array of `Class` objects like so:
+```
+Class[] myInterfaces = someString.getClass().getInterfaces();
+System.out.println("Interfaces: " + Arrays.asList(myInterfaces) );
+```
+
+In the [identifying class example](learn_to_code/java/java_classes?id=identifying-class-example), this returned the list of `[interface com.wagenseller.Automobile]` for the `PickupTruck` class. 
+
+---  
+
 # Deep Copy Method
 
 Many 'copy' functions are <font color="purple">shallow copies</font> - meaning, you are told there is a copy of the object made and stored to a new object, but in reality, it simply references the point in memory of where the object resides and saves that. This means that if the initial object is changed, the copy **will** change as well - and vice versa. Usually this is not desirable if you make a copy - usually its more desirable to make a <font color="purple">deep copy</font>, which will avoid the original - or copy - changing when the other is changed.
@@ -584,14 +795,86 @@ To ensure this happens, we usually need to make a separate copy of the object an
 * We then have to set all of its primitives using our object's primitives. This is easy in this case as I do this in the constructor, but if this is not avaiable you will have to use the object's getters and setters to do this.
 * Finally, we return the object we just created, finalizing the <font color="purple">deep copy</font>.
 
+# Singleton Classes
 
-# General Notes on Classes
+A <font color="green">singleton class</font> is a class that has only _one_ instance across the entire JVM - this is helpful if you need a class to be instantiated only once and be a central object that every part of the code can access (in other words, you cannot create multiple, independent objects with a singleton class, you can only create one, and all others are simply references to the initial one). This may be good for resources (database connections, sockets, etc).
 
-Notes:
-* Class names start with upper-case letters.
-* Static methods / functions in the same class do not need the class name to be called.
-* There can be multiple classes in a single .java file, but this is usually not the case.
- * This stems from an old Java practice that allowed multiple classes so long as only one was public, but this is frowned upon by developers now.
+You may wonder how a <font color="green">singleton</font> differs from a static class:  
+* Singleton classes do not break the concepts of object-oriented programming, whereas static classes do.  
+* You are actually creating an instance of the <font color="green">singleton</font> (albeit in an abstract fashion), whereas the static class is _not_ instanced.  
+* <font color="green">Singleton</font> objects are stored in the Heap memory, whereas static classes are stored on the stack (which is why <font color="green">singleton</font>s are available throughout the JVM).  
+
+You do not explicitly declare a <font color="green">singleton</font>, but there are a few things you must do to ensure your class is indeed a <font color="green">singleton</font>:  
+* Declare a `private static` variable of the class itself inside the class (a bit recursive, but it is what it is).  
+* Use a static <font color="purple">factory</font> that grants access to the object / returns the instance of the `private static` instance of itself.  
+* Use a private constructor (which is usually not private) in order to disallow outside entities from instantiating the <font color="green">singleton</font>.  
+
+## Singleton Example
+
+**<font size="4">DatabaseSingleton.java</font>**  
+```
+package com.wagenseller;
+
+public class DatabaseSingleton {
+
+    // You need to have a private static variable of the same type as the class
+    private static DatabaseSingleton databaseSingletonInstance = null;
+
+    private String databaseIP;
+
+    // The constructor MUST be private
+    private DatabaseSingleton() {
+            this.databaseIP = "127.0.0.1";
+    }
+
+    // There must be a public static method that returns the private static variable above;
+    // also, this must set it (using the private constructor, which it is allowed to do) if its null
+    public static DatabaseSingleton getInstance() {
+        if (databaseSingletonInstance == null) { databaseSingletonInstance = new DatabaseSingleton(); }
+        return databaseSingletonInstance;
+    }
+
+    public void setIP(String databaseIP) { this.databaseIP = databaseIP; }
+
+    public String getIP() { return this.databaseIP; }
+}
+```  
+
+**<font size="4">Main.java</font>**  
+```
+package com.wagenseller;
+
+public class Main {
+
+    public static void main(String[] args) {
+
+		// Since we do not instantiate singletons, simply run getInstance() 
+        DatabaseSingleton dd_singleton = DatabaseSingleton.getInstance();
+        DatabaseSingleton ANOTHER_dd_singleton = DatabaseSingleton.getInstance();
+
+        System.out.println("dd_singleton IP: " + dd_singleton.getIP());
+        System.out.println("ANOTHER_dd_singleton IP: " + ANOTHER_dd_singleton.getIP());
+
+        //set ip of only dd_singleton
+        System.out.println("Setting ONLY dd_singleton's IP...");
+        dd_singleton.setIP("192.168.1.1");
+
+        // BOTH IPs will be 192.168.1.1 now, even though we only set it for dd_singleton
+        System.out.println("dd_singleton IP: " + dd_singleton.getIP());
+        System.out.println("ANOTHER_dd_singleton IP: " + ANOTHER_dd_singleton.getIP());
+    }
+}
+```  
+
+This prints:  
+```
+dd_singleton IP: 127.0.0.1
+ANOTHER_dd_singleton IP: 127.0.0.1
+Setting ONLY dd_singleton's IP...
+dd_singleton IP: 192.168.1.1
+ANOTHER_dd_singleton IP: 192.168.1.1
+```  
+
 
 # Class Example
 

@@ -1,8 +1,8 @@
-# Learning To Code: Java
+# Java Data Structures
 
 # Before We Begin
 
-Arrays, lists, and hashMaps are collections of [objects](learn_to_code/java/java_classes?id=class-vs-object). These are very useful when you need to store a collection of smaller items.
+Arrays, lists, hashMaps, and other data structures are collections of [objects](learn_to_code/java/java_classes?id=class-vs-object). These are very useful when you need to store a collection of smaller items.
 
 # Terms
 
@@ -34,7 +34,7 @@ myArrayOfNumbers[8] = 89;
 int myLength = myArrayOfNumbers.length;
 ```
 * Arrays are treated like objects (as they sort of operate like one)
-* The different positions in the array are otherwise known as an [index](learn_to_code/java/java_lists_arrays_hashmaps?id=index) position.  
+* The different positions in the array are otherwise known as an [index](learn_to_code/java/java_data_structures?id=index) position.  
 
 Here is an example that creates and then immediately sets the values of each position (in the example below, the data is of type `double`, and there are 4 elements in the array).
 ```
@@ -98,7 +98,7 @@ myVar.addAll(0, myArrayList)
 
 ## Removing Objects from ArrayLists
 
-> Practically speaking, you should [search](learn_to_code/java/java_lists_arrays_hashmaps?id=searching-through-arraylists) for the index of the object you wish to remove before you actually remove anything.
+> Practically speaking, you should [search](learn_to_code/java/java_data_structures?id=searching-through-arraylists) for the index of the object you wish to remove before you actually remove anything.
 
 To remove an object from an <font color="green">ArrayList</font> by its index, use:
 ```
@@ -127,7 +127,7 @@ myVar.size()
 * This returns the size of the array in `int` form.
 * Even though the array itself is zero based, `size()` is not - so if there is only one item in a list:
  * `size()` would return 1.
- * Using [get(0)](learn_to_code/java/java_lists_arrays_hashmaps?id=basic-arrays) on position 0 would return the element.
+ * Using [get(0)](learn_to_code/java/java_data_structures?id=basic-arrays) on position 0 would return the element.
  * Using `get(1)` would result in an error.
 
 ## Getting Object At Index
@@ -141,7 +141,7 @@ myVar.get(2)
 * `myVar` is the variable name of the previously defined <font color="green">ArrayList</font>.
 * We list a `2`, meaning we want to get the object in position 3 (since the list is based on 0, 0 is considered the first item - so 2 would represent the 3rd, 9 would represent the 10th, etc).
 
-!> If you use `get()` on an index that is out of range - say, the highest index is 10 and you tried to get position 11 - this _will_ error out. To avoid this, always [check the numberof elements in the list](learn_to_code/java/java_lists_arrays_hashmaps?id=determining-size-of-arraylists); in addition, know that the array is based on 0 but `size()` is _not_ zero-based - so if you use `size()` and it returns a 5, the highest number you can use in `get()` is 4.
+!> If you use `get()` on an index that is out of range - say, the highest index is 10 and you tried to get position 11 - this _will_ error out. To avoid this, always [check the numberof elements in the list](learn_to_code/java/java_data_structures?id=determining-size-of-arraylists); in addition, know that the array is based on 0 but `size()` is _not_ zero-based - so if you use `size()` and it returns a 5, the highest number you can use in `get()` is 4.
 
 
 ## Searching Through ArrayLists
@@ -161,7 +161,7 @@ Sometimes, you need the _specific_ location in the array of an object; to get th
 
 myVar.indexOf(myObject)
 ```
-* This returns the index of the _first_ time the object is seen in the array (you can then use [get()](learn_to_code/java/java_lists_arrays_hashmaps?id=getting-object-at-index) to interact with the object, now that you have the index).
+* This returns the index of the _first_ time the object is seen in the array (you can then use [get()](learn_to_code/java/java_data_structures?id=getting-object-at-index) to interact with the object, now that you have the index).
 * If the object does not exist, a -1 is returned.
 
 To get the _last_ position it occupies, use `lastIndexOf()`:
@@ -169,7 +169,7 @@ To get the _last_ position it occupies, use `lastIndexOf()`:
 
 myVar.lastIndexOf(myObject)
 ```
-* This returns the index of the _last_ time the object is seen in the array (you can then use [get()](learn_to_code/java/java_lists_arrays_hashmaps?id=getting-object-at-index) to interact with the object, now that you have the index).
+* This returns the index of the _last_ time the object is seen in the array (you can then use [get()](learn_to_code/java/java_data_structures?id=getting-object-at-index) to interact with the object, now that you have the index).
 * If the object does not exist, a -1 is returned.
 * If this index equals the index found with `indexOf()`, there is only one instance of the object.
 
@@ -186,7 +186,7 @@ myVar.set(intIndex, myObject)
 
 ## Converting an ArrayList to Array
 
-Sometimes, you will have to convert your <font color="green">ArrayList</font> to an [Array](learn_to_code/java/java_lists_arrays_hashmaps?id=basic-arrays); to do so, its:
+Sometimes, you will have to convert your <font color="green">ArrayList</font> to an [Array](learn_to_code/java/java_data_structures?id=basic-arrays); to do so, its:
 ```
 myVar.toArray()
 ```
@@ -422,7 +422,7 @@ You can also use the [Iterator class](learn_to_code/java/java_basics?id=iterator
 ```
 * This works for ArrayLists (as above).
 * This does <font color="red">not</font> work for Arrays.
-* See the [ListIterator class](learn_to_code/java/java_lists_arrays_hashmaps?id=listiterator) for more information.
+* See the [ListIterator class](learn_to_code/java/java_data_structures?id=listiterator) for more information.
 
 **<font size="4">Testing And Moving The Cursor</font>**
 
@@ -571,12 +571,12 @@ public class Main {
 }
 ```
 
-> The `for` loop basically extracts the pairs, one by one; more on this [here](learn_to_code/java/java_lists_arrays_hashmaps?id=looping-via-for-maps), and the superior (yet more cumbersome) way [here](learn_to_code/java/java_lists_arrays_hashmaps?id=looping-via-the-iterator-class-maps). Know that this `for` loop method can potentially error out if an element is removed from the map while its being trafersed, hence [utilizing the Iterator class is recommended](learn_to_code/java/java_lists_arrays_hashmaps?id=looping-via-the-iterator-class-maps).  
+> The `for` loop basically extracts the pairs, one by one; more on this [here](learn_to_code/java/java_data_structures?id=looping-via-for-maps), and the superior (yet more cumbersome) way [here](learn_to_code/java/java_data_structures?id=looping-via-the-iterator-class-maps). Know that this `for` loop method can potentially error out if an element is removed from the map while its being trafersed, hence [utilizing the Iterator class is recommended](learn_to_code/java/java_data_structures?id=looping-via-the-iterator-class-maps).  
 
 
 ## Advanced Map Example 1
 
-The [basic map example](learn_to_code/java/java_lists_arrays_hashmaps?id=basic-map-example) simply used a `<String, String>` as the `<key, value>`; this example uses something a bit more advanced (a `<String, ArrayList<HashMapTestClass>>`).  Using a `ArrayList<HashMapTestClass>` allows for an entire array as the <font color="purple">value</font> of a single <font color="purple">key</font> in the original `Map` object. 
+The [basic map example](learn_to_code/java/java_data_structures?id=basic-map-example) simply used a `<String, String>` as the `<key, value>`; this example uses something a bit more advanced (a `<String, ArrayList<HashMapTestClass>>`).  Using a `ArrayList<HashMapTestClass>` allows for an entire array as the <font color="purple">value</font> of a single <font color="purple">key</font> in the original `Map` object. 
 
 > If we wanted to use a different type of object other than `String` as the <font color="purple">key</font>, we would have to make sure that `equals()` and `hashCode()` are overridden for whatever object is used (see [here](learn_to_code/java/java_classes?id=overriding-methods) for more on overriding those two methods).  
 
@@ -701,7 +701,7 @@ public class Main {
 
 ## Defining a Map
 
-> This section uses [the basic map example](learn_to_code/java/java_lists_arrays_hashmaps?id=basic-map-example).  
+> This section uses [the basic map example](learn_to_code/java/java_data_structures?id=basic-map-example).  
 
 We can define a `Map` like so:
 ```
@@ -714,27 +714,27 @@ Above, we define the [interface](learn_to_code/java/java_classes?id=interface) a
 	
 In the interface we said `Map<String,String>`, but notice in the variable definition we said `new LinkedHashMap<>()` - we could have said `new LinkedHashMap<String, String>()` instead, but that would have been redundant (this is how it used to be in Java).  
 
-> Note that we could have used any [interface](learn_to_code/java/java_classes?id=interface) from anything that uses the `Map` interface (a short selection is [here](learn_to_code/java/java_lists_arrays_hashmaps?id=different-types-of-maps), but we stuck with `Map` as we want to leave our options open for sending this map to a different method without having to [downcast or upcast](learn_to_code/java/java_classes?id=downcasting-upcasting) the interface. 
+> Note that we could have used any [interface](learn_to_code/java/java_classes?id=interface) from anything that uses the `Map` interface (a short selection is [here](learn_to_code/java/java_data_structures?id=different-types-of-maps), but we stuck with `Map` as we want to leave our options open for sending this map to a different method without having to [downcast or upcast](learn_to_code/java/java_classes?id=downcasting-upcasting) the interface. 
 
 ## Adding to a Map
 
-> This section uses [the basic map example](learn_to_code/java/java_lists_arrays_hashmaps?id=basic-map-example).  
+> This section uses [the basic map example](learn_to_code/java/java_data_structures?id=basic-map-example).  
 
-Each element is placed in the Map with `.put(keyObject,valueObject)`; for the first line in [the basic map example](learn_to_code/java/java_lists_arrays_hashmaps?id=basic-map-example), we had `myMap.put("Brent","Pennsylvania");`, which created a <font color="purple">key</font> as a String "Brent" and with a <font color="purple">value</font> of "Pennsylvania".  
+Each element is placed in the Map with `.put(keyObject,valueObject)`; for the first line in [the basic map example](learn_to_code/java/java_data_structures?id=basic-map-example), we had `myMap.put("Brent","Pennsylvania");`, which created a <font color="purple">key</font> as a String "Brent" and with a <font color="purple">value</font> of "Pennsylvania".  
 
 > Neither the <font color="purple">key</font>s - nor <font color="purple">value</font>s - have to be `String` - they can be any object.  
 
 ## Maps Passed by Reference
 
-> This section uses [the basic map example](learn_to_code/java/java_lists_arrays_hashmaps?id=basic-map-example).  
+> This section uses [the basic map example](learn_to_code/java/java_data_structures?id=basic-map-example).  
 
-We passed the map along with a <font color="purple">key</font> and <font color="purple">value</font> (a key of "Tracy" and a value of "Georgia") to the static method `HashMapPassedReferenceTest.ReferenceTest(tempMap,name,state)` in [the basic map example](learn_to_code/java/java_lists_arrays_hashmaps?id=basic-map-example).  I passed the map to this method to simply show that if the map is passed as a variable elsewhere, it can be modified elsewhere and the changes will be retained once that method call ends (the states for both "Tracy" and "Marlow" persist in the for loop that prints the <font color="purple">key</font> / <font color="purple">value</font>s).  
+We passed the map along with a <font color="purple">key</font> and <font color="purple">value</font> (a key of "Tracy" and a value of "Georgia") to the static method `HashMapPassedReferenceTest.ReferenceTest(tempMap,name,state)` in [the basic map example](learn_to_code/java/java_data_structures?id=basic-map-example).  I passed the map to this method to simply show that if the map is passed as a variable elsewhere, it can be modified elsewhere and the changes will be retained once that method call ends (the states for both "Tracy" and "Marlow" persist in the for loop that prints the <font color="purple">key</font> / <font color="purple">value</font>s).  
 
 !> Know that any object stored in multiple maps will persist until it is removed in the final map it belongs to.  
 
 ## Extracting Map Values
 
-> This section uses [the basic map example](learn_to_code/java/java_lists_arrays_hashmaps?id=basic-map-example).  
+> This section uses [the basic map example](learn_to_code/java/java_data_structures?id=basic-map-example).  
 
 The base way to get the object <font color="purple">value</font> from the map (given the <font color="purple">key</font>) is via the `get()` method:  
 ```
@@ -743,11 +743,11 @@ String state = myMap.get(key);
 
 This returns the object as <font color="purple">value</font> (which in the example's case is a String).  A `null` is returned if the key does not exist.  
 
-!> Most map classes can indeed use both a `null` <font color="purple">key</font> and/or <font color="purple">value</font>, with the notable exception of `ConcurrentHashMap`; `ConcurrentHashMap` will throw an error if a `null` key is stored or even searched via [get()](learn_to_code/java/java_lists_arrays_hashmaps?id=extracting-map-values).  
+!> Most map classes can indeed use both a `null` <font color="purple">key</font> and/or <font color="purple">value</font>, with the notable exception of `ConcurrentHashMap`; `ConcurrentHashMap` will throw an error if a `null` key is stored or even searched via [get()](learn_to_code/java/java_data_structures?id=extracting-map-values).  
 
 ## Removing Map Values
 
-> This section uses [the basic map example](learn_to_code/java/java_lists_arrays_hashmaps?id=basic-map-example).  
+> This section uses [the basic map example](learn_to_code/java/java_data_structures?id=basic-map-example).  
 
 To extract an object _and_ remove it from the map at the same time we can use `.remove()` as such:  
 ```
@@ -766,7 +766,7 @@ myMap.size()
 
 ## Looping via the Iterator Class (Maps)
 
-> See the [ListIterator class](learn_to_code/java/java_lists_arrays_hashmaps?id=listiterator) for more information.  The basis of this discussion was found [here](https://stackoverflow.com/questions/1066589/iterate-through-a-hashmap).  
+> See the [ListIterator class](learn_to_code/java/java_data_structures?id=listiterator) for more information.  The basis of this discussion was found [here](https://stackoverflow.com/questions/1066589/iterate-through-a-hashmap).  
 
 You can use the [Iterator class](learn_to_code/java/java_basics?id=iterator) to loop through every object in the Map:
 ```
@@ -799,7 +799,7 @@ Usually, `hasNext()` is used in a while loop to _check_ if there are more object
 
 Finally, its also possible to remove an element off the map too: the above code has `iterator.remove()` commented out, but that is how it could be done. `iterator.remove()` doesnt return anything; it is removed from the Map, but the `pair` variable still holds the key and value safely.   
 
-!> Using the `Iterator` method is preferred; its also possible to [simply use a for loop](learn_to_code/java/java_lists_arrays_hashmaps?id=looping-via-for-maps), but that can error out if you attempt to remove anything in the loop (or some other thread removes an item).  
+!> Using the `Iterator` method is preferred; its also possible to [simply use a for loop](learn_to_code/java/java_data_structures?id=looping-via-for-maps), but that can error out if you attempt to remove anything in the loop (or some other thread removes an item).  
 
 ## Looping via For (Maps)
 
@@ -818,13 +818,13 @@ Its also possible to simply loop through the `Map` with a `for` loop like so:
 	}
 ```
 
-This is far more straightforward than the [iterator version](learn_to_code/java/java_lists_arrays_hashmaps?id=looping-via-the-iterator-class-maps), but it comes at a price: if an element is removed from the `Map` while this loops, you *will* have an error thrown (even if its not another thread that removes the current item - an error will be thrown if you try to remove an item in the above for loop itself). This method should _only_ be used if you are absolutely certain that: 
+This is far more straightforward than the [iterator version](learn_to_code/java/java_data_structures?id=looping-via-the-iterator-class-maps), but it comes at a price: if an element is removed from the `Map` while this loops, you *will* have an error thrown (even if its not another thread that removes the current item - an error will be thrown if you try to remove an item in the above for loop itself). This method should _only_ be used if you are absolutely certain that: 
 * You will not be removing any elements from the `Map` in the loop.  
 * No other process / thread will remove an item from the `Map` while you are looping here. 
 
 ## Map Order Test
 
-This function can be placed anywhere and called - it can test to see if the order of one of the various [map types](learn_to_code/java/java_lists_arrays_hashmaps?id=different-types-of-maps) performs as expected.  
+This function can be placed anywhere and called - it can test to see if the order of one of the various [map types](learn_to_code/java/java_data_structures?id=different-types-of-maps) performs as expected.  
 ```
     public void testHashMapOrder() {
 
@@ -858,7 +858,7 @@ This function can be placed anywhere and called - it can test to see if the orde
 
 # ListIterator
 
-!> While there are other ways to [loop through lists and hashMaps](learn_to_code/java/java_lists_arrays_hashmaps?id=looping-in-arrays-and-lists), its important to understand the ListIterator: if you try to remove objects from the list using any other method other than a ListIterator, you _will_ have an out of bounds exception eventually. If you wish to remove elements from a list or hashMap in a loop, you _must_ use a ListIterator. If you wish to see more in the ListIterator class, [you can check it out here](https://www.tutorialspoint.com/java/java_using_iterator.htm).
+!> While there are other ways to [loop through lists and hashMaps](learn_to_code/java/java_data_structures?id=looping-in-arrays-and-lists), its important to understand the ListIterator: if you try to remove objects from the list using any other method other than a ListIterator, you _will_ have an out of bounds exception eventually. If you wish to remove elements from a list or hashMap in a loop, you _must_ use a ListIterator. If you wish to see more in the ListIterator class, [you can check it out here](https://www.tutorialspoint.com/java/java_using_iterator.htm).
 
 
 An <font color="green">ListIterator</font> object helps to cycle through lists of objects sequentially; the only requirement is that the list object must have a `listIterator()` method (as an example, `ArrayList` objects have both an `iterator()` _and_ a `listIterator()` method, `Array` objects do not). How `ListIterator`s work is it keeps a pointer variable that points to the 'current' object (or just before it, or just after the last object) and you traverse the list by moving this pointer.
@@ -889,4 +889,202 @@ The major differences are the required methods (`listIterator()` vs `iterator()`
 
 > Usually a simple `Iterator` is used over the more extensive `ListIterator`.
 
+# Properties Class
 
+Java provides a sleek way to import properties that need to be set in the code with the [Properties](https://www.tutorialspoint.com/java/java_properties_class.htm) class.  This seems to sprinkle some property-specific logic combined with the ability to [read a properties file](learn_to_code/java/java_file_manipulation?id=bufferedreader-files-on-disk) and utilize a [basic Map](learn_to_code/java/java_data_structures?id=maps).  
+
+The idea behind the `Properties` class is there is an endless list of property settings for software - things like: 
+* IP Addresses of nodes. 
+* Database servers. 
+* Login credentials.  
+* Variables that should have their default set dynamically (i.e. not hard-coded).  
+
+`Properties` solves the need to have a quick way to storing and retrieving parameters like the above (and others).  `Properties` can: 
+* Quickly read properties from a file (on the file system or in the artifact / jar file itself).  
+* Quickly gets and sets properties.  
+* Allows for defaults to be returned if the property does not exist.  
+
+!> Properties Can only have `String` <font color="purple">key</font>s and `String` <font color="purple">value</font>s!  
+
+> Loading properties from a file is not required, but it probably makes more sense to do so - its possible to to build it with knowledge already available to the code (and just use the `Properties` object as a [singleton](learn_to_code/java/java_classes?id=singleton-classes) as a point of reference), but its true power comes in from getting 'dynamic' variables set from outside of itself.  
+
+## Properties Example
+
+**<font size="4">my.properties</font>**  
+```
+state=Pennsylvania
+job=software engineer
+school=Georgia Tech
+#this is a test to check out comments!
+favoriteFood=Chicken Wings
+unusedParameter=what does this even do?
+```
+
+**<font size="4">Main.java</font>**  
+```
+package com.wagenseller;
+
+import java.io.*;
+import java.util.Iterator;
+import java.util.Properties;
+
+public class Main {
+
+    public static void main(String[] args) {
+
+        String propFile = "my.properties";
+        String propFileInJar = "/my.properties";
+
+        BufferedReader bufferedReader = null;
+
+        try {
+			// look for "/my.properties" in this project's jar file
+            bufferedReader = new BufferedReader(new InputStreamReader(InputStream.class.getClass().getResourceAsStream(propFileInJar)));
+            System.out.println("Found file in jar file! Continuing...");
+        } catch (Exception e) {
+            System.out.println("Warning - could not find file in the JAR file - trying to find on disk....");
+
+            try {
+				// the file was not in the jar file, so look in the file system instead
+                FileReader fileReader=new FileReader(propFile);
+                bufferedReader = new BufferedReader(fileReader);
+            } catch (Exception e2) {
+                System.out.println("Error - could load file from jar file OR disk!");
+            }
+        }
+
+        Properties props = new Properties();
+        try {
+			//load the file into the props object and then close bufferedReader
+            props.load( bufferedReader );
+            bufferedReader.close();
+        } catch (Exception e) {
+            System.out.println("Could not read file: " + propFile);
+            e.printStackTrace();
+        }
+
+		//save a bunch of properties that are from the file - also see what happens with a property that is _not_ in the file
+        String myState = props.getProperty("state");
+        String myJob = props.getProperty("job");
+        String mySchool = props.getProperty("school");
+        String myFavoriteFood = props.getProperty("favoriteFood");
+        String shouldBeNull = props.getProperty("#this");
+
+        System.out.println("You are in the state of " + myState + ", your job is " + myJob + ", you went to school at " + mySchool + ", and your favorite food is " + myFavoriteFood + ".");
+
+		// if a property is not available, it will return a null in getroperty()
+        if (shouldBeNull == null) System.out.println("Property 'shouldBeNull' was null, as expected.");
+        else System.out.println("This should never print.");
+
+		// Here is how you would set a default for a property if it did not exist
+        String doesNotExistButGetDefault = props.getProperty("doesnotexist", "Stand In");
+        System.out.println("'doesNotExistButGetDefault' did not exist, but it defaulted to: " + doesNotExistButGetDefault);
+
+		//here is how to set a new property
+        props.setProperty("newValue", "This property has just been set.");
+        System.out.println(props.getProperty("newValue"));
+
+        System.out.println("--------------------");
+
+		//simply iterate through all keys
+        Iterator myIter = props.keySet().iterator();
+        while(myIter.hasNext()) {
+            String key = (String) myIter.next();
+            System.out.println("Key ::: Value: " + key + ":::" + props.getProperty(key) + ".");
+        }
+    }
+}
+```
+
+## Properties File
+
+The properties file is straightforward: its format is <font color="purple">key</font> on the left, an equals `=` sign, and then the <font color="purple">value</font> on the right. An example with three properties in the file:
+```
+databaseIP=127.0.0.1
+login=eo1234
+password=somePassword
+```
+
+The above example has a <font color="purple">key</font> of `databaseIP` with a <font color="purple">value</font> of `127.0.0.1`, another <font color="purple">key</font> of `login` with a <font color="purple">value</font> of `eo1234`, and a final <font color="purple">key</font> of `password` with a <font color="purple">value</font> of `somePassword`.  
+
+Some other notes:  
+* Lines that start with a `#` seem to be comments in the file and are skipped / not loaded to the `Properties` object. 
+* The delimiter between the <font color="purple">key</font> and <font color="purple">value</font> is not limited to `=`
+ * `whitespace` (such as the space bar) can _also_ delineate between the <font color="purple">key</font> and <font color="purple">value</font> - so the line `is this = for real` would have `is this` as the <font color="purple">key</font> and `= for real` as the <font color="purple">value</font>. **Be careful!**
+   * It seems to be whatever is found first, `=` or whitespace (whitespace immediately followed by `=` will work as expected too).  
+* Spaces around `=` are ignored.  
+* Only the first `=` is read as equals; subsequent eauals signs are lumped in with the <font color="purple">value</font>.  
+* The <font color="purple">key</font>s are case-specific.  
+
+## Loading The Properties File
+
+> This section uses [the properties example](learn_to_code/java/java_data_structures?id=properties-example).  
+
+The [properties file](learn_to_code/java/java_data_structures?id=properties-file) can exist in one of two places:  
+1\. On the filesystem (which is normal).  
+2\. In the jar file of the code. More on how this works [can be found here](learn_to_code/java/java_file_manipulation?id=bufferedreader-files-in-jar) (I suggest you get familiar with how that could work).  
+
+If you wish to load properties from a file, you will need to use [BufferedReader](learn_to_code/java/java_file_manipulation?id=bufferedreader-files-on-disk); its use varies on if you are using a file from source #1 or #2 above.  To get the file from the filesystem you will use something similar to [the properties example](learn_to_code/java/java_data_structures?id=properties-example) in the lines:  
+```
+FileReader fileReader=new FileReader(propFile);
+bufferedReader = new BufferedReader(fileReader);
+```  
+
+If, instead, you wished to pull from a properties file in the jar, you would use something like this line from [the properties example](learn_to_code/java/java_data_structures?id=properties-example) instead:  
+```
+bufferedReader = new BufferedReader(new InputStreamReader(InputStream.class.getClass().getResourceAsStream(propFileInJar)));
+```  
+* Learn more about how to load a `BufferedReader` object from the jar file [here](learn_to_code/java/java_file_manipulation?id=bufferedreader-files-in-jar). 
+
+Regardless of how the `BufferedReader` object is set, once it is set, load the `BufferedReader` object to the `Properties` object with the line: 
+```
+props.load( bufferedReader );
+```
+
+And, finally, _do not_ forget to close the `BufferedReader` object (as we are now done with it):  
+```
+bufferedReader.close();
+```  
+
+At this point, the `props` object now is loaded with all of our properties from our file!  
+
+!> Its usually suggested that you have the primary method of setting the properties from a file on the filesystem and only reverting to the properties file in the jar as a backup.  
+
+## Adding Properties Manually  
+
+> This section uses [the properties example](learn_to_code/java/java_data_structures?id=properties-example).  
+
+If you wish to manually add a key to the `Properties` object, its `object.setProperty("keyName", "some value here.")'`; in our [example](learn_to_code/java/java_data_structures?id=properties-example) it was done by:  
+```
+props.setProperty("newValue", "This property has just been set.");
+```  
+
+## Retrieving Property Values
+
+> This section uses [the properties example](learn_to_code/java/java_data_structures?id=properties-example).  
+
+If you wish to get the <font color="purple">value</font> of a given <font color="purple">key</font>, you can do so with the `getProperty()` method; as it was done in [the example](learn_to_code/java/java_data_structures?id=properties-example):  
+```
+String mySchool = props.getProperty("school");
+```  
+* If the key does not exist, a `null` is returned.  
+
+Sometimes it is not clear if the property will exist in a `Property` object, but you would like a default (i.e. you do not want it to be `null`); if this is the case, you can set a default like so: 
+```
+String mySchool = props.getProperty("school", "Georgia Tech");
+```  
+* This sets the default to `Georgia Tech`.  
+
+!> Remember that <font color="purple">key</font>s are case-sensitive!  
+
+## Iterating Through Property Keys
+
+You can use [an iterator](learn_to_code/java/java_data_structures?id=listiterator) to cycle through all keys if you wish; in [the example](learn_to_code/java/java_data_structures?id=properties-example) we did it like so:  
+```
+Iterator myIter = props.keySet().iterator();
+while(myIter.hasNext()) {
+	String key = (String) myIter.next();
+	System.out.println("Key ::: Value: " + key + ":::" + props.getProperty(key) + ".");
+}
+```  
+* The `key` will need to be [downcasted](learn_to_code/java/java_classes?id=downcasting-upcasting) to a `String`.  
