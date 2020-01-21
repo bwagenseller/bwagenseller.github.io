@@ -343,6 +343,59 @@ _How is this different from `isEmpty()`_? This is different from `isEmpty()` bec
 
 > If you try to use `isBlank()` on a string that was never set / is set to `null`, Java will throw an error.  
 
+**<font size="4">Check if Null Or Empty - !Strings.isNullOrEmpty()</font>**  
+
+> When picking the import, pick `com.google.common.base` which will import `com.google.common.base.Strings`.  
+
+Google's common base Java code has a function that can detect nulls _or_ empty strings (i.e. `null` or "") in one line simultaneously: `!Strings.isNullOrEmpty(someStringHere)`.  For example:  
+```
+package com.wagenseller;
+
+import com.google.common.base.Strings;
+
+public class Main {
+
+    public static void main(String[] args) {
+
+        String str1 = "something";
+        String str2 = "";
+        String str3 = " ";
+        String str4 = null;
+
+        if(!Strings.isNullOrEmpty(str1)) System.out.println("str1 is NOT empty or null!");
+        else System.out.println("str1 IS empty or null!");
+
+        if(!Strings.isNullOrEmpty(str2)) System.out.println("str2 is NOT empty or null!");
+        else System.out.println("str2 IS empty or null!");
+
+        if(!Strings.isNullOrEmpty(str3)) System.out.println("str3 is NOT empty or null!");
+        else System.out.println("str3 IS empty or null!");
+
+        if(!Strings.isNullOrEmpty(str4)) System.out.println("str4 is NOT empty or null!");
+        else System.out.println("str4 IS empty or null!");
+    }
+}
+```  
+
+Prints the following:  
+```
+str1 is NOT empty or null!
+str2 IS empty or null!
+str3 is NOT empty or null!
+str4 IS empty or null!
+```  
+
+For this to work, you will need to include this dependency in your [Maven dependency section](learn_to_code/java/maven?id=adding-dependencies-to-maven):  
+```
+        <dependency>
+            <groupId>com.google.inject</groupId>
+            <artifactId>guice</artifactId>
+            <version>4.1.0</version>
+        </dependency>
+```
+
+!> If you are using this Google library only for this function, you may simply want to stick with `((someStringHere != null) && (!someStringHere.isBlank()))`.  Might as well not import that entire library for this one method.  
+
 ## Trimming Whitespace
 
 Often, we wish to eliminate leading whitespace, trailing whitespace, or both from a string - there are several methods to do this.  
