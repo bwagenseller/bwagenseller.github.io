@@ -93,19 +93,44 @@ See [regression](learn_to_code/machine_learning/machine_learning?id=regression).
 
 A **sample** is a single element that spans all [features](learn_to_code/machine_learning/ml_key_terms?id=features) in a dataset; it can be thought of a single 'row' in the data. 
 
+# Scalar
+
+A **scalar** is any real number (usually a measurement of some sort).  A scalar is said to have magnitude, but no direction.  Some examples of scalars are: 
+* 0
+* 3.65
+* -1.347
+* 2.0
+
 # Stochastic Gradient Descent
 
 **Stochastic Gradient Descent** is very similar to [gradient descent](learn_to_code/machine_learning/ml_key_terms?id=gradient-descent) with one key difference: instead of the weights being updated using [batch updates](learn_to_code/machine_learning/ml_key_terms?id=batch), they are updated via [on-line updating](learn_to_code/machine_learning/ml_key_terms?id=on-line-updating).
 
 For more info, please see [the stochastic gradient descent info on the machine learning page](learn_to_code/machine_learning/machine_learning?id=stochastic-gradient-descent).
 
+# Vectorization
 
+**Vectorization** (or **vectorized code**) usually referrs to using abstracted 'for' loops to accomplish a task (for a sizeable performance boost).  **Vectorization** comes into play mostly for interpreted languages (such as Python, R, etc) which are not as efficeint as a compiled languague (e.g. the 'C' language) that is optimized for the specific task. 
+
+An example is Pandas (Python) [dataFrames](learn_to_code/python/scipy/pandas?id=dataframes).  Lets say we had a dataframe `someDataFrame` and a column `col_A`, and lets say we wanted to make all values of this column = -1.  We could do this in Python/Pandas:
+```
+someDataFrame['col_A'] = -1
+```  
+
+This will go through _all_ rows of the dataframe and set column `col_A` = -1.  You may think 'that could easily be done in a 'for' loop in Python', and it could, but the problem is the 'for' loop in Python is on some spectrum of the interpreted language scale (meaning its far slower than a truly compiled language) as well as its not optimized.  How **vectorized** code works in this example is there is back-end 'for' loop written in a compiled language (usually the 'C' language) that is optimized to accomplish this task. The back-end 'for' loop in the compiled language is _far_ faster than the interpreted language's 'for' loop implementation.  
+
+**Vectorized** code can be read similarly to SQL, in a sense, as SQL also performs operations that do not directly name a 'for' loop.  
+
+> Usually, languagues like Python and R benefit the most from vectorization, but even compiled languages can too (particularly with readability of code).  
 
 # Weight
 
 **Weight** is simply a term that modifies the significance of a feature; there are as many weights as there are [features](learn_to_code/machine_learning/ml_key_terms?id=features), with an exception of sometimes also including a [bias weight](learn_to_code/machine_learning/ml_key_terms?id=bias-weight).
 
 Weights are usually initialized to 0 (or a small number) and are incrementally changed - via [batch updating](learn_to_code/machine_learning/ml_key_terms?id=batch) or [on-line updating](learn_to_code/machine_learning/ml_key_terms?id=on-line-updating) - over time, in proportion to the [learning rate](learn_to_code/machine_learning/ml_key_terms?id=learning-rate). How this update process takes place depends on the machine learning algorithm.
+
+# With/Out Replacement
+
+The terms **with replacement** and **without replacement** refer to sampling random samples in the data. **With replacement** means if a sample is selected randomly it is kept in the dataset to potentially be used again; **without replacement** means the sample is removed from the dataset once it is used.
 
 # Y
 
