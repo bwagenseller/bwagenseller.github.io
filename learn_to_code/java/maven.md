@@ -269,6 +269,37 @@ Now, if you [compile your Maven project](learn_to_code/java/maven?id=compiling-y
 
 It is also possible to utilize a private Maven repository; to do this, you will have to [configure your settings.xml file](learn_to_code/java/maven?id=settingsxml)
 
+## Adding Variables / Properties  
+
+In many cases, you may have many dependencies for the same cluster of jar files - for example, Akka has dozens of different, independent jar files that can be loaded through Maven, and usually their different versions and Scala versions must match. You can manage the versions with Maven properties - these must be placed in the `<properties>` tag. They can be any name that does not have any conflicts. An example:  
+```
+    <properties>
+        <akka.version>2.6.4</akka.version>
+        <akka.scala.version>2.13</akka.scala.version> 
+    </properties>
+```  
+
+So instead of having to add a version in each individual [dependency](learn_to_code/java/maven?id=adding-dependencies-to-maven) entry, you can simply reference the variable using `${parameterName}` like so:  
+```
+        <dependency>
+            <groupId>com.typesafe.akka</groupId>
+            <artifactId>akka-actor-typed_${akka.scala.version}</artifactId>
+            <version>${akka.version}</version>
+        </dependency>
+        <dependency>
+          <groupId>com.typesafe.akka</groupId>
+          <artifactId>akka-slf4j_${akka.scala.version}</artifactId>
+          <version>${akka.version}</version>
+        </dependency>
+        <dependency>
+          <groupId>com.typesafe.akka</groupId>
+          <artifactId>akka-stream_${akka.scala.version}</artifactId>
+          <version>${akka.version}</version>
+        </dependency>
+```  
+
+In this example, the Akka version for all entries are 2.6.4 and the Akka Scala version is 2.13; if these need to be changed in the future they only need to be changed in one place.  
+
 ## Making the Jar Runnable
 
 There are a few things you will have to add to your pom.xml file in order to make [your Maven-compiled Jar file](learn_to_code/java/maven?id=the-compiled-jar-file) runnable - namely, you will have to identify the class that holds the `main()` method.

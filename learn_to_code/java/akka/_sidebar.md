@@ -3,5 +3,7 @@
 - [Back To Java](/learn_to_code/java/)
 - **Akka**
 - [Akka Main Page](/learn_to_code/java/akka/)
+- [Akka Installation and Configuration Files](/learn_to_code/java/akka/akka_installation_and_config_files)  
 - [Akka Basics and Definitions](/learn_to_code/java/akka/akka_basics)
-- [Akka Basic Examples](/learn_to_code/java/akka/akka_basic_examples)
+- [Clustering and Remote Actors](/learn_to_code/java/akka/remote_and_clustering)  
+- [Akka Basic Examples](/learn_to_code/java/akka/akka_basic_examples)  

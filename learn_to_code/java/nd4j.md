@@ -7,6 +7,10 @@
  * [Getting Started](https://nd4j.org/getstarted#)  
  * [Introduction to Code](https://nd4j.org/introduction.html)  
  * [Java Docs](http://nd4j.org/doc/)  
+ * [ND4J User Guide](https://nd4j.org/userguide) - Seems to be a good resource.  
+ * [DataSet Object in ND4J](https://nd4j.org/doc/org/nd4j/linalg/dataset/DataSet.html)
+ * [Deeplearning4j.org](https://deeplearning4j.org/tutorials/00-quickstart-for-deeplearning4j)  
+ * [ND4J on Deeplearning4j.org](https://deeplearning4j.org/docs/latest/nd4j-overview)  
  
 # Maven Dependencies
 

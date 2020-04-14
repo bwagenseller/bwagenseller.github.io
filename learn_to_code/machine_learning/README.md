@@ -18,3 +18,6 @@
  - [Decision Trees](/learn_to_code/machine_learning/decision_trees) - Notes on decision trees, including random trees.
  - [Logistic Regression](/learn_to_code/machine_learning/logistic_regression) - Notes on logistic regression.
  
+ # Machine Learning Tools
+ - [Watson (Speech)](/learn_to_code/machine_learning/watson_speech_and_text) - This explores IBM Watson, specifically speech to text and text to speech.  
+ - [Amazon Transcribe](/learn_to_code/machine_learning/amazon_transcribe) - This explores Amazon's speech to text platform, 'Transcribe'.  

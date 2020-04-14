@@ -20,6 +20,7 @@ Brent Wagenseller's journey to learn the intricacies of Java.
 - [Protobuf](/learn_to_code/java/protobuf) - Using Google's Protobuf in Java.
 - [Logback](/learn_to_code/java/logback) - Powerful logging tool in Java.
 - [ND4J](/learn_to_code/java/nd4j) - Using ND4J, the Java's answer to Numpy and Pandas (i.e. vectorized linear algebra).
+- [Watson - Speech and Text](/learn_to_code/java/watson_speech_and_text_JavaSDK) - Using Watson's SDK in Java for speech to text.  
 
 **IDEs**
 - [IntelliJ](/learn_to_code/java/intellij) - Using the IDE 'IntelliJ'.

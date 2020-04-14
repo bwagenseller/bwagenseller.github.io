@@ -682,7 +682,516 @@ public class DeadLetterListener extends AbstractActor {
 
 ```
 
+# Finding An Actor Example
 
+This example showcases how you can get an `ActorRef` using an [actorSelection](learn_to_code/java/akka/akka_basics?id=actorselection) and an `Identity` object. This example uses [this particular pom.xml file for Maven](learn_to_code/java/akka/akka_basic_examples?id=pomxml) and 5 other files (all 5 .java files are in the same directory):  
+* AkkaDev.java - This houses the `main()` function and will create the actor system and the world.  It will also launch all other actors.  
+* inquiringActor.java - This will send an `Identify` to `actorOne`, `actorTwo`, and `actorThree` and then process each response, saving the `ActorRef`.  
+* actorOne.java - Will respond to a request to print who it is, as well as respond to an `Indentify` request.  
+* actorTwo.java - Will respond to a request to print who it is, as well as respond to an `Indentify` request.  
+* actorThree.java - Will respond to a request to print who it is, as well as respond to an `Indentify` request.  
+
+
+## AkkaDev.java (Finding an Actor)    
+
+```
+package com.wagenseller;
+
+import java.io.IOException;
+import akka.actor.ActorRef;
+import akka.actor.ActorSystem;
+
+public class AkkaDev {
+
+	private static void runCode(String[] args) {
+		//create the container in which Akka will run
+		final ActorSystem system = ActorSystem.create("helloakka");
+
+		try {
+			final ActorRef aOne = system.actorOf(actorOne.props(), "actorOne");
+			final ActorRef aTwo = system.actorOf(actorTwo.props(), "actorTwo");
+			final ActorRef aThree = system.actorOf(actorThree.props(), "actorThree");
+
+			//just to give a bit of time before the inquirer is built - tells are launched in the inquirer's constructor
+			try {
+				Thread.sleep(500);
+			} catch (Exception e) {
+
+			}
+
+			final ActorRef aInquirer = system.actorOf(inquiringActor.props(), "inquiringActor");
+
+
+			System.out.println(">>> Press ENTER to exit <<<");
+			System.in.read();
+		} catch (IOException ioe) {
+		} finally {
+			//this breaks down the actor system - THIS IS CRITICAL
+			system.terminate();
+		}
+
+	}
+
+	public static void main(String[] args) {
+		runCode(args);
+	}
+}
+```  
+
+## inquiringActor.java (Finding an Actor)  
+
+```
+package com.wagenseller;
+
+import akka.actor.AbstractActor;
+import akka.actor.ActorIdentity;
+import akka.actor.Identify;
+import akka.actor.ActorSelection;
+import akka.actor.ActorRef;
+import akka.actor.Props;
+
+public class inquiringActor extends AbstractActor {
+
+
+	static public Props props() {
+		return Props.create(inquiringActor.class, () -> new inquiringActor());
+	}
+
+	public inquiringActor() {
+		ActorSelection selection;
+
+		selection = getContext().actorSelection("akka://helloakka/user/actorOne");
+		selection.tell(new Identify(1000l), getSelf());
+
+		selection = getContext().actorSelection("akka://helloakka/user/actorTwo");
+		selection.tell(new Identify(2000), getSelf());
+
+		selection = getContext().actorSelection("akka://helloakka/user/actorThree");
+		selection.tell(new Identify(3000), getSelf());
+	}
+
+	public class PrintWhoYouAre { }
+
+
+	ActorRef refOne;
+	ActorRef refTwo;
+	ActorRef refThree;
+
+	@Override
+	public Receive createReceive() {
+		return receiveBuilder()
+				.match(ActorIdentity.class,
+						id -> id.getActorRef().isPresent(),
+						id -> {
+							/*
+							note - it seems you cannot use sender() here
+							*/
+
+							//This simply prints the correlationID, which was set above (Identify(messageID))
+							System.out.println("CorrelationID: " + id.correlationId());
+
+							ActorRef tempActor;
+							tempActor = id.getActorRef().get();
+
+							/*
+							I use tempActor.path().name().equals() here, but it may be better to use id.correlationId()
+							*/
+							if (tempActor.path().name().equals("actorOne")) {
+								refOne = tempActor;
+								refOne.tell(new PrintWhoYouAre(), self());
+							} else if (tempActor.path().name().equals("actorTwo")) {
+								refTwo = tempActor;
+								refTwo.tell(new PrintWhoYouAre(), self());
+							} else if (tempActor.path().name().equals("actorThree")) {
+								refThree = tempActor;
+								refThree.tell(new PrintWhoYouAre(), self());
+							}
+						})
+				.build();
+	}
+}
+```
+
+## actorOne.java (Finding an Actor)  
+
+```
+package com.wagenseller;
+
+import akka.actor.AbstractActor;
+import akka.actor.Props;
+
+public class actorOne extends AbstractActor {
+
+	static public Props props() {
+		return Props.create(actorOne.class, () -> new actorOne());
+	}
+
+
+	private void printMe() {
+		System.out.println("I am actor one!");
+	}
+
+	@Override
+	public Receive createReceive() {
+
+		//note no Identify.class is needed in a match here - its handled automatically by all actors
+		return receiveBuilder()
+				.match(inquiringActor.PrintWhoYouAre.class, m -> { printMe(); } )
+				.build();
+	}
+}
+```  
+
+## actorTwo.java (Finding an Actor)  
+
+```
+package com.wagenseller;
+
+import akka.actor.*;
+
+public class actorTwo extends AbstractActor {
+
+	static public Props props() {
+		return Props.create(actorTwo.class, () -> new actorTwo());
+	}
+
+
+	private void printMe() {
+		System.out.println("I am actor two!");
+	}
+
+	@Override
+	public Receive createReceive() {
+
+		//note no Identify.class is needed in a match here - its handled automatically by all actors
+		return receiveBuilder()
+				.match(inquiringActor.PrintWhoYouAre.class, m -> { printMe(); } )
+				.build();
+	}
+
+}
+```  
+
+## actorThree.java (Finding an Actor)  
+
+```
+package com.wagenseller;
+
+import akka.actor.AbstractActor;
+import akka.actor.Props;
+
+public class actorThree extends AbstractActor {
+
+	static public Props props() {
+		return Props.create(actorThree.class, () -> new actorThree());
+	}
+
+
+	private void printMe() {
+		System.out.println("I am actor three!");
+	}
+
+	@Override
+	public Receive createReceive() {
+
+		//note no Identify.class is needed in a match here - its handled automatically by all actors
+		return receiveBuilder()
+				.match(inquiringActor.PrintWhoYouAre.class, m -> { printMe(); } )
+				.build();
+	}
+}
+```  
+
+## Explaining 'Finding An Actor'  
+
+Usually you can use [actorSelection](learn_to_code/java/akka/akka_basics?id=actorselection) in a one-off situation to send a tell to an actor; sometimes, however, this is not possible - sometimes you will need to reference the actor multiple times and its not practical to spend the resources using ActorSelection each time; in other cases, you need an ActorRef (and, unfortunately, ActorSelection does not provide an ActorRef). In times like these, you can use the <font color="green">Identity method</font> (i.e. the `Identify` / `ActorIdentity` classes) to get back an actor reference.  
+
+The ultimate goal of this is to get an ActorRef object so we only have to find an actor once.  This method hinges on sending an `Identify` object to an actor (using ActorSelection), and the actor will respond with an `ActorIdentity` object that contains an ActorRef.  
+
+In this specific example, the [inquiringActor](learn_to_code/java/akka/akka_basic_examples?id=inquiringactorjava-finding-an-actor) requests the actorRef from [actorOne](learn_to_code/java/akka/akka_basic_examples?id=actoronejava-finding-an-actor), [actorTwo](learn_to_code/java/akka/akka_basic_examples?id=actortwojava-finding-an-actor), and [actorThree](learn_to_code/java/akka/akka_basic_examples?id=actorthreejava-finding-an-actor); once it receives the ActorRef, it tells that respective actor to simply print who it is.
+
+The code launches with [AkkaDev](learn_to_code/java/akka/akka_basic_examples?id=akkadevjava-finding-an-actor); we create the actor system (`helloakka`) and we then we create three actors: [actorOne](learn_to_code/java/akka/akka_basic_examples?id=actoronejava-finding-an-actor), [actorTwo](learn_to_code/java/akka/akka_basic_examples?id=actortwojava-finding-an-actor), and [actorThree](learn_to_code/java/akka/akka_basic_examples?id=actorthreejava-finding-an-actor). Each of these actors act the same - all they do is simply wait for a message of type `inquiringActor.PrintWhoYouAre.class` (which is an embedded class from the [inquiringActor](learn_to_code/java/akka/akka_basic_examples?id=inquiringactorjava-finding-an-actor) class), and once received, the simply print who they are.  They _also_ respond to an `Identity.class` with an `ActorIdentity` object (which gives details into their identifying references and other things), but it should be noted this is done _automatically_ - so there is no need to actually write a `match()` method for `Identity.class` in their respective [createReceive()](learn_to_code/java/akka/akka_basics?id=overriding-createreceive) methods as this is handled automatically for _every_ Akka actor.  
+
+Next, we sleep for 500 milliseocnds (just to give the previous 3 actors a time to be built; after that, we launch an [inquiringActor](learn_to_code/java/akka/akka_basic_examples?id=inquiringactorjava-finding-an-actor) named `aInquirer`.  
+
+The [constructor](learn_to_code/java/java_classes?id=class-constructors) of [inquiringActor](learn_to_code/java/akka/akka_basic_examples?id=inquiringactorjava-finding-an-actor) uses an an [actorSelection](learn_to_code/java/akka/akka_basics?id=actorselection) to find the 3 previously launched actors; it does so by sending them a `Identify()` object. Note that each `Identify()` object has an `int` (or `long`) which is known as parameter `messageID` (also known as the `correlationID`), and its returned to this actor in the `ActorIdentify` object (as `id.correlationId()`). Since its possible that one actor could make _multiple_ requests for different actors, we need a way to quickly identify which request is which - and that is done through `correlationId`. Finally, note that while you can use a primitive int or long here, the `id.correlationId()` will be in its object form (either `Integer` or `Long`).
+
+Eventually, [actorOne](learn_to_code/java/akka/akka_basic_examples?id=actoronejava-finding-an-actor), [actorTwo](learn_to_code/java/akka/akka_basic_examples?id=actortwojava-finding-an-actor), and [actorThree](learn_to_code/java/akka/akka_basic_examples?id=actorthreejava-finding-an-actor) receive this `Identity` object and respond with an `ActorIdentity` object (remember, this is done automatically without the need to write a `match()` in [createReceive()](learn_to_code/java/akka/akka_basics?id=overriding-createreceive)).  [inquiringActor](learn_to_code/java/akka/akka_basic_examples?id=inquiringactorjava-finding-an-actor) receives this `ActorIdentity` object and processes it; based on which actor it is, the `ActorRef` is stored to the appropriate variable and then - just to ensure it worked - the new `ActorRef` is used to send a tell to the actor to simply print who they are.
+
+---  
+
+# Remote Actor Example
+
+This example showcases how you can connect to a remote actor on an entirely different server and then interact with it.  
+
+This example uses two different projects: a <font color="blueviolet">client</font> and a <font color="olive">server</font> (although it should be noted that remote actors in Akka are not really a client-server setup). Sone files are re-used in both projects while others are unique to either the <font color="blueviolet">client</font> or <font color="olive">server</font>.  To run both, start the <font color="olive">server</font> project _first_, then start the <font color="blueviolet">client</font>.
+
+Both <font color="blueviolet">client</font> and <font color="olive">server</font> use a modified version of [this particular pom.xml file for Maven](learn_to_code/java/akka/akka_basic_examples?id=pomxml); you will need to add one additional dependency, which is:  
+```
+    <dependency>
+      <groupId>com.typesafe.akka</groupId>
+      <artifactId>akka-remote_${akka.scala.version}</artifactId>
+      <version>${akka.version}</version>
+    </dependency>
+```  
+
+Both <font color="blueviolet">client</font> and <font color="olive">server</font> will need this file:  
+* [StoreData.java](learn_to_code/java/akka/akka_basic_examples?id=storedatajava-remote-actor-both)  
+
+The <font color="olive">server</font> will need these files:  
+* [Main.java](learn_to_code/java/akka/akka_basic_examples?id=mainjava-remote-actor-server) - This contains the <font color="olive">server's</font> `main()`.  
+* [MyServer.java](learn_to_code/java/akka/akka_basic_examples?id=myserverjava-remote-actor-server)
+* [application.conf](learn_to_code/java/akka/akka_basic_examples?id=applicationconf-remote-actor-server) - This is the actor that acts as the <font color="olive">server</font>.  
+
+The <font color="blueviolet">client</font> will need these files:  
+* [Main.java](learn_to_code/java/akka/akka_basic_examples?id=mainjava-remote-actor-client) - This contains the <font color="blueviolet">client's</font> `main()`.  
+* [MyClient.java](learn_to_code/java/akka/akka_basic_examples?id=myclientjava-remote-actor-client) - This is the actor that acts as the <font color="blueviolet">client</font>.  
+* [application.conf](learn_to_code/java/akka/akka_basic_examples?id=applicationconf-remote-actor-client)  
+
+The 3 <font color="olive">server</font> files should be in the same directory (outside of application.conf); more on application.conf, in general, can be found [here](learn_to_code/java/akka/akka_installation_and_config_files?id=applicationconf) (this file should be at the root of your [jar file](learn_to_code/java/java_basics?id=jar-files)).  
+
+The 3 <font color="blueviolet">client</font> files should be in the same directory (outside of application.conf).    
+
+## Main.java (Remote Actor - Server)
+
+> This file is for the <font color="olive">server</font> in the [Remote Actor Example](learn_to_code/java/akka/akka_basic_examples?id=remote-actor-example).  
+
+```
+package com.wagenseller;
+
+import akka.actor.ActorRef;
+import akka.actor.ActorSystem;
+
+public class Main {
+    public static void main(String... args) {
+        ActorSystem system = ActorSystem.create("helloAkka");
+
+        final ActorRef actor = system.actorOf(MyServer.props(), "someDataStorageActor");
+
+    }
+}
+```  
+
+## MyServer.java (Remote Actor - Server)
+
+> This file is for the <font color="olive">server</font> in the [Remote Actor Example](learn_to_code/java/akka/akka_basic_examples?id=remote-actor-example).  
+
+```
+package com.wagenseller;
+
+import akka.actor.AbstractActor;
+import akka.actor.Props;
+import akka.actor.Status;
+import akka.event.Logging;
+import akka.event.LoggingAdapter;
+
+import java.util.HashMap;
+import java.util.Map;
+
+public class MyServer extends AbstractActor {
+    LoggingAdapter log = Logging.getLogger(context().system(), this);
+    Map<String, Object> database = new HashMap<String, Object>();
+
+    static public Props props() {
+        return Props.create(MyServer.class, () -> new MyServer());
+    }
+
+    private MyServer(){ }
+
+    @Override
+    public Receive createReceive() {
+        return receiveBuilder()
+                .match(StoreData.class, message -> {
+                    log.info("Storing value '{}' with key '{}'", message.value, message.key);
+                    database.put(message.key, message.value);
+                    sender().tell(new Status.Success(message.key), self());
+                })
+                .matchAny(o ->
+                        sender().tell(new Status.Failure(new ClassNotFoundException()), self())
+                ).build();
+    }
+}
+```  
+
+
+## application.conf (Remote Actor - Server)
+
+> This file is for the <font color="olive">server</font> in the [Remote Actor Example](learn_to_code/java/akka/akka_basic_examples?id=remote-actor-example).  
+
+!> It should be noted that remote actors needed [messages](learn_to_code/java/akka/akka_basics?id=messages-practical) to be serialized; this can be done by having the class implement `Serializable`, but there are many security risks with this; this example turns on `allow-java-serialization` and `warn-about-java-serializer-usage` (which should **not** be done normally), but instead of having your message class implement `Serializable` (as in this example) you _should_ use something else like [Google's Protocol Buffers](https://developers.google.com/protocol-buffers/) (other suggestions are [here](https://manuel.bernhardt.io/2018/07/20/akka-anti-patterns-java-serialization/)).  
+
+> More on application.conf, in general, can be found [here](learn_to_code/java/akka/akka_installation_and_config_files?id=applicationconf); this file should be at the root of your [jar file](learn_to_code/java/java_basics?id=jar-files).  
+
+```
+akka {
+  actor {
+    provider = remote
+    allow-java-serialization = on
+    warn-about-java-serializer-usage = off
+  }
+  remote {
+    artery {
+      transport = tcp
+      canonical {
+        hostname = "127.0.0.1"
+        port = 25520
+      }
+    }
+  }
+}
+```  
+
+## StoreData.java  (Remote Actor - Both)
+
+> This file is for **both** the <font color="blueviolet">client</font> **and** <font color="olive">server</font> in the [Remote Actor Example](learn_to_code/java/akka/akka_basic_examples?id=remote-actor-example).  
+
+```
+package com.wagenseller;
+
+import java.io.Serializable;
+
+public class StoreData implements Serializable {
+    public String key;
+    public Object value;
+
+    public StoreData(String key, Object value) {
+        this.key = key;
+        this.value = value;
+    }
+}
+```  
+
+## Main.java  (Remote Actor - Client)
+
+> This file is for the <font color="blueviolet">client</font> in the [Remote Actor Example](learn_to_code/java/akka/akka_basic_examples?id=remote-actor-example).  
+
+```
+package com.wagenseller;
+
+import akka.actor.ActorRef;
+import akka.actor.ActorSystem;
+
+public class Main {
+
+    public static void main(String... args) {
+
+        ActorSystem system = ActorSystem.create("clientActorSystem");
+        ActorRef localActor = system.actorOf(MyClient.props("127.0.0.1:25520"), "localMyClient");
+
+        localActor.tell(new MyClient.InstructMe(), null);
+    }
+}
+```  
+
+## MyClient.java  (Remote Actor - Client)
+
+> This file is for the <font color="blueviolet">client</font> in the [Remote Actor Example](learn_to_code/java/akka/akka_basic_examples?id=remote-actor-example).  
+
+```
+package com.wagenseller;
+
+import akka.actor.*;
+import akka.event.Logging;
+import akka.event.LoggingAdapter;
+
+public class MyClient extends AbstractActor {
+    LoggingAdapter log = Logging.getLogger(context().system(), this);
+
+    private ActorSelection remoteActorSelection;
+
+    public MyClient(String remoteAddress){
+        this.remoteActorSelection = context().system().actorSelection("akka://helloAkka@" + remoteAddress + "/user/someDataStorageActor");
+    }
+
+    static public Props props(String remoteAddress) {
+        return Props.create(MyClient.class, () -> new MyClient(remoteAddress));
+    }
+
+    static public class InstructMe {
+        public InstructMe() {
+
+        }
+    }
+
+    public void storeSomeData() {
+        this.remoteActorSelection.tell(new StoreData("SSN", 12345678), self());
+    }
+
+    @Override
+    public Receive createReceive() {
+        return receiveBuilder()
+                .match(InstructMe.class, message -> {
+                    this.storeSomeData();
+                })
+                .match(Status.Success.class, message -> {
+                    log.info("Success! Key '{}' set!", ((String) message.status()));
+
+                    self().tell(PoisonPill.getInstance(), self());
+                })
+                .build();
+    }
+}
+```  
+
+## application.conf  (Remote Actor - Client)
+
+> This file is for the <font color="blueviolet">client</font> in the [Remote Actor Example](learn_to_code/java/akka/akka_basic_examples?id=remote-actor-example).  
+
+!> It should be noted that remote actors needed [messages](learn_to_code/java/akka/akka_basics?id=messages-practical) to be serialized; this can be done by having the class implement `Serializable`, but there are many security risks with this; this example turns on `allow-java-serialization` and `warn-about-java-serializer-usage` (which should **not** be done normally), but instead of having your message class implement `Serializable` (as in this example) you _should_ use something else like [Google's Protocol Buffers](https://developers.google.com/protocol-buffers/) (other suggestions are [here](https://manuel.bernhardt.io/2018/07/20/akka-anti-patterns-java-serialization/)).  
+
+> More on application.conf, in general, can be found [here](learn_to_code/java/akka/akka_installation_and_config_files?id=applicationconf); this file should be at the root of your [jar file](learn_to_code/java/java_basics?id=jar-files).  
+
+```
+akka {
+   actor {
+    provider = remote
+    allow-java-serialization = on
+    warn-about-java-serializer-usage = off
+  }
+}
+```  
+
+## Explaining 'Remote Actor'  
+
+This example has two independet Java projects - a <font color="blueviolet">client</font> and a <font color="olive">server</font>.  You should run the <font color="olive">server</font> _first_, _then_ run the <font color="blueviolet">client</font>.  
+
+**<font size="4">application.conf</font>**  
+
+Both the <font color="blueviolet">client</font> and <font color="olive">server</font> have their own `application.conf` - if you need to know more about this file (and where it goes) you can check that out [here](learn_to_code/java/akka/akka_installation_and_config_files?id=applicationconf). It should be noted that remote actors needed [messages](learn_to_code/java/akka/akka_basics?id=messages-practical) to be serialized; this can be done by having the class implement `Serializable`, but there are many security risks with this; this example turns on `allow-java-serialization` and `warn-about-java-serializer-usage` (which should **not** be done normally), but instead of having your message class implement `Serializable` (as in this example) you _should_ use something else like [Google's Protocol Buffers](https://developers.google.com/protocol-buffers/) (other suggestions are [here](https://manuel.bernhardt.io/2018/07/20/akka-anti-patterns-java-serialization/)).  
+
+
+**<font size="4">Server</font>**  
+
+There is nothing special about the <font color="olive">server</font> - it acts like a basic Akka system, and if you need help with that, [check out this example first](learn_to_code/java/akka/akka_basic_examples?id=basic-example-hello-world).  The <font color="olive">server</font> simply waits for a [StoreData](learn_to_code/java/akka/akka_basic_examples?id=storedatajava-remote-actor-both) message, which sends a key and a value to be stored; once the <font color="olive">server</font> receives this message, it stores it into the [HashMap](learn_to_code/java/java_data_structures?id=maps) `database`.  
+
+It should also be noted that the actor system is named `helloakka` - this will be important in the <font color="blueviolet">client</font>.  
+
+The only thing somewhat remarkable about the <font color="olive">server</font> is its [application.conf](learn_to_code/java/akka/akka_basic_examples?id=applicationconf-remote-actor-server) file - it is here that the transport is defined (in this case its tcp) _as well as_ its own 'canonical' hostname and port used (Akka Artery remoting uses port 25520 as a default).  It should be noted that the IP / port should represent _this_ host.  
+
+**<font size="4">Client</font>**  
+
+The first thing that may be suprising about the <font color="blueviolet">client</font> is that it has its _own_ actor system (named `clientActorSystem`); this is probably done this way (as opposed to simply 'connecting' to the remote actor system) in order to maintain actors on its own (which, in turn, can manage actors from _multiple_ other remote systems).  
+
+Immediately after the local actor system is created, a `localActor` is created with the remote actor system's IP and port sent as a parameter to the [props()](learn_to_code/java/akka/akka_basics?id=props-constructor) constructor.  `localActor` then uses its _own_ actor system to launch an [actorSelection](learn_to_code/java/akka/akka_basics?id=actorselection) against the _foreign_ <font color="olive">server</font> (which is a bit confusing, but it is what it is). Note, though, that the `actorSelection()` includes the IP and port of the _foreign_ <font color="olive">server</font> - this is what enables the remoting (also note the remote actor name - `helloakka` - was hard-coded in by me; this probably should have been a variable as well).  All actors contain their own IP and port available; its in their [naming structure](learn_to_code/java/akka/akka_basics?id=actor-names-and-paths), although the IP and port are usually left out. The result is saved to an `ActorSelection` object so it can be used later (called `remoteActorSelection`).  
+
+After the `localActor` is built, the main program makes a tell to `localActor`, which simply instructs it to send a [StoreData](learn_to_code/java/akka/akka_basic_examples?id=storedatajava-remote-actor-both) message to the remote actor found and saved to `remoteActorSelection` previously; we simply send 'SSN' as a key and '123456789' as a value over to the <font color="olive">server</font> via the tell.  
+
+Now is the moment of truth - if a message like the following appears in the server window, it worked:  
+```
+[INFO] [04/13/2020 18:12:30.279] [helloAkka-akka.actor.default-dispatcher-25] [akka://helloAkka/user/someDataStorageActor] Storing value '12345678' with key 'SSN'
+```  
+
+The <font color="olive">server</font> will send a message back to the <font color="blueviolet">client</font> (a `Status.Success` object to be precise). The <font color="blueviolet">client</font> will receive this message and then print a message like:  
+```
+[INFO] [04/13/2020 18:12:30.302] [LocalSystem-akka.actor.default-dispatcher-11] [akka://LocalSystem/user/localMyClient] Success! Key 'SSN' set!
+```  
+
+At this point, we have seen a message passed to a remote actor system, and that remote actor system replied with its own message.  
+
+!> For some reason, if you leave the windows up, _both_ the <font color="olive">server</font> and <font color="blueviolet">client</font> print messages sayting things like 'Stopping idle outbound control stream', 'Stopping idle outbound stream', and 'Upstream failed, cause: StreamTcpException: The connection has been aborted', and 'has been idle for \[X]\ seconds, sending HandshakeReq to validate liveness'. These messages pop up once an hour (or so) and persist even if you send a `PoisonPill` to the <font color="blueviolet">client</font> actor that housed the remote `actorSelection`. I am not sure why this happens and I can't quite find a way to terminate these connections - what makes it difficult is we did not explicitly open these connections using a different mechanism other than a normal `actorSelection` so I do not quite know how to shut them down.  
+
+
+---  
 
 # Index
 
@@ -701,6 +1210,10 @@ I use [Maven](learn_to_code/java/maven) for all of my Java projects, so all of t
   <groupId>com.wagenseller</groupId>
   <artifactId>akka-test</artifactId>
   <packaging>jar</packaging>
+  <properties>
+    <akka.version>2.6.4</akka.version>
+    <akka.scala.version>2.12</akka.scala.version>
+  </properties>  
   <version>1.0.0-SNAPSHOT</version>
   <name>akka-test</name>
   <url>http://maven.apache.org</url>
@@ -721,34 +1234,23 @@ I use [Maven](learn_to_code/java/maven) for all of my Java projects, so all of t
   <dependencies>
     <dependency>
       <groupId>com.typesafe.akka</groupId>
-      <artifactId>akka-actor_2.11</artifactId>
-      <version>2.5.25</version>
+      <artifactId>akka-actor_${akka.scala.version}</artifactId>
+      <version>${akka.version}</version>
     </dependency>
 
     <dependency>
       <groupId>com.typesafe.akka</groupId>
-      <artifactId>akka-testkit_2.11</artifactId>
-      <version>2.5.25</version>
+      <artifactId>akka-testkit_${akka.scala.version}</artifactId>
+      <version>${akka.version}</version>
       <scope>test</scope>
     </dependency>
-
+	
     <dependency>
       <groupId>com.typesafe.akka</groupId>
-      <artifactId>akka-stream_2.11</artifactId>
-      <version>2.5.25</version>
+      <artifactId>akka-slf4j_${akka.scala.version}</artifactId>
+      <version>${akka.version}</version>
     </dependency>
 
-    <dependency>
-      <groupId>com.typesafe.akka</groupId>
-      <artifactId>akka-slf4j_2.11</artifactId>
-      <version>2.5.25</version>
-    </dependency>
-
-    <dependency>
-      <groupId>com.typesafe.akka</groupId>
-      <artifactId>akka-agent_2.11</artifactId>
-      <version>2.5.25</version>
-    </dependency>
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
@@ -760,4 +1262,5 @@ I use [Maven](learn_to_code/java/maven) for all of my Java projects, so all of t
 ```
 * You may wish to change the `<artifact>` and `<name>` fields from `akka-test` to whatever you like, that is your choice.
 * You may wish to change the `<groupId>` field from `com.wagenseller` to whatever you like, that is your choice. Note that if you change this, you may have to alter their location in the Maven hierarchy.
-* You are free to change the versions of each artifact / pacakge, but you will [need to look them up](learn_to_code/java/maven?id=adding-dependencies-to-maven) if you wish to do this.
+* You are free to change the versions of each artifact / pacakge, but you will [need to look them up](learn_to_code/java/maven?id=adding-dependencies-to-maven) if you wish to do this.  
+

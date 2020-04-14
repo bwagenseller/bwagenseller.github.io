@@ -279,6 +279,31 @@ This prints:
 61.0   61.016949152542374     61.016949152542374
 ```
 
+## Atomic Variables
+
+There are variables that cannot act as a direct stand-in for [primitives](learn_to_code/java/java_basics?id=primitive-variables). These are:
+* AtomicInteger
+* AtomicBoolean
+* AtomicLong
+* AtomicDouble
+ * AtomicDouble is only available in the package `com.google.common.util.concurrent` - its not native to Java.
+
+Atomic variables offer:
+* Concurrency protection.
+* Incrementing and decrementing in-place.
+
+This second point is important when it comes to moving variables by reference; most variables in Java are passed by reference, with the exception of primitives; that said, some data structures (like [Maps](learn_to_code/java/java_data_structures?id=maps)) bar the usage of primitives and require a class (so people use things like `Integer` instead of `int`); the problem with this is class primitives are immutable - you cannot change it without overwriting it: so a variable `Integer aa` cannot be updated via `aa++;` without destroying the original object and re-creating it (the compiler changes this to something like `aa.intValue()++;`).  The problem is, `aa++` is now not the same object, so its position in the Map is now lost - the position in the map must be over-written with the new value manually.  
+
+Atomic variables get around this, as they can update in place- for example, the following does all calculations in-place, so the reference point never changes for the object:
+```
+AtomicLong aLong = new AtomicLong(0);
+aLong.incrementAndGet();//adds 1
+aLong.addAndGet(4);//adds 4
+aLong.decrementAndGet();//adds 1
+System.out.println("aLong: " + aLong.get());
+```
+* This prints `4`.  
+
 ## nulls
 
 NULL is represented as `null` in code; primitives _cannot_ be null, but Strings - and every other class - can be `null`.

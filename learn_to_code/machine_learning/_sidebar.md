@@ -9,3 +9,6 @@
  - [Adaline](/learn_to_code/machine_learning/adaline)
  - [Decision Trees](/learn_to_code/machine_learning/decision_trees)
  - [Logistic Regression](/learn_to_code/machine_learning/logistic_regression)
+- **Tools**  
+ - [Watson (Speech)](/learn_to_code/machine_learning/watson_speech_and_text)  
+ - [Amazon Transcribe](/learn_to_code/machine_learning/amazon_transcribe)   

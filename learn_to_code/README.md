@@ -11,6 +11,7 @@
 - [Akka](/learn_to_code/java/akka/) - Brent's notes on his continuous journey to learn Akka, which is an alternative to threading in Java (and Scala).
 - [Protobuf](/learn_to_code/java/protobuf) - Using Google's Protobuf in Java.
 - [Logback](/learn_to_code/java/logback) - Powerful logging tool in Java.
+- [Watson - Speech and Text](/learn_to_code/java/watson_speech_and_text_JavaSDK) - Using Watson's SDK in Java for speech to text.  
 - [Ant](/learn_to_code/java/ant) - The Ant tool, which is used to build Java projects.
 - [Maven](/learn_to_code/java/maven) - The Maven tool, which is used to build Java projects.
 - [IntelliJ](/learn_to_code/java/intellij) - Using the IDE 'IntelliJ'.
@@ -41,3 +42,8 @@
 - [Machine Learning](/learn_to_code/machine_learning/machine_learning) - The general notes on machine learning.
 - [Evaluating Models](/learn_to_code/machine_learning/evaluating_models) - Notes on evaluating the effectiveness of a ML model.
 - [Decision Trees](/learn_to_code/machine_learning/decision_trees) - Notes on decision trees, including random trees.
+- [Watson (Speech)](/learn_to_code/machine_learning/watson_speech_and_text) - This explores the tool IBM Watson, specifically speech to text and text to speech.  
+- [Amazon (Speech to Text)](/learn_to_code/machine_learning/amazon_speech_and_text) - This explores Amazon's speech to text platform.  
+
+# StatsD
+ - [Main StatsD Page](/learn_to_code/statsd/) - StatsD is a package that graphs stats; can be used in Python, Java, and more.  

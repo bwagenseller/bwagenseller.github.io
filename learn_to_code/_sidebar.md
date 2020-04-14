@@ -8,4 +8,5 @@
  - [Python](/learn_to_code/python/)
 - **Machine Learning**
  - [Machine Learning](/learn_to_code/machine_learning/)
- 
+- **StatsD**
+ - [Main StatsD Page](/learn_to_code/statsd/)

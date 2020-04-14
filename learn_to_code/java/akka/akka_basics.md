@@ -46,7 +46,7 @@ As a distributed system, Actors can completely error out and be re-started, whic
 
 A <font color="green">message</font> is a piece of data used to communicate with [Actors](learn_to_code/java/akka/akka_basics?id=actor). These can be anything from simple strings to objects.
 
-<font color="green">Messages</font> can be thought of as an entity passing parameters to a method and then obtaining a result (returned object), but <font color="green">messages</font> differ from function / method calls in that <font color="green">messages</font> are asynchronous (i.e. an [actor](learn_to_code/java/akka/akka_basics?id=actor) will process the <font color="green">message</font> when it is ready to do so and is not helf to the whims of other actors or entities). By default, an actor processes <font color="green">messages</font> one at a time. A [mailbox](learn_to_code/java/akka/akka_basics?id=mailbox) is used to queue <font color="green">messages</font> for the actor.
+You can think of a <font color="green">message</font> as an entity passing parameters to a method and then obtaining a result (returned object), but <font color="green">messages</font> differ from function / method calls in that <font color="green">messages</font> are asynchronous (i.e. an [actor](learn_to_code/java/akka/akka_basics?id=actor) will process the <font color="green">message</font> when it is ready to do so and is not helf to the whims of other actors or entities). By default, an actor processes <font color="green">messages</font> one at a time. A [mailbox](learn_to_code/java/akka/akka_basics?id=mailbox) is used to queue <font color="green">messages</font> for the actor.
 
 When an [actor](learn_to_code/java/akka/akka_basics?id=actor) receives a <font color="green">message</font> it can:
 * change its internal state (i.e. variables)
@@ -56,7 +56,7 @@ When an [actor](learn_to_code/java/akka/akka_basics?id=actor) receives a <font c
 
 ## Message-passing
 
-<font color="green">Message-passing</font> is a concept that explains how messages are passed to invoke behavior instead of directly making a function call.
+The <font color="green">Message-passing</font> concept is one that explains how messages are passed to invoke behavior instead of directly making a function call.
 
 ## Mailing Address
 
@@ -75,101 +75,9 @@ An <font color="green">Actor system</font> is a collection of actors and all of 
 
 ## Supervision
 
-<font color="green">Supervision</font> is the concept that a parent actor is responsible for any and all failures of its children. <font color="purple">Fault-tolerance</font> is gained in the actor model with <font color="green">supervision</font>, as <font color="green">supervision</font> removes the burden of handling failure outside of the entity that can fail. A parent actor monitors its children for failures, the parent can re-deploy / re-create the child actor in an attempt to rectify the problem. This assumes that a general 'bad state' was introduced (say, a hiccup in a database connection) that _can_ be repaired with simply re-launching the child.
+The concept of <font color="green">Supervision</font> is a parent actor is responsible for any and all failures of its children. <font color="purple">Fault-tolerance</font> is gained in the actor model with <font color="green">supervision</font>, as <font color="green">supervision</font> removes the burden of handling failure outside of the entity that can fail. A parent actor monitors its children for failures, the parent can re-deploy / re-create the child actor in an attempt to rectify the problem. This assumes that a general 'bad state' was introduced (say, a hiccup in a database connection) that _can_ be repaired with simply re-launching the child.
 
 In addition to <font color="green">supervision</font>, Akka supports running in a distributed manner - so multiple machines across the network can work together to accomplish a goal.
-
-
-# Installation
-
-> The master Akka Maven repository can be found [here](https://mvnrepository.com/artifact/com.typesafe.akka).
-
-Most of the installs revolve around <font color="purple">Typesafe Activator</font>, which is a bundle that contains a bunch of things such as Scala, Akka, Play, and Simple Build Tool (SBT); that said, I prefer the [Maven](learn_to_code/java/akka/akka_basics?id=maven-no-install-necessary) approach as nothing else is really needed (outside of Maven and the configuration of its POM file, that is).
-
-## Maven (No Install Necessary)
-
-!> I use [Maven](learn_to_code/java/maven) for all of my Java projects (including my Akka examples). In order for you to run any examples I have, you will have to understand a bit about [Maven](learn_to_code/java/maven), how to [compile a Maven project](learn_to_code/java/maven?id=compiling-your-maven-project), and [its directory structure](learn_to_code/java/maven?id=locations-of-files-in-maven). If you do not know what Maven is, [here is a brief overview](learn_to_code/java/maven?id=what-is-the-main-idea-behind-maven).
-
-The nice thing about [Maven](learn_to_code/java/maven) is it can bundle all necessary jar files for your project - including Akka - where the only installs required are [Maven](learn_to_code/java/maven?id=ubuntu-install) and [Java](operating_systems/ubuntu/server_build?id=installing-java-from-oracle) itself.
-
-To install Akka to [Maven](learn_to_code/java/maven), use [these dependency entries in Maven](learn_to_code/java/maven?id=adding-dependencies-to-maven):
-
-```
-        <dependency>
-          <groupId>com.typesafe.akka</groupId>
-          <artifactId>akka-actor_2.11</artifactId>
-          <version>2.5.25</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.typesafe.akka</groupId>
-            <artifactId>akka-testkit_2.11</artifactId>
-            <version>2.5.25</version>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-          <groupId>com.typesafe.akka</groupId>
-          <artifactId>akka-stream_2.11</artifactId>
-          <version>2.5.25</version>
-        </dependency>
-		
-        <dependency>
-          <groupId>com.typesafe.akka</groupId>
-          <artifactId>akka-slf4j_2.11</artifactId>
-          <version>2.5.25</version>
-        </dependency>		
-			
-        <dependency>
-          <groupId>com.typesafe.akka</groupId>
-          <artifactId>akka-agent_2.11</artifactId>
-          <version>2.5.25</version>
-        </dependency>
-
-```
-
-!> If using IntelliJ, IntelliJ can have some trouble recognizing imported projects. If you import the project then run a `mvn clean install`, the libraries exist but may not be recognized by IntelliJ. I had to do a few things and I am not sure which one worked; I tried right-clicking the project, then `Maven -> Reimport`; I then tried right-clicking the project, then `Maven -> Download Sources`; finally, I tried `Run -> Edit Configurations` then `Templates -> Maven`, went to the 'General' tab, unclicked 'Use project settings', clicked 'Override' next to the 'Local repository', clicked 'Apply', then went back in and reversed those changes. I do not know which one worked, but one of these got IntelliJ to recognize `import akka.actor.Actor;`. Try `Maven -> Reimport` first.
-
-## Windows Typesafe Activator Install
-
-Download Typesafe Activator from [here](http://www.typesafe.com/get-started).
-
-## Ubuntu Typesafe Activator Install
-
-1\. Download Typesafe Activator from [here](http://www.typesafe.com/activator/download), and if that does not work, try [here](http://www.typesafe.com/get-started).
-
-2\. [Become root](/operating_systems/ubuntu/linux_notes?id=becoming-root).
-
-3\. Determine where you would like to open the zip file - a good choice would be `/opt/activator`. If this does not exist, create it, then move the `.zip` file to this folder and use the [unzip command](operating_systems/ubuntu/linux_notes?id=unzip-extracting-files) to unzip it.
-
-> `unzip` keeps the structure of its folders, so it will create any folders inside of it. I am not sure if the Typesafe Activator `.zip` file has an immediate subdirectory (with nothing else on the first level); if this is the case, you can probably just store the `.zip` file in `/opt` and then [unzip](operating_systems/ubuntu/linux_notes?id=unzip-extracting-files) it from there; these instructions will assume the base path is `opt/activator` but if it is not, you will have to slightly modify the instructions from here on out for the install.
-
-4\. Make the Activator executable:
-```
-chmod 755 /opt/activator/activator
-```
-
-5\. Add the Activator to (everyone's) path by editing the bottom of `/etc/profile` (we are using [VI](operating_systems/ubuntu/linux_notes?id=using-vi), but if you are not comfortable with VI use another text editor):
-```
-vi /etc/profile
-```
-
-> If you wish to edit only a single user's profile, use `/home/username/.profile` in place of `/etc/profile` here (but switch the `username` with the actual username).
-
-6\. Paste this at the bottom of the file:
-```
-PATH=/opt/activator:$PATH 
-export PATH
-```
-
-7\. Save and exit VI: `wq!`
-
-8\. Lout out of root: `exit`
-
-9\. Source in the new profile: `source /etc/profile`
-
-> If you chose a user's personal path in step #5 AND its the current user, this will be `source ~/.profile`
-
 
 # Creating the World: The ActorSystem
 
@@ -260,11 +168,13 @@ Note the use of `ActorRef.noSender()`; this is the second parameter sent in `tel
 
 # Messages (Practical)
 
-Messages act as a 'trigger' for Actors _in addition to_ passing data to Actors.
+Messages act as a 'trigger' for Actors _in addition to_ passing data to Actors. A <font color="green">Message</font> is _any_ Java object.
 
 ## Message Class Location
 
-The question of where the message-as-class should be stored; its common to see the message classes be stored in the Actor class itself being called, much like in [Greeter.java](learn_to_code/java/akka/akka_basic_examples?id=greeterjava) in [this example](learn_to_code/java/akka/akka_basic_examples?id=basic-example-hello-world). This is usually considered best practice, but that said, the message-as-class can reside anywhere.
+The question of where the message-as-class should be stored; its common to see the message classes be stored in the Actor class itself being called, much like in [Greeter.java](learn_to_code/java/akka/akka_basic_examples?id=greeterjava) in [this example](learn_to_code/java/akka/akka_basic_examples?id=basic-example-hello-world). 
+
+The above can be done, but once you get into [remoting](learn_to_code/java/akka/remote_and_clustering) (that is to say, actors on foreign servers) this method falls apart: your message class will need to implement `Serializable`, which is [considered to be bad form](https://manuel.bernhardt.io/2018/07/20/akka-anti-patterns-java-serialization/) - the biggest drawback is it is a security risk. Its far more preferable to use a pre-built binary serialization protocol such as [Google Protocol Buffers](https://developers.google.com/protocol-buffers/) (which is mentioned in the previously [linked article](https://manuel.bernhardt.io/2018/07/20/akka-anti-patterns-java-serialization/)).  The advantage to Google's Protocol Buffers is they are natively used in Akka internally.
 
 ## Messages Not Thread-Safe
 
@@ -297,6 +207,42 @@ public class Greeter extends AbstractActor {
 }
 ```
 * This creates a class called 'Greeter'.
+
+## Actor Names and Paths  
+
+Each actor has a <font color="purple">path</font> and a <font color="purple">name</font>. Two examples of <font color="purple">names</font> can be found [in this section](learn_to_code/java/akka/akka_basics?id=instantiating-actors) (in that example, the actor names created are `printerActor` and `howdyGreeter`). When creating an actor, you only need to make the new <font color="purple">name</font>; you do not directly name the <font color="purple">path</font> (I will explain that in a bit).
+
+The real form of an actor's <font color="purple">name</font> and <font color="purple">path</font> is as follows: 
+
+`akka://helloakka@127.0.0.1:25520/user/someParentActor/someActor`  
+
+This also has the <font color="purple">IP</font> and <font color="purple">port</font> of the actor system; this is important when you are trying to connect to a foreign actor system when [remoting in or connecting to a cluster](learn_to_code/java/akka/remote_and_clustering); however, if your actor system is local, the <font color="purple">IP</font> and <font color="purple">port</font> are not necessary.  
+
+The basic format of an actor <font color="purple">path</font> and <font color="purple">name</font> are as follows:  
+
+`akka://helloakka/user/someParentActor/someActor`  
+
+The sections are as follows:  
+* Starts with `akka://`.  
+* Next is the system name, which is created when you [create the ActorSystem](learn_to_code/java/akka/akka_basics?id=basic-actorsystem-creation).  
+* Next is the word `user`. There are other defaults here too: `system`, `deadLetters`, `temp`, and `remote` are the others.  These are called <font color="purple">guardians</font>; `user` is for _all_ actors you create. So, when referencing actors you created, this will always be `user`.  
+* From here, its a tree of parents and then children separated by a `/`; in the example above, the next item is the parent of the actor, and the parent's name is `someParentActor`.  
+ * There will be an arbitrary number of ancestors, from 0 to multiple.  
+* The final word is the name of the actor itself.  In the above case, thats `someActor`.  
+
+I mentioned before that you cannot directly name the path; however, you can sort of manipulate it. If you create the actor using the `ActorSystem` object (as was done [here](learn_to_code/java/akka/akka_basics?id=instantiating-actors)), the actor will be located immediately after the `user` keyword.
+
+You have a few options if you are inside of an actor - the first option is to create a child actor using `context()`; this will force the new actor to be a child of the actor in which its launched. You can do this like so:  
+```
+ActorRef someActorObject = context().actorOf(someActor.props(), "someChildActor");
+```  
+ * `someActor.props()` is the [props](learn_to_code/java/akka/akka_basics?id=props-constructor) of an actor.  
+ 
+If, instead, you are in an actor and want to make an actor that uses the root of `user/` instead, you could use `context().system()` like so:  
+```
+ActorRef someActorObject = context().system().actorOf(someActor.props(), "someActor");
+```  
+ * `someActor.props()` is the [props](learn_to_code/java/akka/akka_basics?id=props-constructor) of an actor.  
 
 ## Props() Constructor
 
@@ -358,3 +304,126 @@ An example of this is the paired down version in [Greeter.java](learn_to_code/ja
 * The final thing done is `build()` which finished building the 'listener'.
 
 > `match()` is reached by a `tell()`
+
+# Finding An Actor To Message 
+
+## Finding An Actor Created Locally
+
+The obvious way to contact an actor is to save it as an object (an `ActorRef` object to be specific) and then to use [.tell()](learn_to_code/java/akka/akka_basics?id=sending-the-message) to send that actor a message. This was explained [here](learn_to_code/java/akka/akka_basics?id=sending-the-message) and an example is [here](learn_to_code/java/akka/akka_basic_examples?id=akkaquickstartjava). What happens if you are in a different actor, though? The rest of this section will cover that.  
+
+## actorSelection
+
+> [Here](https://petabridge.com/blog/when-should-I-use-actor-selection/) is a good article on when to use ActorSelection.  
+
+If you know an actor's name - or part of its name - you can use <font color="green">actorSelection()</font> to find the actor and send it a [tell()](learn_to_code/java/akka/akka_basics?id=sending-the-message).  When using this, know that:  
+* <font color="green">actorSelection()</font> is not limited to finding one actor - it can find _multiple_ actors if your search is not narrow enough, and if you used it in combination with tell(), you may accidentally send a message to a bunch of actors you had no intention of sending a message to.
+* <font color="green">actorSelection()</font> does _not_ return an `ActorRef` - and there is no straightforward way to get an `ActorRef` out of it. To get an `ActorRef` you will have to use <font color="green">actorSelection()</font> in combination with something else (a `Future` or the [Identity method](learn_to_code/java/akka/akka_basics?id=the-identity-method).  
+* <font color="green">actorSelection()</font> should be used sparingly - it should only be used if you need to send multiple messages at once, if you are using the [Identity method](learn_to_code/java/akka/akka_basics?id=the-identity-method) to get an `ActorRef`, or if you will not need to send tells from the sending class to the specific actor multiple times (if this is the case, you should make an `ActorRef` variable and use the [Identity method](learn_to_code/java/akka/akka_basics?id=the-identity-method) to store the `ActorRef` object).  
+
+An example of <font color="green">actorSelection()</font>:  
+```
+private ActorSelection myActorSelection = context().actorSelection("someActor");
+myActorSelection.tell(new SomeMessageClass(), self());
+```  
+* Since this uses `context()`, this will only work for children of the current actor.
+* `SomeMessageClass` is an example message class - this is any valid [message](learn_to_code/java/akka/akka_basics?id=messages-practical).  
+
+Another example that uses the [entire ActorSystem](learn_to_code/java/akka/akka_basics?id=basic-actorsystem-creation) to find the actor:  
+```
+private ActorSelection myActorSelection = context().system().actorSelection("akka://helloakka/user/someActor");
+myActorSelection.tell(new SomeMessageClass(), self());
+```  
+* For more on the naming convention, see [here](learn_to_code/java/akka/akka_basics?id=actor-names-and-paths).  
+* Since this uses `context().system()`, the entire actor system is searched - if you have access to the system object you can just use that (so if you use [this example](learn_to_code/java/akka/akka_basics?id=basic-actorsystem-creation), you could use `system` instead of `context().system()`).   
+* `SomeMessageClass` is an example message class - this is any valid [message](learn_to_code/java/akka/akka_basics?id=messages-practical).  
+
+Wildcards (`*`) can be used if you do not know the precise name _or_ you want to select multiple actors to send a [tell()](learn_to_code/java/akka/akka_basics?id=sending-the-message). For example, if there were three actors `A'`, `B`, `C` and _each_ actor had children `X`, `Y`, `Z`, the following code:
+```
+private ActorSelection myActorSelection = context().system().actorSelection("akka://helloakka/user/*/X");
+myActorSelection.tell(new SomeMessageClass(), self());
+```  
+
+would send a tell to 3 actors (assuming the system name is `helloakka`):  
+* `akka://helloakka/user/A/X`  
+* `akka://helloakka/user/B/X`  
+* `akka://helloakka/user/C/X`  
+
+Note that the wildcard will _not_ traverse a tree to find children; so for example:  
+```
+private ActorSelection myActorSelection = context().system().actorSelection("akka://helloakka/user/*");
+myActorSelection.tell(new SomeMessageClass(), self());
+```  
+
+Would _only_ send a tell to:  
+* `akka://helloakka/user/A`  
+* `akka://helloakka/user/B`  
+* `akka://helloakka/user/C`  
+
+And _not_ to:  
+* `akka://helloakka/user/A/X`  
+* `akka://helloakka/user/A/Y`  
+* `akka://helloakka/user/A/Z`  
+* `akka://helloakka/user/B/X`  
+* `akka://helloakka/user/B/Y`  
+* `akka://helloakka/user/B/Z`  
+* `akka://helloakka/user/C/X`  
+* `akka://helloakka/user/C/Y`  
+* `akka://helloakka/user/C/Z`  
+
+!> Unfortunately, <font color="green">actorSelection()</font> does _not_ return an `ActorRef` and there are situations where you need one. If you need an `ActorRef`, the best method to do this is to use the [Identity method](learn_to_code/java/akka/akka_basics?id=the-identity-method).  
+
+## actorSelection and Await
+
+!> This method is _not_ recommended as it blocks / waits for a response - _only_ use this in odd or one-off situations. Generally speaking you should use the [Identity method](learn_to_code/java/akka/akka_basics?id=the-identity-method).  
+
+If you need an `ActorRef`, you can use a combination of [actorSelection](learn_to_code/java/akka/akka_basics?id=actorselection) and the `Await` method. _Please note_ this combination will block and wait for a response, which can fail.  
+
+To do this you will need to import these libraries:
+```
+import akka.actor.*;
+import akka.util.Timeout;
+import scala.concurrent.Await;
+import scala.concurrent.duration.Duration;
+import scala.concurrent.Future;
+```  
+
+And here is the example code:
+
+```
+ActorRef myActor = null;
+Timeout myTimeout = new Timeout(Duration.create(500, TimeUnit.MILLISECONDS))
+ActorSelection selection = context().system().actorSelection("akka://helloakka/user/someAct*");
+Future<ActorRef> futureActor = selection.resolveOne(myTimeout);
+try {
+	myActor = (ActorRef) Await.result(futureActor, myTimeout.duration());
+	myActor.tell(new SomeMessageClass(), self());
+} catch (Exception e) {
+
+}
+
+```  
+* For more on the naming convention, see [here](learn_to_code/java/akka/akka_basics?id=actor-names-and-paths).  
+* Since this uses `context().system()`, the entire actor system is searched - if you have access to the system object you can just use that (so if you use [this example](learn_to_code/java/akka/akka_basics?id=basic-actorsystem-creation), you could use `system` instead of `context().system()`).   
+* `SomeMessageClass` is an example message class - this is any valid [message](learn_to_code/java/akka/akka_basics?id=messages-practical).  
+* This searches for an actor that begins with `someAct` (lets pretend our actual target actor is named `someActor`).  
+* There is a timeout - this is necessary, as since this code will actually block and wait for a response, we need a timeout if that response does not come.  
+
+If the above code is successful, the object `myActor` will store an `ActorRef` that you can use later.  
+
+## The Identity Method  
+
+> If you would like to see an example of the Identity method, you can find one [here](learn_to_code/java/akka/akka_basic_examples?id=finding-an-actor-example).  
+
+Usually you can use [actorSelection](learn_to_code/java/akka/akka_basics?id=actorselection) in a one-off situation to send a tell to an actor; sometimes, however, this is not possible - sometimes you will need to reference the actor multiple times and its not practical to spend the resources using ActorSelection each time; in other cases, you need an ActorRef (and, unfortunately, ActorSelection does not provide an ActorRef). In times like these, you can use the <font color="green">Identity method</font> (i.e. the `Identify` / `ActorIdentity` classes) to get back an actor reference.  
+
+The ultimate goal of this is to get an ActorRef object so we only have to find an actor once.  
+
+This method hinges on sending an `Identify` object to an actor (using ActorSelection), and the actor will respond with an `ActorIdentity` object that contains an ActorRef. All actors respond to an Identify request automatically, so there is no need to write logic for it in the [createReceive()](learn_to_code/java/akka/akka_basics?id=overriding-createreceive) (that said, they do _not_ process `ActorIdentity` automatically so you will have to write the functionality for that).  
+
+Each `Identify()` object has an `int` (or `long`) which is known as parameter `messageID` (also known as the `correlationID`), and its returned to this actor in the `ActorIdentify` object (as `id.correlationId()`). Since its possible that one actor could make _multiple_ requests for different actors, we need a way to quickly identify which request is which - and that is done through `correlationId`. Finally, note that while you can use a primitive int or long here, the `id.correlationId()` will be in its object form (either `Integer` or `Long`).  
+
+There is a walkthrough of these concepts in [the example](learn_to_code/java/akka/akka_basic_examples?id=finding-an-actor-example).  
+
+## Passing the ActorRef in Props  
+
+Another way to make another actor's `ActorRef` available to an actor is to simply pass its `ActorRef` along in the [props()](learn_to_code/java/akka/akka_basics?id=props-constructor); note that the referenced actor must be known before the actor that needs access to it is created beforehand _and_ the `ActorRef` is available; that said, if possible, this is a great way to get an `ActorRef` to another actor that needs it.  

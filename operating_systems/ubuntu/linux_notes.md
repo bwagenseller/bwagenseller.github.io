@@ -1597,7 +1597,7 @@ snap connect notepadqq:removable-media :removable-media
 ```
 * Note that we did not specify the second <snap> as we wanted to reference the system's slot, and in that case we leave it blank.
 
-notepadqq can not access files outside of our home directory! If we run `snap interfaces notepadqq` again we see that its connected:
+notepadqq can now access files outside of our home directory! If we run `snap interfaces notepadqq` again we see that its connected:
 ```
 Slot              Plug
 :browser-support  discord,gnome-characters,minecraft,notepadqq,spotify

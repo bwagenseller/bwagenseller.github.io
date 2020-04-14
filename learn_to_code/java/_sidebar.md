@@ -9,6 +9,7 @@
 - [Protobuf](/learn_to_code/java/protobuf)
 - [Logback](/learn_to_code/java/logback)
 - [ND4J](/learn_to_code/java/nd4j)
+- [Watson - Speech and Text](/learn_to_code/java/watson_speech_and_text_JavaSDK)
 - **IDEs**
 - [IntelliJ](/learn_to_code/java/intellij)
 - **Build Tools**

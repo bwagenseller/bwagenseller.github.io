@@ -722,6 +722,8 @@ In the interface we said `Map<String,String>`, but notice in the variable defini
 
 Each element is placed in the Map with `.put(keyObject,valueObject)`; for the first line in [the basic map example](learn_to_code/java/java_data_structures?id=basic-map-example), we had `myMap.put("Brent","Pennsylvania");`, which created a <font color="purple">key</font> as a String "Brent" and with a <font color="purple">value</font> of "Pennsylvania".  
 
+It should be noted that _if_ the element already exists, it will simply be over-written (and the `.put()` will actually return the _old_ value).  
+
 > Neither the <font color="purple">key</font>s - nor <font color="purple">value</font>s - have to be `String` - they can be any object.  
 
 ## Maps Passed by Reference
@@ -731,6 +733,26 @@ Each element is placed in the Map with `.put(keyObject,valueObject)`; for the fi
 We passed the map along with a <font color="purple">key</font> and <font color="purple">value</font> (a key of "Tracy" and a value of "Georgia") to the static method `HashMapPassedReferenceTest.ReferenceTest(tempMap,name,state)` in [the basic map example](learn_to_code/java/java_data_structures?id=basic-map-example).  I passed the map to this method to simply show that if the map is passed as a variable elsewhere, it can be modified elsewhere and the changes will be retained once that method call ends (the states for both "Tracy" and "Marlow" persist in the for loop that prints the <font color="purple">key</font> / <font color="purple">value</font>s).  
 
 !> Know that any object stored in multiple maps will persist until it is removed in the final map it belongs to.  
+
+## Values Passed By Reference Inconsistencies
+
+
+There are times when things are not passed by reference - specifically, using Objects such as `Integer`, `Long`, etc can sometimes revert to their [primitive](learn_to_code/java/java_basics?id=primitive-variables) version (note these are not [primitives](learn_to_code/java/java_basics?id=primitive-variables) but are classes).  For example:
+```
+Map<Long, Map<String, Long>> nestedMap = new LinkedHashMap<>();
+Map<String, Long> otherMap = new HashMap<>();
+Long myLong;
+
+otherMap.put("abc", 57l);
+nestedMap.put(66l, otherMap);
+myLong = nestedMap.get(66l).get("abc");
+myLong++;
+```
+
+ 
+To avoid things like this, [Atomic Variables](learn_to_code/java/java_basics?id=atomic-variables) should be used instead of the class version of primitives.  
+
+> For variables that can change, its suggested to use Atomic variables when
 
 ## Extracting Map Values
 
