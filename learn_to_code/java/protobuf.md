@@ -10,6 +10,13 @@ While sharing data structures across the wire is the main point of Protobuf, you
 
 > I will focus on Protobuf in Java, although the `.proto` files are built exactly the same for any language.
 
+# Protobuf Links
+
+* [Protobuf Main Page](https://developers.google.com/protocol-buffers/docs/proto3)  
+* [Scalar Value Types](https://developers.google.com/protocol-buffers/docs/proto3#scalar)  
+* [Using other message types (also defined in the .proto file)](https://developers.google.com/protocol-buffers/docs/proto3#other)  
+
+
 # Installing Protobuf
 
 !> You MUST install Protobuf on the machine where you are compiling the code (even Maven _will_ need the `protoc` binary in order to create the `.java` files from the `.proto` files). You will probably not have to install it on the machine where the code runs, as it should only be needed to convert the `.proto` files.

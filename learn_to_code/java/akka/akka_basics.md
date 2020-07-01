@@ -6,9 +6,16 @@ Here are some good Akka references I used:
 * [doc.akka.io](https://doc.akka.io/docs/akka/current/actors.html#introduction)
  * [untyped actors on doc.akka.io](https://doc.akka.io/docs/akka/2.1/java/untyped-actors.html)
 * [lightbend.com](https://developer.lightbend.com/guides/akka-quickstart-java/index.html)
+ * [Lightbend's Training Dashboard](https://academy.lightbend.com/dashboard)  
+ * [When To Use Play, Lagom, Or Akka HTTP For Your Project by Lightbend](https://soundcloud.com/lightbend/when-to-use-play-lagom-or-akka-http) (Discussion)  
 * Unit Testing
  * [UNIT TESTING 1](https://developer.lightbend.com/guides/akka-quickstart-java/testing-actors.html) 
  * [UNIT TESTING 2](https://doc.akka.io/docs/akka/current/testing.html?language=java)
+* [Artery Remoting](https://doc.akka.io/docs/akka/current/remoting-artery.html#artery-remoting)  
+* [Cluster Usage](https://doc.akka.io/docs/akka/current/typed/cluster.html#cluster-usage)  
+* [Cluster Singleton](https://doc.akka.io/docs/akka/current/cluster-singleton.html)  
+* [Differences between actor pools and groups in Akka](https://stackoverflow.com/questions/29004171/difference-between-actor-pools-and-groups-in-akka)  
+
 
 # What is Akka?
 
@@ -223,9 +230,9 @@ The basic format of an actor <font color="purple">path</font> and <font color="p
 `akka://helloakka/user/someParentActor/someActor`  
 
 The sections are as follows:  
-* Starts with `akka://`.  
-* Next is the system name, which is created when you [create the ActorSystem](learn_to_code/java/akka/akka_basics?id=basic-actorsystem-creation).  
-* Next is the word `user`. There are other defaults here too: `system`, `deadLetters`, `temp`, and `remote` are the others.  These are called <font color="purple">guardians</font>; `user` is for _all_ actors you create. So, when referencing actors you created, this will always be `user`.  
+* Starts with `akka://` - this is known as the <font color="green">protocol</font>.  
+* Next is the <font color="green">Akka system name</font>, which is created when you [create the ActorSystem](learn_to_code/java/akka/akka_basics?id=basic-actorsystem-creation).  
+* Next is the word `user`. There are other defaults here too: `system`, `deadLetters`, `temp`, and `remote` are the others.  These are called <font color="green">guardians</font>; `user` is for _all_ actors you create. So, when referencing actors you created, this will always be `user`.  
 * From here, its a tree of parents and then children separated by a `/`; in the example above, the next item is the parent of the actor, and the parent's name is `someParentActor`.  
  * There will be an arbitrary number of ancestors, from 0 to multiple.  
 * The final word is the name of the actor itself.  In the above case, thats `someActor`.  
@@ -422,8 +429,114 @@ This method hinges on sending an `Identify` object to an actor (using ActorSelec
 
 Each `Identify()` object has an `int` (or `long`) which is known as parameter `messageID` (also known as the `correlationID`), and its returned to this actor in the `ActorIdentify` object (as `id.correlationId()`). Since its possible that one actor could make _multiple_ requests for different actors, we need a way to quickly identify which request is which - and that is done through `correlationId`. Finally, note that while you can use a primitive int or long here, the `id.correlationId()` will be in its object form (either `Integer` or `Long`).  
 
-There is a walkthrough of these concepts in [the example](learn_to_code/java/akka/akka_basic_examples?id=finding-an-actor-example).  
+There is a walkthrough of these concepts in [the example](learn_to_code/java/akka/akka_basic_examples?id=finding-an-actor-example); you can also check out my [Akka Remote Actor Example](learn_to_code/java/akka/akka_basic_examples?id=remote-actor-example).  
 
 ## Passing the ActorRef in Props  
 
 Another way to make another actor's `ActorRef` available to an actor is to simply pass its `ActorRef` along in the [props()](learn_to_code/java/akka/akka_basics?id=props-constructor); note that the referenced actor must be known before the actor that needs access to it is created beforehand _and_ the `ActorRef` is available; that said, if possible, this is a great way to get an `ActorRef` to another actor that needs it.  
+
+# Remote Actors  
+
+> For more on remote actors, see the official [Akka docs on Artery Remoting](https://doc.akka.io/docs/akka/current/remoting-artery.html), and my example is [here](learn_to_code/java/akka/akka_basic_examples?id=remote-actor-example).  
+
+Remoting is a powerful concept that allows a remote system / server / host to send (and receive) messages to an Akka [ActorSystem](learn_to_code/java/akka/akka_basics?id=basic-actorsystem-creation). This can eventually lead to splitting a monolithic piece of code into smaller microservices.
+
+Akka 2.6 moved away from its traditional remoting and moved towards what they call <font color="purple">Artery remoting</font> (which I will refer to as simply '<font color="greent">remoting</font>' from here on out).  Some of the concepts in pre-Akka 2.6 <font color="greent">remoting</font> will not work; there are slight changes to some of the syntax (although the overall concept does more or less stay the same). These notes are for Akka <font color="greent">remoting</font> for version 2.6+.  
+
+If you would like to see an example of a remote actor in action, you can find one [here](learn_to_code/java/akka/akka_basic_examples?id=remote-actor-example).  
+
+## How Remote Actors Works
+
+> An example of a working remote actor system can be found  [here](learn_to_code/java/akka/akka_basic_examples?id=remote-actor-example).  
+
+Remote actors work by host / server `A` obtaining an Akka actor reference to host `B`, which allows host `A` to send [tell()](learn_to_code/java/akka/akka_basics?id=sending-the-message)s to actors on `B`.  This is mainly done via an [actorSelection](learn_to_code/java/akka/akka_basics?id=actorselection), which is launched _from_ `A`'s local actor system but uses `B`'s actor system; this is because the absolute naming convention of the Akka actor [contains an IP and port](learn_to_code/java/akka/akka_basics?id=actor-names-and-paths) - so even though the [actorSelection](learn_to_code/java/akka/akka_basics?id=actorselection) is launched from `A`'s actor system, if `B`s actor system name/IP/port is specified in the parameter of `actorSelection`, it will use `B`'s actor system to find the sought after actor.  This may be a bit confusing, so [take a look at this example](learn_to_code/java/akka/akka_basic_examples?id=remote-actor-example).  
+
+## Additional Maven Libraries (Remoting)  
+
+If you use the [base pom.xml file](learn_to_code/java/akka/akka_basic_examples?id=pomxml) I have for Akka ([here](learn_to_code/java/maven?id=what-is-the-main-idea-behind-maven) is more on Maven), you will need to add at least one more entry for <font color="greent">remoting</font> to the `<dependencies` section:  
+```
+    <dependency>
+      <groupId>com.typesafe.akka</groupId>
+      <artifactId>akka-remote_${akka.scala.version}</artifactId>
+      <version>${akka.version}</version>
+    </dependency>
+```  
+
+In addition, _if_ you are using UDP as a transport, you will also need some additional libraries - Artery UDP depends on Aeron, so you will need to include these so other builds not specifically using Aertery / Aeron can avoid having these in their classpath:  
+```
+    <dependency>
+      <groupId>io.aeron</groupId>
+      <artifactId>aeron-driver</artifactId>
+      <version>1.26.0</version>
+    </dependency>
+    <dependency>
+      <groupId>io.aeron</groupId>
+      <artifactId>aeron-client</artifactId>
+      <version>1.26.0</version>
+    </dependency>
+```  
+
+## Serialization  
+
+It should be noted that remote actors needed [messages](learn_to_code/java/akka/akka_basics?id=messages-practical) to be serialized; this can be done by having the class implement `Serializable` like so:
+```
+package com.wagenseller;
+
+import java.io.Serializable;
+
+public class StoreData implements Serializable {
+    public String someString;
+
+    public StoreData(String someString) {
+        this.someString = someString;
+    }
+}
+```  
+
+This will allow the class to be sent as a message remotely, but there are many security risks with this.  Instead of this, you _should_ use something else like Google's Protocol Buffers (my notes on that are [here](learn_to_code/java/protobuf), and the official page is [here](https://developers.google.com/protocol-buffers/)). If you do not want to use Google's Protocol Buffers, there are other suggestions [here](https://manuel.bernhardt.io/2018/07/20/akka-anti-patterns-java-serialization/).  
+
+## application.conf (Remoting)  
+
+> More on application.conf, in general, can be found [here](learn_to_code/java/akka/akka_installation_and_config_files?id=applicationconf); if you would like to see an example of it in action, check out my example [here](learn_to_code/java/akka/akka_basic_examples?id=remote-actor-example).  
+
+In order for an actor system to be able to accept incoming messages, there must be a few settings defined in [application.conf](learn_to_code/java/akka/akka_installation_and_config_files?id=applicationconf). Here are the basics for an Akka system that will accept requests to its own actors:  
+```
+akka {
+  actor {
+    provider = remote
+    allow-java-serialization = on
+    warn-about-java-serializer-usage = off
+  }
+  remote {
+    artery {
+      transport = tcp
+      canonical {
+        hostname = "127.0.0.1"
+        port = 25520
+      }
+    }
+  }
+}
+``` 
+* `akka.actor.provider` is set to `remote` (I believe the default is `local`); the publishers of Akka actually recommend using `cluster` over `remote`, but for our purposes we will use `remote`.  
+* `akka.actor.allow-java-serialization` and `akka.actor.warn-about-java-serializer-usage` should **not** be set to these values normally; this is to allow for the use of Java [Serialization](learn_to_code/java/akka/akka_basics?id=serialization), but instead of having your message class implement `Serializable` you _should_ use something else like Google's Protocol Buffers (my notes on that are [here](learn_to_code/java/protobuf), and the official page is [here](https://developers.google.com/protocol-buffers/)). If you do not want to use Google's Protocol Buffers, there are other suggestions [here](https://manuel.bernhardt.io/2018/07/20/akka-anti-patterns-java-serialization/).  
+* `akka.remote.artery.canonical.hostname` is the external (logical) hostname.  
+ * If you do not include this, it will be assumed to be `127.0.1.1` - and the foreign node _will see `127.0.0.1` as this node's address_. This means the foreign node will never be able to return the initial handshake as it will end up trying to send it to itself. **Make sure** this is set to a real value.  
+ * There is said to be an `akka.remote.artery.bind.hostname` which is for an internal network (bind) hostname - however, this did not work as I thought it would.  
+* `akka.remote.artery.canonical.port` is the external (logical) port.  
+ * If you do not set this, it is assumed to be `25520`.  
+ * There is said to be an `akka.remote.artery.bind.port` which is for an internal network (bind) port - however, this did not work as I thought it would.  
+* `akka.remote.artery.transport` is the transport.  
+
+The `application.conf` on a system that will simply make requests is:  
+```
+akka {
+   actor {
+    provider = remote
+    allow-java-serialization = on
+    warn-about-java-serializer-usage = off
+  }
+}
+```  
+
+!> Note that if you set `akka.remote.artery.canonical.port` = 0, this will _randomize_ the port; usually you need to know what the port will be, **but** sometimes the randomization of the port is good for things like unit tests.  

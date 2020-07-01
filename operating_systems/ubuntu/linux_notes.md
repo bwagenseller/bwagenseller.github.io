@@ -2579,6 +2579,25 @@ dig @ns.hosteurope.com 62.75.160.144
 
 ---
 
+# Checking For Open Ports  
+
+If you need to check to see if a foreign port is open, you can test with the `telnet` command.  The command is:  
+```
+telnet <ip> <port>
+```  
+
+For example, if you wanted to test port `80` on IP `10.0.0.1`, you would run:  
+```
+telnet 10.0.0.1 80
+```  
+
+There will be one of 3 responses:  
+* Hanging response  -if the response hangs, the port is not open.  
+* `Unable to connect to remote host: Connection refused` - if you get this response, you can reach the port but nothing is running on it.  
+* `Trying 10.0.0.1...` / `Connected to 10.0.0.1.` / `Escape character is '^]'.` - If you get these three lines, you connected to the port _and_ something is actively listening on that port.  
+
+---  
+
 # Security
 
 ## Clearing Command History

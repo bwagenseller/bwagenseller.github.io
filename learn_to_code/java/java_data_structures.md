@@ -1110,3 +1110,282 @@ while(myIter.hasNext()) {
 }
 ```  
 * The `key` will need to be [downcasted](learn_to_code/java/java_classes?id=downcasting-upcasting) to a `String`.  
+
+# JSON 
+
+**JavaScript Object Notation** <font color="green">JSON</font> doubles as a file format and a data interchange format. An advantage to it is its a text-based format and is language independent. For more on <font color="green">JSON</font>, see [here](https://www.json.org/json-en.html).  
+
+There are a few different packages that Java uses to interact with <font color="green">JSON</font>.  
+
+## Example of JSON
+
+I like to use a JSON string from the Watson speech results; [Watson](learn_to_code/machine_learning/watson_speech_and_text) is a speech-to-text tool by IBM. It is a good example of JSON as it has a few things happening in it:  
+```
+{
+  "results": [
+    {
+      "final": true,
+      "alternatives": [
+        {
+          "transcript": "I bless the rains down in Africa ",
+          "confidence": 0.99,
+          "timestamps": [
+            [
+              "I",
+              2.9,
+              3.08
+            ],
+            [
+              "bless",
+              3.08,
+              3.47
+            ],
+            [
+              "the",
+              3.47,
+              3.57
+            ],
+            [
+              "rains",
+              3.57,
+              4.12
+            ],
+            [
+              "down",
+              4.17,
+              4.47
+            ],
+            [
+              "in",
+              4.47,
+              4.55
+            ],
+            [
+              "Africa",
+              4.55,
+              5.22
+            ]
+          ],
+          "word_confidence": [
+            [
+              "I",
+              1.0
+            ],
+            [
+              "bless",
+              1.0
+            ],
+            [
+              "the",
+              1.0
+            ],
+            [
+              "rains",
+              1.0
+            ],
+            [
+              "down",
+              0.96
+            ],
+            [
+              "in",
+              1.0
+            ],
+            [
+              "Africa",
+              0.98
+            ]
+          ]
+        }
+      ]
+    }
+  ],
+  "result_index": 0
+}
+```
+* `results` stores most of the information.  
+* `final` is a boolean that stores if this particular `results` are the final pass at transcribing the speech (there are multiple attempts made, but there is only one final attempt at transcribing a phrase).  
+* `alternatives` is actually an object that houses the following:  
+ * `transcript` is the phrase someone spoke that is being transcribed.  
+ * `confidence` is a float that ranges from 0 to 1 and represents the % of confidence in the transcription.  
+ * `timestamps` is is a double list; the outer list represents a single word in the phrase, in order (for example, there are 7 'timestamps' in the example above). The inner list represents (in this order):  
+   * The word itself.  
+   * The second (with 0 as the start of the phrase) when the word started.  
+   * The second (with 0 as the start of the phrase) when the word ended.  
+ * `word_confidence` is is a double list; the outer list represents a single word in the phrase, in order (for example, there are 7 'word_confidence' in the example above). The inner list represents (in this order):  
+   * The word itself.  
+   * The confidence of this word (so if this is a 1, IBM was 100% sure the word that was supplied by the transcription was the word said by the speaker).  
+
+## GSON 
+
+Google's <font color="green">GSON</font> is a package that can handle coding and decoding JSON strings.  While not always a requirement, you usually must know the structure of the JSON string beforehand, and you must model that structure in a Plain Old Java Object.  
+
+**<font size="4">Maven Import</font>**  
+
+The <font color="green">GSON</font> library must be imported from [Maven](learn_to_code/java/maven); put this in the [dependencies](learn_to_code/java/maven?id=adding-dependencies-to-maven) section of [pom.xml](learn_to_code/java/maven?id=pomxml):  
+```
+    <dependency>
+      <groupId>com.google.code.gson</groupId>
+      <artifactId>gson</artifactId>
+      <version>2.8.6</version>
+    </dependency>
+```  
+* The version used above is `2.8.6` but feel free to grab the latest.  
+
+**<font size="4">GSON Example POJO</font>**  
+
+Usually, <font color="green">GSON</font> must have a Plain Old Java object that will mirror the structure if your JSON string; we will use [the example JSON string](learn_to_code/java/java_data_structures?id=example-of-json) as a base. Each keyword in the JSON string _must_ have a corresponding variable name in the POJO class. The example:  
+```
+package com.wagenseller;
+
+import com.google.gson.annotations.SerializedName;
+import java.util.List;
+
+public class WatsonSpeechResults {
+
+    // Watson uses a keyword in Java (final) - this is how to get around that
+    @SerializedName("final")
+    private boolean isFinal;
+
+    public List<WatsonAlternatives> alternatives;
+
+    public class WatsonAlternatives {
+
+        private String transcript;
+
+        private double confidence;
+
+        private List<List<String>> timestamps;
+
+        private List<List<String>> word_confidence;
+
+        public String getTranscript() { return transcript; }
+        public void setTranscript(String transcript) { this.transcript = transcript; }
+
+        public double getConfidence() { return confidence; }
+        public void setConfidence(double confidence) { this.confidence = confidence; }
+
+        public List<List<String>> getTimestamps() { return timestamps; }
+        public void setTimestamps(List<List<String>> timestamps) { this.timestamps = timestamps; }
+
+        public List<List<String>> getWord_confidence() { return word_confidence; }
+        public void setWord_confidence(List<List<String>> word_confidence) { this.word_confidence = word_confidence; }
+
+    }
+
+    public boolean getFinal() { return isFinal; }
+    public void setFinal(boolean isFinal) { this.isFinal = isFinal; }
+}
+```  
+
+**<font size="4">GSON Example</font>**  
+
+Here is an example of how to use <font color="green">GSON</font> using the POJO above:  
+```
+package com.wagenseller;
+
+import com.google.gson.Gson;
+
+public class GSONExample {
+
+    public static void main(String[] args) {
+	
+	String         someString = "{\n" +
+                "  \"final\": true,\n" +
+                "  \"alternatives\": [\n" +
+                "    {\n" +
+                "      \"transcript\": \"I blessed the rains down in Africa \",\n" +
+                "      \"confidence\": 0.99,\n" +
+                "      \"timestamps\": [\n" +
+                "        [\n" +
+                "          \"I\",\n" +
+                "          2.9,\n" +
+                "          3.08\n" +
+                "        ],\n" +
+                "        [\n" +
+                "          \"blessed\",\n" +
+                "          3.08,\n" +
+                "          3.47\n" +
+                "        ],\n" +
+                "        [\n" +
+                "          \"the\",\n" +
+                "          3.47,\n" +
+                "          3.57\n" +
+                "        ],\n" +
+                "        [\n" +
+                "          \"rains\",\n" +
+                "          3.57,\n" +
+                "          4.12\n" +
+                "        ],\n" +
+                "        [\n" +
+                "          \"down\",\n" +
+                "          4.17,\n" +
+                "          4.47\n" +
+                "        ],\n" +
+                "        [\n" +
+                "          \"in\",\n" +
+                "          4.47,\n" +
+                "          4.55\n" +
+                "        ],\n" +
+                "        [\n" +
+                "          \"Africa\",\n" +
+                "          4.55,\n" +
+                "          5.22\n" +
+                "        ]\n" +
+                "      ],\n" +
+                "      \"word_confidence\": [\n" +
+                "        [\n" +
+                "          \"I\",\n" +
+                "          1.0\n" +
+                "        ],\n" +
+                "        [\n" +
+                "          \"blessed\",\n" +
+                "          1.0\n" +
+                "        ],\n" +
+                "        [\n" +
+                "          \"the\",\n" +
+                "          1.0\n" +
+                "        ],\n" +
+                "        [\n" +
+                "          \"rains\",\n" +
+                "          1.0\n" +
+                "        ],\n" +
+                "        [\n" +
+                "          \"down\",\n" +
+                "          0.96\n" +
+                "        ],\n" +
+                "        [\n" +
+                "          \"in\",\n" +
+                "          1.0\n" +
+                "        ],\n" +
+                "        [\n" +
+                "          \"Africa\",\n" +
+                "          0.98\n" +
+                "        ]\n" +
+                "      ]\n" +
+                "    }\n" +
+                "  ]\n" +
+                "}";
+				
+        //The goal now is to save the above as a WatsonSpeechResults object so we can easily interact with it.
+        
+        //There are two ways you can do this - usually I just use the .class method
+        //WatsonSpeechResults info = new Gson().fromJson(someString, new TypeToken<WatsonSpeechResults>(){}.getType());
+        WatsonSpeechResults info = new Gson().fromJson(someString, WatsonSpeechResults.class);
+
+        if (info.getFinal()) {
+            System.out.println("Transcript: " + info.alternatives.get(0).getTranscript());
+            System.out.println("Confidence: " + info.alternatives.get(0).getConfidence());
+            System.out.println("First Timestamp: " + info.alternatives.get(0).getTimestamps().get(0));
+            System.out.println("First Word in First Timestamp: " + info.alternatives.get(0).getTimestamps().get(0).get(0));
+            System.out.println("Start time in First Timestamp: " + info.alternatives.get(0).getTimestamps().get(0).get(1));
+            System.out.println("End time in First Timestamp: " + info.alternatives.get(0).getTimestamps().get(0).get(2));
+            System.out.println("Last word in word_confidence: " + info.alternatives.get(0).getWord_confidence().get(6).get(0));
+            System.out.println("Last word confidence in word_confidence: " + info.alternatives.get(0).getWord_confidence().get(6).get(1));
+        }
+
+        //now simply print out the JSON string, using the object 'info'
+        Gson gson = new Gson();
+        System.out.println(gson.toJson(info));
+}
+```  
