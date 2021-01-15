@@ -4,6 +4,10 @@
     style="display: block; width: 88px; margin: auto; margin-bottom: 1em"
 /><span style="display: block; text-align: center; font-size: 1.75em;"> Learn To Code </span>
 
+# AWS    
+- [AWS](/learn_to_code/aws/) - Brent Wagenseller's notes on his journey to learn AWS.
+- [AWS CLI (S3)](/learn_to_code/aws/aws_cli_s3) - The AWS Command Line Interface for the S3 bucket.
+
 # Java
 - [Java](/learn_to_code/java/) - Brent Wagenseller's notes on his journey to learn Java.
 - [Java Terms and Concepts](/learn_to_code/java/java_terms_and_concepts) - Important terms and concepts in Java.

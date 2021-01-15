@@ -13,6 +13,7 @@ Brent Wagenseller's journey to learn the intricacies of Akka.
 - [Akka Installation and Configuration Files](/learn_to_code/java/akka/akka_installation_and_config_files) - My notes on the installation and configuration of Akka. 
 - [Akka Basics and Definitions](/learn_to_code/java/akka/akka_basics) - My notes on the basic conceptss and definitions in Akka. 
 - [Akka Clustering](/learn_to_code/java/akka/clustering) - My notes on using Akka clustering. 
+- [Streams](/learn_to_code/java/akka/streams) - My notes on using Akka streams. 
 
 # Akka Examples
 - [Akka Examples](/learn_to_code/java/akka/akka_basic_examples) - Basic Akka examples. 

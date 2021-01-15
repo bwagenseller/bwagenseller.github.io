@@ -29,12 +29,14 @@ I decided to do something similar here. The following notes are from a combinati
 - [Couchbase Basics](/databases/couchbase/couchbase_basics) - The basics of Couchbase.  
 
 # Learning To Code
+- [Akka](/learn_to_code/java/akka/) - Brent's notes on his continuous journey to learn Akka, which is an alternative to threading in Java (and Scala).
+- [AWS](/learn_to_code/aws/) - Overview of AWS.   
 - [Docsify](/learn_to_code/docsify/) - Overview of how to use Docsify and Markdown. 
 - [Git](/learn_to_code/git/) - My notes to get up to speed on git. 
 - [Java](/learn_to_code/java/) - Brent's notes on his continuous journey to learn Java.
-- [Akka](/learn_to_code/java/akka/) - Brent's notes on his continuous journey to learn Akka, which is an alternative to threading in Java (and Scala).
 - [Machine Learning](/learn_to_code/machine_learning/) - Brent's notes on his journey to document Machine Learning.
 - [Python](/learn_to_code/python/) - Brent's notes on his continuous journey to document Python.
+- [StatsD Page](/learn_to_code/statsd/) - StatsD is a package that graphs stats; can be used in Python, Java, and more.  
 
 # Telephony
 - [Asterisk Operations](/telephony/asterisk) - Day to day operations in Asterisk.

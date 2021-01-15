@@ -540,6 +540,173 @@ The directory `repository` will be created under your `~/.m2` directory, which w
 
 ---
 
+# AWS As Repository  
+
+You can use an <font color="green">AWS S3 bucket</font> as a repository for your homegrown [jar](learn_to_code/java/java_basics?id=jar-files) artifacts; if you place your [jar](learn_to_code/java/java_basics?id=jar-files) artifacts in such a repository, all you have to do is include its information in the [dependency section in your pom.xml file](learn_to_code/java/maven?id=adding-dependencies-to-maven) and you will be able to import it effortlessly into your own artifact! There are just a few things you have to do before that is possible.  
+
+## AWS Repository - Quick Start 
+
+Here are the quick setup steps to create a homegrown AWS repository that can be used by Maven: 
+
+1\. Actually create a [jar](learn_to_code/java/java_basics?id=jar-files) artifact; one that contains code you wish to re-use in multiple projects.  
+
+2\. Perform the [initial setup](learn_to_code/java/maven?id=aws-repository-initial-setup), paying close attention to your local [settings.xml file](/learn_to_code/java/maven?id=settingsxml).  
+
+3\. Determine your [group and artifact IDs](learn_to_code/java/maven?id=aws-repository-group-amp-artifact-id) that you wish to use, and then setting up the various directories to support them in the S3 bucket.  
+
+4\. Setup the [base artifact directory](learn_to_code/java/maven?id=aws-repository-base-artifact-directory) with the `maven-metadata.xml` file as well as both checksum files.  
+
+5\. Set up at least one [version](learn_to_code/java/maven?id=aws-repository-version-sub-directory) of your jar file in the S3 bucket - there are 6 files to put in the subdirectory.  
+ * Do not forget to include the version information in [maven-metadata.xml](learn_to_code/java/maven?id=aws-repository-base-artifact-directory).  
+
+> Once these steps are completed, you can [import your jar file](learn_to_code/java/maven?id=aws-repository-building-your-pom) in [pom.xml](learn_to_code/java/maven?id=pomxml) in a similar fashion to  any other artifact!  
+
+## AWS Repository - Initial Setup  
+
+Here is the initial setup for an AWS Repository using an AWS S3 bucket:  
+
+1\. Actually get an Amazon S3 bucket.  
+
+2\. Set up the S3 bucket information in your local [settings.xml file](/learn_to_code/java/maven?id=settingsxml). 
+ * Make sure to out in your username and password (as shown).  
+ * Make sure to set `wagonProvider` as <font color="green">s3</font> (as shown).  
+ * Make sure to have an `id` that makes sense. You can make it up, but when you go to put it into the [dependency section in your pom.xml file](learn_to_code/java/maven?id=adding-dependencies-to-maven) you _must_ re-use this ID.  
+ 
+3\. Know how to use the [AWS Command Line Interface](learn_to_code/aws/aws_cli_s3). This isnt a hard requirement, as you can use the console, but you will need to know how to use either the console or the CLI.  
+
+4\. Pick a base directory that will act as the <font color="green">base repository directory</font> for Maven. Actually, you _can_ pick multiple <font color="green">base repository directories</font>, but you will need at least one. I usually will use `release/` as the base directory in an Amazon S3 bucket.  
+
+## AWS Repository - Group & Artifact ID 
+
+You will have to create an <font color="green">artifactId</font> and <font color="green">groupId</font> for your homegrown [jar](learn_to_code/java/java_basics?id=jar-files) artifact:  
+* The <font color="green">artifactId</font> is usually a one-word identifier (if you wish to use dots, please use dashes instead)  
+ * The dots would indicate different directories, which is why its avoided.  
+* The <font color="green">groupId</font> is usually your company's website, backwards, in dot notation (i.e. YouTube would be `com.youtube`, `graph.io` would have a <font color="green">groupId</font> of `io.graph`, Mozilla's <font color="green">groupId</font> would be `org.mozilla`, etc.  
+ * These suggestions are just a rule of thumb - for example, Google uses `com.google.protobuf` as a <font color="green">groupId</font>, and then has different language versions of protobuf as <font color="green">artifactIds</font>.  
+
+So, where are we at now? 
+* We need an S3 bucket. Our example will be `s3://repo.mycompany.com` (to find your company's s3 buckets, [install AWS CLI](learn_to_code/aws/aws_cli_s3?id=installing-aws-cli-ubuntu), [configure it](learn_to_code/aws/aws_cli_s3?id=config-directory-setup), and then [display the buckets](learn_to_code/aws/aws_cli_s3?id=show-buckets-ls).  
+* We will need a <font color="green">base repository directory</font> in our S3 bucket - I will use `release` in this example.  
+* We will need to determine a base directory _for our specific artifact_ we are creating, which corresponds, in part, to a <font color="green">groupId</font> using dot notation. Our <font color="green">groupId</font> will be `com.industries.vandelay`.  
+* We will need an <font color="green">artifactId</font>, which makes this _specific_ artifact unique (although it can have sub-versions). Our <font color="green">artifactId</font> will be called `importer-exporter`.
+* Finally, we need an <font color="green">base artifact directory</font> in our S3 bucket - we add all of the above to get: 
+```
+s3://repo.mycompany.com/release/com/industries/vandelay/importer-exporter/
+```  
+
+## AWS Repository - Base Artifact Directory  
+
+
+We have seen how to construct the <font color="green">base artifact directory</font> [here](learn_to_code/java/maven?id=aws-repository-group-amp-artifact-id). The <font color="green">base artifact directory</font> has a few things in it:  
+* sub-drectories that contain the different versions of the artifact.
+ * The directories are named _exactly_ like the version number they represent.  
+* `maven-metadata.xml`, which is a metadata file for this specific artifact.  
+* `maven-metadata.xml.md5`, which is a file that simply contains the result of a md5 checksum on `maven-metadata.xml`. See [here](operating_systems/ubuntu/linux_notes?id=file-hashes) for how to get an md5 checksum. An example of the contents of one of my `maven-metadata.xml.md5` files is:  
+```
+4de4536efeb5a5716a798eb39359297c
+```  
+* `maven-metadata.xml.sha1`, which is a file that simply contains the result of a sha1 checksum on `maven-metadata.xml`. See [here](operating_systems/ubuntu/linux_notes?id=file-hashes) for how to get a sha1 checksum. An example of the contents of one of my `maven-metadata.xml.sha1` files is:  
+```
+883faeab2ccd487302984412c880df6d1745a9f4
+```  
+
+### More on maven-metadata.xml  
+
+The file `maven-metadata.xml` is the main metadata file that tells Maven about the artifact in question. An example of this file is:  
+```
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+  <groupId>com.industries.vandelay</groupId>
+  <artifactId>importer-exporter</artifactId>
+  <versioning>
+    <release>1.0.3</release>
+    <versions>
+      <version>1.0.0</version>
+      <version>1.0.1</version>
+      <version>1.0.2</version>
+	  <version>1.0.3</version>
+    </versions>
+    <lastUpdated>20190202013036</lastUpdated>
+  </versioning>
+</metadata>
+```  
+* The <font color="green">groupId</font> is `com.industries.vandelay`.  
+* The <font color="green">artifactId</font> is `importer-exporter`.  
+* The `<versions>` list the different versions of the artifact `importer-exporter`. Note these version numbers are the _exact_ same as the sub-drectories mentioned in the discussion about [the base artifact directory](learn_to_code/java/maven?id=aws-repository-base-artifact-directory).  
+* The `<release>` is simply the latest `version`.  
+* `<lastUpdated>` is the last time this artifact was updated in `YYYYMMDDHHMISS` format.  
+
+## AWS Repository - Version Sub-Directory  
+
+As mentioned in the discussion on [the base artifact directory](learn_to_code/java/maven?id=aws-repository-base-artifact-directory), each version of an artifact will have sub-drectories that contain the different versions of the artifact that 
+* are under [the base artifact directory](learn_to_code/java/maven?id=aws-repository-base-artifact-directory).
+* are named _exactly_ like the version number they represent.  
+
+There should be six files in this sub-directory:
+* A [jar](learn_to_code/java/java_basics?id=jar-files) artifact file that contains the code you wish to deploy elsewhere via Maven.
+ * The naming structure for these jar files is `<artifactId>-<version>.jar`; so the example I have been using would be `importer-exporter-1.0.3.jar`.  
+* The [pom.xml](learn_to_code/java/maven?id=pomxml) file of the artifact jar file we are using for this version (i.e. the pom.xml of `importer-exporter-1.0.3.jar`).  
+ * This pom.xml file will be re-named as `<artifactId>-<version>.pom`, or if we are following our example, that would be `importer-exporter-1.0.3.pom`.  
+* A md5 _and_ a sha1 checksum file for _both_ the jar and pom files (the same as the checksum files mentioned in the [base artifact directory](learn_to_code/java/maven?id=aws-repository-base-artifact-directory) discussion); using our example, these 4 files would be:  
+ * `importer-exporter-1.0.3.jar.md5`
+ * `importer-exporter-1.0.3.jar.sha1`
+ * `importer-exporter-1.0.3.pom.md5`
+ * `importer-exporter-1.0.3.pom.sha1`
+
+## AWS Repository - Building Your POM  
+
+Now that you have setup your S3 bucket to act as a private repository for Maven (which can be done by following [these steps](learn_to_code/java/maven?id=aws-repository-quick-start)), you just have a few modifications in your [pom.xml](learn_to_code/java/maven?id=pomxml) to import your artifact into any Maven project!  
+
+First, you must add some information to the `<distributionManagement>` and `<repositories>` tags in your pom.xml file (both of these are on the same level of `<properties>` and `<dependencies>`, in case `<distributionManagement>` or `<repositories>` does not exist).  I will show an example of what to add to your pom file using the example used throughout the [AWS Repository](learn_to_code/java/maven?id=aws-as-repository) tutorial:
+```
+	...
+    </properties>
+    <distributionManagement>
+        <snapshotRepository>
+            <id>repo.mycompany.com</id>
+            <url>s3://repo.mycompany.com/snapshot</url>
+        </snapshotRepository>
+        <repository>
+            <id>repo.mycompany.com</id>
+            <url>s3://repo.mycompany.com/release</url>
+        </repository>
+    </distributionManagement>
+    <repositories>
+        <repository>
+            <id>repo.mycompany.com</id>
+            <url>s3://repo.mycompany.com/release</url>
+        </repository>
+        <repository>
+            <id>repo.mycompany.com</id>
+            <url>s3://repo.mycompany.com/snapshot</url>
+        </repository>
+
+    </repositories>
+    <dependencies>
+	...
+```
+* <font color="red">Note</font>: This is just a snippet of the pom.xml file - it shows the end of the `</properties>` tag (but not the beginning or the subsequent contents) and the beginning of the `<dependencies>` tag (but not the contents or the end).  
+* The various `<id>`s _must_ match the `<id>` in your local [settings.xml file](/learn_to_code/java/maven?id=settingsxml).  
+* The `<url>` is the AWS S3 bucket name, as it would be returned by the [AWS CLI 'show bucket' command](learn_to_code/aws/aws_cli_s3?id=show-buckets-ls).  
+ * In our example, this was `s3://repo.mycompany.com`.  
+ * The `/release` is the [base repository directory](learn_to_code/java/maven?id=aws-repository-initial-setup) in your AWS S3 bucket. This is where _all_ of your repositories will go (or, at lease, _one_ of such locations).  
+   * A similar thing can be said for `/snapshot`.  
+* The `<snapshotRepository>` tags are probably not necessary, but I put them in here to show that you can also draw from a snapshot directory. 
+
+Now, the only thing left to do is add a [dependency](learn_to_code/java/maven?id=adding-dependencies-to-maven) in your pom.xml file! Here is a snippet of what you can insert into the `<dependencies>` section of your [pom.xml](learn_to_code/java/maven?id=pomxml) file:  
+```
+        <dependency>
+            <groupId>com.industries.vandelay</groupId>
+            <artifactId>importer-exporter</artifactId>
+            <version>1.0.3</version>
+        </dependency>
+```  
+* The <font color="green">groupId</font> and <font color="green">artifactId</font> are from [our example](learn_to_code/java/maven?id=more-on-maven-metadataxml).  
+
+We should now be able to access this artifact from our code (after [compiling the Maven project](learn_to_code/java/maven?id=compiling-your-maven-project), of course).   
+
+---  
+
 # Integration Testing
 
 **Integration testing** is a bit different than unit testing for two reasons:
@@ -598,7 +765,7 @@ Integration test results can be found in the folder `target/failsafe-reports`; t
 
 ## Integration Test Example
 
-> The following was found [on a sonatype blog](https://blog.sonatype.com/2009/06/integration-tests-with-maven-part-1-failsafe-plugin/), but the blog was a decade old when I found it and needed major tweaking to work (and only tested the jar file and not a class in the project). For your reference there are 3 parts to this blog: [the first](https://blog.sonatype.com/2009/06/integration-tests-with-maven-part-1-failsafe-plugin/), [the second](https://blog.sonatype.com/2009/06/integration-tests-with-maven-part-2-test-coverage-reports/), and [the third](https://blog.sonatype.com/2009/10/integration-tests-with-maven-part-3-case-study-flexmojos/).
+> The following was found [on a sonatype blog](https://blog.sonatype.com/2009/06/integration-tests-with-maven-part-1-failsafe-plugin/), but the blog was a decade old when I found it and needed major tweaking to work (and only tested the [jar](learn_to_code/java/java_basics?id=jar-files) file and not a class in the project). For your reference there are 3 parts to this blog: [the first](https://blog.sonatype.com/2009/06/integration-tests-with-maven-part-1-failsafe-plugin/), [the second](https://blog.sonatype.com/2009/06/integration-tests-with-maven-part-2-test-coverage-reports/), and [the third](https://blog.sonatype.com/2009/10/integration-tests-with-maven-part-3-case-study-flexmojos/).
 
 Here is an integration test example.
 

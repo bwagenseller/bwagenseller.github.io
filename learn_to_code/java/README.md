@@ -16,11 +16,14 @@ Brent Wagenseller's journey to learn the intricacies of Java.
 - [File Manipulation in Java](/learn_to_code/java/java_file_manipulation) - The basics of file manipulation in Java.
 
 **Advanced Java**
-- [Akka](/learn_to_code/java/akka/) - Using Akka, the actor manager.
+- [Ari4java](/learn_to_code/java/ari4java) - Using ARI4Java, an ARI interface for Java.  
 - [Protobuf](/learn_to_code/java/protobuf) - Using Google's Protobuf in Java.
 - [Logback](/learn_to_code/java/logback) - Powerful logging tool in Java.
 - [ND4J](/learn_to_code/java/nd4j) - Using ND4J, the Java's answer to Numpy and Pandas (i.e. vectorized linear algebra).
 - [Watson - Speech and Text](/learn_to_code/java/watson_speech_and_text_JavaSDK) - Using Watson's SDK in Java for speech to text.  
+
+**Akka**  
+- [Akka](/learn_to_code/java/akka/) - Using Akka, the actor manager.
 
 **IDEs**
 - [IntelliJ](/learn_to_code/java/intellij) - Using the IDE 'IntelliJ'.

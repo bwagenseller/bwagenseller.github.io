@@ -5,11 +5,13 @@
 - [Java Data Structures](/learn_to_code/java/java_data_structures)  
 - [File Manipulation in Java](/learn_to_code/java/java_file_manipulation) 
 - **Advanced Java**
-- [Akka](/learn_to_code/java/akka/)
-- [Protobuf](/learn_to_code/java/protobuf)
+- [Ari4java](/learn_to_code/java/ari4java)  
 - [Logback](/learn_to_code/java/logback)
 - [ND4J](/learn_to_code/java/nd4j)
+- [Protobuf](/learn_to_code/java/protobuf)
 - [Watson - Speech and Text](/learn_to_code/java/watson_speech_and_text_JavaSDK)
+- **Akka** 
+- [Akka](/learn_to_code/java/akka/)
 - **IDEs**
 - [IntelliJ](/learn_to_code/java/intellij)
 - **Build Tools**

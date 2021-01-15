@@ -17,12 +17,14 @@
  - [Couchbase Cluster Install Instructions](/databases/couchbase/couchbase_install)
  - [Couchbase Basics](/databases/couchbase/couchbase_basics)  
 - **Computer Science**
+ - [Akka](/learn_to_code/java/akka/)
+ - [AWS](/learn_to_code/aws/)  
  - [Docsify](/learn_to_code/docsify/)
  - [Git](/learn_to_code/git/)
  - [Java](/learn_to_code/java/)
- - [Akka](/learn_to_code/java/akka/)
- - [Python](/learn_to_code/python/)
  - [Machine Learning](/learn_to_code/machine_learning/)  
+ - [Python](/learn_to_code/python/)
+ - [StatsD Page](/learn_to_code/statsd/)  
 - **Telephony**
  - [Asterisk Operations](/telephony/asterisk) 
 - **Microsoft Office**

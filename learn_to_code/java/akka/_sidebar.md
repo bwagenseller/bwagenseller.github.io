@@ -3,7 +3,10 @@
 - [Back To Java](/learn_to_code/java/)
 - **Akka**
 - [Akka Main Page](/learn_to_code/java/akka/)
-- [Akka Installation and Configuration Files](/learn_to_code/java/akka/akka_installation_and_config_files)  
-- [Akka Basics and Definitions](/learn_to_code/java/akka/akka_basics)
-- [Akka Clustering](/learn_to_code/java/akka/clustering)  
-- [Akka Basic Examples](/learn_to_code/java/akka/akka_basic_examples)  
+- [Installation and Configuration Files](/learn_to_code/java/akka/akka_installation_and_config_files)  
+- [Basics and Definitions](/learn_to_code/java/akka/akka_basics)
+- [Clustering](/learn_to_code/java/akka/clustering)  
+- [Streams](/learn_to_code/java/akka/streams)  
+
+- **Akka Examples**
+- [Basic Examples](/learn_to_code/java/akka/akka_basic_examples)  
