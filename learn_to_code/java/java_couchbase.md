@@ -152,7 +152,6 @@ Then, somewhere else in the code, you can create a bucket like so:
 	someBucket = someCouchbaseConnection.getBucket("SOME_BUCKET_NAME");
 ```  
 * Requires imports of:  
- * `com.clearcaptions.common.couchbase.CouchbaseConnection`  
  * `com.couchbase.client.java.Bucket`  
 
 And then, if you want to insert / update a document, it would be:  
