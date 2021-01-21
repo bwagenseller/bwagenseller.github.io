@@ -10,6 +10,8 @@
 - [ND4J](/learn_to_code/java/nd4j)
 - [Protobuf](/learn_to_code/java/protobuf)
 - [Watson - Speech and Text](/learn_to_code/java/watson_speech_and_text_JavaSDK)
+- **Databases and Java**  
+- [Couchbase In Java](/learn_to_code/java/java_couchbase)  
 - **Akka** 
 - [Akka](/learn_to_code/java/akka/)
 - **IDEs**

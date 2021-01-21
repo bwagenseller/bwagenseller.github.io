@@ -12,6 +12,9 @@
 - [Java](/learn_to_code/java/) - Brent Wagenseller's notes on his journey to learn Java.
 - [Java Terms and Concepts](/learn_to_code/java/java_terms_and_concepts) - Important terms and concepts in Java.
 - [Basics of Java](/learn_to_code/java/java_basics) - The basics of Java.
+- [Java Data Structures](/learn_to_code/java/java_data_structures) - The basics of Java data structures - lists, arrays, hashMaps, and similar data collections in Java.
+- [File Manipulation in Java](/learn_to_code/java/java_file_manipulation) - The basics of file manipulation in Java.
+- [Couchbase In Java](/learn_to_code/java/java_couchbase) - Using Couchbase in Java.  
 - [Akka](/learn_to_code/java/akka/) - Brent's notes on his continuous journey to learn Akka, which is an alternative to threading in Java (and Scala).
 - [Protobuf](/learn_to_code/java/protobuf) - Using Google's Protobuf in Java.
 - [Logback](/learn_to_code/java/logback) - Powerful logging tool in Java.

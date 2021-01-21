@@ -22,6 +22,9 @@ Brent Wagenseller's journey to learn the intricacies of Java.
 - [ND4J](/learn_to_code/java/nd4j) - Using ND4J, the Java's answer to Numpy and Pandas (i.e. vectorized linear algebra).
 - [Watson - Speech and Text](/learn_to_code/java/watson_speech_and_text_JavaSDK) - Using Watson's SDK in Java for speech to text.  
 
+**Databases and Java**
+- [Couchbase In Java](/learn_to_code/java/java_couchbase) - Using Couchbase in Java.  
+
 **Akka**  
 - [Akka](/learn_to_code/java/akka/) - Using Akka, the actor manager.
 
