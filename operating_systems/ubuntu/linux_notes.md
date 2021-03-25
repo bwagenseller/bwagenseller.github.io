@@ -573,6 +573,7 @@ There are different parts to a `.service` file:
 | Group | The groupname the service will run under (defaults to root). | 
 | WorkingDirectory | The working directory of the service. | 
 | Environment | Since environment variables may not be pulled in, you can set them here. An example is: `Environment=JAVA_HOME=/usr/local/java/jdk1.8.0_45` . There can be multiple `Environment` settings. | 
+| EnvironmentFile | Similar to `Environment` above, but you can store multiple environment variables here. An example would be `EnvironmentFile=-/path/to/file.txt`. Note the `-` after the equals sign _is important_. |  
 | StandardOutput | Where the standard output (i.e. the elements that would normally print to the screen) should be sent. Its common practice to send to `syslog` (i.e. `StandardOutput=syslog`). |
 | StandardError | Where errors (i.e. errors that would normally print to the screen) should be sent. Its common practice to send to the [syslog](operating_systems/ubuntu/linux_notes?id=syslog) (i.e. `StandardError=syslog`). |
 | SyslogIdentifier | How the service should be identified in the [syslog](operating_systems/ubuntu/linux_notes?id=syslog) (usually the same name as the service, without `.service`). |

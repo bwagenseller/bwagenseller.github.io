@@ -17,3 +17,4 @@ Brent Wagenseller's journey to learn the intricacies of Akka.
 
 # Akka Examples
 - [Akka Examples](/learn_to_code/java/akka/akka_basic_examples) - Basic Akka examples. 
+- [Akka Cluster Examples](/learn_to_code/java/akka/cluster_example) - An Akka cluster example. 

@@ -17,7 +17,7 @@ This method of node monitoring is 'eventually consistent' and is known as <font 
 
 # Unfiled
 
-* 'Akka Cluster Aware routers' allow work to be distributed across a closter - for example, if 4 tasks come in for task 'A'. the router will send 2 to server 'Y' and two to server 'Z'.  
+* 'Akka Cluster Aware routers' allow work to be distributed across a cluster - for example, if 4 tasks come in for task 'A'. the router will send 2 to server 'Y' and two to server 'Z'.  
 
 * 'Akka Cluster Sharding' distributes actors across the cluster.    
 

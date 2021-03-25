@@ -10,3 +10,4 @@
 
 - **Akka Examples**
 - [Basic Examples](/learn_to_code/java/akka/akka_basic_examples)  
+- [Akka Cluster Examples](/learn_to_code/java/akka/cluster_example)  

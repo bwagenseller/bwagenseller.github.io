@@ -19,9 +19,9 @@ Here are some good Akka references I used:
 
 # What is Akka?
 
-Akka is an implementation of the [Actor Model](learn_to_code/java/akka/akka_basics?id=actor-model), which is itself a concepts that competes with threading. Akka's main advantage is that it eliminates the conceopf of shared state - so there is no need to worry about locking shared variables as you would have to using threads. 
+Akka is an implementation of the [Actor Model](learn_to_code/java/akka/akka_basics?id=actor-model), which is a theoretical model of concurrent computation; boiled down, Akka is similar to multithreading but with capabilities across a distributed system. One of Akka's main advantages is that it eliminates the concept of shared state - so there is no need to worry about locking shared variables as you would have to using threads. 
 
-In addition, Akka utilizes fault-tolerant distribution - it does this with its use of [supervision](learn_to_code/java/akka/akka_basics?id=supervision) in as well as through its support of running in a distributed setting (so multiple networked machine can work together to accomplish tasks); in short, Akka scales well and can maintain high availability via [supervision](learn_to_code/java/akka/akka_basics?id=supervision).
+In addition, Akka utilizes fault-tolerant distribution - it does this with its use of [supervision](learn_to_code/java/akka/akka_basics?id=supervision) in as well as through its support of running in a distributed setting (so multiple networked machine can work together to accomplish tasks); in short, Akka scales well and can maintain high availability via [supervision](learn_to_code/java/akka/akka_basics?id=supervision).  
 
 # Basic Concepts 
 
@@ -35,14 +35,13 @@ The <font color="green">Actor Model</font> is a theoretical model of concurrent 
 
 An <font color="green">Actor</font> is a working entity, such as a process or thread. Usually, an actor has one specific role (much like a worker at a company).
 
-An actor _cannot_ be directly interacted with; they can only interact with the outside world via [messages](learn_to_code/java/akka/akka_basics?id=message).
-Actors can hold state.
+An actor _cannot_ be directly interacted with; they can only interact with the outside world via [messages](learn_to_code/java/akka/akka_basics?id=message).  Actors can hold state.
 
 ## Location Transparency
 
-Akka supports , ; the location is basically transparent to the developer, meaning the code is very similar to a local mailing address.
+Akka supports <font color="green">location transparency</font>; the location is basically transparent to the developer, meaning the code is very similar to a local mailing address.
 
-Akka has a concept called <font color="green">location transparency</font>, which basically means an which means an [actor's](learn_to_code/java/akka/akka_basics?id=actor) [mailing address](learn_to_code/java/akka/akka_basics?id=mailing-address) is located on a remote location and can run anywhere - locally or on a remote machine. This is possible due to how Actors are created: a factory must be used to create an Actor, as it's impossible to create an instance of an Actor using the `new` keyword.
+Akka has a concept called <font color="green">location transparency</font>, which basically means an [actor's](learn_to_code/java/akka/akka_basics?id=actor) [mailing address](learn_to_code/java/akka/akka_basics?id=mailing-address) is located on a remote location and can run anywhere - locally or on a remote machine. This is possible due to how Actors are created: a factory must be used to create an Actor, as it's impossible to create an instance of an Actor using the `new` keyword.
  * This factory returns a reference that points to an actor instance - _not_ an actor instance itself.
  * This makes a distributed system possible.
 
@@ -51,9 +50,9 @@ As a distributed system, Actors can completely error out and be re-started, whic
 
 ## Message
 
-A <font color="green">message</font> is a piece of data used to communicate with [Actors](learn_to_code/java/akka/akka_basics?id=actor). These can be anything from simple strings to objects.
+A <font color="green">message</font> is a piece of data used to communicate with [Actors](learn_to_code/java/akka/akka_basics?id=actor). These can be anything from simple strings to Java objects.
 
-You can think of a <font color="green">message</font> as an entity passing parameters to a method and then obtaining a result (returned object), but <font color="green">messages</font> differ from function / method calls in that <font color="green">messages</font> are asynchronous (i.e. an [actor](learn_to_code/java/akka/akka_basics?id=actor) will process the <font color="green">message</font> when it is ready to do so and is not helf to the whims of other actors or entities). By default, an actor processes <font color="green">messages</font> one at a time. A [mailbox](learn_to_code/java/akka/akka_basics?id=mailbox) is used to queue <font color="green">messages</font> for the actor.
+You can think of a <font color="green">message</font> as an entity passing parameters to a method and then obtaining a result (returned object), but <font color="green">messages</font> differ from function / method calls in that <font color="green">messages</font> are asynchronous (i.e. an [actor](learn_to_code/java/akka/akka_basics?id=actor) will process the <font color="green">message</font> when it is ready to do so and is not held to the whims of other actors or entities). By default, an actor processes <font color="green">messages</font> one at a time. A [mailbox](learn_to_code/java/akka/akka_basics?id=mailbox) is used to queue <font color="green">messages</font> for the actor.
 
 When an [actor](learn_to_code/java/akka/akka_basics?id=actor) receives a <font color="green">message</font> it can:
 * change its internal state (i.e. variables)
