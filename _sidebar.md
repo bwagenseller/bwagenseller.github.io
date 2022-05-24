@@ -4,6 +4,7 @@
  - [KVM Install Instructions](/operating_systems/ubuntu/package_install/kvm_install)
  - [KVM Notes](/operating_systems/ubuntu/package_operations/kvm_notes)
  - [journalctl](/operating_systems/ubuntu/package_operations/journalctl) 
+ - [Docker](/operating_systems/docker/)  
 - **Raspberry Pi**
  - [Raspberry Pi](/operating_systems/raspberry_pi/) 
 - **Databases**
@@ -16,15 +17,19 @@
  - [Non-Relational Databases](/databases/nonrelational_databases/nonrelational_databases)  
  - [Couchbase Cluster Install Instructions](/databases/couchbase/couchbase_install)
  - [Couchbase Basics](/databases/couchbase/couchbase_basics)  
-- **Computer Science**
+- **Computer Science**  
+ - [Android](/learn_to_code/android/)  
  - [Akka](/learn_to_code/java/akka/)
  - [AWS](/learn_to_code/aws/)  
+ - [Chef](/learn_to_code/chef/)  
  - [Docsify](/learn_to_code/docsify/)
+ - [General Computer Science Concepts](/learn_to_code/computer_science_concepts) 
  - [Git](/learn_to_code/git/)
  - [Java](/learn_to_code/java/)
  - [Machine Learning](/learn_to_code/machine_learning/)  
- - [Python](/learn_to_code/python/)
- - [StatsD Page](/learn_to_code/statsd/)  
+ - [Python](/learn_to_code/python/)  
+ - [React Native](/learn_to_code/android/react_native/)  
+ - [StatsD Page](/learn_to_code/statsd/)
 - **Telephony**
  - [Asterisk Operations](/telephony/asterisk) 
 - **Microsoft Office**

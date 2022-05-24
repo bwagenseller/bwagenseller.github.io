@@ -221,7 +221,7 @@ akka {
 
       # max-simultaneous-rebalance : 3
 
-      # IF 'remember-entities' si set t oon, this will automatically kill the entity if it has not received any messages for this amount of time. For example. 5s = 5 seconds, 1m = 1 minute.
+      # IF 'remember-entities' is set to on, this will automatically kill the entity if it has not received any messages for this amount of time. For example. 5s = 5 seconds, 1m = 1 minute.
       # 'off' means you have to manually kill the entity with a PoisonPill.
       passivate-idle-entity-after : 3s
 

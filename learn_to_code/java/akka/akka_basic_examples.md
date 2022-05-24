@@ -265,7 +265,7 @@ public class RaisingArizonaGreeter {
 
 ## 'Hello World' Explained
 
-The basics: we must create an actor system, which includes Actors that can send a `tell()` to other Actors, who, in turn, have a `match()` method that 'listens' for specific 'triggers' included in sent `tell()`s. If a trigger is found, the actor specifies what specifically should be done within the `match()` [lambda function](learn_to_code/java/java_basics?id=lambda-function).
+The basics: we must create an actor system, which includes Actors that can send a `tell()` to other Actors, who, in turn, have a `match()` method that 'listens' for specific 'triggers' included in sent `tell()`s. If a trigger is found, the actor specifies what specifically should be done within the `match()` [lambda expression](learn_to_code/java/java_basics?id=lambda-expression).
 
 **<font size="4">Creating The Akka Actor System (<font color="purple">AkkaQuickstart.java</font>)</font>**
 

@@ -878,7 +878,30 @@ To reference an ENUM value, simply list the ENUM name and then the value you are
 Employees singleEmployee;
 singleEmployee = Employees.RICK;
 System.out.println("The employee is " + singleEmployee.toString());
+```  
+
+## Checking if an ENUM Value Exists  
+
+Unfortunately, ENUMs do not have a straightforward way of checking to see if a string version of one of the values exists. If you try to set an ENUM via `valueOf()` and that value does not exist, you will get an error. Using the basic ENUM above:
 ```
+        String strEmployee = "BRENT";
+        try {
+            Employees someEmployee = Employees.valueOf(strEmployee);
+        } catch (java.lang.IllegalArgumentException e) {
+            System.out.println("'" + strEmployee + "' is not an employee!");
+        }
+```  
+
+One thing that can be done is maintain a simple list of strings built from the ENUM. An example:  
+```
+        final List<String> listOfEmployees = new ArrayList<>();
+        for(Employees someEmployee:Employees.values()) listOfEmployees.add(someEmployee.toString());
+
+        String anotherEmployee = "BRENT";
+        if(!listOfEmployees.contains(anotherEmployee)) System.out.println("Employee " + anotherEmployee + " is not in the list!");
+```  
+* It's best to make it `final`.  
+
 ## ENUM Methods and Special Functions
 
 Java's implementation of ENUMs is much better than how other languagues implement ENUMs: 
@@ -1627,13 +1650,13 @@ public class DateTimeExample {
 
 ---
 
-# Lambda Function
+# Lambda Expression
 
 > I read about lambdas [here](https://www.oracle.com/webfolder/technetwork/tutorials/obe/java/Lambda-QuickStart/index.html); another good reference I used is [here](https://beginnersbook.com/2017/10/java-lambda-expressions-tutorial-with-examples/).
 
-A <font color="green">lambda function</font> is an 'anonymous' function (or even class) that you can create in-line / on the fly. This can be advantageous - especially for classes - as this eliminates the need to make (in some cases) multiple files for small classes that can be handled in a few lines of code. A <font color="green">lambda function</font> are usually used when an anonymous class will be used that have only one method.
+A <font color="green">lambda expression</font> is an 'anonymous' function (or even class) that you can create inline / on the fly; if they are not defined, they can be identified by a structure similar to `() -> {}`. Anonymous expressions can be advantageous - especially for classes - as this eliminates the need to make (in some cases) multiple files for small classes that can be handled in a few lines of code. A <font color="green">lambda expression</font> are usually used when an anonymous class will be used that have only one method.
 
-Usually, lambda functions are defined as such:
+Usually, lambda expressions are defined as such:
 
 ```
 parameters -> function
@@ -1641,7 +1664,7 @@ parameters -> function
 
 ## General Example
 
-There seem to be multiple ways to implement a lambda function, but this i sthe most general way to do it. Here is a general example of a lambda using variables:
+There seem to be multiple ways to implement a lambda expression, but this is the most general way to do it. Here is a general example of a lambda using variables:
 ```
 interface LambdaExampleWithParameters {
     int addStuff(int a, int b, int c);
@@ -1672,7 +1695,87 @@ public class Main {
 * We define an interface, then create a variable that utilizes that interface (in our case `variableNameHere`) and we then write our own function internals.
  * Later on, we can treat the sole function in the interface as we would a method of a class (which is why `variableNameHere.addStuff(aa,bb,cc)` works above).
 
-!> This is a trivial example, but there are times where an interface (and their known parameters) is commonplace, but _you_ have to write the internals of the function; later, that function will be used to perform other tasks. In these instances, the internals of the function are not known, but the parameters _and_ the output _are_ known. This is the power of the lambda.
+!> This is a trivial example, but there are times where an interface (and their known parameters) is commonplace, but _you_ have to write the internals of the function; later, that function will be used to perform other tasks. In these instances, the internals of the function are not known, but the parameters _and_ the output _are_ known. This is the power of the lambda. 
+
+## Runnable  
+
+The [Runnable interface](https://docs.oracle.com/javase/7/docs/api/java/lang/Runnable.html) is used in threading applications; in addition, it is used as the assignment target for some lambda expressions that do not need to return anything (most notably for the [runAsync()](learn_to_code/java/asynchronous_programming?id=runasync-supplyasync-and-get) method for the [CompleteableFuture](learn_to_code/java/asynchronous_programming?id=completablefuture) class). An example of <font color="green">Runnable</font> is: 
+
+```
+Runnable myLambdaFunction = () -> {
+	System.out.println("One ring");
+};
+```  
+
+This lambda expression is stored in the <font color="green">Runnable</font> object `myLambdaFunction`, which does not return anything.  `myLambdaFunction` simply prints the String "<font color="green">One ring</font>" to the screen.  
+
+`Runnable`, while not specific to <font color="purple">CompletableFutures</font>, does have some assumptions tied to its use:
+* No parameters are used.  
+* The associated method is (internally) named `run()` (which is used primariily by threading applications).  
+
+## Supplier  
+
+The [Supplier interface](https://docs.oracle.com/javase/8/docs/api/java/util/function/Supplier.html) is used as the assignment target for some lambda expressions (most notably for the [supplyAsunc()](learn_to_code/java/asynchronous_programming?id=runasync-supplyasync-and-get) method for the [CompleteableFuture](learn_to_code/java/asynchronous_programming?id=completablefuture) class). The <font color="green">Supplier</font> can act as a [source](learn_to_code/java/akka/streams?id=source) for a graph algorithm (which streams are a graph algorithm). An example of a <font color="green">Supplier</font> is: 
+
+```
+Supplier<String> myLambdaFunction = () -> {
+	try {
+		TimeUnit.SECONDS.sleep(1);
+	} catch (InterruptedException e) {
+
+	}
+	return "One ring";
+};
+```  
+
+This lambda expression is stored in the <font color="green">Supplier</font> object `myLambdaFunction`; the `<String>` portion informs the code that it will return a String.  `myLambdaFunction` simply sleeps for one second and then returns the String "<font color="green">One ring</font>".  
+
+`Supplier<T>`, while not specific to <font color="purple">CompletableFutures</font>, does have some assumptions tied to its use:
+* No parameters are used.  
+* The associated method is (internally) named `get()`
+
+## java.util.function.Function  
+
+The <font color="green">java.util.function.Function</font> interface (<font color="green">Function</font> for short) was built for mapping scenarios; that is to say, when we want to take an object of one type as input and output another type; it can be thought of as a [flow](learn_to_code/java/akka/streams?id=flow) in a graph algorithm. 
+
+This is mostly used in streams but is used in other things as well (for example, in [CompleteableFuture](learn_to_code/java/asynchronous_programming?id=completablefuture)). You may see `T -> R` associated with <font color="green">Function</font>: this is simply starting that an object of type `T` is transformed to an object of type `R`. A example of the definition of a <font color="green">Function</font> lambda is: 
+
+```
+Function<String, String> myThenApplyFunction = (String inputSentenceFragment) -> {
+	String myPart = " them all!";
+	return inputSentenceFragment + myPart;
+};
+```  
+
+In the example above, the lambda <font color="purple">myThenApplyFunction</font> is created; it takes an input (a String) and outputs a String. The first `String` in `Function<String, String>` is the type of the input parameter, and the second `String` in `Function<String, String>` is the output type. Check out the [CompleteableFuture chaining operations](learn_to_code/java/asynchronous_programming?id=chaining-operations-thenapply-thenapplyasync) to see how this is used in action.
+
+## java.util.function.BiFunction  
+
+The <font color="green">java.util.function.BiFunction</font> interface (<font color="green">BiFunction</font> for short) is similar to [Function](learn_to_code/java/java_basics?id=javautilfunctionfunction), but it has two parameters instead of one. A example of the definition of a <font color="green">BiFunction</font> lambda is: 
+
+```
+BiFunction<String, String, Integer> myBiFunction = (String firstString, String secondString) -> {
+	int len1 = firstString.length();
+	int len2 = secondString.length();
+	return new Integer(len1 + len2);
+};
+```  
+
+In the example above, the lambda <font color="purple">myBiFunction</font> is created; it takes 2 inputs (both Strings) and outputs an Integer. The first two `Strings` in `BiFunction<String, String, Integer>` is the (respective) types of each input parameter, and the `Integer` is the output type. 
+
+## Consumer  
+
+The <font color="green">Consumer</font> interface is a lambda expression that is built to be a [sink](learn_to_code/java/akka/streams?id=sink) in a graph algorithm; it takes exactly one parameter and does _not_ return anything.  
+
+This is mostly used in streams but is used in other things as well (for example, in [CompleteableFuture](learn_to_code/java/asynchronous_programming?id=completablefuture)). A example of the definition of a <font color="green">Consumer</font> lambda is: 
+```
+        Consumer<String> myConsumer = (String theLastResult) -> {
+            System.out.println("The last result was: " + theLastResult);
+        };
+```  
+
+In the example above, the lambda <font color="purple">myConsumer</font> is created; it takes 1 input (a String) and does not return anything. The `String` in `Consumer<String>` is the type of the input parameter. 
+
 
 ## Using a foreach Loop
 

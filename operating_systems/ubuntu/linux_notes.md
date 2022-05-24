@@ -380,7 +380,16 @@ The flags are the same as `du`.
 Check free space:
 ```
 df -k
-```
+```  
+
+## Check Space of Immediate Dirs
+
+To check the space of directories immediately below where you are, you can use this:
+```  
+du -d1 -hx  
+```  
+
+The `-d1` says _sum to the immediate directory_, and the `-hx` says _make it human readable while eliminating the size of remote directories_.  
 
 ## Checking memory
 
@@ -1616,6 +1625,13 @@ Slot              Plug
 -                 notepadqq:network-manager
 ```
 
+## Snap Packages and Mounts  
+
+To get a snap package to see files outside of your home directory you will have to follow the steps [here](/operating_systems/ubuntu/linux_notes?id=snap-permissions-and-interfaces), but sometimes that is not enough - it seems snap packages cannot see [remotely mounted directories](/operating_systems/ubuntu/linux_notes?id=using-sshfs) **if it is mounted to a directory in your `/home` directory**. For whatever reason, snap packages _can_ see files if they are mounted outside of your home directory; therefore, I like to mount files in the `/mnt` directory and then [make a symlink](/operating_systems/ubuntu/linux_notes?id=file-shortcuts-symlinks) in my home directory to the directory in `/mnt`.  
+
+> To do this, you will have to make a directory in `/mnt` as root; when you do, you will also have to [change the ownership](/operating_systems/ubuntu/linux_notes?id=changing-ownership-of-files) of that directory in `/mnt` to your local account.  
+
+
 ---
 
 # SSH
@@ -1742,6 +1758,30 @@ ssh zz9876@123.456.789.999
 * If you get in without being prompted for a password, the SSH setup was successful,  If you are prompted for a password the setup failed.  If something went wrong, check to make sure your home directory on both the foreign server and your local machine is set to 700, make sure both .ssh folders are set to permissions 700, make sure the contents of the .ssh folder are set to permissions 600, and make sure your authorized_keys file on the foreign server is set to 600.  Check to see if you are set to the owner of your home directory on the foreign server (sometimes you are not).  If this doesn't work, copy authorized_keys and save it as authorized_keys2 (so now you have two files in .ssh on the remote server, one for SSH and one for SSH2). 
 * Don't forget to log out with an 'exit' command!
 * You can now use the SCP command without a password (covered earlier) as well.
+
+## Creating a PEM File  
+
+There are times when, instead of requiring a [public key](operating_systems/ubuntu/linux_notes?id=more-on-the-ssh-lock-and-key), a system may require a <font color="green">PEM</font> (i.e. <font color="green">Privacy Enhanced Mail</font>) file instead. Assuming that 
+* We are using a userID <font color="orange">zz9876</font> as [in the setup above](operating_systems/ubuntu/linux_notes?id=ssh-key-setup).  
+* The public key was renamed from <font color="#FF8C00">id_rsa.pub</font> to <font color="#FF8C00">authorized_keys</font> [above](operating_systems/ubuntu/linux_notes?id=ssh-key-setup).  
+
+We can convert your public key to the <font color="green">PEM</font> format like so:  
+
+1\. Go to your ssh directory: 
+```
+cd /home/zz9876/.ssh
+```  
+
+2\. Use <font color="#FF8C00">ssh-keygen</font> to convert to the <font color="green">PEM</font> format, and then pipe that into a file: 
+```
+ssh-keygen -f authorized_keys -e -m pem > public_key.pem
+```  
+
+Once this is complete, the file <font color="#FF8C00">public_key.pem</font> is now in the <font color="green">PEM</font> format!  
+
+
+
+
 
 ## Setting Up Multiple Keys
 
@@ -1921,7 +1961,327 @@ ssh-keygen -R 168.0.0.1
 ```
  * Change `168.0.0.1` to the remote IP or hostname.
 
----
+---  
+
+# GPG  
+
+> There is a wonderful writeup of this from [Alan Eliasen](https://futureboy.us/pgp.html), with honerable mentions to [Xiao Guoan](https://www.linuxbabe.com/security/a-practical-guide-to-gpg-part-1-generate-your-keypair), [privex.io](https://www.privex.io/articles/what-is-gpg), and [hawaii.edu](http://irtfweb.ifa.hawaii.edu/~lockhart/gpg/). I will just go into the basics here, but for more in-depth information see the linked articles (especially Eliasen).  
+
+The toolkit <font color="green">GNU Privacy Guard</font> (otherwise known as <font color="green">GnuPG</font> or <font color="green">GPG</font>) is also popular in the encryption space (and I think they chose <font color="green">GPG</font> as a name as its the opposite of the standard it implements, PGP (Pretty Good Privacy)). <font color="green">GPG</font> works similarly to [SSH](operating_systems/ubuntu/linux_notes?id=ssh) (it uses a [public/private key](operating_systems/ubuntu/linux_notes?id=more-on-the-ssh-lock-and-key)); _sometimes_ you can opt to use <font color="green">GPG</font> over SSH, and sometimes you must use one or the other.  
+
+> Why both GPG and SSH? As far as I can tell, SSH is used to authenticate you to a system (from which point you can issue commands, etc) while <font color="green">GPG</font> is used to authenticate you to other humans (so <font color="green">GPG</font> is moreso for email, [Git commits](learn_to_code/git/git_concepts?id=sha1-id), etc), but this is not a hard rule (sometimes you _can_ use GPG for system access and sometimes you _can_ use SSH to authenticate you to other humans, but those situations seem less common, at least currently).  
+  
+
+## Identifying GPG Keys  
+
+When you [list your saved GPG keys](operating_systems/ubuntu/linux_notes?id=listing-gpg-keys) you will see entries like this:  
+```
+pub   rsa4096 2014-07-22 [SC]
+      EC2392F2EDE74488680DA3CF5F2B4756ED873D23
+uid           [ unknown] Alan Eliasen <eliasen@mindspring.com>
+sub   rsa4096 2014-07-22 [E]
+```  
+
+Often, you will be prompted to identify a key or individual. There are four ways you can identify the above individual: 
+* Literally by the name and email (so, when prompted for a "User Name" that would be `"Alan Eliasen <eliasen@mindspring.com>"`).  
+   * Often, when searching for a specific user, you can simply use their name _or_ email - the entire string is not always required.  
+* The <font color="purple">Fingerprint</font>, which in this case is `EC2392F2EDE74488680DA3CF5F2B4756ED873D23`.  
+* The <font color="purple">Long Key ID</font>, which is the last 16 characters of the fingerprint (in this case, its `5F2B4756ED873D23`).  
+* The <font color="purple">Short Key ID</font>, which is the last 8 characters of the fingerprint (in this case, its `ED873D23`).  
+
+## GPG Key Ring Locations    
+
+The publc key ring file in your machine is located in `~./gnupg/pubring.kbx`. The private key ring file is `~./gnupg/secring.gpg`.  
+
+## GPG Armor 
+
+> For more info see [stackoverflow](https://unix.stackexchange.com/questions/623375/what-is-the-armored-option-for-in-gnupg).  
+
+You may see the `--armor` flag on many commands; this is an artifact from a time when GPG was mainly used for email and most email could not handle binary data. This flag was introduced to get around that problem. Most email can handle binary data today, but there are some oddball cases where it is not handled.  
+
+!> A popular extension for armored files is `.asc` (ASCII Armored).  
+
+## GPG Config File  
+
+The GPG config file is located at `~/.gnupg/gpg.conf`.  Here are some common settings:  
+
+| Setting | Description | Example Value | 
+| --- | --- | --- |  
+| keyserver | Your default keyserver. If this is set you will not have to specify a keyserver in the CLI. | `keyserver.ubuntu.com`, `pgp.mit.edu` |  
+
+Here is an example of a `~/.gnupg/gpg.conf` file:  
+```
+keyserver keyserver.ubuntu.com
+```  
+
+## GPG Key Pair Creation    
+
+To create a private/public GPG key pair:  
+```
+gpg --full-gen-key
+```  
+* You will be asked to pick a key type. For now, just pick the default (which is `RSA and RSA` currently).  
+* You will be asked to pick a key size between 1024 and 4096 bits in size.  
+   * This defaults to 3072, but many pick either 2048 or 4096 (try to avoid 1024).  
+* You will be asked how long this key will be valid for.  
+   * I usually pick 0 for no expiration, but you are free to have it expire at some point.  
+* You will be asked to provide:  
+   * Your name.  
+   * Your email address. 
+   * A comment (which you can skip if you prefer).  
+* A passphrase.  
+   * Make **sure** to save / remember this for later.  
+
+You can set up _multiple_ GPG keys for various uses, but the name / email combo must be different for each.  
+
+!> If you intend to publish your newly created GPG public key to a server, you should [make a revocation key](operating_systems/ubuntu/linux_notes?id=gpg-revocation-key-creation) immediately!  
+
+## GPG Revocation Key Creation    
+
+> You should do this immediately after creating a new private / public key pair. Store this key somewhere safe!
+
+You will **<font color="red">need</font>** a GPG revocation key if your publish your key _and_ your key is ever lost - or, worse, compromised. You can send this key to a key server, and if its correct, the key server will remove your stored public key for you - giving you the chance to create a new private / public key. 
+
+The way to create this revocation key:  
+```
+gpg --gen-revoke --output=filename some@emailaddress.com  
+```  
+* You can also inclue the `--armor` flag too - more on that parameter [here](operating_systems/ubuntu/linux_notes?id=gpg-armor).  
+* The `filename` is the name of the revocation certificate file.  
+* The `some@emailaddress.com` is the email address of the GPG key pair - you _must_ have access to the private key that used this email address in the [creation](operating_systems/ubuntu/linux_notes?id=gpg-key-pair-creation) of the key pair.  
+
+!> You should do this immediately after creating a new private / public key pair. If you publish your GPG public key to a server, and your private key is ever lost or stolen, you are **screwed**.  
+
+## Editing GPG Keys  
+
+To edit a GPG key, type:  
+```
+gpg --edit-key FINGERPRINT_ID 
+```  
+* The `FINGERPRINT_ID` _must_ be the [fingerprint](operating_systems/ubuntu/linux_notes?id=identifying-gpg-keys).  
+
+From here you are put in a small edit screen; here are the following options:  
+
+| Command | Description |  
+| --- | --- |  
+| quit | quit this menu |  
+| save | save and quit |  
+| help | show this help |  
+| fpr | show key fingerprint |  
+| grip | show the keygrip |  
+| list | list key and user IDs |  
+| uid | select user ID N |  
+| key | select subkey N |  
+| check | check signatures |  
+| sign | sign selected user IDs (see below for related commands) |  
+| lsign | sign selected user IDs locally |  
+| tsign | sign selected user IDs with a trust signature |  
+| nrsign | sign selected user IDs with a non-revocable signature |  
+| adduid | add a user ID |  
+| addphoto | add a photo ID |  
+| deluid | delete selected user IDs |  
+| addkey | add a subkey |  
+| addcardkey | add a key to a smartcard |  
+| keytocard | move a key to a smartcard |  
+| bkuptocard | move a backup key to a smartcard |  
+| delkey | delete selected subkeys |  
+| addrevoker | add a revocation key |  
+| delsig | delete signatures from the selected user IDs |  
+| expire | change the expiration date for the key or selected subkeys |  
+| primary | flag the selected user ID as primary |  
+| pref | list preferences (expert) |  
+| showpref | list preferences (verbose) |  
+| setpref | set preference list for the selected user IDs |  
+| keyserver | set the preferred keyserver URL for the selected user IDs |  
+| notation | set a notation for the selected user IDs |  
+| passwd | change the passphrase |  
+| trust | change the ownertrust |  
+| revsig | revoke signatures on the selected user IDs |  
+| revuid | revoke selected user IDs |  
+| revkey | revoke key or selected subkeys |  
+| enable | enable key |  
+| disable | disable key |  
+| showphoto | show selected photo IDs |  
+| clean | compact unusable user IDs and remove unusable signatures from key |  
+| minimize | compact unusable user IDs and remove all signatures from key |  
+
+
+> A common one to change is `trust`, because if you import a key it does not set it to the ultimate trust - so you have to do that (after you type `trust`, type `5` (which means you trust completely / ultimate), and then type `save` and then `quit`.  
+
+
+## Storing Your GPG Public Key (On a Keyserver)  
+
+Its possible to store your public key on a keyserver, so other people can look you up and encrypt a message for you using your public key. To do so:  
+```
+gpg --keyserver pgp.mit.edu --send-keys KEY_ID
+```  
+* The `--keyserver pgp.mit.edu` tells GPG to send your public key to `hkp://pgp.mit.edu` - from there, your public key will _eventually_ propagate to all other keyservers in the world (as the keyservers communicate with each other).  
+   * You can omit the `--keyserver` parameter if you set the [keyserver in the GPG config file](operating_systems/ubuntu/linux_notes?id=gpg-config-file).  
+* The `KEY_ID` is either your fingerprint, long key ID, _or_ short key ID - you _cannot_ use your name or email here.  
+   * If you do not know your ID, you can look it up by [listing your keys](operating_systems/ubuntu/linux_notes?id=listing-gpg-keys).  
+
+!> Do _not_ do this without creating a [revocation certificate](operating_systems/ubuntu/linux_notes?id=gpg-revocation-key-creation) first!
+
+## Getting GPG Keys (From Keyserver)  
+
+Many people store their public GPG keys on keyservers, and you can download the key freely. An example of how to do this (using [Alan Eliasen](https://futureboy.us/pgp.html)):  
+```
+gpg --keyserver pgp.mit.edu --search-keys eliasen@mindspring.com
+```  
+* The `--keyserver` lists the keyserver you wish to use.  
+   * [Alan Eliasen](https://futureboy.us/pgp.html) likes to use `pgp.mit.edu`, but `keyserver.ubuntu.com` seems to be faster. `sks-keyservers.net` is also an option.  
+   * You can omit the `--keyserver` parameter if you set the [keyserver in the GPG config file](operating_systems/ubuntu/linux_notes?id=gpg-config-file).  
+* The `--search-keys` will search all keys for the given info.  
+   * You can search by [any identifier](operating_systems/ubuntu/linux_notes?id=identifying-gpg-keys), but if you search by fingerprint _or_ the long/short IDs, you _may_ have to add `0x` to the front of the ID.  
+
+
+## Listing GPG Keys  
+
+**<font size="4">Public Keys</font>**  
+
+To list _public_ keys that you have already downloaded / are stored to [the public key ring on your local machine](operating_systems/ubuntu/linux_notes?id=gpg-key-ring-locations):  
+```
+gpg --list-keys
+```  
+
+For me this gives:  
+```
+------------------------
+pub   dsa1024 2012-09-10 [SC]
+      136CD3BA884E3CB0E44E7A5BE905C770CD406E62
+uid           [ unknown] Couchbase Release Key (RPM) <support@couchbase.com>
+sub   elg1024 2012-09-10 [E]
+
+pub   rsa2048 2012-03-06 [SC]
+      407D39EDE72067607FF1DA1CA3FAA648D9223EDA
+uid           [ unknown] Couchbase Release Key <support@couchbase.com>
+sub   rsa2048 2012-03-06 [E]
+
+pub   rsa2048 2012-03-06 [SC]
+      E9B086B4CBFCE32D92EC10F76EF1EAC479CF7903
+uid           [ unknown] Couchbase Builder Key <support@couchbase.com>
+sub   rsa2048 2012-03-06 [E]
+
+pub   rsa4096 2014-07-22 [SC]
+      EC2392F2EDE74488680DA3CF5F2B4756ED873D23
+uid           [ unknown] Alan Eliasen <eliasen@mindspring.com>
+sub   rsa4096 2014-07-22 [E]
+
+```  
+* You will probably not have most of these keys.  
+
+You can also end it with a search parameter, which is case-insensitive. This will search through [any identifier](operating_systems/ubuntu/linux_notes?id=identifying-gpg-keys); this will span names _and_ keys, and it will also search through IDs (but only the _full_ fingerprint, long key ID, or short key ID - partials will work for the name or email, but it will _not_ work when it comes to the IDs). You can do this like so:  
+```
+gpg --list-keys cOuCh
+```  
+
+If you do the above, all of the Couchbase keys will show (but Eliasen's key will not show).  
+
+**<font size="4">Private Keys</font>**  
+
+The above is for your _public_ key ring. To list the keys in your _private_ key ring:  
+```
+gpg --list-secret-keys  
+```  
+
+## Exporting a GPG Key  
+
+**<font size="4">Public Keys</font>**  
+
+This is how to export a _public_ GPG key you have in your [public key ring on your local machine](operating_systems/ubuntu/linux_notes?id=gpg-key-ring-locations). You can view what you have in your public ring by [listing your saved GPG keys](operating_systems/ubuntu/linux_notes?id=listing-gpg-keys); once you have identified the public key you wish to export you can run:  
+```
+gpg --export --output filename -a "User Name"   
+```  
+* You can also inclue the `--armor` flag too - more on that parameter [here](operating_systems/ubuntu/linux_notes?id=gpg-armor).  
+* The `"User Name"` can be [any identifier here](operating_systems/ubuntu/linux_notes?id=identifying-gpg-keys).  
+   * You only need the double quotes if using the actual user name / email; if you use the fingerprint or either of the key IDs you do not need the double quotes.  
+* The `filename` is any file name you choose; a popular one is `public.key`, but again, it can be anything you wish.  
+* If you omit `--output filename`, the output will simply print to the screen.  
+   
+
+**<font size="4">Private Keys</font>**  
+
+To export a _private_ GPG key you have in your private key ring you can run:  
+```
+gpg --export-secret-key --output filename -a "User Name"
+```  
+* You can also inclue the `--armor` flag too - more on that parameter [here](operating_systems/ubuntu/linux_notes?id=gpg-armor).  
+* The `"User Name"` can be [any identifier here](operating_systems/ubuntu/linux_notes?id=identifying-gpg-keys).  
+   * You only need the double quotes if using the actual user name / email; if you use the fingerprint or either of the key IDs you do not need the double quotes.  
+* The `filename` is any file name you choose; a popular one is `private.key`, but again, it can be anything you wish.  
+* If you omit `--output filename`, the output will simply print to the screen.  
+* You _will_ need the passphrase from when you [created the GPG key](operating_systems/ubuntu/linux_notes?id=gpg-key-pair-creation).  
+
+## Importing a GPG Key  
+
+**<font size="4">Public Keys</font>**  
+
+To import a _public_ GPG key:  
+```
+gpg --import public.key
+```  
+* `public.key` is the name of the file that contains the public key - this can be a different file name.  
+* It seems the [basic identification information](operating_systems/ubuntu/linux_notes?id=identifying-gpg-keys) is encrypted in the public key, even if you cannot read it with a `cat`.  
+
+**<font size="4">Private Keys</font>**  
+
+To import a _private_ GPG key:  
+```
+gpg --allow-secret-key-import --import private.key
+```  
+* `private.key` is the name of the file that contains the private key - this can be a different file name.  
+* You _will_ need the passphrase from when you [created the GPG key](operating_systems/ubuntu/linux_notes?id=gpg-key-pair-creation).  
+* This will also import the associated public key.  
+* It seems the [basic identification information](operating_systems/ubuntu/linux_notes?id=identifying-gpg-keys) is encrypted in the private key, even if you cannot read it with a `cat`.  
+
+## Deleting A GPG Key  
+
+**<font size="4">Public Keys</font>**  
+
+To delete a _public_ GPG key:  
+```
+gpg --delete-key "User Name"  
+```  
+* The `"User Name"` can be [any identifier here](operating_systems/ubuntu/linux_notes?id=identifying-gpg-keys).  
+   * You only need the double quotes if using the actual user name / email; if you use the fingerprint or either of the key IDs you do not need the double quotes.  
+* Doing this will cause an error if you have an associated _private_ key with this user name in your private key ring; if this is the case, delete the private key _first_.  
+
+**<font size="4">Private Keys</font>**  
+
+To delete a _private_ GPG key:  
+```
+gpg --delete-secret-key "User Name"  
+```  
+* The `"User Name"` can be [any identifier here](operating_systems/ubuntu/linux_notes?id=identifying-gpg-keys).  
+   * You only need the double quotes if using the actual user name / email; if you use the fingerprint or either of the key IDs you do not need the double quotes.  
+* This does _not_ delete the public key, only the private one.  
+
+## Encrypting a File With GPG  
+
+To encrypt a file using the public key of a user you have in your [public key ring on your local machine](operating_systems/ubuntu/linux_notes?id=gpg-key-ring-locations): 
+```
+gpg -e -u "Your Username" -r "Recipients Name" somefile
+```  
+* You can also inclue the `--armor` flag too - more on that parameter [here](operating_systems/ubuntu/linux_notes?id=gpg-armor).  
+* The `-u` identifies _you_ to the receiver using one of the [identification methods](operating_systems/ubuntu/linux_notes?id=identifying-gpg-keys); this uses your _private_ key.  
+   * This is not necessary, but include it if you wish to include your digital signature.  
+* The `-r` identifies the person you are sending the message to using one of the [identification methods](operating_systems/ubuntu/linux_notes?id=identifying-gpg-keys); this can be anyone listed in your [saved GPG keys](operating_systems/ubuntu/linux_notes?id=listing-gpg-keys) and is encrypted using their public key.  
+* `somefile` is the name of the file that will be encrypted.  
+   * This will create a file `somefile.gpg`.  
+   
+
+## Decrypting a File With GPG  
+
+To decrypt a file that was encrypted using _your_ public key: 
+```
+gpg -o somefile -d somefile.gpg
+```  
+* `somefile` is the name of the file that will be created - this will be the unencrypted file.  
+* `somefile.gpg` is the name of the file that you are decrypting.  
+   * The file _must_ have been encrypted using one of your public keys, and the private key to decrypt it _must_ be on your local machine!  
+
+
+---  
 
 # Using SSHFS
 
@@ -2205,7 +2565,7 @@ Here are a few flags for `grep`:
 
 A simple example would be if we wanted to search all files in /home/aa1234 for the word 'dragon', we could do this by:
 ```
-grep -ivR "dragon" /home/aa1234/*
+grep -iR "dragon" /home/aa1234/*
 ```
 
 > You can nest `grep`s with pipes; so for example, if we wanted to find all lines that have the word 'dragon' but wanted to weed out lines with the word 'puff', we could do this like so:
@@ -3218,7 +3578,13 @@ Sometimes, [locking items to your favorites](operating_systems/ubuntu/linux_note
 ![applauncherwarning.png](images/applauncherwarning.png)
  * Press 'Trust and Launch'.
 
-7\. You should now have a launchable image that you can put in your favorites or your desktop!
+7\. You should now have a launchable image that you can put in your favorites or your desktop!  
+
+* If the option does _not_ appear to pin to the dock / launcher, you will have to do two things:  
+ * Set the `WM_CLASS` in the .desktop file - see [here](https://askubuntu.com/questions/367396/what-does-the-startupwmclass-field-of-a-desktop-file-represent) on how to do that.  
+ * Copy the executable .desktop file to `/usr/share/applications`; you MUST do this as root. 
+* You may also be able to use `dconf-editor` (see [here](https://askubuntu.com/questions/990833/cannot-add-custom-launcher-to-ubuntu-dock-add-to-favorites-option-does-not-sh)).
+ * Your icons list lives in `/org/gnome/shell/favorite-apps` in this app. To edit your icons in the dock / launcher, you can alter the 'Custom value' but be warned - if the icon is _not_ in `/usr/share/applications` it may not be able to be displayed.  
 
 > After you completely finish these steps, you can delete the initial image used.
 

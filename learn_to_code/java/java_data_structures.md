@@ -394,7 +394,7 @@ You can use the following:
 
 ## Lambda Functions 
 
-For ArrayLists, you can use a [lambda function](learn_to_code/java/java_basics?id=lambda-function) to loop through, which relies on the `forEach()` method:
+For ArrayLists, you can use a [lambda expression](learn_to_code/java/java_basics?id=lambda-expression) to loop through, which relies on the `forEach()` method:
 ```
 	mySchools.forEach(
 	

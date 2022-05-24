@@ -15,6 +15,14 @@ Brent Wagenseller's journey to learn the intricacies of Akka.
 - [Akka Clustering](/learn_to_code/java/akka/clustering) - My notes on using Akka clustering. 
 - [Streams](/learn_to_code/java/akka/streams) - My notes on using Akka streams. 
 
+# Akka Resources  
+* [lightbend.com](https://developer.lightbend.com/guides/akka-quickstart-java/index.html)
+ * [Lightbend Academy](https://academy.lightbend.com/)  
+   * [Lightbend's Training Dashboard](https://academy.lightbend.com/dashboard)  
+ * [Lightbend Getting Started Guides](https://developer.lightbend.com/guides/)  
+* [Other resources](learn_to_code/java/akka/akka_basics?id=akka-references) are on the main Akka page of this site.  
+
 # Akka Examples
 - [Akka Examples](/learn_to_code/java/akka/akka_basic_examples) - Basic Akka examples. 
-- [Akka Cluster Examples](/learn_to_code/java/akka/cluster_example) - An Akka cluster example. 
+- [Akka Cluster Examples](/learn_to_code/java/akka/cluster_example) - An Akka cluster example.  
+- [Akka gRPC w/ Actors Example](/learn_to_code/java/akka/grpc_actor_example) - An Akka example that uses gRPC as communication between a client (an actor) and a server (also an actor).  

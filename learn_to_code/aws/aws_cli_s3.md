@@ -46,6 +46,23 @@ aws_secret_access_key = YOUR_SECRET_ACCESS_KEY_ID
 * Make sure to change `aws_access_key_id` and `aws_secret_access_key` above.  
 * <font color="red">Note</font> I like to [change the file permissions](operating_systems/ubuntu/linux_notes?id=changing-file-permissions) on this file to `700`.  
 
+## Multiple Account Config
+
+You can set up multiple accounts. Above, it was shown how you can make your default profile in `~/.aws/credentials`; you can add _additional_ accounts, and you should name them uniquely. For example, lets say we want a secondary account named <font color="green">king</font>; your `~/.aws/credentials` will look like so:  
+```
+[default]
+aws_access_key_id = YOUR_ACCESS_KEY_ID
+aws_secret_access_key = YOUR_SECRET_ACCESS_KEY_ID
+[king]
+aws_access_key_id = KINGS_ACCESS_KEY_ID
+aws_secret_access_key = KINGS_SECRET_ACCESS_KEY_ID
+```  
+Then, in the AWS CLI, you would add a `--profile king` at the end of the command; for example, if you wanted to list all files in the filder `filters` in the S3 bucket `project-artifacts` - but you wanted to connect with the `king` account - the cli is:  
+```
+aws s3 ls s3://project-artifacts/filters/ --profile king  
+```  
+
+
 # Show Buckets (ls)  
 
 To show all S3 buckets associated with your account, simply type the following at the command line:  
@@ -124,5 +141,37 @@ aws s3 sync s3://someOldbucket s3://someNewbucket --source-region us-west-2 --re
 ```  
 * `--source-region` is the current region, and `--region` is the new region.  
 
+# Transcribe Commands  
 
+## Adding a Vocabulary Filter
+
+AWS Transcribe has the ability to detect specific words in the returned text; a text file is used to identify these words. Once you have the list together, save them to a S3 bucket (I use the name <font color="green">test-vocabulary-filter.txt</font> below). Once you have the list and have [loaded it onto a S3 bucket](learn_to_code/aws/aws_cli_s3?id=copying-files-to-s3), come up with a unique name for this filter (I will use the basic name of <font color="green">test</font> below) and then run this command to actually load the filter:
+
+```
+aws transcribe create-vocabulary-filter  
+    --vocabulary-filter-name test
+    --language-code en-US  
+    --vocabulary-filter-file-uri s3://project-artifacts/filters/test-vocabulary-filter.txt
+```  
+
+Note that you will have to actively name the filter in your code, as well as instruct what should be done with the word. For example if we are using Java and we simply want to have the code passively notify us of the word, we would activate these two methods in the `StartStreamTranscriptionRequest` object:
+
+```
+...
+	.vocabularyFilterMethod(VocabularyFilterMethod.TAG)
+	.vocabularyFilterName("test")
+...
+```  
+
+This will tell the code to set the `.vocabularyFilterMatch()` in the return to `true` if the associated word was in the filter.  
+
+!> Once a vocabulary filter is created, you _cannot_ overwrite it - to do this you will need to delete the filter first, and then re-create it via the command in this section.  
+
+## Removing a Vocabulary Filter  
+
+We learned how to add a vocabulary filter [here](learn_to_code/aws/aws_cli_s3?id=adding-a-vocabulary-filter), but sometimes you need to delete the filter (especially if you intend on updating the filter); to do so, use this command:
+```
+ aws transcribe delete-vocabulary-filter --vocabulary-filter-name test
+```  
+* The above assumes the vocabulary filter name is <font color="green">test</font>.  
 

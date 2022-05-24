@@ -15,6 +15,7 @@
 - [Java Data Structures](/learn_to_code/java/java_data_structures) - The basics of Java data structures - lists, arrays, hashMaps, and similar data collections in Java.
 - [File Manipulation in Java](/learn_to_code/java/java_file_manipulation) - The basics of file manipulation in Java.
 - [Couchbase In Java](/learn_to_code/java/java_couchbase) - Using Couchbase in Java.  
+- [Asynchronous Programming](/learn_to_code/java/asynchronous_programming) - All about Java's asynchronous programming that is _not_ Akka-related.  
 - [Akka](/learn_to_code/java/akka/) - Brent's notes on his continuous journey to learn Akka, which is an alternative to threading in Java (and Scala).
 - [Protobuf](/learn_to_code/java/protobuf) - Using Google's Protobuf in Java.
 - [Logback](/learn_to_code/java/logback) - Powerful logging tool in Java.
@@ -23,6 +24,16 @@
 - [Maven](/learn_to_code/java/maven) - The Maven tool, which is used to build Java projects.
 - [IntelliJ](/learn_to_code/java/intellij) - Using the IDE 'IntelliJ'.
 
+# Mobile Development  
+- [Android](/learn_to_code/android/) - The landing page for Android.  
+- [Android Studio](/learn_to_code/android/android_studio) - The basics of Android Studio.  
+- [Android SDK](/learn_to_code/android/sdk_tools/) - Android Software Development Kit (SDK) tools.  
+- [Android SDK Basics](/learn_to_code/android/sdk_tools/sdk_basics) - The basics of the Android SDK.  
+- [Android Emulator](/learn_to_code/android/sdk_tools/emulator) - The Android SDK emulator.  
+- [Android Debug Bridge](/learn_to_code/android/sdk_tools/adb) - Using the Android Debug Bridge (ADB) to interact with AVDs.  
+- [Android Other Tools](/learn_to_code/android/sdk_tools/other_tools) - Other tools used with the Android SDK.  
+- [React Native](/learn_to_code/android/react_native/) - The landing page for React Native.  
+- [React Native Basics](/learn_to_code/android/react_native/react_native_basics) - The basics of React Native, including install.  
 
 # Python
 - [Python](/learn_to_code/python/) - Brent Wagenseller's notes on his journey to learn Python.
@@ -39,10 +50,16 @@
 # Git
 - [Git](/learn_to_code/git/) - Brent Wagenseller's notes on his journey to learn Git.
 
-# Docsify
-- [Main Docsify Page](/learn_to_code/docsify/) - My main page for Docsify.
-- [Getting Started](/learn_to_code/docsify/gettingstarted) - How to get started writing documents in Docsify.
-- [Markdown Tutorial](/learn_to_code/docsify/markdowntutorial) - Teaches the basics of the Markdown language.
+# Chef  
+- [Chef Basics](/learn_to_code/chef/chef_basics) - The basics of Chef.  
+
+# Docsify  
+- [Main Docsify Page](/learn_to_code/docsify/) - My main page for Docsify.  
+- [Getting Started](/learn_to_code/docsify/gettingstarted) - How to get started writing documents in Docsify.  
+- [Markdown Tutorial](/learn_to_code/docsify/markdowntutorial) - Teaches the basics of the Markdown language.  
+
+# Concepts  
+- [General Computer Science Concepts](/learn_to_code/computer_science_concepts) - Brent Wagenseller's notes on his continous journey to learn about computer science.
 
 # Machine Learning
 - [Machine Learning Page](/learn_to_code/machine_learning/) - The landing page for notes on machine learning.

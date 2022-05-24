@@ -658,7 +658,103 @@ Steps:
 
 3\. Activate the TUN module: `/sbin/modprobe tun`
 
-4\. Install OpenConnect: `apt-get install openconnect`
+4\. Install OpenConnect: `apt-get install openconnect`  
+
+5\. Install a GUI for OpenConnect: `apt-get install network-manager-openconnect-gnome`  
+* While not required, this is necessary if you do not want to run OpenConnect over the command-line interface.  
+* To run on a command line (which will pop-up the GUI): `nm-connection-editor`  
+
+## Setting Up OpenConnect GUI  
+
+!> Unfortunately, the VPN setup on Ubuntu 18.04 is currently pretty broken (as of February 2022, and has been since 2019). In theory, after installing the [necessary packages](operating_systems/ubuntu/server_build?id=install-openconnect), you should be able to simply open Settings / Network / and then add a VPN, but multiple things are broken with this; for now, you will just have to run `nm-connection-editor` on the command-line interface to get a GUI to do this. 
+
+1\. Install the [necessary packages](operating_systems/ubuntu/server_build?id=install-openconnect).  
+2\. In a terminal, run: `nm-connection-editor`  
+* This will open a <font color="purple">Network Connections</font> GUI.  
+
+3\. Click on the <font color="purple">VPN</font> header, then click the <font color="green">+</font> button to add a VPN. A new box <font color="purple">Choose a Connection Type</font> pops up.  
+4\. Select the appropriate selection under the VPN header and click <font color="green">Create</font>.   
+* I will use <font color="purple">Cisco AnyConnect Compatible VPN (openconnect)</font>.  
+
+![choose-vpn-connection-type.jpg](images/choose-vpn-connection-type.jpg)  
+
+5\. At the very least, fill in <font color="purple">Connection Name</font> and <font color="purple">Gateway</font> on the <font color="orange">VPN</font> tab:  
+![vpn-vpn-settings.jpg](images/vpn-vpn-settings.jpg)  
+* You will have to get the gateway off of your network team.  
+* Set the other settings based off your needs.  
+
+6\. Now go to the <font color="orange">IPv4 Settings</font> tab, and fill out pertinent information there:  
+![vpn-ipv4-settings.jpg](images/vpn-ipv4-settings.jpg) 
+* The <font color="purple">Additional search domains</font> field will probably have to be filled out, as this entry gives an address to use when resolving host names.  
+
+7\. Click <font color="green">Save</font>.  
+
+8\. Restart your laptop / desktop. 
+* Usually, the VPN will not work if you do not do this. You are welcome to try to use it without a reset, if you wish.  
+
+9\. _If this VPN should only handle traffic for its specific network_:  
+* **Note** if you do not restart above, your entry may not show up.  
+* Open the Ubuntu Settings GUI and go to the <font color="orange">Network</font> tab.  
+* Find the connection and click the gear icon next to it.  
+* Go to the <font color="orange">IPv4</font> tab.  
+* Check the <font color="purple">Use this connection only for resources on its network</font> box.  
+
+10\. _If other users on this desktop should be able to use this connection_:  
+* **Note** if you do not restart above, your entry may not show up.  
+* Open the Ubuntu Settings GUI and go to the <font color="orange">Network</font> tab.  
+* Find the connection and click the gear icon next to it.  
+* Go to the <font color="orange">Details</font> tab.  
+* Check the <font color="purple">Make available to other users</font> box.  
+
+It should be noted that doing the above will save the settings to a file in `/etc/NetworkManager/system-connections` - whatever you named the <font color="purple">Connection Name</font> in step #5 above will be the name of the file (no extension); for me, that was <font color="purple">SomeConnection</font>. That file will look something like this:  
+```
+[connection]
+id=SomeConnection
+uuid=ABCDEFG-XYZ
+type=vpn
+autoconnect=false
+permissions=user:ubuntu_user_name_here:;
+
+[vpn]
+authtype=password
+autoconnect-flags=0
+certsigs-flags=0
+cookie-flags=2
+enable_csd_trojan=no
+gateway=secure.gateway.yourcompany.com
+gateway-flags=2
+gwcert-flags=2
+lasthost-flags=0
+pem_passphrase_fsid=no
+protocol=anyconnect
+stoken_source=disabled
+xmlconfig-flags=0
+service-type=org.freedesktop.NetworkManager.openconnect
+
+[vpn-secrets]
+
+[ipv4]
+dns-search=yourcompany.com;
+method=auto
+
+[ipv6]
+addr-gen-mode=stable-privacy
+dns-search=
+ip6-privacy=0
+method=auto
+```  
+## Using the VPN GUI  
+
+There are two ways to activate the VPN via a GUI.  
+* From the Ubuntu Settings GUI  
+  * Open the Ubuntu Settings GUI and go to the <font color="orange">Network</font> tab.  
+  * Click the button next to the VPN name to turn it on.  
+* From the top dropdown  
+  * Click the top dropdown.  
+  * Click 'VPN'.  
+  * Turn on the VPN of your choice.  
+
+
 
 # Updating and Upgrading Packages
 <span style='width: 20px; display:inline-block'>:heart:</span>

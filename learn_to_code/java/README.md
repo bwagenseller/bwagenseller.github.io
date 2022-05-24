@@ -17,6 +17,7 @@ Brent Wagenseller's journey to learn the intricacies of Java.
 
 **Advanced Java**
 - [Ari4java](/learn_to_code/java/ari4java) - Using ARI4Java, an ARI interface for Java.  
+- [Asynchronous Programming](/learn_to_code/java/asynchronous_programming) - All about Java's asynchronous programming that is _not_ Akka-related.  
 - [Protobuf](/learn_to_code/java/protobuf) - Using Google's Protobuf in Java.
 - [Logback](/learn_to_code/java/logback) - Powerful logging tool in Java.
 - [ND4J](/learn_to_code/java/nd4j) - Using ND4J, the Java's answer to Numpy and Pandas (i.e. vectorized linear algebra).

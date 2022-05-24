@@ -1,12 +1,17 @@
 - [Home](https://bwagenseller.github.io/#/)
-- **Coding**
- - [Learning to Code](/learn_to_code/)
- - [Akka](/learn_to_code/java/akka/)
+- **Coding**  
+ - [Learning to Code](/learn_to_code/)  
+ - [Akka](/learn_to_code/java/akka/)  
  - [AWS](/learn_to_code/aws/)  
- - [Docsify](/learn_to_code/docsify/) 
- - [Git](/learn_to_code/git/)
- - [Java](/learn_to_code/java/)
- - [Python](/learn_to_code/python/)
+ - [Chef](/learn_to_code/chef/)  
+ - [Docsify](/learn_to_code/docsify/)  
+ - [Git](/learn_to_code/git/)  
+ - [Java](/learn_to_code/java/)  
+ - [Android](/learn_to_code/android/)  
+ - [React Native](/learn_to_code/android/react_native/)  
+ - [Python](/learn_to_code/python/)  
+- **Computer Science Concepts**
+ - [General Comp Sci Concepts](/learn_to_code/computer_science_concepts)
 - **Machine Learning**
  - [Machine Learning](/learn_to_code/machine_learning/)
 - **StatsD**

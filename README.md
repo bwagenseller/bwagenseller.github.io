@@ -8,17 +8,20 @@ Hello! I am Brent Wagenseller, and I tend to take detailed notes on things (in o
 
 I decided to do something similar here. The following notes are from a combination of notes on my own personal experience, frantic searches on [Stack Overflow](https://stackoverflow.com/), technical books I have read (and will reference), and classes I have taken. Please note that these are continuously 'in progress' - as this is both a hobby and a massive undertaking, there will be mistakes / holes / portions that are clearly unfinished.
 
-# Linux/Ubuntu System Maintenance and Tools
-- [Linux Quick Reference](/operating_systems/ubuntu/linux_notes) - Some quick notes on Unix/Linux administration.
+# Linux/Ubuntu System Maintenance and Tools  
+- [Docker](/operating_systems/docker/) - Brent Wagenseller's notes on Docker.  
 - [Generic Ubuntu Server Build](/operating_systems/ubuntu/server_build) - Documents how to build an Ubuntu server from the ground up.
 - [journalctl](/operating_systems/ubuntu/package_operations/journalctl) - Investigate logging with `journalctl`.
 - [KVM Install](/operating_systems/ubuntu/package_install/kvm_install) - Details on how to install KVM.
 - [KVM Notes](/operating_systems/ubuntu/package_operations/kvm_notes) - Day to day operations in KVM.
+- [Linux Quick Reference](/operating_systems/ubuntu/linux_notes) - Some quick notes on Unix/Linux administration.
+
 
 # Raspberry Pi
 - [Raspberry Pi](/operating_systems/raspberry_pi/) - My journey learning Raspberry Pi.
 
 # Databases
+- [Main Database Page](/databases/) - The main page for everything about databases.  
 - [Relational Databases](/databases/relational_databases/) - My notes to get up to speed on relational databases. 
 - [SQL](/databases/relational_databases/sql) - My notes to get up and running in SQL quickly. 
 - [MySQL Server Install Instructions](/databases/mysql/mysql_install) - Details on how to quickly get a new MySQL database up and running.
@@ -28,15 +31,21 @@ I decided to do something similar here. The following notes are from a combinati
 - [Couchbase Cluster Install Instructions](/databases/couchbase/couchbase_install) - Details on how to quickly get a new Couchbase cluster up and running.  
 - [Couchbase Basics](/databases/couchbase/couchbase_basics) - The basics of Couchbase.  
 
-# Learning To Code
+
+# Learning To Code  
+- [Android](/learn_to_code/android/) - Brent's notes on his journey to learn Android.  
 - [Akka](/learn_to_code/java/akka/) - Brent's notes on his continuous journey to learn Akka, which is an alternative to threading in Java (and Scala).
 - [AWS](/learn_to_code/aws/) - Overview of AWS.   
+- [Chef](/learn_to_code/chef/) - Brent Wagenseller's notes on Chef.  
 - [Docsify](/learn_to_code/docsify/) - Overview of how to use Docsify and Markdown. 
+- [General Computer Science Concepts](/learn_to_code/computer_science_concepts) - Brent's notes on his journey to learn about computer science.
 - [Git](/learn_to_code/git/) - My notes to get up to speed on git. 
-- [Java](/learn_to_code/java/) - Brent's notes on his continuous journey to learn Java.
-- [Machine Learning](/learn_to_code/machine_learning/) - Brent's notes on his journey to document Machine Learning.
-- [Python](/learn_to_code/python/) - Brent's notes on his continuous journey to document Python.
+- [Java](/learn_to_code/java/) - Brent's notes on his journey to learn Java.
+- [Machine Learning](/learn_to_code/machine_learning/) - Brent's notes on his journey to learn Machine Learning.
+- [Python](/learn_to_code/python/) - Brent's notes on his journey to learn Python.  
+- [React Native](/learn_to_code/android/react_native/) - Brent's notes on his journey to learn React Native.  
 - [StatsD Page](/learn_to_code/statsd/) - StatsD is a package that graphs stats; can be used in Python, Java, and more.  
+
 
 # Telephony
 - [Asterisk Operations](/telephony/asterisk) - Day to day operations in Asterisk.

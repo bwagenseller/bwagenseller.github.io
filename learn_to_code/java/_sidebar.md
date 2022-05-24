@@ -1,21 +1,22 @@
 - **Java Basics**
-- [Java Terms and Concepts](/learn_to_code/java/java_terms_and_concepts)
-- [Basics of Java](/learn_to_code/java/java_basics)
-- [Java Classes](/learn_to_code/java/java_classes) 
-- [Java Data Structures](/learn_to_code/java/java_data_structures)  
-- [File Manipulation in Java](/learn_to_code/java/java_file_manipulation) 
+ - [Java Terms and Concepts](/learn_to_code/java/java_terms_and_concepts)
+ - [Basics of Java](/learn_to_code/java/java_basics)
+ - [Java Classes](/learn_to_code/java/java_classes) 
+ - [Java Data Structures](/learn_to_code/java/java_data_structures)  
+ - [File Manipulation in Java](/learn_to_code/java/java_file_manipulation) 
 - **Advanced Java**
-- [Ari4java](/learn_to_code/java/ari4java)  
-- [Logback](/learn_to_code/java/logback)
-- [ND4J](/learn_to_code/java/nd4j)
-- [Protobuf](/learn_to_code/java/protobuf)
-- [Watson - Speech and Text](/learn_to_code/java/watson_speech_and_text_JavaSDK)
+ - [Ari4java](/learn_to_code/java/ari4java)  
+ - [Asynchronous Programming](/learn_to_code/java/asynchronous_programming)  
+ - [Logback](/learn_to_code/java/logback)
+ - [ND4J](/learn_to_code/java/nd4j)
+ - [Protobuf](/learn_to_code/java/protobuf)
+ - [Watson - Speech and Text](/learn_to_code/java/watson_speech_and_text_JavaSDK)
 - **Databases and Java**  
-- [Couchbase In Java](/learn_to_code/java/java_couchbase)  
+ - [Couchbase In Java](/learn_to_code/java/java_couchbase)  
 - **Akka** 
-- [Akka](/learn_to_code/java/akka/)
+ - [Akka](/learn_to_code/java/akka/)
 - **IDEs**
-- [IntelliJ](/learn_to_code/java/intellij)
+ - [IntelliJ](/learn_to_code/java/intellij)
 - **Build Tools**
-- [Ant](/learn_to_code/java/ant)
-- [Maven](/learn_to_code/java/maven)
+ - [Ant](/learn_to_code/java/ant)
+ - [Maven](/learn_to_code/java/maven)

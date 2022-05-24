@@ -6,7 +6,9 @@ Here are some good Akka references I used:
 * [doc.akka.io](https://doc.akka.io/docs/akka/current/actors.html#introduction)
  * [untyped actors on doc.akka.io](https://doc.akka.io/docs/akka/2.1/java/untyped-actors.html)
 * [lightbend.com](https://developer.lightbend.com/guides/akka-quickstart-java/index.html)
- * [Lightbend's Training Dashboard](https://academy.lightbend.com/dashboard)  
+ * [Lightbend Academy](https://academy.lightbend.com/)  
+   * [Lightbend's Training Dashboard](https://academy.lightbend.com/dashboard)  
+ * [Lightbend Getting Started Guides](https://developer.lightbend.com/guides/)  
  * [When To Use Play, Lagom, Or Akka HTTP For Your Project by Lightbend](https://soundcloud.com/lightbend/when-to-use-play-lagom-or-akka-http) (Discussion)  
 * Unit Testing
  * [UNIT TESTING 1](https://developer.lightbend.com/guides/akka-quickstart-java/testing-actors.html) 
@@ -268,7 +270,7 @@ An example of how one is constructed is:
 * This example is for a class called <font color="purple">Greeter</font>.
 * Under most circumstances, the body of the method simply has one line, which returns a `Props.create()` with two parts:
  * The name of the class with the `.class` extension.
- * A [lambda function](learn_to_code/java/java_basics?id=lambda-function) which basically acts as a stand-in for utilizing the constructor of the given class.
+ * A [lambda expression](learn_to_code/java/java_basics?id=lambda-expression) which basically acts as a stand-in for utilizing the constructor of the given class.
 
 
 ## Overriding createReceive()
@@ -300,7 +302,7 @@ An example of this is the paired down version in [Greeter.java](learn_to_code/ja
  * There can be multiple matches
  * `match()` accepts two parameters
    * The name of the class with the `.class` extension - **this is the message type this particular** `match()` **is listening for**.
-   * A [lambda function](learn_to_code/java/java_basics?id=lambda-function) which basically acts as a stand-in for utilizing the constructor of the given class.
+   * A [lambda expression](learn_to_code/java/java_basics?id=lambda-expression) which basically acts as a stand-in for utilizing the constructor of the given class.
 * More on the lambda function
  * Keep in mind that the sent class serves a dual purpose - it acts as a trigger to our Actor to do something based off the _specific_ class, but it _also_ contains an object of that type that we can interact with (at the very least, read variables from).
  * The lambda function defines _what_ we would like to do once we receive the message.
