@@ -1,12 +1,16 @@
 - [**Home**](https://bwagenseller.github.io/#/)
-- [**Back To Java**](/learn_to_code/java/)
+ - [**Back To Java**](/learn_to_code/java/)
 - **Akka**
  - [Akka Main Page](/learn_to_code/java/akka/)
  - [Installation and Configuration Files](/learn_to_code/java/akka/akka_installation_and_config_files)  
  - [Basics and Definitions](/learn_to_code/java/akka/akka_basics)
  - [Clustering](/learn_to_code/java/akka/clustering)  
  - [Streams](/learn_to_code/java/akka/streams)  
-
+ - [Telemetry](/learn_to_code/java/akka/telemetry)  
+- **<font color="red">Internal use only</font>**  
+ - [Audio Streaming (Akka)](/learn_to_code/java/akka/audio_streaming_internal)  
+ - [Akka HTTP Client / Server (Alpha)](/learn_to_code/java/akka/examples/http_client_server_alpha_internal)  
+ - [Audio Over HTTP Client / Server (Beta)](/learn_to_code/java/akka/examples/audio_over_http_client_server_internal) -  
 - **Akka Examples**
  - [Basic Examples](/learn_to_code/java/akka/akka_basic_examples)  
  - [Akka Cluster Examples](/learn_to_code/java/akka/cluster_example)  

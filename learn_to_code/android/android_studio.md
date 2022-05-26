@@ -80,7 +80,7 @@ If you wish to test your code, you _will_ need to install a virtual Android devi
 
 1\. Click the dropdown for `Tools / Device Manager` which will open a toolbox on the right like so:  
 ![android_studio_device_manager_toolbox.jpg](images/android_studio_device_manager_toolbox.jpg)
-* Note the `/dev/kvm device: permission denied` warning - [here is how you fix that](learn_to_code/android/android_sdk?id=changing-ownership-of-devkvm).  
+* Note the `/dev/kvm device: permission denied` warning - [here is how you fix that](learn_to_code/android/sdk_tools/sdk_basics?id=changing-ownership-of-devkvm).  
 * I have a virtual device set up already (`Pixel 2 API Tiramisu`) - if you are just starting out, this box will be empty.  
 
 2\. Click <font color="purple">Create device</font>.  
@@ -92,12 +92,12 @@ If you wish to test your code, you _will_ need to install a virtual Android devi
 4\. Now you must set the system image (i.e., which Android OS would you like to install on this device?):
 ![android_studio_set_system_image.jpg](images/android_studio_set_system_image.jpg)
 * If you select a system image you have never downloaded, you _must_ click the `Download` link immediately next to the system image name to download the system image.  
-* Note the `/dev/kvm device: permission denied` warning - [here is how you fix that](learn_to_code/android/android_sdk?id=changing-ownership-of-devkvm).  
+* Note the `/dev/kvm device: permission denied` warning - [here is how you fix that](learn_to_code/android/sdk_tools/sdk_basics?id=changing-ownership-of-devkvm).  
 * Once you are happy with your selection, click <font color="purple">Next</font>.  
 
 5\. Finally, you will have to name the device; you also have some final things to set, but only if you wish to do so:  
 ![android_studio_name_device.jpg](images/android_studio_name_device.jpg)
-* Note the `/dev/kvm device: permission denied` warning - [here is how you fix that](learn_to_code/android/android_sdk?id=changing-ownership-of-devkvm).  
+* Note the `/dev/kvm device: permission denied` warning - [here is how you fix that](learn_to_code/android/sdk_tools/sdk_basics?id=changing-ownership-of-devkvm).  
 * Once you are happy with your selection, click <font color="purple">Finish</font>.  
 * You will now have a device in the `Device Manager` toolbox.  
    * See the image in step #1 for an example - here, we have a 'Pixel 2' device running on the 'Tiramisu' version of the Android OS.  
@@ -108,7 +108,44 @@ If you wish to test your code, you _will_ need to install a virtual Android devi
 
 Its fully possible to attach a physical Android device to Android Studio; if you do so, you will be able to test your code on an actual device.  
 
-The first thing you have to do is enable <font color="purple">Developer Options</font> on your physical device. Typically the way to do this is to find the <font color="purple">Build Number</font> field and tap it 7 times in a row (usually, the <font color="purple">Build Number</font> is in Settings -> About Phone -> Software Information, but that is no guarantee). Once you enable <font color="purple">Developer Options</font>, it will typically be the last option in the main <font color="purple">Settings</font> tree.  Once you have unidden this option, _do not forget to turn the option on_.  
+The first thing you have to do is [enable the Developer Options](learn_to_code/android/sdk_tools/adb?id=enable-developer-options) on your physical device. 
 
-Once you have enabled <font color="purple">Developer Options</font> on your device you have two options on connecting it in Android Studio - pairing using WiFi and pairing over USB. The advantage of the Wifi route is you can connect _multiple_ devices at once; on the downside, the WiFi option requires Android 11 or higher.  
+Once you have enabled <font color="purple">Developer Options</font> on your device you have three options on connecting it in Android Studio - directly connecting using WiFi via Android Studio (which is this section, although you can do this [entirely in adb](learn_to_code/android/sdk_tools/adb?id=connect-device-over-wifi-11)), directly [connecting via USB](learn_to_code/android/sdk_tools/adb?id=connecting-device-over-usb), and [connecting over WiFi for Android version 10-](learn_to_code/android/sdk_tools/adb?id=connect-device-over-wifi-10-).  You can check out the other two methods, but I will discuss the Andriod Studio WiFi method here. Note this requires Android 11 or higher; if your device does not have that you must use [one of the other methods](learn_to_code/android/sdk_tools/adb?id=attaching-a-physical-android-device). The advantage of using this method is you can connect _multiple_ devices at once.  
 
+> Note its possible to perform all of this outside of Android Studio with [adb](learn_to_code/android/sdk_tools/adb?id=connect-device-over-wifi-11).  
+
+To connect _devices using Android version 11+_ via Android Studio:  
+
+1\. Make sure your laptop and your Android device are on the same WiFi.  
+
+2\. Make sure the [Developer Options](learn_to_code/android/sdk_tools/adb?id=enable-developer-options) are enabled on your device 
+   * _After_ performing the 'Build Options' trick (as described [here](learn_to_code/android/sdk_tools/adb?id=enable-developer-options), you need to turn it on - `Settings` -> `Developer Options`).  
+
+3\. Enable wireless debugging on your device.  
+   * This is usually turned on via `Settings` -> `Developer Options` -> `Wireless Debugging`  
+   * This is an option you need to turn on _and_ it has additional elements available once you do enable it. Once enabled:    
+     * You can <font color="purple">Pair Device with QR Code</font> _or_ <font color="purple">Pair Device With Pairing Code</font>.  
+	   * Remember this option as we will have to come back to this.  
+	 * The device's IP and port will be displayed here, which can be used to connect to it as necessary.  
+	 
+4\. Back on your laptop / desktop, click `Tools` -> `Device Manager` in Android Studio.  
+
+5\. A <font color="purple">Device Manager</font> windows pops up - click the `Physical` tab: 
+
+![android_studio_pair_using_wifi.jpg](images/android_studio_pair_using_wifi.jpg)
+
+6\. Click the <font color="purple">Pair using Wifi</font> button.  
+
+7\. A box appears, allowing you to pair with a <font color="purple">QR Code</font> _or_ a <font color="purple">pairing code</font>.  
+   * Make your selection now, but before we move further we need to select the corresponding selection back on your physical device.  
+     * Selecting <font color="purple">QR Code</font> should pop up a QR code you can scan (do not scan now).  
+	 * Selecting <font color="purple">pairing code</font> will allow you to enter a code.  
+   * Occasionally you will get an error in the popup box here; I am not sure why this happens, but just re-start Android Studio and it _should_ fix it.  
+   
+8\. Back on your device under `Settings` -> `Developer Options` -> `Wireless Debugging`, you can select to either <font color="purple">Pair Device with QR Code</font> _or_ <font color="purple">Pair Device With Pairing Code</font>.  
+   * If you select the <font color="purple">Pair Device With Pairing Code</font>, your device will show the code; your Android Studio will have a box showcasing the IP and port of your device, and underneath that will be a place to enter the code as displayed on your device.  
+   * If you select <font color="purple">Pair Device with QR Code</font>, your camera will come up; scan the QR code in Android Studio.  
+   
+9\. You are now connected to your device! You can now use _most_ of the [adb](learn_to_code/android/sdk_tools/adb) commands on your device as long as its connected.  
+
+> Dont forget to disconnect when you are done; I simply disconnect via my device (turn off <font color="purple">Wireless Debugging</font> on your device), but you could also use [disconnect](learn_to_code/android/sdk_tools/adb?id=disconnect-device-over-wifi).  
