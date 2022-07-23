@@ -17,19 +17,23 @@
  - [Non-Relational Databases](/databases/nonrelational_databases/nonrelational_databases)  
  - [Couchbase Cluster Install Instructions](/databases/couchbase/couchbase_install)
  - [Couchbase Basics](/databases/couchbase/couchbase_basics)  
+- **Tools**  
+ - [AWS](/learn_to_code/aws/)  
+ - [Chef](/learn_to_code/chef/)  
+ - [Datadog](/tools/datadog/)  
+ - [Git](/learn_to_code/git/)  
+ - [StatsD Page](/learn_to_code/statsd/)  
 - **Computer Science**  
  - [Android](/learn_to_code/android/)  
  - [Akka](/learn_to_code/java/akka/)
- - [AWS](/learn_to_code/aws/)  
- - [Chef](/learn_to_code/chef/)  
  - [Docsify](/learn_to_code/docsify/)
  - [General Computer Science Concepts](/learn_to_code/computer_science_concepts) 
- - [Git](/learn_to_code/git/)
+ - [Industry Jargon](/learn_to_code/industry_jargon)
  - [Java](/learn_to_code/java/)
  - [Machine Learning](/learn_to_code/machine_learning/)  
+ - [Math (For Computer Science)](/learn_to_code/math/)
  - [Python](/learn_to_code/python/)  
  - [React Native](/learn_to_code/android/react_native/)  
- - [StatsD Page](/learn_to_code/statsd/)
 - **Telephony**
  - [Asterisk Operations](/telephony/asterisk) 
 - **Microsoft Office**

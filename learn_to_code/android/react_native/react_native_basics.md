@@ -1,10 +1,22 @@
 # React Native - Basics  
+<!-- 
+
+Things to talk about: 
+* global npm/yarn adds and what you may have to do (change ownership)  
+   * i.e. yarn global add expo-cli
+   * i.e. npm install --global expo-cli
+* talk about `yarn run start` / `npm start` and leaving this in a separate window
+* talk about running the project - from the project folder  - with `yarn run PROGRAM_NAME_HERE` or `npm install`
+
+-->
 
 # What is React Native?  
 
 React Native is a JavaScript-based framework that allows the software engineer to write mobile user interfaces - for Android _or_ iOS.  
 
 # Installation  
+
+## React Native Install 
 
 1\. Install the Android SDK, preferably via the [installation of Android Studio](learn_to_code/android/android_studio?id=installation).  
 
@@ -51,9 +63,7 @@ You can use git to connect to Bitbucket. Shell access is disabled
      * You can try leaving it in, but you may have odd issues.  
 	 * If you do not use `cmdtest` simply remove it.  
 
-6\. Install `dos2unix` with the command: `apt-get install dos2unix`  
-   * This may not be necessary, but you may have to use this in projects where the React Native code was written on a Windows machine and you are seeing odd errors while using Linux or MacOS (particularly errors that mention `\n` somewhere in the error line).  
-     * To clean all Windows return characters, go to the project base and run: `find . -type f -print0 | xargs -0 dos2unix`  
+6\. Install [dos2unix](learn_to_code/android/react_native/react_native_basics?id=dos2unix), if necessary.  
 
 7\. Install the latest LTS version of node.js. 
    * This may seem odd, but React Native relies on the `npm` command, and that is difficult to install on its own without the rest of node.js - so install node.js.  
@@ -87,4 +97,58 @@ apt-get install yarn -
      * If you wish to load this locally (initially), ignore the `global` aspect of the above command (or in the case of `npm`, do not include `--global`).  
      * Be careful with loading this globally to a local repository - you may have to do so as root, but if you do, the files will be owned by root. If you are not on an account with sudo access, using `yarn install` will copy the files from your local repository _but_ you will have some permission troubles with it unless you [change the ownership of the files](operating_systems/ubuntu/linux_notes?id=changing-ownership-of-files) as root.  
 
-	 
+## dos2unix
+
+`dos2unix` is a Unix tool that replaces the Windows carriage return with one that is more suitable for Unix. Using this command may not be necessary, but you may have to use this in projects where the React Native code was written on a Windows machine and you are seeing odd errors while using Linux or MacOS (particularly errors that mention `\n` somewhere in the error line).  
+
+To install `dos2unix` as root, run: `apt-get install dos2unix`  
+
+To clean all Windows return characters, go to the project base and run: `find . -type f -print0 | xargs -0 dos2unix`  
+
+## Load Your App Into AVD  
+
+In order to run any React Native app in an emulator, you must [create an AVD](learn_to_code/android/android_studio?id=adding-a-virtual-device) (I have only done this in Android Studio). Once you have a device you can [start the device yourself](learn_to_code/android/sdk_tools/emulator?id=run-specific-android-device) for the install of your app, OR you can just let this process pick one randomly (it will).  
+
+The general steps:  
+
+1\. Make sure your project has the SDK directory in your project's [local.properties file](learn_to_code/android/react_native/react_native_basics?id=localproperties).  
+
+2\. Navigate to the base directory of the project and then run _either_ `yarn react-native start` or `npm react-native start`.  
+   * Leave this window running.  
+   * Often, a <font color="purple">script</font> is written in [package.json](learn_to_code/android/react_native/react_native_basics?id=packagejson) to shorten this to `yarn start` or `npm start`.  
+   
+3\. Open a _second_ window and navigate to the base directory of the project again.  
+
+4\. Install all necessary packages with running either `yarn install` _or_ `npm install` in the second window.  
+
+5\. In the second window, run your project with `yarn react-native run-android` _or_ `npm react-native run-android`.  
+   * You can change out `run-android` for `run-ios` if you want to run your iOS app.  
+   * Often, a <font color="purple">script</font> is written in [package.json](learn_to_code/android/react_native/react_native_basics?id=packagejson) to shorten this to `yarn run android` or `npm run android`.  
+     * This gives the advantage of easily assigning an environment file to the run as well.  
+   
+
+   
+> You can pick either `yarn` or `npm`, but once you pick, stich with it - try not to use _both_ `yarn` and `npm` commands, if possible (it will probably work if you use both, but there are no guarantees).  
+
+# File Basics  
+
+## Android and iOS Directories  
+
+When making a React Native project, there must be an `android` directory under your main project directory if you wish to create an Android app in React Native. Conversely, if you wish to include an iOS app, you must put all source code in an `ios` directory under your main project directory. 
+
+> You can change these default directories, but you will have to make other changes to do so.  
+
+## package.json  
+
+> The file <font color="green">package.json</font> is a critical file when using React Native.  
+
+The file <font color="green">package.json</font> resides in the base of the project and is needed to set project specifics, such as scripts (shortcuts that define environment variables and target either android or iOS), dependencies, and other things.  
+
+## local.properties  
+
+You will need to create a <font color="green">local.properties</font> file under the [android](learn_to_code/android/react_native/react_native_basics?id=android-and-ios-directories) directory in the project. This will house some local properties, but the important one to add is where the SDK binary files are found. If you installed the Android SDK via [the instructions for Android Studio](learn_to_code/android/android_studio?id=install-android-studio) you will need to tell React Native to use the `~/Android/Sdk` directory; open the file `android/local.properties` under your main project directory and make sure it has at least this line in it:  
+```
+sdk.dir = /home/USER_NAME/Android/Sdk
+```  
+* Change `USER_NAME` to your username.  
+

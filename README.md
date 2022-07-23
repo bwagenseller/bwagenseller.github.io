@@ -31,21 +31,24 @@ I decided to do something similar here. The following notes are from a combinati
 - [Couchbase Cluster Install Instructions](/databases/couchbase/couchbase_install) - Details on how to quickly get a new Couchbase cluster up and running.  
 - [Couchbase Basics](/databases/couchbase/couchbase_basics) - The basics of Couchbase.  
 
-
-# Learning To Code  
-- [Android](/learn_to_code/android/) - Brent's notes on his journey to learn Android.  
-- [Akka](/learn_to_code/java/akka/) - Brent's notes on his continuous journey to learn Akka, which is an alternative to threading in Java (and Scala).
+# Tools  
+- [Tools](/tools/) - The main tool page.  
 - [AWS](/learn_to_code/aws/) - Overview of AWS.   
 - [Chef](/learn_to_code/chef/) - Brent Wagenseller's notes on Chef.  
+- [Datadog](/tools/datadog/) - Datadog, a statistical data collection tool.  
+- [Git](/learn_to_code/git/) - My notes to get up to speed on git. 
+- [StatsD Page](/learn_to_code/statsd/) - StatsD is a package that graphs stats; can be used in Python, Java, and more.  
+
+# Learning To Code
+- [Android](/learn_to_code/android/) - Brent's notes on his journey to learn Android.  
+- [Akka](/learn_to_code/java/akka/) - Brent's notes on his continuous journey to learn Akka, which is an alternative to threading in Java (and Scala).
 - [Docsify](/learn_to_code/docsify/) - Overview of how to use Docsify and Markdown. 
 - [General Computer Science Concepts](/learn_to_code/computer_science_concepts) - Brent's notes on his journey to learn about computer science.
-- [Git](/learn_to_code/git/) - My notes to get up to speed on git. 
+- [Industry Jargon](/learn_to_code/industry_jargon) - Definitions (as far as I can tell) of industry jargon.
 - [Java](/learn_to_code/java/) - Brent's notes on his journey to learn Java.
 - [Machine Learning](/learn_to_code/machine_learning/) - Brent's notes on his journey to learn Machine Learning.
 - [Python](/learn_to_code/python/) - Brent's notes on his journey to learn Python.  
 - [React Native](/learn_to_code/android/react_native/) - Brent's notes on his journey to learn React Native.  
-- [StatsD Page](/learn_to_code/statsd/) - StatsD is a package that graphs stats; can be used in Python, Java, and more.  
-
 
 # Telephony
 - [Asterisk Operations](/telephony/asterisk) - Day to day operations in Asterisk.
