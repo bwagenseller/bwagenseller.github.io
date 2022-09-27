@@ -21,13 +21,6 @@
  * [Lightbend Getting Started Guides](https://developer.lightbend.com/guides/)  
 * [Other resources](learn_to_code/java/akka/akka_basics?id=akka-references) are on the main Akka page of this site.  
 
-# Restricted 
-<font color="red" size="36">Internal use only</font>  
-- [Audio Streaming (Akka)](/learn_to_code/java/akka/audio_streaming_internal) - Using audio streaming in Java and Akka.  
-- [Akka HTTP Client / Server (Alpha)](/learn_to_code/java/akka/examples/http_client_server_alpha_internal) - My first crack at Akka HTTP client / server with an arbitrary number of messages.  
-- [Audio Over HTTP Client / Server (Beta)](/learn_to_code/java/akka/examples/audio_over_http_client_server_internal) - This sends audio over Akka HTTP from a client to a server.  
-
-
 # Akka Examples
 - [Akka Examples](/learn_to_code/java/akka/akka_basic_examples) - Basic Akka examples. 
 - [Akka Cluster Examples](/learn_to_code/java/akka/cluster_example) - An Akka cluster example. 
