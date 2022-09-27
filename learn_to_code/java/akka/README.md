@@ -1,8 +1,8 @@
 <img
-    src="./assets/img/bailey.jpg"
+    src="./images/BrentAndMandi.jpg"
     width="88"
     style="display: block; width: 88px; margin: auto; margin-bottom: 1em"
-/><span style="display: block; text-align: center; font-size: 1.75em;"> Wagenseller Notes </span>
+/><span style="display: block; text-align: center; font-size: 1.75em;"> Akka Notes </span>
 
 # Java
 - [Back To Java](/learn_to_code/java/) - Go back to the Java page.
