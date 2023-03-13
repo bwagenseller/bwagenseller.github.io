@@ -14,7 +14,8 @@
 - **Databases and Java**  
  - [Couchbase In Java](/learn_to_code/java/java_couchbase)  
 - **Akka** 
- - [Akka](/learn_to_code/java/akka/)
+ - [Akka](/learn_to_code/java/akka/)  
+ - [Akka Examples](/learn_to_code/java/akka/examples/)  
 - **IDEs**
  - [IntelliJ](/learn_to_code/java/intellij)
 - **Build Tools**

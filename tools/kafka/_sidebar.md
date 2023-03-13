@@ -1,0 +1,2 @@
+- [**Kafka**](/tools/kafka/)  
+- [**Kafka Basics**](/tools/kafka/kafka_basics)  

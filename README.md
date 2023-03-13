@@ -37,6 +37,7 @@ I decided to do something similar here. The following notes are from a combinati
 - [Chef](/learn_to_code/chef/) - Brent Wagenseller's notes on Chef.  
 - [Datadog](/tools/datadog/) - Datadog, a statistical data collection tool.  
 - [Git](/learn_to_code/git/) - My notes to get up to speed on git. 
+- [Kafka](/tools/kafka/) - Kafka, an event-driven tool.  
 - [StatsD Page](/learn_to_code/statsd/) - StatsD is a package that graphs stats; can be used in Python, Java, and more.  
 
 # Learning To Code
@@ -51,7 +52,9 @@ I decided to do something similar here. The following notes are from a combinati
 - [React Native](/learn_to_code/android/react_native/) - Brent's notes on his journey to learn React Native.  
 
 # Telephony
-- [Asterisk Operations](/telephony/asterisk) - Day to day operations in Asterisk.
+- [Asterisk Operations](/telephony/asterisk) - Day to day operations in Asterisk.  
+- [Kamailio](/telephony/kamailio/) - Using the SIP-centric Kamailio.  
+- [Misc Tools](/telephony/misc_tools) - Various small tools in telephony.  
 
 # Microsoft Office
 - [Vlookup](/office/excel_vlookup) - Working tips on how to use VLookup in Excel (and Ubuntu's LibreOffice).

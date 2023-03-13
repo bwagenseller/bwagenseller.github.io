@@ -567,7 +567,7 @@ public class FruitServiceImpl implements FruitService {
      */
     @Override
     public Source<HealthServiceMsg.FruitResponse, NotUsed> streamSomeFruitBetweenActors(Source<HealthServiceMsg.FruitRequest, NotUsed> theStream) {
-        // create the session actor
+        // create the Fruit Service actor
         ActorRef newFruitActor=system.actorOf(FruitServerActor.props());
 
         // wire the inbound requests to the actor

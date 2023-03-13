@@ -28,6 +28,12 @@ Brent Wagenseller's journey to learn the intricacies of Java.
 
 **Akka**  
 - [Akka](/learn_to_code/java/akka/) - Using Akka, the actor manager.
+- [Akka Installation and Configuration Files](/learn_to_code/java/akka/akka_installation_and_config_files) - My notes on the installation and configuration of Akka. 
+- [Akka Basics and Definitions](/learn_to_code/java/akka/akka_basics) - My notes on the basic conceptss and definitions in Akka. 
+- [Clustering](/learn_to_code/java/akka/clustering) - My notes on using Akka clustering. 
+- [Streams](/learn_to_code/java/akka/streams) - My notes on using Akka streams.  
+- [Telemetry](/learn_to_code/java/akka/telemetry) - My notes on monitoring Akka with Lightbend Telemetry.  
+- [Akka Examples](/learn_to_code/java/akka/examples/) - Page for Akka examples.  
 
 **IDEs**
 - [IntelliJ](/learn_to_code/java/intellij) - Using the IDE 'IntelliJ'.

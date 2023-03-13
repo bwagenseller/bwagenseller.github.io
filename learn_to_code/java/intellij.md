@@ -133,17 +133,31 @@ Tools will bring up 'tabs' in what is known as the **tool window bar**:
 
 # Shortcuts
 
-| Key Combo | Effect | 
-| --- | --- | 
-| `Ctrl` + `F` | <font color="purple">Find</font> (Current Window) | 
-| `Ctrl` + `Shift` + `F` | <font color="purple">Find</font> (Entire Project) | 
-| `F3` | <font color="purple">Find</font> Next | 
-| `Shift` + `F3` | <font color="purple">Find</font> Previous | 
-| `Ctrl` + `F3` | <font color="purple">Find</font> Word at Cursor | 
-| `Ctrl` + `R` | <font color="green">Replace</font> (Current Window) | 
-| `Ctrl` + `Shift` + `R` | <font color="green">Replace</font> (Entire Project) | 
-| `Alt` + `Shift` + `Left` | Move cursor backward. | 
-| `Alt` + `Shift` + `Right` | Move cursor forward. | 
+| Main Idea | Key Combo | Effect | 
+| --- | --- | --- | 
+| Find/Replace | `Ctrl` + `F` | <font color="purple">Find</font> (Current Window) | 
+| Find/Replace | `Ctrl` + `Shift` + `F` | <font color="purple">Find</font> (Entire Project) | 
+| Find/Replace | `F3` | <font color="purple">Find</font> Next (Current Window) | 
+| Find/Replace | `F2` | <font color="purple">Find</font> Next Error (Current Window) | 
+| Find/Replace | `Shift` + `F3` | <font color="purple">Find</font> Previous | 
+| Find/Replace | Double `Shift` | <font color="purple">Find</font> Classes and Files | 
+| Find/Replace | `Ctrl` + `F3` | <font color="purple">Find</font> Word at Cursor | 
+| Find/Replace | `Ctrl` + `R` | <font color="green">Replace</font> (Current Window) | 
+| Find/Replace | `Ctrl` + `Shift` + `R` | <font color="green">Replace</font> (Entire Project) | 
+| Cursor Position | `Alt` + `Shift` + `Left` | Move cursor backward. | 
+| Cursor Position | `Alt` + `Shift` + `Right` | Move cursor forward. |  
+| Show | `Ctrl` + `P` | <font color="orange">Show</font> parameter information in called method. | 
+| Show | `Ctrl` + `E` | <font color="orange">Show</font> recently used files. | 
+| Comment | `Ctrl` + `/` | Quickly comment out / uncomment current line. Moves to next line so this can be done in rapid succession. |
+| Comment | `Ctrl` + `Shift` + `/` | Quickly uncomment an entire block of code. This also starts a new block of comments where one does not exist. |  
+| Usage | `Ctrl` + `B` | Find where a method etc is declared or the spots where its used. Works the same way as `Ctrl` + `Left Mouse Click`. |  
+| GoTo | `Ctrl` + `G` | Opens the `Go To Line` box.  |  
+| Switcher | `Ctrl` + `Tab` | Opens the `Switcher` box.  |  
+| ??? | `Ctrl` + `W` | Extend selection. <font color="red">More research needed.</font> |  
+| ??? | `Alt` + `Insert` | Generate code. <font color="red">More research needed.</font> |  
+| ??? | `Shift` + `F6` | Rename. <font color="red">More research needed.</font> |  
+| ??? | `Alt` + `Enter` | Show intention actions and quick-fixes. <font color="red">More research needed.</font> |  
+| ??? | `Alt` + `Backquote` | VCS operations popup. <font color="red">More research needed.</font> |  
 
 ---
 

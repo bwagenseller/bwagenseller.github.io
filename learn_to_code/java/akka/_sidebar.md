@@ -1,13 +1,12 @@
 - [**Home**](https://bwagenseller.github.io/#/)
- - [**Back To Java**](/learn_to_code/java/)
-- **Akka**
- - [Akka Main Page](/learn_to_code/java/akka/)
+- **Akka Main Page**  
  - [Installation and Configuration Files](/learn_to_code/java/akka/akka_installation_and_config_files)  
  - [Basics and Definitions](/learn_to_code/java/akka/akka_basics)
  - [Clustering](/learn_to_code/java/akka/clustering)  
  - [Streams](/learn_to_code/java/akka/streams)  
  - [Telemetry](/learn_to_code/java/akka/telemetry)  
-- **Akka Examples**
- - [Basic Examples](/learn_to_code/java/akka/akka_basic_examples)  
- - [Akka Cluster Examples](/learn_to_code/java/akka/cluster_example)  
- - [Akka gRPC w/ Actors Example](/learn_to_code/java/akka/grpc_actor_example)  
+- [**Akka Examples**](/learn_to_code/java/akka/examples/)  
+ - [Akka Basic Examples](/learn_to_code/java/akka/examples/akka_basic_examples)  
+ - [Akka Cluster Examples](/learn_to_code/java/akka/examples/cluster_example)  
+ - [Akka gRPC w/ Actors Example](/learn_to_code/java/akka/examples/grpc_actor_example)  
+ - [Akka gRPC w/ Actors and Envelopes Example](/learn_to_code/java/akka/examples/grpc_actor_with_envelopes_example)  

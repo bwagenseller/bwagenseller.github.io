@@ -687,9 +687,9 @@ public class DeadLetterListener extends AbstractActor {
 This example showcases how you can get an `ActorRef` using an [actorSelection](learn_to_code/java/akka/akka_basics?id=actorselection) and an `Identity` object. This example uses [this particular pom.xml file for Maven](learn_to_code/java/akka/akka_basic_examples?id=pomxml) and 5 other files (all 5 .java files are in the same directory):  
 * AkkaDev.java - This houses the `main()` function and will create the actor system and the world.  It will also launch all other actors.  
 * inquiringActor.java - This will send an `Identify` to `actorOne`, `actorTwo`, and `actorThree` and then process each response, saving the `ActorRef`.  
-* actorOne.java - Will respond to a request to print who it is, as well as respond to an `Indentify` request.  
-* actorTwo.java - Will respond to a request to print who it is, as well as respond to an `Indentify` request.  
-* actorThree.java - Will respond to a request to print who it is, as well as respond to an `Indentify` request.  
+* actorOne.java - Will respond to a request to print who it is, as well as respond to an `Identify` request.  
+* actorTwo.java - Will respond to a request to print who it is, as well as respond to an `Identify` request.  
+* actorThree.java - Will respond to a request to print who it is, as well as respond to an `Identify` request.  
 
 
 ## AkkaDev.java (Finding an Actor)    

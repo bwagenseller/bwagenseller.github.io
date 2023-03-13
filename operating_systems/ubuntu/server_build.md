@@ -1772,6 +1772,52 @@ apt-get install git-gui
 
 ---
 
+# Installing VLC
+<span style='width: 20px; display:inline-block'>:rotating_light:</span> <span style='width: 20px; display:inline-block'>:bangbang:</span>
+
+VLC is a powerful video package - [here is the VLC official page](https://www.videolan.org/vlc/) and [here is the download section](https://www.videolan.org/vlc/#download).  
+
+To install:
+
+1\. [Become root](/operating_systems/ubuntu/linux_notes?id=becoming-root)
+
+2\. [Update all packages](/operating_systems/ubuntu/linux_notes?id=updating-upgrading-all-packages)
+
+3\. Install:
+```
+apt-get install vlc libdvd-pkg libaacs-dev libdvdcss2 
+```
+* `libdvdcss2` is needed for DVDs.  
+* `libdvd-pkg` and `libaacs-dev` are needed to support Blu Ray.  
+
+In addition, [this site](https://echoshare.co/no-valid-processing-key-found-aacs-config-vlc/) claims that if you want Blu Ray files to play, you will have to put the KEYDB.cfg file (located [here](https://vlc-bluray.whoknowsmy.name/files/KEYDB.cfg) - you may want to save this is a good spot) in the directory `~/.config/aacs` (I can confirm this works as of Ubuntu 20.04, August 2022). 
+
+> When opening Blu Ray movies, make _sure_ to select the 'Blu-ray' radio button; in addition, there is a 'No disc menus' checkbox - check that box.  
+
+---  
+
+# Installing Tilix
+<span style='width: 20px; display:inline-block'>:rotating_light:</span> <span style='width: 20px; display:inline-block'>:bangbang:</span>
+
+[Tilix](https://gnunn1.github.io/tilix-web/) is a very nice upgraded terminal.  
+
+To install:
+
+1\. [Become root](/operating_systems/ubuntu/linux_notes?id=becoming-root)
+
+2\. [Update all packages](/operating_systems/ubuntu/linux_notes?id=updating-upgrading-all-packages)
+
+3\. Install:
+```
+apt-get install tilix
+```
+
+> There is a minor issue on Ubuntu (as described [here](https://gnunn1.github.io/tilix-web/manual/vteconfig/)); one way to fix this is to go into Preferences/DefaultCommand and check `Run command as login shell`, but be warned - if you type `exit` to close terminals (as opposed to clicking the `x`) it can mess with mounted drives.  
+![tilix_login_shell.png](images/tilix_login_shell.png)
+
+
+
+---  
 # CIFS Share
 <span style='width: 20px; display:inline-block'>:bangbang:</span>
 

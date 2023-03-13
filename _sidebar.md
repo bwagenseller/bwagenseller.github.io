@@ -22,6 +22,7 @@
  - [Chef](/learn_to_code/chef/)  
  - [Datadog](/tools/datadog/)  
  - [Git](/learn_to_code/git/)  
+ - [Kafka](/tools/kafka/)  
  - [StatsD Page](/learn_to_code/statsd/)  
 - **Computer Science**  
  - [Android](/learn_to_code/android/)  
@@ -35,6 +36,8 @@
  - [Python](/learn_to_code/python/)  
  - [React Native](/learn_to_code/android/react_native/)  
 - **Telephony**
- - [Asterisk Operations](/telephony/asterisk) 
+ - [Asterisk Operations](/telephony/asterisk)  
+ - [Kamailio](/telephony/kamailio/)  
+ - [Misc Tools](/telephony/misc_tools)  
 - **Microsoft Office**
  - [Vlookup](/office/excel_vlookup)

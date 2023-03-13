@@ -21,9 +21,11 @@
  * [Lightbend Getting Started Guides](https://developer.lightbend.com/guides/)  
 * [Other resources](learn_to_code/java/akka/akka_basics?id=akka-references) are on the main Akka page of this site.  
 
-# Akka Examples
-- [Akka Examples](/learn_to_code/java/akka/akka_basic_examples) - Basic Akka examples. 
-- [Akka Cluster Examples](/learn_to_code/java/akka/cluster_example) - An Akka cluster example. 
-- [Akka gRPC w/ Actors Example](/learn_to_code/java/akka/grpc_actor_example) - An Akka example that uses gRPC as communication between a client (an actor) and a server (also an actor). 
+# Akka Examples  
+- [Akka Examples](/learn_to_code/java/akka/examples/) - Page for Akka examples.  
+- [Akka Basic Examples](/learn_to_code/java/akka/examples/akka_basic_examples) - Basic Akka examples. 
+- [Akka Cluster Examples](/learn_to_code/java/akka/examples/cluster_example) - An Akka cluster example. 
+- [Akka gRPC w/ Actors Example](/learn_to_code/java/akka/examples/grpc_actor_example) - An Akka example that uses gRPC as communication between a client (an actor) and a server (also an actor). 
+- [Akka gRPC w/ Actors and Envelopes Example](/learn_to_code/java/akka/examples/grpc_actor_with_envelopes_example) - An Akka example that uses gRPC as communication between a client (an actor) and a server (also an actor). This uses an envelope message approach, which enables arbitrary objects to be sent between client and server.  
 
 

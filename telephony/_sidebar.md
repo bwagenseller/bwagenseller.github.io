@@ -1,2 +1,6 @@
 - [**Telephony**](/telephony/)
-- [**Asterisk Operations**](/telephony/asterisk)
+- [**Asterisk**](/telephony/asterisk/)  
+   - [Asterisk Basics](/telephony/asterisk/asterisk_basics)  
+- [**Kamailio**](/telephony/kamailio/)  
+   - [Kamailio Basics](/telephony/kamailio/kamailio_basics)  
+- [**Misc Tools**](/telephony/misc_tools)  

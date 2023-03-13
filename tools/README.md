@@ -7,3 +7,7 @@
 # Datadog  
 - [Datadog](/tools/datadog/) - Datadog, a statistical data collection tool.  
 - [Datadog Basics](/tools/datadog/datadog_basics) - The basics of Datadog.  
+
+# Kafka  
+- [Kafka](/tools/kafka/) - Kafka, an event-driven tool.  
+- [Kafka Basics](/tools/kafka/kafka_basics) - The basics of Kafka.  
