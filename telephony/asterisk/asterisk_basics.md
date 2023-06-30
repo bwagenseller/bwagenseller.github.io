@@ -58,3 +58,7 @@ To turn of SIP debug messages, [launch the Asterisk interface](telephony/asteris
 ```
 sip set debug off
 ```
+
+# Show Active Bridges  
+
+To show active bridges in Asterisk, become root and then run: `asterisk -rvvvvvvvx "bridge show all"`  

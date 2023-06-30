@@ -1,0 +1,3 @@
+- **[Chef Basics](/tools/chef/chef_basics)**  
+- **[Chef Server](/tools/chef/chef_server)**  
+- **[Chef Workstation](/tools/chef/chef_workstation)**  

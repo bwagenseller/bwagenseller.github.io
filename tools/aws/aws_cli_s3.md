@@ -17,7 +17,22 @@ Some other good sources for <font color="purple">AWS CLI</font> commands are:
 
 # Installing AWS CLI (Ubuntu) 
 
+
+> These notes were taken from [here](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html).  
+
 Here is how you install the <font color="purple">AWS S3 CLI</font> on your Ubuntu instance:
+
+1\. [Become root](/operating_systems/ubuntu/linux_notes?id=becoming-root).  
+
+
+2\. Download the <font color="purple">AWS CLI</font> zip file: `curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"`  
+
+3\. Unzip the <font color="purple">AWS CLI</font> file to `./aws/install`: `unzip awscliv2.zip`  
+
+4\. Run the install: `./aws/install`  
+
+
+Here is an alternate way to install the <font color="purple">AWS S3 CLI</font>; note this way may not be the best as it will install a version that is not up-to-date as far as AWS is concerned.  
 
 1\. [Become root](/operating_systems/ubuntu/linux_notes?id=becoming-root).  
 
@@ -26,6 +41,21 @@ Here is how you install the <font color="purple">AWS S3 CLI</font> on your Ubunt
 3\. Install the <font color="purple">AWS CLI</font>: `apt-get install awscli`  
 
 > Now you can fully interact with your AWS bucket from your own command line!  
+
+
+# Updating the AWS CLI (Ubuntu)  
+
+If you installed the <font color="purple">AWS CLI</font> by [downloading the install file directly from Amazon](/tools/aws/aws_cli_s3?id=installing-aws-cli-ubuntu), you can update the AWS CLI like so:  
+
+1\. [Become root](/operating_systems/ubuntu/linux_notes?id=becoming-root).  
+
+2\. Run: `./aws/install --bin-dir /usr/local/bin --install-dir /usr/local/aws-cli --update`  
+
+If you instead installed the <font color="purple">AWS CLI</font> via [apt-get install](/tools/aws/aws_cli_s3?id=installing-aws-cli-ubuntu), you can update the AWS CLI like so:  
+
+1\. [Become root](/operating_systems/ubuntu/linux_notes?id=becoming-root).  
+
+2\. Run a [PIP](operating_systems/ubuntu/server_build?id=install-python-pip) install: `pip install --upgrade awscli`  
 
 # Config Directory / Setup  
 
@@ -57,7 +87,7 @@ aws_secret_access_key = YOUR_SECRET_ACCESS_KEY_ID
 aws_access_key_id = KINGS_ACCESS_KEY_ID
 aws_secret_access_key = KINGS_SECRET_ACCESS_KEY_ID
 ```  
-Then, in the AWS CLI, you would add a `--profile king` at the end of the command; for example, if you wanted to list all files in the filder `filters` in the S3 bucket `project-artifacts` - but you wanted to connect with the `king` account - the cli is:  
+Then, in the AWS CLI, you would add a `--profile king` at the end of the command; for example, if you wanted to list all files in the folder `filters` in the S3 bucket `project-artifacts` - but you wanted to connect with the `king` account - the cli is:  
 ```
 aws s3 ls s3://project-artifacts/filters/ --profile king  
 ```  
@@ -145,7 +175,7 @@ aws s3 sync s3://someOldbucket s3://someNewbucket --source-region us-west-2 --re
 
 ## Adding a Vocabulary Filter
 
-AWS Transcribe has the ability to detect specific words in the returned text; a text file is used to identify these words. Once you have the list together, save them to a S3 bucket (I use the name <font color="green">test-vocabulary-filter.txt</font> below). Once you have the list and have [loaded it onto a S3 bucket](learn_to_code/aws/aws_cli_s3?id=copying-files-to-s3), come up with a unique name for this filter (I will use the basic name of <font color="green">test</font> below) and then run this command to actually load the filter:
+AWS Transcribe has the ability to detect specific words in the returned text; a text file is used to identify these words. Once you have the list together, save them to a S3 bucket (I use the name <font color="green">test-vocabulary-filter.txt</font> below). Once you have the list and have [loaded it onto a S3 bucket](tools/aws/aws_cli_s3?id=copying-files-to-s3), come up with a unique name for this filter (I will use the basic name of <font color="green">test</font> below) and then run this command to actually load the filter:
 
 ```
 aws transcribe create-vocabulary-filter  
@@ -169,7 +199,7 @@ This will tell the code to set the `.vocabularyFilterMatch()` in the return to `
 
 ## Removing a Vocabulary Filter  
 
-We learned how to add a vocabulary filter [here](learn_to_code/aws/aws_cli_s3?id=adding-a-vocabulary-filter), but sometimes you need to delete the filter (especially if you intend on updating the filter); to do so, use this command:
+We learned how to add a vocabulary filter [here](tools/aws/aws_cli_s3?id=adding-a-vocabulary-filter), but sometimes you need to delete the filter (especially if you intend on updating the filter); to do so, use this command:
 ```
  aws transcribe delete-vocabulary-filter --vocabulary-filter-name test
 ```  

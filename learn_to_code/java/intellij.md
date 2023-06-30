@@ -134,7 +134,8 @@ Tools will bring up 'tabs' in what is known as the **tool window bar**:
 # Shortcuts
 
 | Main Idea | Key Combo | Effect | 
-| --- | --- | --- | 
+| --- | --- | --- |  
+| Find | `Ctrl` + `Shift` + `Alt` + `N` | (right side of keyboard only) Finds a 'symbol' - this can be a variable name OR a method name, anywhere. |  
 | Find/Replace | `Ctrl` + `F` | <font color="purple">Find</font> (Current Window) | 
 | Find/Replace | `Ctrl` + `Shift` + `F` | <font color="purple">Find</font> (Entire Project) | 
 | Find/Replace | `F3` | <font color="purple">Find</font> Next (Current Window) | 
@@ -148,16 +149,36 @@ Tools will bring up 'tabs' in what is known as the **tool window bar**:
 | Cursor Position | `Alt` + `Shift` + `Right` | Move cursor forward. |  
 | Show | `Ctrl` + `P` | <font color="orange">Show</font> parameter information in called method. | 
 | Show | `Ctrl` + `E` | <font color="orange">Show</font> recently used files. | 
+| Show | `Ctrl` + `F12` | Opens a popup (called the Structure Popup) that shows ALL methods and class variables for the current class. Pressing `Ctrl` + `F12` again while the window is up will show all interface and superclass methods as well (or you can just toggle the checkmark that controls this in the window). |  
+| Show | `Ctrl` + `Alt` + `F7` | 'Show usages' of a 'symbol' (method, class, interface, etc) will show where this symbol is used. <font color="red">Be careful</font> with this as this same shortcut in Ubuntu will switch to a terminal 'virtual' screen, and the only way to get back is `Ctrl` + `Alt` + `F1`. An alternative is to hold `Ctrl` and then click the symbol with the mouse. |  
 | Comment | `Ctrl` + `/` | Quickly comment out / uncomment current line. Moves to next line so this can be done in rapid succession. |
 | Comment | `Ctrl` + `Shift` + `/` | Quickly uncomment an entire block of code. This also starts a new block of comments where one does not exist. |  
 | Usage | `Ctrl` + `B` | Find where a method etc is declared or the spots where its used. Works the same way as `Ctrl` + `Left Mouse Click`. |  
 | GoTo | `Ctrl` + `G` | Opens the `Go To Line` box.  |  
+| Bookmark | `F11` | Bookmark a spot in the code. |  
+| Bookmark | `Shift` + `F11` | Show all bookmarks. |  
 | Switcher | `Ctrl` + `Tab` | Opens the `Switcher` box.  |  
+| Hierarchy | `Alt` + `Home` | Lets you navigate the entire project tree if the project window is not open. |  
+| Hierarchy | `Ctrl` + `H` | Gives you a hierarchy tree of the current interface / class. You can also do this by pressing `Ctrl` and then clicking the class with the mouse - then in the popup, pick 'Class Hierarchy' in the dropdown and then type the interface / class name. |  
+| Hierarchy | `Ctrl` + `Alt` + `U` | Gives you a hierarchy like `Ctrl` + `H`, but is a _visual_ representation (paid version of IntelliJ only). |  
+| Hierarchy | `Ctrl` + `Alt` + `H` | Brings up the method call hierarchy. If you press this in a method, it will show you every way that method gets called, from the very first method that will eventually invoke the method you selected. |  
 | ??? | `Ctrl` + `W` | Extend selection. <font color="red">More research needed.</font> |  
 | ??? | `Alt` + `Insert` | Generate code. <font color="red">More research needed.</font> |  
 | ??? | `Shift` + `F6` | Rename. <font color="red">More research needed.</font> |  
 | ??? | `Alt` + `Enter` | Show intention actions and quick-fixes. <font color="red">More research needed.</font> |  
 | ??? | `Alt` + `Backquote` | VCS operations popup. <font color="red">More research needed.</font> |  
+
+## Ubuntu Shortcuts  
+
+I am listing these as some of these step on IntelliJ shortcuts.  
+
+| Main Idea | Key Combo | Effect | 
+| --- | --- | --- |  
+| Move Window | `Alt` + `F7` | Moves the window (with your mouse). |  
+| Close Window | `Alt` + `F4` | Immediately closes the selected application. |  
+| Virtual Screen | `Ctrl` + `Alt` + `F7` | Switches to a 'virtual screen' which turns out to be a terminal - to get back - `Ctrl` + `Alt` + `F1`. |  
+| Graphical Screen | `Ctrl` + `Alt` + `F1` | Go back to the graphical screen if you accidentally hit `Ctrl` + `Alt` + `F7`. |  
+
 
 ---
 

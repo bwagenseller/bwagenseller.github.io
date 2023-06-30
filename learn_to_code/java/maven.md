@@ -572,7 +572,7 @@ Here is the initial setup for an AWS Repository using an AWS S3 bucket:
  * Make sure to set `wagonProvider` as <font color="green">s3</font> (as shown).  
  * Make sure to have an `id` that makes sense. You can make it up, but when you go to put it into the [dependency section in your pom.xml file](learn_to_code/java/maven?id=adding-dependencies-to-maven) you _must_ re-use this ID.  
  
-3\. Know how to use the [AWS Command Line Interface](learn_to_code/aws/aws_cli_s3). This isnt a hard requirement, as you can use the console, but you will need to know how to use either the console or the CLI.  
+3\. Know how to use the [AWS Command Line Interface](tools/aws/aws_cli_s3). This isnt a hard requirement, as you can use the console, but you will need to know how to use either the console or the CLI.  
 
 4\. Pick a base directory that will act as the <font color="green">base repository directory</font> for Maven. Actually, you _can_ pick multiple <font color="green">base repository directories</font>, but you will need at least one. I usually will use `release/` as the base directory in an Amazon S3 bucket.  
 
@@ -585,7 +585,7 @@ You will have to create an <font color="green">artifactId</font> and <font color
  * These suggestions are just a rule of thumb - for example, Google uses `com.google.protobuf` as a <font color="green">groupId</font>, and then has different language versions of protobuf as <font color="green">artifactIds</font>.  
 
 So, where are we at now? 
-* We need an S3 bucket. Our example will be `s3://repo.mycompany.com` (to find your company's s3 buckets, [install AWS CLI](learn_to_code/aws/aws_cli_s3?id=installing-aws-cli-ubuntu), [configure it](learn_to_code/aws/aws_cli_s3?id=config-directory-setup), and then [display the buckets](learn_to_code/aws/aws_cli_s3?id=show-buckets-ls).  
+* We need an S3 bucket. Our example will be `s3://repo.mycompany.com` (to find your company's s3 buckets, [install AWS CLI](tools/aws/aws_cli_s3?id=installing-aws-cli-ubuntu), [configure it](tools/aws/aws_cli_s3?id=config-directory-setup), and then [display the buckets](tools/aws/aws_cli_s3?id=show-buckets-ls).  
 * We will need a <font color="green">base repository directory</font> in our S3 bucket - I will use `release` in this example.  
 * We will need to determine a base directory _for our specific artifact_ we are creating, which corresponds, in part, to a <font color="green">groupId</font> using dot notation. Our <font color="green">groupId</font> will be `com.industries.vandelay`.  
 * We will need an <font color="green">artifactId</font>, which makes this _specific_ artifact unique (although it can have sub-versions). Our <font color="green">artifactId</font> will be called `importer-exporter`.
@@ -687,11 +687,13 @@ First, you must add some information to the `<distributionManagement>` and `<rep
 ```
 * <font color="red">Note</font>: This is just a snippet of the pom.xml file - it shows the end of the `</properties>` tag (but not the beginning or the subsequent contents) and the beginning of the `<dependencies>` tag (but not the contents or the end).  
 * The various `<id>`s _must_ match the `<id>` in your local [settings.xml file](/learn_to_code/java/maven?id=settingsxml).  
-* The `<url>` is the AWS S3 bucket name, as it would be returned by the [AWS CLI 'show bucket' command](learn_to_code/aws/aws_cli_s3?id=show-buckets-ls).  
+* The `<url>` is the AWS S3 bucket name, as it would be returned by the [AWS CLI 'show bucket' command](tools/aws/aws_cli_s3?id=show-buckets-ls).  
  * In our example, this was `s3://repo.mycompany.com`.  
  * The `/release` is the [base repository directory](learn_to_code/java/maven?id=aws-repository-initial-setup) in your AWS S3 bucket. This is where _all_ of your repositories will go (or, at lease, _one_ of such locations).  
    * A similar thing can be said for `/snapshot`.  
+* The `<distributionManagement>` tag - and its contents - are probably not necessary.  
 * The `<snapshotRepository>` tags are probably not necessary, but I put them in here to show that you can also draw from a snapshot directory. 
+
 
 Now, the only thing left to do is add a [dependency](learn_to_code/java/maven?id=adding-dependencies-to-maven) in your pom.xml file! Here is a snippet of what you can insert into the `<dependencies>` section of your [pom.xml](learn_to_code/java/maven?id=pomxml) file:  
 ```

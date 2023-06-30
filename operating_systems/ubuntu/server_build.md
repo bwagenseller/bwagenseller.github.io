@@ -1818,6 +1818,46 @@ apt-get install tilix
 
 
 ---  
+# Installing Visual Studio Code
+<span style='width: 20px; display:inline-block'>:rotating_light:</span> <span style='width: 20px; display:inline-block'>:bangbang:</span>
+
+[Visual Studio Code](https://code.visualstudio.com/) is a good basic text editor that doubles as an IDE in a pinch. Up to date install instructions can be found [here](https://code.visualstudio.com/docs/setup/linux). Finally, some great feature metntions / plugins are [here](https://www.makeuseof.com/tag/10-essential-productivity-tips-visual-studio-code/).   
+
+To install:
+
+1\. [Become root](/operating_systems/ubuntu/linux_notes?id=becoming-root)
+
+2\. [Update all packages](/operating_systems/ubuntu/linux_notes?id=updating-upgrading-all-packages)
+
+3\. Install necessary packages:
+```
+apt-get install wget gpg
+```
+
+4\. Get the Microsoft gpg file, install to your keyrings, then delete the downloaded file:
+```
+wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg
+install -D -o root -g root -m 644 packages.microsoft.gpg /etc/apt/keyrings/packages.microsoft.gpg
+sh -c 'echo "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" > /etc/apt/sources.list.d/vscode.list'
+rm -f packages.microsoft.gpg
+```  
+
+5\. Install `apt-transport-https`:  
+```
+apt-get install apt-transport-https
+```  
+
+6\. [Update all packages AGAIN](/operating_systems/ubuntu/linux_notes?id=updating-upgrading-all-packages)
+
+7\. Install Visual Studio Code:  
+```
+apt-get install code # or code-insiders
+```  
+
+
+
+---  
+  
 # CIFS Share
 <span style='width: 20px; display:inline-block'>:bangbang:</span>
 

@@ -139,7 +139,7 @@ FROM alpine:3.15.4
 
 ## Multistage Dockerfiles  
 
-A <font color="purple">FROM</font> instruction in a Dockerfile technically signifies a new <font color="green">stage</font> in the Dockerfile<font color="green">Multistage Dockerfile</font>. Each instruction following a <font color="purple">FROM</font> instruction will be applied to the image listed in the <font color="purple">FROM</font>, but if another <font color="purple">FROM</font> instruction is introduced, all subsequent instructions will be excecuted on that image instead - _unless_ the instruction uses the `--from` parameter (and specifies a specific stage). The [COPY](operating_systems/docker/dockerfile?id=copy-copy-files-from-host-to-image) instruction can do this, meaning you can compile code in one stage and then COPY a _specific_ file from that previous <font color="green">stage</font> to your new <font color="green">stage</font>, making it possible for Docker to act as a [build server](operating_systems/docker/dockerfile?id=docker-as-build-server).  
+A <font color="purple">FROM</font> instruction in a Dockerfile technically signifies a new <font color="green">stage</font> in the Dockerfile <font color="green">Multistage Dockerfile</font>. Each instruction following a <font color="purple">FROM</font> instruction will be applied to the image listed in the <font color="purple">FROM</font>, but if another <font color="purple">FROM</font> instruction is introduced, all subsequent instructions will be excecuted on that image instead - _unless_ the instruction uses the `--from` parameter (and specifies a specific stage). The [COPY](operating_systems/docker/dockerfile?id=copy-copy-files-from-host-to-image) instruction can do this, meaning you can compile code in one stage and then COPY a _specific_ file from that previous <font color="green">stage</font> to your new <font color="green">stage</font>, making it possible for Docker to act as a [build server](operating_systems/docker/dockerfile?id=docker-as-build-server).  
 
 To create a name for a <font color="green">stage</font> / begin a new <font color="green">stage</font>, simply append an `AS [STAGE_NAME]` onto the end of a <font color="purple">FROM</font> instruction like so:  
 ```
@@ -201,7 +201,7 @@ ENV SOMEVAR1="My Variable" \
     SOME_OTHER_ENV=12345
 ```  
 
-The difference between variables set by <font color="green">ENV</font> and those set by [ARG](operating_systems/docker/dockerfile?id=arg-setting-internal-arguments) is <font color="green">ENV</font> variables can be referenced _int_ the container while its running, whereas <font color="green">ARG</font> is _only_ available during the image build.  
+The difference between variables set by <font color="green">ENV</font> and those set by [ARG](operating_systems/docker/dockerfile?id=arg-setting-internal-arguments) is <font color="green">ENV</font> variables can be referenced _in_ the container while its running, whereas <font color="green">ARG</font> is _only_ available during the image build.  
 
 # ARG - Setting Internal Arguments  
 

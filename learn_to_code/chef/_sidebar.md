@@ -1,3 +1,0 @@
-- **[Chef Basics](/learn_to_code/chef/chef_basics)**  
-- **[Chef Server](/learn_to_code/chef/chef_server)**  
-- **[Chef Workstation](/learn_to_code/chef/chef_workstation)**  

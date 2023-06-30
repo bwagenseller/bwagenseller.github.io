@@ -5,6 +5,7 @@
  - [KVM Notes](/operating_systems/ubuntu/package_operations/kvm_notes)
  - [journalctl](/operating_systems/ubuntu/package_operations/journalctl) 
  - [Docker](/operating_systems/docker/)  
+ - [Kubernetes](/operating_systems/kubernetes/)  
 - **Raspberry Pi**
  - [Raspberry Pi](/operating_systems/raspberry_pi/) 
 - **Databases**
@@ -18,8 +19,8 @@
  - [Couchbase Cluster Install Instructions](/databases/couchbase/couchbase_install)
  - [Couchbase Basics](/databases/couchbase/couchbase_basics)  
 - **Tools**  
- - [AWS](/learn_to_code/aws/)  
- - [Chef](/learn_to_code/chef/)  
+ - [AWS](/tools/aws/)  
+ - [Chef](/tools/chef/)  
  - [Datadog](/tools/datadog/)  
  - [Git](/learn_to_code/git/)  
  - [Kafka](/tools/kafka/)  
@@ -35,6 +36,7 @@
  - [Math (For Computer Science)](/learn_to_code/math/)
  - [Python](/learn_to_code/python/)  
  - [React Native](/learn_to_code/android/react_native/)  
+ - [YAML](/learn_to_code/yaml)  
 - **Telephony**
  - [Asterisk Operations](/telephony/asterisk)  
  - [Kamailio](/telephony/kamailio/)  

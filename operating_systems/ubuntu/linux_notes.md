@@ -3599,7 +3599,8 @@ There are many programs that are launched by icons and not from the command line
 |Command | Program Command Launches |
 | --- | --- |
 | nautilus | The Ubuntu file explorer |
-| notepad-plus-plus | Notepad++ |
+| notepad-plus-plus | Notepad++ |  
+| code | Visual Studio Code |  
 | vlc | VLC Media Player |
 | remmina | Remmina, a remote desktop client. |
 | mysql-workbench | MySQL Workbench client. |

@@ -1,5 +1,7 @@
-**Tools**  
-- [Datadog](/tools/datadog/)  
+**AWS**  
+- [AWS](/tools/aws/)  
+**Chef**  
+- [Chef](/tools/chef/)  
 **Datadog**
 - [Datadog](/tools/datadog/)  
 - [Datadog Basics](/tools/datadog/datadog_basics)  

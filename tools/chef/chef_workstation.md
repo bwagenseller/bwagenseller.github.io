@@ -24,23 +24,23 @@ The <font color="green">Chef Workstation</font> is typically installed on your l
 4\. Leave root: `exit`  
 * From here on out I would not advize the use of root, unless you want to be root when you use Chef Workstation.  
 
-5\. [Make a Chef Git repo](learn_to_code/chef/chef_workstation?id=chef-git-repo). Most examples use <font color="#FF8C00">chef-repo</font> as the repo name.  
+5\. [Make a Chef Git repo](tools/chef/chef_workstation?id=chef-git-repo). Most examples use <font color="#FF8C00">chef-repo</font> as the repo name.  
 
-6\. Create a `.chef` subdirectory in the [Chef Git repo](learn_to_code/chef/chef_workstation?id=chef-git-repo) you made in the step above. Assuming you have not entered the directory after you created it and assuming the name of the repo is <font color="#FF8C00">chef-repo</font>:  
+6\. Create a `.chef` subdirectory in the [Chef Git repo](tools/chef/chef_workstation?id=chef-git-repo) you made in the step above. Assuming you have not entered the directory after you created it and assuming the name of the repo is <font color="#FF8C00">chef-repo</font>:  
 ```
 cd chef-repo  
 mkdir .chef
 ```  
 
-7\. We need to get the [PEM file](learn_to_code/chef/chef_server?id=user-ssh-key) set up on the [Chef Server](learn_to_code/chef/chef_basics?id=chef-server). 
-* This assumes you _have_ setup a [Chef Server](learn_to_code/chef/chef_server?id=installation) in a VM or other host and you have a root account and the IP of the host.  
-* This assumes you have [created a user](learn_to_code/chef/chef_server?id=making-a-user) on that Chef server.
+7\. We need to get the [PEM file](tools/chef/chef_server?id=user-ssh-key) set up on the [Chef Server](tools/chef/chef_basics?id=chef-server). 
+* This assumes you _have_ setup a [Chef Server](tools/chef/chef_server?id=installation) in a VM or other host and you have a root account and the IP of the host.  
+* This assumes you have [created a user](tools/chef/chef_server?id=making-a-user) on that Chef server.
 * If you have not done this at this point it's OK, but you _will_ have to do this eventually.  
 * You can use [SSH](operating_systems/ubuntu/linux_notes?id=ssh) and [SCP](operating_systems/ubuntu/linux_notes?id=pushing-pulling-files-with-scp) to actually perform this action.  
   * Log into the Chef Server VM using [SSH](operating_systems/ubuntu/linux_notes?id=ssh).  
-  * Locate the <font color="#FF8C00">.pem</font> file that was created when you [set-up the Chef Server](learn_to_code/chef/chef_server?id=installation).  You may have to copy it elsewhere then use [chown](operating_systems/ubuntu/linux_notes?id=changing-ownership-of-files) so your account owns it (and _not_ root).  
+  * Locate the <font color="#FF8C00">.pem</font> file that was created when you [set-up the Chef Server](tools/chef/chef_server?id=installation).  You may have to copy it elsewhere then use [chown](operating_systems/ubuntu/linux_notes?id=changing-ownership-of-files) so your account owns it (and _not_ root).  
   * Exit the Chef Server so you are back on your local laptop / desktop; then, use [SCP](operating_systems/ubuntu/linux_notes?id=pushing-pulling-files-with-scp) to copy the <font color="#FF8C00">.pem</font> file into the <font color="#FF8C00">.chef</font> directory you created above on your local laptop / desktop.  
-  * Do *not* forget to delete the _temporary_ <font color="#FF8C00">.pem</font> file you moved on the [Chef Server](learn_to_code/chef/chef_basics?id=chef-server), if you made a copy of the file in order to use [SCP](operating_systems/ubuntu/linux_notes?id=pushing-pulling-files-with-scp) to copy it to your laptop. Note you will _not_ delete the _original_ <font color="#FF8C00">.pem</font> file on the [Chef Server](learn_to_code/chef/chef_basics?id=chef-server) - this is only the copied version you created to move it off the Chef server.  
+  * Do *not* forget to delete the _temporary_ <font color="#FF8C00">.pem</font> file you moved on the [Chef Server](tools/chef/chef_basics?id=chef-server), if you made a copy of the file in order to use [SCP](operating_systems/ubuntu/linux_notes?id=pushing-pulling-files-with-scp) to copy it to your laptop. Note you will _not_ delete the _original_ <font color="#FF8C00">.pem</font> file on the [Chef Server](tools/chef/chef_basics?id=chef-server) - this is only the copied version you created to move it off the Chef server.  
 
 # Repo vs App vs Cookbook  
 
@@ -48,7 +48,7 @@ mkdir .chef
 
 In the early days of Chef, people would manually clone a GitHub project named `chef-repo`; _all_ cookbooks for all of your apps would be placed in here, and if you wanted another cookbook, you would use 
 
-eventually, Chef introduced the [Chef Git repo](learn_to_code/chef/chef_workstation?id=chef-git-repo) command to do this as a shortcut.  have _one_ [Git](/learn_to_code/git/) repo that would contain _all_ of their companies [cookbooks](learn_to_code/chef/chef_basics?id=cookbook). 
+eventually, Chef introduced the [Chef Git repo](tools/chef/chef_workstation?id=chef-git-repo) command to do this as a shortcut.  have _one_ [Git](/learn_to_code/git/) repo that would contain _all_ of their companies [cookbooks](tools/chef/chef_basics?id=cookbook). 
 
 
 # Chef Git Repo  

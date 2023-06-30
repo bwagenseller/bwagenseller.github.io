@@ -2,14 +2,13 @@
 - **Coding**  
  - [Learning to Code](/learn_to_code/)  
  - [Akka](/learn_to_code/java/akka/)  
- - [AWS](/learn_to_code/aws/)  
- - [Chef](/learn_to_code/chef/)  
  - [Docsify](/learn_to_code/docsify/)  
  - [Git](/learn_to_code/git/)  
  - [Java](/learn_to_code/java/)  
  - [Android](/learn_to_code/android/)  
  - [React Native](/learn_to_code/android/react_native/)  
  - [Python](/learn_to_code/python/)  
+ - [YAML](/learn_to_code/yaml)  
 - **Computer Science Concepts**
  - [General Comp Sci Concepts](/learn_to_code/computer_science_concepts)
 - **Machine Learning**

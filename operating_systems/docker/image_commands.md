@@ -206,7 +206,7 @@ Note that these are _not_ guaranteed in all images.  In addition, the page [http
 
 > The man page for this is `man docker-image-build`  
 
-At some point, very early on in your Docker experience, you _will_ need to write a script to build a _custom_ Docker image; its inevitable. You _will_ need an image that has unique environment variables, specific apps, specific directories, specific uers, etc; and if you are using Docker to deploy personal / corporate apps, these apps will be updated frequently - so you will need to develop a new Docker image to support this frequently.  
+At some point, very early on in your Docker experience, you _will_ need to write a script to build a _custom_ Docker image; its inevitable. You _will_ need an image that has unique environment variables, specific apps, specific directories, specific users, etc; and if you are using Docker to deploy personal / corporate apps, these apps will be updated frequently - so you will need to develop a new Docker image to support this frequently.  
 
 You can create your own image via creating a [Dockerfile](operating_systems/docker/dockerfile). Once you have created said Dockerfile, you can then run the command `docker image build` like so:  
 ```
@@ -221,7 +221,7 @@ docker image build --tag [IMAGE_NAME]:[TAG] .
    * In this case, the Dockerfile is in the cirrent directory.  
    * This could be an absolute path _or_ it could be relative to your current working directory.  
    
-!> Be **very** careful about running this command with a specific [reference](operating_systems/docker/image_commands?id=identifying-images) more than once (with changes to the Dockerfile or associated files; if you make no change and run it, it will not actually replace the image). Every time you run this (with changes), the old run will become an [intermediate image](operating_systems/docker/docker_basics?id=intermediate-image) which can still be tied to a container but will have its repository name / tag nulled out (so you cannot use them to reference that image any more). Ths is fine if you are building it as a test (as you can just [rune the old images](operating_systems/docker/image_commands?id=remove-dangling-images) easily), but if you are building this to immediately launch a container, be _careful_ of either updating the tag or quickly deleting the test container you create.
+!> Be **very** careful about running this command with a specific [reference](operating_systems/docker/image_commands?id=identifying-images) more than once (with changes to the Dockerfile or associated files; if you make no change and run it, it will not actually replace the image). Every time you run this (with changes), the old run will become an [intermediate image](operating_systems/docker/docker_basics?id=intermediate-image) which can still be tied to a container but will have its repository name / tag nulled out (so you cannot use them to reference that image any more). Ths is fine if you are building it as a test (as you can just [prune the old images](operating_systems/docker/image_commands?id=remove-dangling-images) easily), but if you are building this to immediately launch a container, be _careful_ of either updating the tag or quickly deleting the test container you create.
    
 ## Nonstandard Dockerfile Names  
 
@@ -248,7 +248,7 @@ docker image build --tag [IMAGE_NAME]:[TAG] --build-arg=SOME_OTHER_DIR=test_file
 
 You can add _additional_ labels to the image (or override a label set in a [LABEL instruction](operating_systems/docker/dockerfile?id=label-setting-image-labels)) with the `--label` parameter:  
 ```
-docker image build --tag [IMAGE_NAME]:[TAG] --label=maintainer="Bob (bob@vandelayindustries.com" .
+docker image build --tag [IMAGE_NAME]:[TAG] --label=maintainer="Bob (bob@vandelayindustries.com)" .
 ```  
 * Do _not_ include the brackets `[]`.  
 * This is following [this example](operating_systems/docker/dockerfile?id=basic-dockerfile-example).  

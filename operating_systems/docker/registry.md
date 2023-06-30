@@ -4,7 +4,7 @@
 
 This document will show the basics of using a <font color="green">Docker Registry</font>.  
 
-Every [image](operating_systems/docker/docker_basics?id=docker-image-term) you use, sometime in the chain of images, almost assuredly came from a <font color="green">Docker Registry</font>; as a matter of fact, the <font color="green">Docker Registry</font> is a part of the [long form of an image name](operating_systems/docker/image_commands?id=full-image-identification).  The default registry is docker.io (or [the Docker hub](https://hub.docker.com/search?q=&type=image) - for most implementations of Docker, you will never use any other <font color="green">Docker Registry</font> than this one, but you may at some point.  
+Every [image](operating_systems/docker/docker_basics?id=docker-image-term) you use, sometime in the chain of images, almost assuredly came from a <font color="green">Docker Registry</font>; as a matter of fact, the <font color="green">Docker Registry</font> is a part of the [long form of an image name](operating_systems/docker/image_commands?id=full-image-identification).  The default registry is docker.io (or [the Docker hub](https://hub.docker.com/search?q=&type=image)) - for most implementations of Docker, you will never use any other <font color="green">Docker Registry</font> than this one, but you may at some point.  
 
 While you may never use a different registry, you _may_ have to use some images that are _not_ standard-issue images (or even images you create and store on docker.io) - using such registries will also be showcased in this document.  
 
@@ -29,7 +29,7 @@ docker login --username [USER-NAME]
 * The `USER_NAME` is your username you [registered with](operating_systems/docker/registry?id=register-at-dockerio).  
 * After you run this, you will be prompted for your docker.io password.  
 
-If succssful, you will see `Login Succeeded`.  
+If successful, you will see `Login Succeeded`.  
 
 You may _also_ see this:
 
@@ -54,7 +54,7 @@ First and foremost, you _must_ have an account on a registry somewhere. Most lik
 
 Secondly, you must [login](operating_systems/docker/registry?id=logging-in).  
 
-After that, you must make sure your image is prepped properly - by that, I mean your userID (i.e. the account owner) _must_ be somewhere in the name of the image (recall the [full image identification](operating_systems/docker/image_commands?id=full-image-identification). Under normal circumstances, when you [create an image](operating_systems/docker/image_commands?id=creating-images-dockerfile) you typically only use the [reference](operating_systems/docker/image_commands?id=identifying-images) (i.e. `REPOSITORY:TAG`) when naming the image. If you wish to store the image on a remote registry, though, you _must_ include your userID as well. For example, if your repository name was `someimage:1.0`, and you wanted to store this on a remote registry, you would have to name it <font color="red">uperson</font>`/someimage:1.0`.  
+After that, you must make sure your image is prepped properly - by that, I mean your userID (i.e. the account owner) _must_ be somewhere in the name of the image (recall the [full image identification](operating_systems/docker/image_commands?id=full-image-identification)). Under normal circumstances, when you [create an image](operating_systems/docker/image_commands?id=creating-images-dockerfile) you typically only use the [reference](operating_systems/docker/image_commands?id=identifying-images) (i.e. `REPOSITORY:TAG`) when naming the image. If you wish to store the image on a remote registry, though, you _must_ include your userID as well. For example, if your repository name was `someimage:1.0`, and you wanted to store this on a remote registry, you would have to name it <font color="red">uperson</font>`/someimage:1.0`.  
 
 You can outright name your image like this, and you will be able to push it just fine; if you named your image without the userID though, you do have another option: `tag`. You can make an additional `tag` of the image (tag is a misnomer here, its not like the tag in a reference, this seems to make a copy of sorts of the original image).  The syntax for this particular type of tagging is:  
 ```
@@ -101,5 +101,5 @@ To manage your tokens, go to [https://hub.docker.com/settings/security](https://
 
 # Setting Up a Registry  
 
-> I want to expand on setting up your _won_ registry later (usually via docker-compose) - for now, [please follow along at gabrieltanner.org](https://gabrieltanner.org/blog/docker-registry). Also chapter 5 in "Learn Docker In a Month of Lunches" has some good tips as well, but that uses its own pre-built image to do this and I wanted to avoid that; that said, there are other good bits of information in there.   
+> I want to expand on setting up your _own_ registry later (usually via docker-compose) - for now, [please follow along at gabrieltanner.org](https://gabrieltanner.org/blog/docker-registry). Also chapter 5 in "Learn Docker In a Month of Lunches" has some good tips as well, but that uses its own pre-built image to do this and I wanted to avoid that; that said, there are other good bits of information in there.   
 

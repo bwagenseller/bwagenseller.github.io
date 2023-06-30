@@ -65,14 +65,14 @@ de6e78aeed55   nginx     "/docker-entrypoint.…"   35 minutes ago   Up 35 minut
 
 The basic command to **build and run** a [container](operating_systems/docker/docker_basics?id=container) is:  
 ```
-docker container [IMAGE_NAME]:[TAG] [COMMAND]
+docker container run [IMAGE_NAME]:[TAG] [COMMAND]
 ```  
 * Do _not_ include the brackets `[]`.  
 * The `IMAGE_NAME` is an [image](operating_systems/docker/docker_basics?id=docker-image-term); you can check out some pre-built images [here](operating_systems/docker/docker_basics?id=locations-of-pre-built-images).  
 * The `:TAG` is not required; however, if you want a _specific_ version of the image this is how you specify it. More on tags [here](operating_systems/docker/image_commands?id=identifying-images).  
    * If you omit the `:TAG`, the image pulled will be the default image for the given `IMAGE_NAME` (usually its the tag `latest`).  
 * You could also pull the image using the [digest](operating_systems/docker/image_commands?id=digest).  
-* `[COMMAND]` is optional - every image has exactly [one command that is run when the container starts](operating_systems/docker/dockerfile?id=command-run-on-start), but that can be overridden if you plave the `[COMMAND]` here.  
+* `[COMMAND]` is optional - every image has exactly [one command that is run when the container starts](operating_systems/docker/dockerfile?id=command-run-on-start), but that can be overridden if you place the `[COMMAND]` here.  
    * This is not usually done.  
    * This can be a shell script inside the container itself.  
 

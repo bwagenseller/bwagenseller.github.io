@@ -247,7 +247,7 @@ docker container exec -it docsify /bin/sh
 	 * Run this to start the docsify server (while in the container): `docsify serve /docs &`  
 	   * The `&` forces the process into the background - if you do not do this, you will be required to leave the terminal up and running.  
 	 * Exit the container: `exit`  
-
+* [Wekan](https://hub.docker.com/r/wekanteam/wekan), a Kanban alternative.  
 
 # Identifying Containers  
 

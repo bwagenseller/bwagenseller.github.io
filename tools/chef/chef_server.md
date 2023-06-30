@@ -28,13 +28,13 @@
 5\. A directory _must_ be created so you can issue commands remotely via [ssh](operating_systems/ubuntu/linux_notes?id=ssh).  
 * This directory will usually be created in root's home directory: `mkdir /root/.chef`  
 * The [public key](operating_systems/ubuntu/linux_notes?id=more-on-the-ssh-lock-and-key) _must_ be converted to the <font color="purple">PEM</font> format, which is done [like so](operating_systems/ubuntu/linux_notes?id=creating-a-pem-file)). 
-  * _HOWEVER_, when you make an account using the [user create](learn_to_code/chef/chef_server?id=making-a-user) command, these public and private keys are initially created for you, if you wish to use those.  
+  * _HOWEVER_, when you make an account using the [user create](tools/chef/chef_server?id=making-a-user) command, these public and private keys are initially created for you, if you wish to use those.  
 
-6\. Make a chef admin account using the [user create](learn_to_code/chef/chef_server?id=making-a-user) command.  
+6\. Make a chef admin account using the [user create](tools/chef/chef_server?id=making-a-user) command.  
 
 # Chef Server Command Overview  
 
-The command <font color="#FF8C00">chef-server-ctl</font> controls many different subcommands on the [Chef server](learn_to_code/chef/chef_basics?id=chef-server). The [official documentation](https://docs.chef.io/server/ctl_chef_server/) lists all of the possible subcommands. I will not delve into all of these in these documents, but this will give you an idea of what is available.  
+The command <font color="#FF8C00">chef-server-ctl</font> controls many different subcommands on the [Chef server](tools/chef/chef_basics?id=chef-server). The [official documentation](https://docs.chef.io/server/ctl_chef_server/) lists all of the possible subcommands. I will not delve into all of these in these documents, but this will give you an idea of what is available.  
 
 As a short overview of _all_ subcommands, <font color="#FF8C00">chef-server-ctl</font> can: 
 * Backup / Restore Commands
@@ -45,9 +45,9 @@ As a short overview of _all_ subcommands, <font color="#FF8C00">chef-server-ctl<
 * <font color="#FF8C00">help</font>  
 * <font color="#FF8C00">install</font> - installs premium Chef features / add-ons.  
 * Client [SSH key](operating_systems/ubuntu/linux_notes?id=ssh) commands
-  * <font color="#FF8C00">add-client-key</font> - adds / alters a [client](learn_to_code/chef/chef_basics?id=node)'s [ssh key](operating_systems/ubuntu/linux_notes?id=ssh) in [PEM format](operating_systems/ubuntu/linux_notes?id=creating-a-pem-file)  
+  * <font color="#FF8C00">add-client-key</font> - adds / alters a [client](tools/chef/chef_basics?id=node)'s [ssh key](operating_systems/ubuntu/linux_notes?id=ssh) in [PEM format](operating_systems/ubuntu/linux_notes?id=creating-a-pem-file)  
   * <font color="#FF8C00">delete-client-key</font>  
-  * <font color="#FF8C00">list-client-keys</font> - Lists the associated keys to a [client](learn_to_code/chef/chef_basics?id=node).  
+  * <font color="#FF8C00">list-client-keys</font> - Lists the associated keys to a [client](tools/chef/chef_basics?id=node).  
 * Secret commands
   * <font color="#FF8C00">set-secret</font> - Allows you to store strings that should not be printed in files (passwords, etc).  
   * <font color="#FF8C00">remove-secret</font>  
@@ -76,7 +76,7 @@ As a short overview of _all_ subcommands, <font color="#FF8C00">chef-server-ctl<
   * <font color="#FF8C00">user-edit</font> - Edits the information of a specific user.  
   * <font color="#FF8C00">user-delete</font> - Removes a specific user.  
   * User [SSH key](operating_systems/ubuntu/linux_notes?id=ssh) commands  
-    * <font color="#FF8C00">add-user-key</font> - Adds / alters a user's [ssh key](operating_systems/ubuntu/linux_notes?id=ssh) in [PEM format](operating_systems/ubuntu/linux_notes?id=creating-a-pem-file); doing so will allow a user to interact with the [Chef server](learn_to_code/chef/chef_basics?id=chef-server) via a [Chef Workstation](learn_to_code/chef/chef_basics?id=chef-workstation).  
+    * <font color="#FF8C00">add-user-key</font> - Adds / alters a user's [ssh key](operating_systems/ubuntu/linux_notes?id=ssh) in [PEM format](operating_systems/ubuntu/linux_notes?id=creating-a-pem-file); doing so will allow a user to interact with the [Chef server](tools/chef/chef_basics?id=chef-server) via a [Chef Workstation](tools/chef/chef_basics?id=chef-workstation).  
     * <font color="#FF8C00">delete-user-key</font>  
     * <font color="#FF8C00">list-user-keys</font> - Lists a specific user's key  
 * Database Subcommands  
@@ -110,7 +110,7 @@ As a short overview of _all_ subcommands, <font color="#FF8C00">chef-server-ctl<
 
 ## Making a User
 
-To make a Chef user, perform these actions on the [Chef server](learn_to_code/chef/chef_basics?id=chef-server):  
+To make a Chef user, perform these actions on the [Chef server](tools/chef/chef_basics?id=chef-server):  
 
 1\. [Become root](/operating_systems/ubuntu/linux_notes?id=becoming-root).  
 
@@ -130,18 +130,18 @@ chef-server-ctl user-create USERNAME FIRSTNAME LASTNAME EMAIL 'PASSWORD' --filen
 To show all users: `chef-server-ctl user-list`  
 
 To show a _single_ user: `chef-server-ctl user-show USERNAME`  
-* `USERNAME` is the userID that was created for a given user a la the [user create](learn_to_code/chef/chef_server?id=making-a-user) command.  
+* `USERNAME` is the userID that was created for a given user a la the [user create](tools/chef/chef_server?id=making-a-user) command.  
 
 To edit a user: `chef-server-ctl user-edit USERNAME`  
-* `USERNAME` is the userID that was created for a given user a la the [user create](learn_to_code/chef/chef_server?id=making-a-user) command.  
+* `USERNAME` is the userID that was created for a given user a la the [user create](tools/chef/chef_server?id=making-a-user) command.  
 
 ## User SSH Key  
 
-A [public key](operating_systems/ubuntu/linux_notes?id=more-on-the-ssh-lock-and-key) is necessary for interacting with the server; an initial one is set for a user if the [user create](learn_to_code/chef/chef_server?id=making-a-user) command was used to set-up their account, but it can be changed later if you wish.  
+A [public key](operating_systems/ubuntu/linux_notes?id=more-on-the-ssh-lock-and-key) is necessary for interacting with the server; an initial one is set for a user if the [user create](tools/chef/chef_server?id=making-a-user) command was used to set-up their account, but it can be changed later if you wish.  
 
 The [public key](operating_systems/ubuntu/linux_notes?id=more-on-the-ssh-lock-and-key) can be obtained if the command <font color="#FF8C00">chef-server-ctl user-show USERNAME</font> is issued, where <font color="#FF8C00">USERNAME</font> is the userID.  
 
-The private key of all users will be stored in the <font color="#FF8C00">/root/.chef</font> directory (or whatever Chef directory you created in [the setup](learn_to_code/chef/chef_server?id=installation)); the format is <font color="#FF8C00">USERNAME.pem</font>, where <font color="#FF8C00">USERNAME</font> is the userID. The file is in [PEM](operating_systems/ubuntu/linux_notes?id=creating-a-pem-file) format.  
+The private key of all users will be stored in the <font color="#FF8C00">/root/.chef</font> directory (or whatever Chef directory you created in [the setup](tools/chef/chef_server?id=installation)); the format is <font color="#FF8C00">USERNAME.pem</font>, where <font color="#FF8C00">USERNAME</font> is the userID. The file is in [PEM](operating_systems/ubuntu/linux_notes?id=creating-a-pem-file) format.  
 
 
  

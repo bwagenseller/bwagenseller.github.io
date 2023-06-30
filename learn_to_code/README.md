@@ -50,13 +50,13 @@
 # Git
 - [Git](/learn_to_code/git/) - Brent Wagenseller's notes on his journey to learn Git.
 
-# Chef  
-- [Chef Basics](/learn_to_code/chef/chef_basics) - The basics of Chef.  
-
 # Docsify  
 - [Main Docsify Page](/learn_to_code/docsify/) - My main page for Docsify.  
 - [Getting Started](/learn_to_code/docsify/gettingstarted) - How to get started writing documents in Docsify.  
 - [Markdown Tutorial](/learn_to_code/docsify/markdowntutorial) - Teaches the basics of the Markdown language.  
+
+# Minor Languages  
+- [YAML](/learn_to_code/yaml) - Brent Wagenseller's notes on his journey to learn YAML.  
 
 # Concepts  
 - [General Computer Science Concepts](/learn_to_code/computer_science_concepts) - Brent Wagenseller's notes on his continous journey to learn about computer science.

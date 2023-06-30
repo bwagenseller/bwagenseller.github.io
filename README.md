@@ -10,6 +10,7 @@ I decided to do something similar here. The following notes are from a combinati
 
 # Linux/Ubuntu System Maintenance and Tools  
 - [Docker](/operating_systems/docker/) - Brent Wagenseller's notes on Docker.  
+- [Kubernetes](/operating_systems/kubernetes/) - Brent Wagenseller's notes on Kubernetes.  
 - [Generic Ubuntu Server Build](/operating_systems/ubuntu/server_build) - Documents how to build an Ubuntu server from the ground up.
 - [journalctl](/operating_systems/ubuntu/package_operations/journalctl) - Investigate logging with `journalctl`.
 - [KVM Install](/operating_systems/ubuntu/package_install/kvm_install) - Details on how to install KVM.
@@ -33,8 +34,8 @@ I decided to do something similar here. The following notes are from a combinati
 
 # Tools  
 - [Tools](/tools/) - The main tool page.  
-- [AWS](/learn_to_code/aws/) - Overview of AWS.   
-- [Chef](/learn_to_code/chef/) - Brent Wagenseller's notes on Chef.  
+- [AWS](/tools/aws/) - Overview of AWS.   
+- [Chef](/tools/chef/) - Brent Wagenseller's notes on Chef.  
 - [Datadog](/tools/datadog/) - Datadog, a statistical data collection tool.  
 - [Git](/learn_to_code/git/) - My notes to get up to speed on git. 
 - [Kafka](/tools/kafka/) - Kafka, an event-driven tool.  
@@ -50,6 +51,7 @@ I decided to do something similar here. The following notes are from a combinati
 - [Machine Learning](/learn_to_code/machine_learning/) - Brent's notes on his journey to learn Machine Learning.
 - [Python](/learn_to_code/python/) - Brent's notes on his journey to learn Python.  
 - [React Native](/learn_to_code/android/react_native/) - Brent's notes on his journey to learn React Native.  
+- [YAML](/learn_to_code/yaml) - Brent Wagenseller's notes on his journey to learn YAML.  
 
 # Telephony
 - [Asterisk Operations](/telephony/asterisk) - Day to day operations in Asterisk.  
