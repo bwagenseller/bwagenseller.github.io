@@ -34,3 +34,4 @@
 - [Kubernetes Basics](/operating_systems/kubernetes/kubernetes_basics) - The basics of Kubernetes.  
 - [Kubectl](/operating_systems/kubernetes/kubectl) - Information on the Kubernetes tool 'kubectl'.  
 - [Helm](/operating_systems/kubernetes/helm) - Information on the Kubernetes tool 'Helm'.  
+- [Minikube](/operating_systems/kubernetes/minikube) - A Kubernetes platform built for testing / learning Kubernetes.  

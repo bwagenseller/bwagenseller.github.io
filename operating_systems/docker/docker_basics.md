@@ -21,6 +21,8 @@ My main note sources are:
 * [stackoverflow](https://stackoverflow.com/)  
 * The book [Learn Docker in a Month of Lunches by Elton Stoneman](https://www.manning.com/books/learn-docker-in-a-month-of-lunches)  
 * The Packt book [Docker for Developers  by Bullington-McGuire, Dennis, and Schwartz](https://subscription.packtpub.com/book/cloud_and_networking/9781789536058/1).  
+* [Docker Tutorial for Beginners](https://www.youtube.com/watch?v=pTFZFxd4hOI)  
+* [Docker Tutorial for Beginners (FULL COURSE in 3 Hours)](https://www.youtube.com/watch?v=3c-iBn73dDE)  
 
 # Terms  
 

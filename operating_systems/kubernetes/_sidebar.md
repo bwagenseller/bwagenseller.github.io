@@ -5,3 +5,4 @@
  - [Kubernetes Basics](/operating_systems/kubernetes/kubernetes_basics)  
  - [Kubectl](/operating_systems/kubernetes/kubectl)  
  - [Helm](/operating_systems/kubernetes/helm)  
+ - [Minikube](/operating_systems/kubernetes/minikube)  
