@@ -8,8 +8,6 @@ Hello! I am Brent Wagenseller, and I tend to take detailed notes on things (in o
 
 I decided to do something similar here. The following notes are from a combination of notes on my own personal experience, frantic searches on [Stack Overflow](https://stackoverflow.com/), technical books I have read (and will reference), and classes I have taken. Please note that these are continuously 'in progress' - as this is both a hobby and a massive undertaking, there will be mistakes / holes / portions that are clearly unfinished.
 
-BOING  
-
 # Linux/Ubuntu System Maintenance and Tools  
 - [Docker](/operating_systems/docker/) - Brent Wagenseller's notes on Docker.  
 - [Kubernetes](/operating_systems/kubernetes/) - Brent Wagenseller's notes on Kubernetes.  
