@@ -25,6 +25,7 @@
  - [Git](/learn_to_code/git/)  
  - [Kafka](/tools/kafka/)  
  - [StatsD Page](/learn_to_code/statsd/)  
+ - [Plex](/tools/plex/)  
 - **Computer Science**  
  - [Android](/learn_to_code/android/)  
  - [Akka](/learn_to_code/java/akka/)
@@ -41,5 +42,8 @@
  - [Asterisk Operations](/telephony/asterisk)  
  - [Kamailio](/telephony/kamailio/)  
  - [Misc Tools](/telephony/misc_tools)  
+- **AI Media**  
+ - [AI Media](/ai_media/)  
+ - [Stable Diffusion](/ai_media/stable_diffusion/)  
 - **Microsoft Office**
  - [Vlookup](/office/excel_vlookup)

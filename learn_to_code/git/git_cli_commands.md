@@ -389,8 +389,31 @@ git push --all -u
 ```
 * `-u` (or `--set-upstream`) adds an upstream (remote) tracking reference
 
----
+---  
 
+# Cheatsheet  
+
+## Failure to Merge Master Into Branch  
+
+This assumes you are getting failures on merging in the master branch to a child branch. Here are the steps you can take to fix it. 
+
+1\. Commit all changes to the child branch (if any).   
+2\. `git checkout master`  
+3\. `git pull`  
+  * To make sure master is up to date  
+4\. `git checkout SOME_BRANCH_HERE`  
+  * Checkout the branch that has the issue  
+5\. `git rebase master`  
+  * Pulls master in, or attempts to   
+6\. `git status`  
+  * This is to find the merge conflicts    
+  * Find the merge conflict in the file, indicated by the lines, and correct it  
+7\. `git add FILENAME_YOU_CORRECTED_HERE`  
+8\. `git status`  
+9\. `git rebase --continue`  
+10\. `git status`  
+11\. `git push --force`  
+12\. `git status`  
 
 
 ---

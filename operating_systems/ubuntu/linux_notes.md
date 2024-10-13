@@ -149,7 +149,51 @@ If you want to make a directory, the command is `mkdir`. A helpful flag is `-p` 
 For example, if dirA exists but dirB does not exist, and we want to ultimately build dirC, this command will build both dirB and dirC at the same time:
 ```
 mkdir -p /dirA/dirB/dirC
+```  
+
+## Viewing File Information  
+
+Basic file information can be seen with the `ls` command like so:  
+
 ```
+ls -la .bash_history  
+```  
+
+That shows the basics of a file, but sometimes you need to know more - this is where the `stat` command is handy. As an example, I ran the stat command against my bash history file (i.e. `stat .bash_history`) and this was the result:  
+```
+  File: .bash_history
+  Size: 21436     	Blocks: 56         IO Block: 4096   regular file
+Device: 10302h/66306d	Inode: 131177      Links: 1
+Access: (0600/-rw-------)  Uid: (    0/    root)   Gid: (    0/    root)
+Access: 2023-12-18 21:12:29.048640823 -0500
+Modify: 2023-12-18 10:36:57.174814992 -0500
+Change: 2023-12-18 10:36:57.174814992 -0500
+ Birth: 2023-10-21 00:04:11.951472437 -0400
+```  
+* `Size` - the size in bytes.  
+* `Blocks` - the number of filesystem blocks this file uses on the hard drive.   
+   * This can be bigger than the size, as the filesystem chunks blocks of data and thus you can almost never use just the right amount.  
+* `IO Block` - tells us how many bytes are in 1 'block'  
+   * So, the size divided by `IO Block`, rounded up, will tell us how many `Blocks` this will need.  
+* `Type` - (unllisted) This is 'regular file' above - this tells you what type of file it is  
+   * These can be 'regular file' directory, symlinks, etc.  
+* `Device` - refers to the hard drive its stored on - what is listed is the device identifier in both hexadecimal (h) and decimal (d)  
+* `Inode` - refers to the internal file number on the system.  
+   * The `Device` and `Inode` are how the system identifies the file.  
+* `Links` - how many hard links (similar to, but not quite, a [symlink](operating_systems/ubuntu/linux_notes?id=file-shortcuts-symlinks)) are pointing to this file.  
+* `Access` - the file permissions, in their octal and human-readable forms  
+* `Uid` - The UID - and username - of the owner of the file 
+* `Gid` - The group ID - and groupname - of the file  
+* `Access` - In theory the last time this file was accessed, but it doesnt always work out like that.  
+* `Modify` - The last time this file was modified  
+* `Change` - The last time this file was either modified _or_ had its attributes changed (permissions, owner, etc)  
+* `Birth` - The original creation date of the file. Not always supported, so its unreliable.  
+   * It seems that this may not always be the earliest timestamp - if a file is copied, its `Modify` and `Change` time may carry over, but `Birth` will be over-written  
+   * Formats  
+      * The formats `ext4` and `exfat` support `Birth`  
+      * The format `ntfs` does not support `Birth`  
+   
+
 
 ## Copying Files
 
@@ -240,11 +284,12 @@ The command `rm` can delete files and directories, with a catch: directories can
 
 Some popular `rm` option flags are:
 
-| Flag      | Description      |
-| ------------- |-------------|
-| -i       | prompt before every removal      |
-| -r, -R, --recursive       | remove directories and their contents recursively      |
-| -d, --dir       | remove empty directories      |
+| Flag      | Description      |  
+| ------------- |-------------|  
+| -i       | prompt before every removal      |  
+| -f       | force removal without prompt  |  
+| -r, -R, --recursive       | remove directories and their contents recursively      |  
+| -d, --dir       | remove empty directories      |  
 
 Example: delete file TEST.txt
 ```
@@ -264,6 +309,24 @@ rm -r *
 !> Be VERY careful with `rm -r *` - make SURE you know your current directory, as if you do this in / you basically just deleted the server! Moral of the story is ALWAYS use `pwd` to see your current directory before using `rm -r *`.
 
 ---
+
+# Monitor A Command: Watch  
+
+Often you will want to continuously run a command and see when the output changes - you can do this with the `watch` command.  
+
+The `watch` command has one parameter I typically use: `-n X`. This sets the number of seconds between each re-fresh of the screen (it accepts decimals too - I use .2 often).  
+
+An example of this command is watching the `ss` command monitor tcp traffic for python scripts:    
+```
+watch -n .2 "ss -t -p | grep python"
+```  
+* This updates every .2 seconds  
+* The command will almost always be wrapped in quotes.  
+* use `Ctrl-C` to exit.  
+* This pairs great with the [networking ss command](operating_systems/ubuntu/linux_notes?id=check-connections-ss).  
+
+
+---  
 
 # Piping and Redirection
 
@@ -328,7 +391,138 @@ ls -la | grep -v loop
 
 This will take the output from `ls -la` and run it through the grep (in this case, the grep returns all lines that do not contain the word 'loop' in them).
 
----
+---  
+
+# File Scrubbing  
+
+> Nothing in this section is legal advice - consult an actual company who performs these services as to how you should handle sensitive data, financial information, etc.  
+
+It's always a good idea to keep any disk drive cleared of old data; for example, if you sell your laptop, its best to be sure any of your financial data is wiped. I dont go into great detail here, but here are some common things you can do to securely delete files in Linux.  
+
+## shred  
+
+!> `shred` does _not_ work for SSDs! See why [here](https://unix.stackexchange.com/questions/593181/is-shred-bad-for-erasing-ssds).  
+
+The `shred` command will completely overwrite a file so it is not recoverable. You can read about it [here](https://www.freecodecamp.org/news/securely-erasing-a-disk-and-file-using-linux-command-shred/), but my favorite options are:  
+* `-z` - add a final 0 to hide shredding.  
+* `-f` - force permissions  
+* `-u` - Remove file after shredding  
+   * If you do not do this, the file itself will remain (although the contents will be shredded)  
+* `-v` - verbose  
+
+An example of a common way I use this:  
+```
+shred -zfu MY_FILE_NAME 
+```  
+
+## fstrim (SSDs)  
+
+Its said that in order to be efficient, SSDs must wipe memory before use - so the concept of [TRIM](https://www.crucial.com/articles/about-ssd/what-is-trim) was introduced (more on what TRIM means for files is [here](https://www.datanumen.com/blogs/possible-recover-deleted-files-trim-enabled-solid-state-drive/)).  
+
+TRIM being automatic after every delete is not guaranteed, but you can [manually run it](https://askubuntu.com/questions/205930/automatic-trim-vs-manual-trim) with the command fstrim.  
+
+Only certain filesystems can use trim:  
+* ext4  
+* Btrfs  
+* FAT  
+* GFS2   
+* JFS  
+* XFS  
+* ZFS  
+* NTFS-3G  
+* (maybe more)  
+
+Filesystems that do not support Trim:  
+* exfat  
+* (maybe more)  
+
+
+You can read more on Trim [here](https://www.man7.org/linux/man-pages/man8/fstrim.8.html), but I use two options:  
+* `-a` meaning all mounted filesystems that support the discard option (i.e. fstrim).  
+* `-v` meaninv 'verbose'.  
+
+A typical way I run fstrim:  
+```
+fstrim -va  
+```  
+
+In addition, Ubuntu usually has a [service](operating_systems/ubuntu/linux_notes?id=systemctl) that runs once a week - the service `fstrim.timer`.  You can see the last time it ran via:  
+```
+systemctl status fstrim.timer  
+```   
+* `fstrim.timer` is simply the timer; it actuall calls another service, the `fstrim.service`, to perform the sftrim.  
+
+
+## Disk Wiping: sfill, smem, sswap  
+
+> These probably will not work for SSDs.  
+
+We can use the `sg3-utils` suite to over-write deleted data.  
+
+
+**<font size="4">sfill</font>**  
+
+`sfill` fills all of the remaining space on your hard drive with nonsense data, completely destroying any data left behind.  
+
+You can check out the man page [here](https://manpages.ubuntu.com/manpages/bionic/man1/sfill.1.html), but here are the options I like:  
+* `-l` - Lessens the security. Only two passes are written: one mode with `0xff` and a final mode with random values.  
+   * Without this, ~38 passes are made - according to many, this is way WAY too much. 
+      * The initial assessment of 30+ passes was made for hard drives 20+ years ago, and even then, it was only theorized someone could use powerful machines to resurrect the data (which, to this day, has never been done).  
+      * See [this article](https://www.howtogeek.com/115573/htg-explains-why-you-only-have-to-wipe-a-disk-once-to-erase-it/).  
+   * A few passes should be fine.  
+* `-v` for verbose mode.  
+* `-z` wipes the last write with zeros instead of random data.  
+   * This makes it appear as if it hasnt been wiped.  
+
+A typical command I would run (as root) would be:  
+```
+sfill -lv /  
+```   
+* The `/` is to tell `sfill` where to make the temproary file - this MUST be on the partition you are wiping!  
+
+
+**<font size="4">sdmem</font>**  
+
+`sdmem` fills all of the remaining space in your RAM with nonsense data, completely destroying any data left behind.  [The manpage](https://www.unix.com/man-page/debian/1/sdmem/) claims "Note that with the new SDRAMs, data will not wither away but will be kept static", but  Idont know how true that is, as typically, once the power is cut, RAM loses any possibility of being recovered (although the data can last for several minutes - see [here](https://citp.princeton.edu/our-work/memory/)). That said, its an interesting thing to run.  
+
+The options I like:  
+* `-l` - Lessens the security. Only two passes are written: one mode with `0xff` and a final mode with random values.  
+   * Without this, ~38 passes are made - according to many, this is way WAY too much. 
+      * Same explanation as above.  
+   * A few passes should be fine.  
+* The author recommends the extremely fast - and insecure - flag, `-ll`  
+* `-v` for verbose mode.  
+
+
+A typical command I would run (as root) would be:  
+```
+sdmem -lv   
+```   
+
+**<font size="4">sswap</font>**  
+
+!> Note that you [MUST disable the swap space](operating_systems/ubuntu/linux_notes?id=disabling-swap) before issuing this command!  
+
+
+`sswap` fills all of the remaining space in your swap space with nonsense data, completely destroying any data left behind.  The manpage is [here](https://manpages.ubuntu.com/manpages/focal/man1/sswap.1.html), and here are the options I like:  
+* `-l` - Lessens the security. Only two passes are written: one mode with `0xff` and a final mode with random values.  
+   * Without this, ~38 passes are made - according to many, this is way WAY too much. 
+      * See above for description of this issue.  
+   * A few passes should be fine.  
+* `-v` for verbose mode.  
+* `-z` wipes the last write with zeros instead of random data.  
+   * This makes it appear as if it hasnt been wiped.    
+
+Have you [disabled the swap space](operating_systems/ubuntu/linux_notes?id=disabling-swap)? If not, do that now - if you have, I typically run something like this:  
+```
+sswap -lv 
+```  
+
+**<font size="4">srm</font>**  
+
+> `srm` is a secure delete for `rm`. Note I do not use `srm` - I use `shred` instead - but am leaving this here as its part of this suite. It's [manpage is here](https://manpages.ubuntu.com/manpages/lunar/en/man1/srm.1.html. ) 
+
+---  
 
 # Keep Terminal Open
 
@@ -338,77 +532,6 @@ while true; do date; sleep 30; done
 ```
 
 To exit, press `ctrl + c`.
-
----
-
-# Checking Space
-
-## Check Space of a Directory
-
-The command to check hard disk space is `du` (disk usage). 
-
-Some useful flags
-* -k = block size (in kilobytes)
-* -h = human readable sizes (it will list a number and then K/M/G/T)
-* -c = gives a total as the last line
-* -s = summary (seems to be VERY similar to -c)
-* -b = forces size in bytes
-* -a = all (also lists files)
-
-If you want to list a specific directory, list it after the flags; otherwise, it will just do the current directory.
-
-**<font size="4">DU Examples</font>**
-
-To see the summary of space taken up by a particular directory (in kilobytes), run
-```
-du -sk /home/uperson
-```
-
-To see the space taken up by all directories under the current directory (in kilobytes), run
-```
-du -k
-```
-
-## Check Space Remaining
-
-The command `df` (disk filesystem) can be used to check the free disk space on all mounted filesystems.
-
-The flags are the same as `du`.
-
-**<font size="4">DF Example</font>**
-
-Check free space:
-```
-df -k
-```  
-
-## Check Space of Immediate Dirs
-
-To check the space of directories immediately below where you are, you can use this:
-```  
-du -d1 -hx  
-```  
-
-The `-d1` says _sum to the immediate directory_, and the `-hx` says _make it human readable while eliminating the size of remote directories_.  
-
-## Checking memory
-
-To see the RAM / main memory statistics, type the following:
-```
-free -t -m
-```
-
-This displays the memory in megabytes.
-
-An example:
-
-|        |      total   |     used    |    free   |   shared | buff/cache |  available |
-|--------|--------|--------|--------|--------|--------|--------|
-|Mem:    |      15938  |      2526   |     8715   |      673  |      4696  |     12429 |
-|Swap:   |        975  |         0   |      975   |           |            |           |
-|Total:  |      16914  |      2526   |     9691   |           |            |           |
-
-In the example above, there is a total of 16914 MB of memory; the main memory has 8715 free and is using only 2526 MB of memory.
 
 ---
 
@@ -699,46 +822,6 @@ kill -9 1533
 ```
 
 !> Always be careful when terminating processes; check the PID twice before killing any process.
-
----
-
-# Checking CPUs
-
-## Getting General CPU Info
-
-To get general CPU info - like the model name of the processor - cat the /proc/cpuinfo file:
-```
-cat /proc/cpuinfo
-```
-
-## Get the CPU count
-
-To get the CPU count, run:
-```
-cat /proc/cpuinfo | grep processor | wc -l
-```
-
-## Check CPU Utilization
-
-The first method we can use gets the CPU utilization per process; note that thiese %CPU numbers will certainly add up to over 100%, as this is a percentage of a single core (so if there were 8 cores, in theory this could add to 800%).
-
-To check the CPU Utilization on a per process basis (as discussed [here](http://www.cyberciti.biz/faq/unix-command-to-find-cpu-utilization/)):
-```
-ps -e -o pcpu -o pid -o user -o args
-```
-
-Another improved method is to use the `sar` command.
-
-> The `sar` command requires the installation of the package `sysstat`.
-
-Run this command to see overall CPU utilization:
-```
-sar -u 2 -t 1
-```
-
-This will tell you the % of all CPUs used by the user, the system, how much of the CPUs are idle, and a grand average. It will also tell you the CPU count in the header information.
-
-
 
 ---
 
@@ -1056,6 +1139,35 @@ Occasionally, a user will try to log in too many times with the wrong password a
 ```
 pam_tally --user=uperson --reset
 ```
+
+## Finding Accessible Directories  
+
+Its a good idea to know exactly which directories everyone can access. The common ones are:  
+* `/tmp`  
+* `/var/crash`  
+* `/run/lock`  
+* `/dev/shm`  
+* `/var/metrics`  
+* `/var/tmp`  
+* `/dev/mqueue` 
+* `/run/user/USER_ID_HERE`  
+   * `USER_ID_HERE` is the userID of the user ([here](operating_systems/ubuntu/linux_notes?id=getting-user39s-uid-and-groups) is how you can get this UID).  
+   * This one is a little different, it only appears when the user is logged in and disappears once the user logs out.  
+* `/sys/fs/cgroup/user.slice/user-USER_ID_HERE.slice/user@USER_ID_HERE.service`
+   * `USER_ID_HERE` is the userID of the user ([here](operating_systems/ubuntu/linux_notes?id=getting-user39s-uid-and-groups) is how you can get this UID).  
+   * This one is a little different, it only appears when the user is logged in and disappears once the user logs out.  
+
+
+That said, there can be some random ones at times. To find those, run:  
+```
+find -type d \( \( -user USER_NAME_HERE -perm /u=w \) -o \( -group USER_NAME_HERE -perm /g=w \) -o -perm /o=w \)
+```
+* Replace the `USER_NAME_HERE` with the name of the user for which you want to check access, but otherwise - un exactly like it is above  
+* _MUST_ be run in the root `\` directory.   
+* You may want to pipe this to a grep that ignores the username so you do not get anything in the user's own directory i.e. `find ... | grep -vi "USER_NAME_HERE"`  
+* I found this tip on [askubuntu.com](https://askubuntu.com/questions/746818/terminal-list-all-directories-for-which-a-user-or-group-has-write-permission).  
+
+
 ---
 
 # Adding / Modifying Groups
@@ -1306,6 +1418,12 @@ ln -s /home/aa1234/TEST.txt /home/aa1234/temp/TEST.txt
 * Note that we _still_ had to use the _full_ path for the target /home/aa1234/TEST.txt here; this is critical.
 
 We could now use the file '/home/aa1234/temp/TEST.txt' as we would '/home/aa1234/TEST.txt': we can open the symlink, view it, and change its contents and '/home/aa1234/TEST.txt' would also change. If we were to delete the link '/home/aa1234/temp/TEST.txt', the base file '/home/aa1234/TEST.txt' would remain intact. If we were to delete (or otherwise move or rename) the base file '/home/aa1234/TEST.txt', though, '/home/aa1234/temp/TEST.txt' would still exist but it would be a broken link.
+
+If you want to make a symlink to all files in a directory and place them in another directory:  
+```  
+ln -s /target/directory/* /new/symlink/path/;  
+```  
+* This will keep all of the file names the same.  
 
 **<font size="4">Hard Links</font>**
 
@@ -1699,27 +1817,37 @@ chmod 700 /home/zz9876/.ssh
 
 7\. Back on your local machine, create the public and private key by running the following command (note: it may ask you for a passphrase, only enter one if you want to use this passphrase the very first time you set up a ssh connection to a specific server):
 
+This is the newer Ed25519 algorithm (which is recommended, if the remote system supports it):  
+```
+ssh-keygen -t ed25519 -f id_ed
+```  
+* '-f id_ed' simply specifies the private key name we are creating (id_ed); this is why we changed the directory to your HOME/.ssh folder.  
+* Please note that using this method will result in two files named `id_ed` and `id_ed.pub`, which will be explained below.  
+
+_OR_, alternatively, you can use the older RSA algorithm if the system you are interacting with is older / does not support ed25519:  
 ```
 cd ~/.ssh
 ssh-keygen -t rsa -b 4096 -f id_rsa
 ```
-* We use '-b 4096' to specify the key size (in bytes); the standard is at least 2048, but 4096 is recommended.
-* '-f id_rsa' simply specifies the private key name we are creating (id_rsa); this is why we changed the directory to your HOME/.ssh folder.
+* We use '-b 4096' to specify the key size (in bytes); the standard is at least 2048, but 4096 is recommended.  
+* '-f id_rsa' simply specifies the private key name we are creating (id_rsa); this is why we changed the directory to your HOME/.ssh folder.  
+* Please note that using this method will result in two files named `id_rsa` and `id_rsa.pub`, which are slightly different from the ed25519 algorithm.  
 
-8\. Two files should have been created In the .ssh folder: id_rsa (or otherwise known as the private key) and id_rsa.pub (otherwise known as the public key). Change their file permissions to 600: 
+
+8\. Two files should have been created In the .ssh folder: the private key, named either id_ed or id_rsa (depending on which you used), as well as the public key id_ed.pub _or_ id_rsa.pub (again, depending). Change their file permissions to 600: 
 
 ```
 chmod 700 /home/aa1234/.ssh/*
 ```
 
-9\. We must now copy the id_rsa.pub file to the foreign server.  To do this we will use another command available in SSH, called SCP.  This command will push the file id_rsa.pub to the foreign server from our local machine.  Run this command:
+9\. We must now copy the id_ed.pub / id_rsa.pub file to the foreign server.  To do this we will use another command available in SSH, called SCP.  This command will push the file id_ed.pub / id_rsa.pub to the foreign server from our local machine.  Run this command:
 
 ```
-scp /home/aa1234/.ssh/id_rsa.pub zz9876@123.456.789.999:/home/zz9876/.ssh
+scp /home/aa1234/.ssh/id_ed.pub zz9876@123.456.789.999:/home/zz9876/.ssh
 ```
-
-> * The file /home/aa1234/.ssh/id_rsa.pub is the file we are pushing to the foreign server. <br>
-> * The directory /home/zz9876/.ssh is the destination folder for the file
+* Or, this could be `id_rsa.pub`, if you used RSA instead.  
+* The file /home/aa1234/.ssh/id_ed.pub is the file we are pushing to the foreign server. <br>
+* The directory /home/zz9876/.ssh is the destination folder for the file
 
 10\.	Use SSH to log back in to the remote server: 
 
@@ -1733,23 +1861,24 @@ ssh zz9876@123.456.789.999
 cd /home/zz9876/.ssh
 ```
 
-12\. Rename the file id_rsa.pub to "authorized_keys" (no extension): 
+12\. Rename the file id_ed.pub _or_ id_rsa.pub to "authorized_keys" (no extension): 
 
 ```
-mv id_rsa.pub authorized_keys
+mv id_ed.pub authorized_keys
 ```
+* Or, this could be `id_rsa.pub`, if you used RSA instead.  
+* If an "authorized_keys" file exists already, simply copy the _entire_ contents of id_ed.pub / id_rsa.pub and paste it at the bottom of "authorized_keys".  
+ * You will need to use an editor like `vi` to do this.  
 
-13\. If "authorized_keys" already exists, open id_rsa.pub, copy the last line, and past it as the last line in the existing "authorized_keys" file.
-
-14\. Set the permissions of "authorized_keys" to 600:
+13\. Set the permissions of "authorized_keys" to 600:
 
 ```
 chmod 600 /home/zz9876/.ssh/*
 ```
 
-15\. Log out of the foreign server: `exit`
+14\. Log out of the foreign server: `exit`
 
-16\. The setup should now be complete!  You can now test it out - run: 
+15\. The setup should now be complete!  You can now test it out - run: 
 
 ```
 ssh zz9876@123.456.789.999
@@ -1763,7 +1892,7 @@ ssh zz9876@123.456.789.999
 
 There are times when, instead of requiring a [public key](operating_systems/ubuntu/linux_notes?id=more-on-the-ssh-lock-and-key), a system may require a <font color="green">PEM</font> (i.e. <font color="green">Privacy Enhanced Mail</font>) file instead. Assuming that 
 * We are using a userID <font color="orange">zz9876</font> as [in the setup above](operating_systems/ubuntu/linux_notes?id=ssh-key-setup).  
-* The public key was renamed from <font color="#FF8C00">id_rsa.pub</font> to <font color="#FF8C00">authorized_keys</font> [above](operating_systems/ubuntu/linux_notes?id=ssh-key-setup).  
+* The public key was renamed from either <font color="#FF8C00">id_ed.pub</font> or <font color="#FF8C00">id_rsa.pub</font> to <font color="#FF8C00">authorized_keys</font> [above](operating_systems/ubuntu/linux_notes?id=ssh-key-setup).  
 
 We can convert your public key to the <font color="green">PEM</font> format like so:  
 
@@ -1863,7 +1992,7 @@ mv ~/.ssh/id_rsa.pub ~/.ssh/serverA_userA/serverA_userA_rsa.pub
 
 ## Pushing / Pulling Files With SCP
 
-> The `-q` option in scp disables the progress meter as well as warning and diagnostic messages from ssh.
+> The `-q` option in scp disables the progress meter as well as warning and diagnostic messages from ssh. The `-r` option allows you to cipy over directories.  
 
 We demonstrated above on how to push a file to a remote server with the following command:
 
@@ -1876,9 +2005,9 @@ If you wanted to copy a file from the server to your local machine, you could ru
 scp -q zz9876@123.456.789.999:/home/zz9876/testFileInHomeDirectory.txt /home/aa1234
 ```
 
-If you wanted to copy several files from the foreign server at once:
+If you wanted to copy several files from the foreign server at once, _including directories_:
 ```
-scp -q zz9876@123.456.789.999:/home/zz9876/* /home/aa1234
+scp -rq zz9876@123.456.789.999:/home/zz9876/* /home/aa1234
 ```
 
 * Note for a pull, the structure is a bit different.
@@ -2347,7 +2476,7 @@ vi /etc/fstab
 
 4\. Save the file and exit.
 
-5\. You may have to reboot (not always, check).
+5\. You may have to reboot (not always, check).  
 
 # Interacting With WiFi
 
@@ -2531,6 +2660,9 @@ You can search by file modification time with `-mtime`; the units are in days, a
 find /path/to/base/directory -name foo.* -mtime -3
 ```
 
+> I like using this command to find files modified recently, as it finds files modified in the last X days (in this case, 6) and then uses `ls` to give a description of them; you just need t ospecify the base path: `find /base/path/ -mtime -6 -ls`  
+
+
 Conversely, if we wanted to find files modified more than 5 days ago would use a plus sign:
 ```
 find /path/to/base/directory -name foo.* -mtime +5
@@ -2540,6 +2672,7 @@ Finally, we can search by [permissions](operating_systems/ubuntu/linux_notes?id=
 ```
 find /path/to/base/directory -perm 755
 ```
+
 
 ## Searching Through Files: grep
 
@@ -2847,7 +2980,227 @@ bzgrep -a 'text to find' compressedFile.tar.bz2
 
 ---
 
-# Checking Network Traffic
+# SWAP Space  
+
+Swap space is a portion of the hard disk that is a 'substitute' for RAM / memory. If the RAM fills up, it can dump some portion of itself to the hard disk in order to continue on. The swap space used to be a partition in older versions of Ubuntu, but it is now a file located in the root directory named `swapfile` (with a default size of 2G). 
+
+## Checking Swap Space
+
+To check the swap space, run:  
+```
+free -h
+```  
+* This will show the free memory and swap space.  
+* The `swapfile` size will always be constant, but what memory has actually stored to that swapfile will be listed correctly here.  
+
+## Enabling Swap  
+
+> Unless you actively disabled your swap space, it is probably already enabled - that said, you can [check the used swap space](operating_systems/ubuntu/linux_notes?id=checking-swap-space), and if the used swap space is non-zero, its already enabled.  <br> <br>  I got most of the information below from [DigitalOcean](https://www.digitalocean.com/community/tutorials/how-to-add-swap-space-on-ubuntu-22-04).  
+
+To enable swap:  
+
+1\. [Become root](/operating_systems/ubuntu/linux_notes?id=becoming-root).  
+
+2\. If the file `/swapfile` does not exist in the root `/` directory, create it with:  
+```
+fallocate -l 2G /swapfile
+```  
+* Feel free to change the size (i.e. `2G`) to what you wold prefer.  
+
+3\. Change the permissions for the swap file:  
+```  
+chmod 600 /swapfile
+```  
+
+4\. Mark the file as swap space:  
+```
+mkswap /swapfile  
+```  
+
+5\. Actually turn the swap on:  
+```
+swapon /swapfile
+```  
+
+6\. If you have [commented out the swap space](operating_systems/ubuntu/linux_notes?id=permanently-disable-swap) in `/etc/fstab`, uncomment the line now (or make sure something similar is present):  
+
+```
+/swapfile                                 none            swap    sw              0       0
+```  
+* After you save this, you will need to re-boot.  
+
+7\. Check the swap space with either `swapon --show` or `free -h`  
+
+
+## Disabling Swap  
+
+> I found this on [geeksforgeeks](https://www.geeksforgeeks.org/how-to-permanently-disable-swap-in-linux/)  
+
+Sometimes, even if you have enough RAM, the swap space will still be used; if disk reads are just too slow, you can disable your swap space. Note <font color="red">there is risk here</font>, and you should only do this if you _know for sure_ you will never need swap - otherwise, your system may crash.  Its only OK to do this if you are sure your system has enough RAM to ensure that the swap space should never need to be used.  
+
+To disable the swap space, first make sure nothing is using it by [checking the used swap space](operating_systems/ubuntu/linux_notes?id=checking-swap-space), and if the used swap space is zero, run this (as root):  
+```
+swapoff -a 
+```  
+* Re-check the [swap space](operating_systems/ubuntu/linux_notes?id=checking-swap-space) and ensure the swap space now has a zero in `total`, `used`, and `free`.  
+   * If so, feel free to delete the `/swapfile`  
+
+
+## Permanently Disable Swap  
+
+> I found this on [geeksforgeeks](https://www.geeksforgeeks.org/how-to-permanently-disable-swap-in-linux/)  
+
+
+To permanently disable the swap space, [disable it first](operating_systems/ubuntu/linux_notes?id=disabling-swap) and then edit the `/etc/fstab` file, commenting out the line that mentions `swap` by putting a hash `#` symbol in front of the line. For reference, here is my (commented out) swap line in `/etc/fstab/`:  
+```
+# /swapfile                                 none            swap    sw              0       0
+```  
+* After `/etc/fstab` is edited you _must_ re-boot your system.  
+* Note <font color="red">there is risk here</font>, and you should only do this if you _know for sure_ you will never need swap - otherwise, your system may crash.  Its only OK to do this if you are sure your system has enough RAM to ensure that the swap space should never need to be used.  
+* If you somehow screwed this up, you may have to edit the `/etc/fstab` file in rescue mode.  
+
+
+---  
+
+# Resource Admin Basics  
+
+## Getting General CPU Info
+
+To get general CPU info - like the model name of the processor - cat the /proc/cpuinfo file:
+```
+cat /proc/cpuinfo
+```
+
+## Get the CPU count
+
+To get the CPU count, run:
+```
+cat /proc/cpuinfo | grep processor | wc -l
+```
+
+## Check CPU Utilization
+
+The first method we can use gets the CPU utilization per process; note that thiese %CPU numbers will certainly add up to over 100%, as this is a percentage of a single core (so if there were 8 cores, in theory this could add to 800%).
+
+To check the CPU Utilization on a per process basis (as discussed [here](http://www.cyberciti.biz/faq/unix-command-to-find-cpu-utilization/)):
+```
+ps -e -o pcpu -o pid -o user -o args
+```
+
+Another improved method is to use the `sar` command.
+
+> The `sar` command requires the installation of the package `sysstat`.
+
+Run this command to see overall CPU utilization:
+```
+sar -u 2 -t 1
+```
+
+This will tell you the % of all CPUs used by the user, the system, how much of the CPUs are idle, and a grand average. It will also tell you the CPU count in the header information.
+
+## Check Space of a Directory
+
+The command to check hard disk space is `du` (disk usage). 
+
+Some useful flags
+* -k = block size (in kilobytes)
+* -h = human readable sizes (it will list a number and then K/M/G/T)
+* -c = gives a total as the last line
+* -s = summary (seems to be VERY similar to -c)
+* -b = forces size in bytes
+* -a = all (also lists files)
+
+If you want to list a specific directory, list it after the flags; otherwise, it will just do the current directory.
+
+**<font size="4">DU Examples</font>**
+
+To see the summary of space taken up by a particular directory (in kilobytes), run
+```
+du -sk /home/uperson
+```
+
+To see the space taken up by all directories under the current directory (in kilobytes), run
+```
+du -k
+```
+
+## Check Space Remaining
+
+The command `df` (disk filesystem) can be used to check the free disk space on all mounted filesystems.
+
+The flags are the same as `du`.
+
+**<font size="4">DF Example</font>**
+
+Check free space:
+```
+df -k
+```  
+
+## Check Space of Immediate Dirs
+
+To check the space of directories immediately below where you are, you can use this:
+```  
+du -d1 -hx  
+```  
+
+The `-d1` says _sum to the immediate directory_, and the `-hx` says _make it human readable while eliminating the size of remote directories_.  
+
+## Checking memory
+
+To see the RAM / main memory statistics, type the following:
+```
+free -t -m
+```
+
+This displays the memory in megabytes.
+
+An example:
+
+|        |      total   |     used    |    free   |   shared | buff/cache |  available |
+|--------|--------|--------|--------|--------|--------|--------|
+|Mem:    |      15938  |      2526   |     8715   |      673  |      4696  |     12429 |
+|Swap:   |        975  |         0   |      975   |           |            |           |
+|Total:  |      16914  |      2526   |     9691   |           |            |           |
+
+In the example above, there is a total of 16914 MB of memory; the main memory has 8715 free and is using only 2526 MB of memory.
+
+## Monitoring Resources: htop  
+
+[htop](https://htop.dev/) is a powerful CLI that lets you actively monitor resources processes on your host.  
+
+Once you run `htop` you will see something like this:  
+
+![htop](images/htop-example.png)  
+* Credit: [Akamai Developer](https://www.youtube.com/watch?v=bKWZJ3_5ODc)  
+* You can actually click on any of the headers and it will be sported  
+   * This is very useful if you want to know what is using all the memory, CPU, etc   
+* There is a meter at the top for each CPU core (numbered)  
+* There is a meter for memory and swap space  
+
+
+**<font size="4">Meanings of the Different Bar Colors</font>**  
+
+CPU  
+* Blue = Low priority threads  
+* Green = Normal priority threads  
+* Red = Kernel threads  
+
+Memory  
+* Green = Used memory  
+* Blue = Buffers  
+* Yellow/Orange = Cache  
+
+
+**<font size="4">Interacting with processes</font>**  
+
+You can select a process, press `F9`, then kill it in the menu  
+* Sends a `15 SIGTERM` first; if that doesnt work, send `9 SIGKILL`  
+
+> There is so much more you can do with `htop` - check it out!  
+
+---  
+# Network Admin Basics  
 
 ## Check Connections - Netstat
 
@@ -2888,6 +3241,42 @@ tcp        0      0 wagenseller.lenov:44278 cache.google.com:https  ESTABLISHED 
 tcp        0      0 wagenseller.lenov:49960 162.125.18.133:https    ESTABLISHED 2356/dropbox 
 ```
 
+## Check Connections - ss  
+
+> More at [makeuseof](https://www.makeuseof.com/how-to-monitor-network-connections-on-linux-with-ss/)  
+
+`ss` ("socket statistics") is a modernized version of `netstat`.  Some popular flags:  
+
+The parameters: 
+| flag | Description | 
+| --- | --- |   
+| -u | Show UDP connections | 
+| -t | Show TCP connections | 
+| -p | Show the associated process | 
+| -x | Show UNIX sockets | 
+| -l | Show only listening sockets |  
+| -a | By default, `-tu` only shows established connections; adding in `-a` will also show `LISTEN` and `UNCONN` states as well |  
+
+An example that monitors all tcp and udp traffic - as well as listening ports - and greps for the word 'python' in the process:  
+```
+ss -tupa  
+```  
+* If you know are looking to monitor a specific process (i.e. `python`) you can pipe this to a grep.  
+* You can use the [watch](operating_systems/ubuntu/linux_notes?id=monitor-a-command-watch) command to monitor this indefinitely.  
+   * This may not catch everything though, so you may have to use either [iptraf](operating_systems/ubuntu/linux_notes?id=monitoring-ip-packets-iptraf) or [tcpdump](operating_systems/ubuntu/linux_notes?id=capturing-traffic-to-file-tcpdump).  
+
+The states: 
+
+| State | Description | 
+| --- | --- |   
+| `ESTAB` | The connection is established | 
+| `LISTEN` | The port is listening for incoming connections  | 
+| `CLOSE` | The connection has been closed | 
+| `CLOSE_WAIT` | The remote endpoint has closed the connection, and we are trying to close it locally. Will stay like this for 4 minutes until this times out or the connection closes. | 
+| `TIME_WAIT` | The local endpoint (i.e. our host) has closed the connection. The other side has acknowledged the closing, but we are waiting for stray packets to arrive. Will stay like this for 4 minutes until this times out or the connection closes. | 
+| `UNCONN` | The `CLOSE` state for UDP connections  | 
+ 
+
 ## Capturing Traffic to File: tcpdump
 
 > A fantastic tutorial can be found at [danielmiessler.com](https://danielmiessler.com/study/tcpdump/); I am not repeating much of what he did as his doucmentation is so well-done.
@@ -2911,8 +3300,55 @@ You can also set these settings which are common:
  * If you only wanted to view traffic coming from that IP as a source, swap `host` with `src`.  
  * If you only wanted to view traffic going to that IP as a destination, swap `host` with `dst`.  
 
-> This will leave you with a `.pcap` file, which can be used in Wireshark.
+> This will leave you with a `.pcap` file, which can be used in Wireshark.  
 
+## Monitoring IP Packets: iptraf  
+
+`iptraf` is a good alternative to `tcpdump` if you do not need detailed information - it only captures IP addresses and ports (while `tcpdump` is far more involved).  
+
+`iptraf` is actually a CLI and not a standalone command - so use it and follow the simple prompts to watch what you would like to monitor.  
+
+
+## Turning UFW On/Off
+
+To turn ufw on:  
+```
+ufw enable
+```   
+
+To turn ufw off:  
+```
+ufw disable
+```   
+
+## Checking UFW Status  
+
+To check the UFW status:  
+```
+ufw status  
+```
+
+## Blocking IPs  
+
+> More at [configserverfirewall](https://www.configserverfirewall.com/ufw-ubuntu-firewall/ufw-block-ip-address/)  
+
+To Block an IP, use the `ufw` command. Example:  
+```
+ufw deny from 10.0.0.50 to any;
+ufw deny from any to 10.0.0.50;
+```
+* You may have to re-load with `ufw reload`  
+
+And if you wanted to block from the entire subnet:  
+```
+ufw deny from 10.0.0.0/24 to any;
+ufw deny from any to 10.0.0.0/24;
+```
+* You may have to re-load with `ufw reload`  
+
+
+
+> The rules are stored in the file `/etc/ufw/user.rules` if you wish to just directly interact with them / delete them / add them.  
 
 ---
 
@@ -3238,7 +3674,9 @@ For me:
 * sdd is an unmounted USB
  * Notice how the partition under this USB has no mountpoint - this is not mounted but can be
  * If there was NO partition here, we would have to create one which may end up wiping the disk
-* sr0, which is my cdrom drive (there is no disk in it currently, so its not mounted)
+* sr0, which is my cdrom drive (there is no disk in it currently, so its not mounted)  
+
+Personally, I like using `lsblk -o NAME,FSTYPE,SIZE,MOUNTPOINTS,UUID` as it shows me some critical information.  
 
 > The disks themselves are not mounted - in the directory tree or otherwise - but partitions under them are. If a disk has no partitions it is not visable nor usable in the directory tree!
 
@@ -3313,7 +3751,7 @@ If you wish to change the owner - or the location of the mount point - you will 
 
 If you wish to mount a device (like an external drive) on boot, you can do this through editing the file `/etc/fstab`. First, though, you must get the UUID and FSTYPE with the [lsblk](operating_systems/ubuntu/linux_notes?id=using-lsblk) command:
 ```
-lsblk -o NAME,FSTYPE,UUID
+lsblk -o NAME,FSTYPE,SIZE,MOUNTPOINTS,UUID
 ```
 
 This will list the name (you WILL need the name with a number at the end), the filesystem, and the UUID. 
@@ -3342,7 +3780,48 @@ The file permissions are wacky for this and do NOT follow what `chmod` uses; the
 
 So when we set `umask=0007`, its the equivalent of setting chmod 770.
 
-> When setting `umask`, you CANNOT change the file permissions via `chmod` on the mounted directory (or anything under it) - not even root can. So be happy applying these permissions to the entire disk you are mounting if you use umount.
+> When setting `umask`, you CANNOT change the file permissions via `chmod` on the mounted directory (or anything under it) - not even root can. So be happy applying these permissions to the entire disk you are mounting if you use umount.  
+
+## Auto-Mounting to RAM On Boot  
+
+> This info was taken from [linuxbabe](https://www.linuxbabe.com/command-line/create-ramdisk-linux) and [superuser](https://superuser.com/questions/1103101/how-can-i-mount-a-tmpfs-to-tmp-via-fstab-writable-to-anyone).  
+
+Its possible to carve out some memory in RAM to use as storage; this will flush with every re-set.  
+
+1\. [Become root](/operating_systems/ubuntu/linux_notes?id=becoming-root).
+
+2\. Check how much RAM you have: `htop`  
+* You may have to install this.  
+* Look at the `Mem` grapic - this tells you how much RAM is used.  
+
+3\. Pick a 'mount' place on your hard drive. I will pick `/foo` but it could be wherever on your disk (dont worry, the data will not be stored to your disk, but we need a 'location' for it).  
+
+4\. Select a size. I will pick `64M`  
+
+5\. Edit the fstab file via `vi /etc/fstab` and enter the following:  
+```
+tmpfs /foo tmpfs uid=1000,gid=1002,size=64M 0 0
+```   
+* Note the `/foo` which we previously selected.   
+* Note the size `64M` which we previously selected.  
+* Sets the uid to 1000 (see more on uids [here](operating_systems/ubuntu/linux_notes?id=getting-users-uid-and-groups)).
+* Sets the gid to 1002 (see more on gids [here](operating_systems/ubuntu/linux_notes?id=getting-users-uid-and-groups)).
+
+
+## Fixing External Drive Errors  
+
+> This [YouTube video](https://www.youtube.com/watch?v=h7AMy-qq010) helped me with this.  
+
+Sometimes you may see an error like `Uknown error when mounting` when mounting an NTFS drive in Ubuntu (most of my external drives are NTFS). A quick fix:  
+
+1\. [Become root](/operating_systems/ubuntu/linux_notes?id=becoming-root).  
+
+2\. Find the address of the external drive  
+* This is usually in the error message, but its usually in `/dev/` somewhere  
+
+3\. Run: `ntfsfix /dev/XYZ`  
+* Where `XYZ` is the actual location of your external drive.  
+
 
 ---
 
@@ -3519,6 +3998,15 @@ This section is specific to the desktop version of Ubuntu.
 ## Opening a Terminal
 
 To initially start the terminal, press Ctrl AND Alt and “t” (all three buttons at once) and a terminal screen will open.
+
+## Set Fixed Monitor For Login Screen  
+
+Unfortunately, the login screen can go to an undesirable monitor (if oyu have multiple monitors attached). A way around this is to get ahold of your own `monitors.xml` file and store it in the home directory of `gdm3`. The following will copy your file to the target ocation (provided you change the username as noted below):  
+```
+cp -p /home/USER_NAME_HERE/.config/monitors.xml /var/lib/gdm3/.config/monitors.xml
+```   
+* Change `USER_NAME_HERE` to your own username.  
+
 
 ## Enabling Right-Click File Creation
 

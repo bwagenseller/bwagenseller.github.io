@@ -784,6 +784,9 @@ These are some packages that we will need on the server for various things:
 * libmysqlclient-dev further supports mysql-client
 * net-tools is for important networking tools (like ifconfig).
 * unrar is a tool that helps unzip .rar files. The system can do this natively, but the default package can sometimes fail giving you a 'Parsing filters not supported' message; installing unrar fixes this.
+* iptraf-ng installs iptraf, which is a great tool to quickly monitor IP packets coming into / going out of your host. 
+* sg3-utils has a bunch of tools to help with secure file cleanup (smem, sswap, sfill, etc)   
+* htop is a powerful resource management tool  
 
 Run:
 ```
@@ -794,6 +797,9 @@ apt-get install mysql-client
 apt-get install libmysqlclient-dev
 apt-get install net-tools
 apt-get install unrar
+apt-get install iptraf-ng
+apt-get install sg3-utils
+apt-get install htop
 ```
 
 ---
@@ -936,7 +942,7 @@ mkdir -p /var/tmp/modules
 cd /var/tmp/modules
 ```
 
-3\. Set https proxy (if you need to / if yo uare behind a firewall):
+3\. Set https proxy (if you need to / if you are behind a firewall):
 
 ```
 export https_proxy=http://YOUR_PROXY_HERE:PORT
@@ -1007,17 +1013,41 @@ To download Anaconda, [go here](https://www.anaconda.com/download/) and select t
 bash Anaconda.sh
 ```
 
-5\. You will be prompted to select where to install (**note: the directory CANNOT exist!**).  Input location / install to: `/usr/bin/anaconda/python2.7`
- * `/usr/bin/anaconda/python2.7` is just my preference - if its not yours, don't use it.
- * When prompted to append the Anaconda2 install location to PATH, do it
- * When prompted to install Microsoft VSCode, say NO
+5\. You will be prompted to select where to install (**note: the directory CANNOT exist!**).  Input location / install to: `/usr/bin/anaconda/python3`  
+ * `/usr/bin/anaconda/python3` is just my preference - if its not yours, don't use it.  
+ * Make _sure_ to be careful when scrolling through the terms and conditions - if you press enter once it asks for `yes/no`, even once, you must do it all again.  
+
+6\. Initialize conda by running `/usr/bin/anaconda/python3/bin/conda init` (note, this is dependent on the path you selected for Anaconda previously).
+ * This should set your path to the version of Python installed with Anaconda - you can check this out by sourcing your `.bashrc` file by running `source ~/.bashrc` and then running `witch python` to see if the path to Python is the Anaconda version.  
+ * If `conda init` did not work, you can add this to the end of your `~/.bashrc` file:  
+ ```  
+ # >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/usr/bin/anaconda/python3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/usr/bin/anaconda/python3/etc/profile.d/conda.sh" ]; then
+        . "/usr/bin/anaconda/python3/etc/profile.d/conda.sh"
+    else
+        export PATH="/usr/bin/anaconda/python3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<
+```  
+ * This assumes you used my path for Anaconda - if you did not, substitute what you used.  
+
+ * _If_ prompted to append the Anaconda3 install location to PATH, do it  
+ * _If_ prompted to install Microsoft VSCode, say NO  
+ * _If_ prompted to  initialize Anaconda3 by running conda init, say YES  
 
 6\. Source in your path (usually in the .bashrc file): `source ~/.bashrc`
 
-7\. Install python-qt4 (for matplotlib):
+7\. Install pyside6 (for matplotlib):
 
 ```
-apt-get install python-qt4
+pip install pyside6
 ```
 
 8\. Remove the install file:
@@ -1039,10 +1069,30 @@ Setup:
 vi ~/.bashrc
 ```
 
-2\. Add these two lines at the bottom:
+2\. Add these lines at the bottom:
 
-> PATH=/usr/bin/anaconda/python2.7/bin:$PATH <br>
-> export PATH
+```  
+ # >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/usr/bin/anaconda/python3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/usr/bin/anaconda/python3/etc/profile.d/conda.sh" ]; then
+        . "/usr/bin/anaconda/python3/etc/profile.d/conda.sh"
+    else
+        export PATH="/usr/bin/anaconda/python3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<
+```  
+
+Or, if you prefer to keep it simple:  
+```  
+PATH=/usr/bin/anaconda/python3/bin:$PATH <br>
+export PATH
+```  
 
 3\. Quit and save: `wq!`
 
@@ -1134,7 +1184,7 @@ Python PIP is the official method to install Python packages; when possible, use
 3\. Install python-pip:
 
 ```
-apt-get install python-pip
+apt-get install python3-pip
 ```
 
 ## Install MySQL for Python
@@ -1568,7 +1618,16 @@ apt-get install default-jre
 
 ---
 
-# Installing Java (From Oracle)
+# Installing Java (From Oracle)  
+
+## Installing Java via Deb (From Oracle)  
+
+Modern Java now gives out a .deb file which you can install from [the Java website](https://www.oracle.com/java/technologies/downloads/).  Generally, this will install Java in `/usr/lib/jvm/`; for example, Java 20 is installed in `/usr/lib/jvm/jdk-20`.  
+
+You will still have to add items to either your profile _or_ `/etc/profile`; in addition, you _may_ have to run `update-alternatives` as described in [the manual install](operating_systems/ubuntu/server_build?id=installing-java-manually-from-oracle), but there is a chance the `.deb` install has already done this for you.  
+
+
+## Installing Java Manually (From Oracle)  
 <span style='width: 20px; display:inline-block'>:bangbang:</span>
 
 Sometimes it is necessary to install Java directly from Oracle (instead of just installing the JRE or OpenJDK). These instructions come from [wikihow](http://www.wikihow.com/Install-Oracle-Java-JDK-on-Ubuntu-Linux).
@@ -1604,7 +1663,7 @@ tar xvzf jdk-8u45-linux-x64.tar.gz
 
 5\. Add information to the bottom of /etc/profile
 
- * You will have to do this twice: once for root and once for your personal login.  Root's profile is /etc/profile, but your own profile will the the .profile file in your home directory.  These instructions are how to set up the root environment, but replicate this entire step using the .profile file in your home directory.
+ * You will have to do this once, either in the global profile (`/etc/profile`) or your own profile will the the .profile file in your home directory.  These instructions are how to set up in `/etc/profile`.
  * Open /etc/profile (using vi): 
 
  ```
@@ -1612,21 +1671,28 @@ tar xvzf jdk-8u45-linux-x64.tar.gz
  ```
 
  * Add this text to the bottom of that file:
-> JAVA_HOME=/usr/local/java/jdk1.8.0_45 <br>
-> PATH=$PATH:$HOME/bin:$JAVA_HOME/bin <br>
-> export JAVA_HOME <br>
-> export PATH
+ ```
+JAVA_HOME=/usr/lib/jvm/jdk-21-oracle-x64
+PATH=$PATH:$HOME/bin:$JAVA_HOME/bin
+export JAVA_HOME
+export PATH
+ ```  
+ * Your `JAVA_HOME` will almost assuredly be different - use the directory that contains the `bin` directory  
+   * I find this with the command `ls -la /etc/alternatives/java` - stop just before `/bin` is mentioned  
+
 
  * Save the file and exit.
 
 6\. Update the links in /etc/alternatives by running the following commands
 
-> update-alternatives --install "/usr/bin/java" "java" "/usr/local/java/jdk1.8.0_45/bin/java" 1 <br>
-> update-alternatives --install "/usr/bin/javac" "javac" "/usr/local/java/jdk1.8.0_45/bin/javac" 1 <br>
-> update-alternatives --install "/usr/bin/javaws" "javaws" "/usr/local/java/jdk1.8.0_45/bin/javaws" 1 <br>
-> update-alternatives --set java /usr/local/java/jdk1.8.0_45/bin/java <br>
-> update-alternatives --set javac /usr/local/java/jdk1.8.0_45/bin/javac <br>
-> update-alternatives --set javaws /usr/local/java/jdk1.8.0_45/bin/javaws <br>
+```
+update-alternatives --install "/usr/bin/java" "java" "/usr/lib/jvm/jdk-21-oracle-x64/bin/java" 1 
+update-alternatives --install "/usr/bin/javac" "javac" "/usr/lib/jvm/jdk-21-oracle-x64/bin/javac" 1 
+update-alternatives --install "/usr/bin/javaws" "javaws" "/usr/lib/jvm/jdk-21-oracle-x64/bin/javaws" 1 
+update-alternatives --set java /usr/lib/jvm/jdk-21-oracle-x64/bin/java 
+update-alternatives --set javac /usr/lib/jvm/jdk-21-oracle-x64/bin/javac 
+update-alternatives --set javaws /usr/lib/jvm/jdk-21-oracle-x64/bin/javaws 
+```  
 
 !> Note that if you are installing Java 9+, 'javaws' is depricated and in Java 11+ it is fully removed - so this may fail.
 
@@ -1689,9 +1755,9 @@ source ~/.profile
 # Installing Apache Maven
 <span style='width: 20px; display:inline-block'>:bangbang:</span>
 
-Maven, much like Ant, is a Java library that helps build Java applications; its newer than Ant, and most people prefer Maven.
+Maven, much like Ant, is a Java library that helps build Java applications; its newer than Ant, and most people prefer Maven.  
 
-To install Maven, do the following:
+To install Maven, do the following:  
 
 1\. [Become root](/operating_systems/ubuntu/linux_notes?id=becoming-root)
 
@@ -1700,7 +1766,44 @@ To install Maven, do the following:
 3\. Install using apt-get:
 ```
 apt-get install maven
+```  
+
+---  
+
+# Installing Gradle
+<span style='width: 20px; display:inline-block'>:bangbang:</span>
+
+> I took the instructions on how to install Gradle from [here](https://gradle.org/install/).  
+
+Gradle, much like Ant and Maven, is a Java library that helps build Java applications. I usually use Maven, but Gradle is becoming more popular.  
+
+To install Gradle, do the following:  
+
+1\. Download the [official Gradle zip file](https://gradle.org/install/).  
+
+2\. [Become root](/operating_systems/ubuntu/linux_notes?id=becoming-root)
+
+3\. Make the new Gradle directory:  
 ```
+mkdir /opt/gradle
+```  
+
+4\. Unzip the file to the `/opt/gradle` directory with:  
+```
+unzip -d /opt/gradle gradle-VERSION.zip
+```  
+* This assumes 
+   * The zip file is named `gradle-VERSION.zip` (it won't be).  
+   * you run this command from the same directory as the zip file is in.  
+
+5\. Place the following at the end of your `~\.profile`:  
+```
+# set PATH to Gradle  
+if [ -d "/opt/gradle/gradle-VERSION/bin" ] ; then
+    PATH="/opt/gradle/gradle-VERSION/bin:$PATH"
+fi
+```  
+* The `gradle-VERSION` part will be different.  
 
 ---
 
@@ -1771,31 +1874,7 @@ apt-get install git-gui
 * Note that to actually launch the GUI, you will have to type `gitk`
 
 ---
-
-# Installing VLC
-<span style='width: 20px; display:inline-block'>:rotating_light:</span> <span style='width: 20px; display:inline-block'>:bangbang:</span>
-
-VLC is a powerful video package - [here is the VLC official page](https://www.videolan.org/vlc/) and [here is the download section](https://www.videolan.org/vlc/#download).  
-
-To install:
-
-1\. [Become root](/operating_systems/ubuntu/linux_notes?id=becoming-root)
-
-2\. [Update all packages](/operating_systems/ubuntu/linux_notes?id=updating-upgrading-all-packages)
-
-3\. Install:
-```
-apt-get install vlc libdvd-pkg libaacs-dev libdvdcss2 
-```
-* `libdvdcss2` is needed for DVDs.  
-* `libdvd-pkg` and `libaacs-dev` are needed to support Blu Ray.  
-
-In addition, [this site](https://echoshare.co/no-valid-processing-key-found-aacs-config-vlc/) claims that if you want Blu Ray files to play, you will have to put the KEYDB.cfg file (located [here](https://vlc-bluray.whoknowsmy.name/files/KEYDB.cfg) - you may want to save this is a good spot) in the directory `~/.config/aacs` (I can confirm this works as of Ubuntu 20.04, August 2022). 
-
-> When opening Blu Ray movies, make _sure_ to select the 'Blu-ray' radio button; in addition, there is a 'No disc menus' checkbox - check that box.  
-
----  
-
+  
 # Installing Tilix
 <span style='width: 20px; display:inline-block'>:rotating_light:</span> <span style='width: 20px; display:inline-block'>:bangbang:</span>
 
@@ -1816,9 +1895,94 @@ apt-get install tilix
 ![tilix_login_shell.png](images/tilix_login_shell.png)
 
 
+---  
+
+# Media Apps  
+
+## Installing Plex    
+<span style='width: 20px; display:inline-block'>:bangbang:</span>  
+
+> For the official Plex install instructions, [go here](https://support.plex.tv/articles/200288586-installation/).  
+
+[Plex](/tools/plex/plex_basics) is a tool you can install on a server that acts as a multimedia server - you can put movies, tv shows, and home videos on your server. Once installed, you can then download the Plex app on your phone / Roku / Smart TV / etc and watch your curated videos on these apps!  
+
+How to install:  
+
+1\. [Become root](/operating_systems/ubuntu/linux_notes?id=becoming-root)  
+
+2\. [Update all packages](/operating_systems/ubuntu/linux_notes?id=updating-upgrading-all-packages)  
+
+3\. Download the Plex .deb file [here](https://www.plex.tv/media-server-downloads/?cat=computer&plat=linux)  
+
+4\. Install the .deb file: `dpkg -i plex.deb`  
+* This assumes the .deb file is named `plex.deb` - you may have to change this.  
+
+
+## Installing VLC  
+<span style='width: 20px; display:inline-block'>:rotating_light:</span> <span style='width: 20px; display:inline-block'>:bangbang:</span>
+
+VLC is a powerful video package - [here is the VLC official page](https://www.videolan.org/vlc/) and [here is the download section](https://www.videolan.org/vlc/#download).  
+
+To install:
+
+1\. [Become root](/operating_systems/ubuntu/linux_notes?id=becoming-root)
+
+2\. [Update all packages](/operating_systems/ubuntu/linux_notes?id=updating-upgrading-all-packages)
+
+3\. Install:
+```
+apt-get install vlc libdvd-pkg libaacs-dev libdvdcss2 
+```
+* `libdvdcss2` is needed for DVDs.  
+* `libdvd-pkg` and `libaacs-dev` are needed to support Blu Ray.  
+
+4\. You should also install ffmpeg for the multimedia toolset: `apt-get install ffmpeg`  
+* You may not use this right away, but its helpful later.  
+
+In addition, [this site](https://echoshare.co/no-valid-processing-key-found-aacs-config-vlc/) claims that if you want Blu Ray files to play, you will have to put the KEYDB.cfg file (located [here](https://vlc-bluray.whoknowsmy.name/files/KEYDB.cfg) - you may want to save this is a good spot) in the directory `~/.config/aacs` (I can confirm this works as of Ubuntu 20.04, August 2022). 
+
+> When opening Blu Ray movies, make _sure_ to select the 'Blu-ray' radio button; in addition, there is a 'No disc menus' checkbox - check that box.  
+
 
 ---  
-# Installing Visual Studio Code
+# Music Apps  
+
+## Tagger  
+<span style='width: 20px; display:inline-block'>:frog:</span>  
+
+Tagger is an easy to use music tag (metadata) editor; it helps with modifying tags in mp3 files.  
+
+To install:
+
+1\. [Become root](/operating_systems/ubuntu/linux_notes?id=becoming-root)
+
+2\. [Update all packages](/operating_systems/ubuntu/linux_notes?id=updating-upgrading-all-packages)  
+
+3\. Run: `snap install tagger`  
+
+
+## SoundConverter  
+<span style='width: 20px; display:inline-block'>:frog:</span>  
+  
+SoundConverter converts sound files to other formats (found as a suggestion [on askubuntu](https://askubuntu.com/questions/174287/how-do-i-convert-an-mp4-to-an-mp3)). Its nice for converting mp4s to mp3s.  
+
+To install:
+
+1\. [Become root](/operating_systems/ubuntu/linux_notes?id=becoming-root)
+
+2\. [Update all packages](/operating_systems/ubuntu/linux_notes?id=updating-upgrading-all-packages)  
+
+3\. Run: `apt-get install soundconverter`  
+
+4\. You should also install ffmpeg for the multimedia toolset: `apt-get install ffmpeg`  
+* You may not use this right away, but its helpful later.  
+
+
+---  
+# Visual Studio Code  
+
+## Installing VS Code  
+
 <span style='width: 20px; display:inline-block'>:rotating_light:</span> <span style='width: 20px; display:inline-block'>:bangbang:</span>
 
 [Visual Studio Code](https://code.visualstudio.com/) is a good basic text editor that doubles as an IDE in a pinch. Up to date install instructions can be found [here](https://code.visualstudio.com/docs/setup/linux). Finally, some great feature metntions / plugins are [here](https://www.makeuseof.com/tag/10-essential-productivity-tips-visual-studio-code/).   
@@ -1853,6 +2017,21 @@ apt-get install apt-transport-https
 ```
 apt-get install code # or code-insiders
 ```  
+
+## Changing VS Code Properties  
+
+The file `/home/USER_NAME/.config/Code/User/settings.json` (where `USER_NAME` is your login) governs general settings for VS Code, and you can make changes here. I like adding the following, so you can see the scroll bars much better:
+```
+     "workbench.colorCustomizations": {
+        "scrollbarSlider.background": "#1D7CB5",
+        "scrollbarSlider.hoverBackground": "#77C6F5",
+        "scrollbarSlider.activeBackground": "#D1690E"
+    }
+```  
+* This must be put inside the `{}`.  
+* Make sure to use a comma after the previous last value.  
+* `background` is the resting background, `hoverBackground` is when you are hovering over it, and `activeBackground` is when you are moving it.  
+   * You can pick different colors [here](https://htmlcolorcodes.com/) if you wish.  
 
 
 
@@ -1950,56 +2129,54 @@ umount -f /mnt/cifs_share
 # Docsify
 <span style='width: 20px; display:inline-block'>:bangbang:</span>
 
-!> Apache MUST be running for Docsify to work!
-
 
 [Docsify](https://docsify.now.sh/) generates your documentation website on the fly. It smartly loads and parses your Markdown files and displays them as a website. To start using it, all you need to do is create an index.html and deploy it on GitHub Pages.
 
 ## Basics of Docsify and Markdown
 
-If you want to know the basics of Docsify (or what we call 'Notebook'), [see my guide](learn_to_code/docsify/gettingstarted), and if you wish to learn a bit on the Markdown language [see my guide on that](learn_to_code/docsify/markdowntutorial).
+If you want to know the basics of Docsify, [see my guide](learn_to_code/docsify/gettingstarted), and if you wish to learn a bit on the Markdown language [see my guide on that](learn_to_code/docsify/markdowntutorial).
 
-## Basics of Docsify Files and Locations
+
+## Docsify Install  
 <span style='width: 20px; display:inline-block'>:bangbang:</span>
 
-There are a few rules that must be followed in order to use Docsify. Firstly, you must create a folder in the [Apache web root directory](/operating_systems/ubuntu/server_build?id=the-apache-document-root) that will house Docsify (although please note, this folder can be a symbolic link, which I instead of an actual folder). 
+There are two ways I know of installing this: a more modern way (installing an actual Docsify app via node.js, no Apache server required) or a more obscure, older way (having a tarball and using an [Apache server](operating_systems/ubuntu/server_build?id=apache)).  
 
-While you can create an actual folder in the Apache web root directory, we create a link to another link that points to our real docsify folder. The first link is 'myDocsify' which resides in /var/www/html and points to /opt/app/docsify/myDocsify; /opt/app/docsify/myDocsify is a link itself which points to /opt/app/docsify/myDocsifyv1.0.0 (it may seem a bit confusing as to why we have a link called 'myDocsify' pointing to the actual folder 'myDocsifyv1.0.0' which resides right next to the link, but we do this for version control purposes). In this case, the Apache web server thinks our Docsify base is in /var/www/html/myDocsify but its actually in /opt/app/docsify/myDocsifyv1.0.0 (currently, until we change our version of Docsify). For the purposes of this discussion, /var/www/html/myDocsify will be considered our base Docsify folder.
-
-In the base Docsify folder, 3 things must be present:
-* An 'assets' folder, which houses the JavaScript (and other) files that actually powers Docsify. The four folders under this folder are
- * css - A folder that houses the css that is used by Docsify
- * fonts - A folder that houses the fonts that are used by Docsify
- * img - A folder that houses the images that are used by Docsify
- * js - A folder that houses the JavaScript that is used by Docsify
-   * Its under this folder where the heart of Docsify resides
-   * You can put all add-ons and extensions to Docsify here
-   * The folder 'docsify' resides here; under this folder is simply a version number and under this folder resides the JavaScript that powers Docsify:
-     * docsify.js
-     * docsify.min.js
-* A file called 'index.html'
- * This file instructs Apache on how to render the base skeleton of Docsify.
-
-!> !!!NOTE!!! You may have to change one thing in this file: the basePath. Note the directory name of the docsify folder right under /var/www/html (for us its myDocsify), find the basePath variable in index.html, and change it to '/myDocsify/library/'
-
-* A 'library' folder
- * This 'library' folder is the 'base' location of what is displayed by Docsify from the web page perspective. 
-   * This 'library' folder can be a symbolic link; as far as we are concerned, we do not have a 'library' folder but a 'library' link.
- * This folder must contain
-   * README.md - This file is written in the Markdown language and acts as a 'hub' for the folder.  Typically, the contents of README.md is a simple listing of the markdown files available in the current folder, but you could put other things in here as well if you wanted. EVERY subfolder in the library folder MUST have a README.md. 
-   * _sidebar.md - This file populates the sidebar navigation menu on the left of the page.
-   * _navbar.md - This file populates the navigation menu.
-   * (OPTIONAL if the main folder is simply used to navigate to subfolders) ???.md - This file will be named something logical that describes your documentation (so if this was documentation about birds, it may be called birds.md, for example). This file will be the main document that houses all of the critical information contained in your documentation, describing whatever process you are covering in detail.
- * The 'library' folder can contain other folders as well
-   * Each folder can act like its own semi-independent Docsify entity, but these folders must contain at least the following files:
-     * README.md - This file is written in the Markdown language and acts as a 'hub' for the folder.  Typically, the contents of README.md is a simple listing of the markdown files available in the current folder, but you could put other things in here as well if you wanted. EVERY subfolder in the library folder MUST have a README.md. 
-     * _sidebar.md - This file populates the sidebar navigation menu on the left of the page.
-     * ???.md - This file will be named something logical that describes your documentation (so if this was documentation about birds, it may be called birds.md, for example). This file will be the main document that houses all of the critical information contained in your documentation, describing whatever process you are covering in detail.
+The first listed here is the more modern way (which I recommend); the second is the older way (using Apache).  
 
 
+### Docsify Install (node.js)  
 
-## Docsify Setup
-<span style='width: 20px; display:inline-block'>:bangbang:</span>
+> I recommend this install - its much easier, provided you dont mind installing node.js. You can read more on this [here](https://github.com/docsifyjs/docsify-cli).   
+
+1\. [Become root](/operating_systems/ubuntu/linux_notes?id=becoming-root)
+
+2\. [Update all packages](/operating_systems/ubuntu/linux_notes?id=updating-upgrading-all-packages)
+
+3\. Install the latest LTS version of node.js (if its not installed already).  
+* This may seem odd, but React Native relies on the `npm` command, and that is difficult to install on its own without the rest of node.js - so install node.js.  
+* To install, run these commands:
+```  
+curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
+apt-get install -y nodejs
+```  
+
+> According to [DigitalOcean](https://www.digitalocean.com/community/tutorials/how-to-install-node-js-on-ubuntu-20-04), you can simply run `apt install nodejs` and then `apt install npm` if you do not care about getting an older version of node.js _or_ npm - that said, if you want a more modern version of either, use the curl command given.  
+   
+4\. Upgrade `npm`
+* The version of `npm` installed by node.js is probably very old, so upgrade it.  
+* Run this as root: `npm install -g npm@6.14.4`  
+  * Currently the latest version is `6.14.4` but this will probably be different for you.  
+
+5\. Install Docsify: `npm i docsify-cli -g`  
+
+
+> At this point, Docsify is installed; you can [initialize a Docsify project](operating_systems/ubuntu/server_build?id=initialize-docsify-nodejs) (you only have to do this once) and then you can [run the Docsify server](operating_systems/ubuntu/server_build?id=run-docsify-nodejs).  
+
+
+### Docsify Install (Apache, Deprecated)  
+
+!> [Apache](operating_systems/ubuntu/server_build?id=apache) MUST be running for Docsify to work!  
 
 !> You must have access to the tar file; it is certainly possible to install Docsify without it if you visit [Docsify](https://docsify.now.sh/) to get the very few files you will need (and for an idea of what is needed, see [Basics of Docsify Files and Locations](/operating_systems/ubuntu/server_build?id=basics-of-docisfy-files-and-locations) above), but its easier just to get the tar.
 
@@ -2046,6 +2223,320 @@ ln -s /opt/app/docsify/myDocsify myDocsify
 ```
 
 8\. At this point you should be done! Navigate to http://YourHostName.com/myDocsify/#/ (In step 7 we named the link 'myDocsify' in /var/www/html, so this is where 'myDocsify' comes from; however the /#/ at the end will remain for docsify).
+
+
+## Docsify Files and Locations  
+<span style='width: 20px; display:inline-block'>:bangbang:</span>
+
+
+
+### Docsify Files (node.js method)  
+
+When you [initialize](operating_systems/ubuntu/server_build?id=initialize-docsify-nodejs) the Docsify host, a directory is created which contains some files for the Docsify host. _This created directory is the base directory of your Docsify host._  
+
+A few things are present by default in the initialized directory (these must be present):  
+* A file called `index.html`  
+  * This file instructs the server on how to build every page in this Docsify host.  
+  * When adding add-ons for Docsify, often you will be instructed to add a line similar to `<script src="vendor/docsify.js"></script>` and possibly modify `window.$docsify` - you do both in this file.  
+* A directory called `vendor/`  
+  * A file called `docsify.js`  
+    * This is the driving force / script file behind Docsify  
+  * A `themes/` directory  
+    * Various style sheets  
+      * `vue.css` is stored here, as an example  
+* `README.md`  
+  * This file is written in the Markdown language and acts as a 'hub' for the folder.  
+  * Typically, the contents of README.md is a simple listing of the markdown files available in the current folder, but you could put other things in here as well if you wanted.  
+  * EVERY subdirectory in this directory MUST have a README.md.  
+* `.nojekyll`  
+
+
+The above are the base files - but you can (and SHOULD) have more:  
+* `_sidebar.md`  
+  * This file populates the sidebar navigation menu on the left of the page.  
+  * This file is not present initially, but its a good file to have.  
+  * EVERY subdirectory can have a `_sidebar.md`, but its not a requirement.  
+  * `window.$docsify` in the file `index.html` controls the depth of this.   
+    * I like to set `maxLevel: 4` and `subMaxLevel: 4`.    
+* `_navbar.md`  
+  * This file populates the navigation menu across the top of the page.  
+  * `_navbar.md` is _not_ required for every level - if a sublevel is missing this file, it will inherit it from a parent directory.  
+  * The position is _not_ static - it will scroll away if you go down the page  
+  * The initial level goes across the top  
+    * Subsequent levels go in a dropdown  
+    * I dont like going more than one sublevel, as it gives it a box with scrollbars   
+  * This file is not present initially.  
+* Other markdown (i.e. `.md`) files  
+  * These markdown files will be independent documents that are centered around a theme  
+    * For example, if you wanted a document that detailed the contents of your garage, you could have a `garage.md` file here.  
+    * When referencing these files in the web browser, do not use the `.md`  
+      * For example, `garage.md` could be referenced as `http://YOUR.IP.HERE/#/garage`  
+* Other directories  
+  * Feel free to organize your markdown files in subdirectories  
+  * Each subdirectory _must_ have a `README.md`, but its also a good idea to have a `_sidebar.md` file too.  
+  * For example, if you made a subdirectory `rooms` you could reference it in your web browser as so: `http://YOUR.IP.HERE/#/rooms/`  
+    * This relies on the `README.md` being present.  
+
+
+### Docsify Files (Apache method)  
+
+There are a few rules that must be followed in order to use Docsify. Firstly, you must create a folder in the [Apache web root directory](/operating_systems/ubuntu/server_build?id=the-apache-document-root) that will house Docsify (although please note, this folder can be a symbolic link, which I instead of an actual folder). 
+
+While you can create an actual folder in the Apache web root directory, we create a link to another link that points to our real docsify folder. The first link is 'myDocsify' which resides in /var/www/html and points to /opt/app/docsify/myDocsify; /opt/app/docsify/myDocsify is a link itself which points to /opt/app/docsify/myDocsifyv1.0.0 (it may seem a bit confusing as to why we have a link called 'myDocsify' pointing to the actual folder 'myDocsifyv1.0.0' which resides right next to the link, but we do this for version control purposes). In this case, the Apache web server thinks our Docsify base is in /var/www/html/myDocsify but its actually in /opt/app/docsify/myDocsifyv1.0.0 (currently, until we change our version of Docsify). For the purposes of this discussion, /var/www/html/myDocsify will be considered our base Docsify folder.
+
+In the base Docsify folder, 3 things must be present:
+* An 'assets' folder, which houses the JavaScript (and other) files that actually powers Docsify. The four folders under this folder are
+ * css - A folder that houses the css that is used by Docsify
+ * fonts - A folder that houses the fonts that are used by Docsify
+ * img - A folder that houses the images that are used by Docsify
+ * js - A folder that houses the JavaScript that is used by Docsify
+   * Its under this folder where the heart of Docsify resides
+   * You can put all add-ons and extensions to Docsify here
+   * The folder 'docsify' resides here; under this folder is simply a version number and under this folder resides the JavaScript that powers Docsify:
+     * docsify.js
+     * docsify.min.js
+* A file called 'index.html'
+ * This file instructs Apache on how to render the base skeleton of Docsify.
+
+!> !!!NOTE!!! You may have to change one thing in this file: the basePath. Note the directory name of the docsify folder right under /var/www/html (for us its myDocsify), find the basePath variable in index.html, and change it to '/myDocsify/library/'
+
+* A 'library' folder
+  * This 'library' folder is the 'base' location of what is displayed by Docsify from the web page perspective. 
+    * This 'library' folder can be a symbolic link; as far as we are concerned, we do not have a 'library' folder but a 'library' link.
+  * This folder must contain
+    * README.md - This file is written in the Markdown language and acts as a 'hub' for the folder.  Typically, the contents of README.md is a simple listing of the markdown files available in the current folder, but you could put other things in here as well if you wanted. EVERY subfolder in the library folder MUST have a README.md. 
+    * `_sidebar.md`  
+      * This file populates the sidebar navigation menu on the left of the page.  
+      * This file is not present initially, but its a good file to have.  
+      * EVERY subdirectory can have a `_sidebar.md`, but its not a requirement.  
+      * `window.$docsify` in the file `index.html` controls the depth of this.   
+        * I like to set `maxLevel: 4` and `subMaxLevel: 4`.    
+    * `_navbar.md`  
+      * This file populates the navigation menu across the top of the page.  
+      * `_navbar.md` is _not_ required for every level - if a sublevel is missing this file, it will inherit it from a parent directory.  
+      * The position is _not_ static - it will scroll away if you go down the page  
+      * The initial level goes across the top  
+      * Subsequent levels go in a dropdown  
+      * I dont like going more than one sublevel, as it gives it a box with scrollbars   
+      * This file is not present initially.  
+    * (OPTIONAL if the main folder is simply used to navigate to subfolders) ???.md - This file will be named something logical that describes your documentation (so if this was documentation about birds, it may be called birds.md, for example). This file will be the main document that houses all of the critical information contained in your documentation, describing whatever process you are covering in detail.
+  * The 'library' folder can contain other folders as well
+    * Each folder can act like its own semi-independent Docsify entity, but these folders must contain at least the following files:
+      * README.md - This file is written in the Markdown language and acts as a 'hub' for the folder.  Typically, the contents of README.md is a simple listing of the markdown files available in the current folder, but you could put other things in here as well if you wanted. EVERY subfolder in the library folder MUST have a README.md. 
+      * _sidebar.md - This file populates the sidebar navigation menu on the left of the page.
+      * ???.md - This file will be named something logical that describes your documentation (so if this was documentation about birds, it may be called birds.md, for example). This file will be the main document that houses all of the critical information contained in your documentation, describing whatever process you are covering in detail.
+
+
+## Initialize Docsify (node.js)  
+
+> If you are looking for how to initialize the [Apache](operating_systems/ubuntu/server_build?id=apache) method - there is no initialization for this, just run the Apache server.  
+
+You will have to run an initial setup for Docsify for each instance of Docsify you wish to run (using the node.js method) - this has to be done only once. Pick a spot where you wish to store _all_ of your instances of Docsify (I like `/docsify` but you can pick what you wish), navigate there, then run:  
+```
+docsify init NAME_OF_REPO --local --theme vue  
+```  
+* `NAME_OF_REPO` is the name of the Docsify repo you are initializing  
+  * All files associated with `NAME_OF_REPO` will be stored inside the `NAME_OF_REPO` directory  
+* This elects to store some of the local files here (most notably the base .css and .js files) via `--local` (or `-l`)   
+  * The default is _not local_, but if you wanted to expressly state that use `--no-local`
+* The `--theme` (or `-t`) sets the 'theme'  
+  * Values: `vue, buble, dark, pure`  
+    * Default is `vue`  
+* You can read more on this [here](https://github.com/docsifyjs/docsify-cli).  
+
+Now, simply [run the Docsify server](operating_systems/ubuntu/server_build?id=run-docsify-nodejs).  
+
+## Run Docsify (node.js)  
+
+> If you are looking for how to run the [Apache](operating_systems/ubuntu/server_build?id=apache) method - there is no run for this directly, just run the Apache server.  
+
+To run the node.js instance of Docsify:  
+```
+docsify serve NAME_OF_REPO --port 80 &disown
+```  
+* The `NAME_OF_REPO` is the same name used [when you initialized the Docsify project](operating_systems/ubuntu/server_build?id=initialize-docsify-nodejs).  
+  * Remember, before you can run the Docsify host you must [initialize](operating_systems/ubuntu/server_build?id=initialize-docsify-nodejs) it.  
+    * This only has to be done once.  
+* You _must_ run this in the parent directory of `NAME_OF_REPO`.  
+* The `--port` can be what you wish (I used `80` above but feel free to change that as needed / necessary).  
+* The `&disown` is necessary to have the server run in the background, regardless of your account being logged in or not.  
+* You can read more on this [here](https://github.com/docsifyjs/docsify-cli).  
+
+## Docsify: index.html  
+
+The file `index.html` holds a bunch of things that can be configured for Docsify.  The `window.$docsify` object houses most of it - here is a basic one I use:  
+```
+    <script>
+    window.$docsify = {
+	   name: (
+         '<img'
+         + '  src="./someImage.jpg"'
+         + '  width="88" data-no-zoom=""'
+         + '/><br />'
+       ),
+      repo: '', 
+
+      loadSidebar: true,
+      auto2top: true,
+      maxLevel: 4,
+      loadNavbar: true,
+      subMaxLevel: 4,
+      search: 'auto', // default
+
+      // configuration parameters to add 
+      search: {
+        maxAge: 86400000, // Expiration time, the default one day
+        paths: 'auto',
+        placeholder: 'Type to search',
+        noData: 'No Results!',
+        // Headline depth, 1 - 6
+        depth: 6,
+        hideOtherSidebarContent: false, // whether or not to hide other sidebar content
+     }
+    }
+  </script>
+```
+* The `<img` section adds a constant image at the top of the navigation bar.  
+  * Change `/someImage.jpg` to whatever you wish
+* This assumes you are using the `Search` plugin.  
+
+After the `<script>` section that houses the `window.$docsify` object, you can list all of your add-ons; if you do not care if these are not accessible offline you can reference them directly like so:
+```
+  <script src="//unpkg.com/docsify/lib/docsify.min.js"></script>
+```  
+* Referenced is the main Docsify script  
+  * If you do _not_ chose to [initialize locally](operating_systems/ubuntu/server_build?id=initialize-docsify-nodejs), the Docsify script will be referenced remotely like this.  
+
+However, if you want them available in situations where you lose the internet, you can reference them like so: 
+```
+<script src="vendor/docsify.js"></script>  
+```  
+* Referenced is the main Docsify script  
+  * If you chose to [initialize locally](operating_systems/ubuntu/server_build?id=initialize-docsify-nodejs), it _will_ make this local - otherwise, the online one will be referenced.  
+* In theory, if you could download the `.js` script, you could call it locally and _not_ need the online version.  
+
+## Docsify Plugins  
+
+> You will notice there are two Javascript files for most things - `.js` and `.min.js`. the `.min.js` is a [minified](https://stackoverflow.com/questions/3475024/whats-the-difference-between-jquery-js-and-jquery-min-js) version - its the same functionality, but all unnecessary characters are removed. These are smaller and _may_ be faster to load. Its good to download the `.js` file to understand what is going on in the Javascript, but functionally - use the `.min.js` file as your actual script.  
+
+These list a bunch of helpful plugins / add-ons I like to use.  
+
+You will notice that for all of them, you will need to add a `<script src` - most of these go to [https://unpkg.com](https://unpkg.com).  
+
+If, instead, you wish to download the `.js` file locally and simply reference it - you do have the option to do that. For example, PlantUML is referenced via `<script src="//unpkg.com/docsify-plantuml/dist/docsify-plantuml.min.js"></script>`; you _could_ navigate to [https://unpkg.com/browse/docsify-plantuml@1.3.2/dist/](https://unpkg.com/browse/docsify-plantuml@1.3.2/dist/) (you can go back and pick a specific version if you wish) and then download the `.js` files there (you may have to click on them then directly, click `View Raw`, then copy them to a `.js` file). You could download (i.e. save) the `docsify-plantuml.min.js` file locally, put it under the `vendor/plantuml/` directory, then simply reference `<script src="vendor/plantuml/docsify-plantuml.min.js"></script>`  
+
+**<font size="4">Docsify</font>**    
+* Docsify itself needs a Javascript file  
+  * This is included when you [initialize](operating_systems/ubuntu/server_build?id=initialize-docsify-nodejs)  
+    * No action necessary, but... 
+    * If you want to change it for any reason (upgrade, make it local, etc) its nice to know where it is.  
+  * [UNPKG Website](https://unpkg.com/browse/docsify@4.13.1/lib/)  
+    * You can navigate up and change the version, if you wish  
+    * You will have to find either `docsify.js` or `docsify.min.js` in this list      
+* Install:  
+  * Place this script towards the end of the `</body>` in the Docsify `index.html` file:  
+    * `<script src="//unpkg.com/docsify/lib/docsify.min.js"></script>`  
+    * Note you _cannot_ have multiples of these, and you _cannot have both a local instance and reference the remote instance simultaneously_.  
+ 
+
+**<font size="4">Search</font>**  
+* Search is a base plugin for Docsify that allows you to put a search bar in the navigator sidebar.  
+  * [UNPKG Website](https://unpkg.com/browse/docsify@4.13.1/lib/plugins/)  
+    * You can navigate up and change the version, if you wish  
+    * You will have to find either `search.js` or `search.min.js` in this list  
+* The files included in the search _must_ be visible in the `_sidebar.md` file - if its not there (or not listed under a referenced directory there), the file will not be searched.    
+* Install:  
+  * Place this script towards the end of the `</body>` in the Docsify `index.html` file:  
+    * `<script src="//unpkg.com/docsify/lib/plugins/search.min.js"></script>`  
+  * Place this in `window.$docsify` in the Docsify `index.html` file:  
+```
+      search: 'auto', // default
+
+      // complete configuration parameters
+      search: {
+        maxAge: 86400000, // Expiration time, the default one day
+        paths: 'auto',
+        placeholder: 'Type to search',
+        noData: 'No Results!',
+        // Headline depth, 1 - 6
+        depth: 6,
+        hideOtherSidebarContent: false, // whether or not to hide other sidebar content
+     }, 
+```  
+
+
+**<font size="4">Zoom-Image</font>**    
+* Zoom-Image allows you to zoom in on an image  
+  * [UNPKG Website](https://unpkg.com/browse/docsify@4.13.1/lib/plugins/)  
+    * You can navigate up and change the version, if you wish  
+    * You will have to find either `zoom-image.js` or `zoom-image.min.js` in this list  
+* Install:  
+  * Place this script towards the end of the `</body>` in the Docsify `index.html` file:  
+    * `<script src="//unpkg.com/docsify/lib/plugins/zoom-image.min.js"></script>`  
+
+
+**<font size="4">Emojis</font>**  
+* Emojis allows you to print emojis 
+  * [UNPKG Website](https://unpkg.com/browse/docsify@4.13.1/lib/plugins/)  
+    * You can navigate up and change the version, if you wish  
+    * You will have to find either `emoji.js` or `emoji.min.js` in this list  
+  * NOTE: Emojis seem to have been deprecated as of Docsify version 4.13  
+* Install:  
+  * Place this script towards the end of the `</body>` in the Docsify `index.html` file:  
+    * `<script src="//unpkg.com/docsify/lib/plugins/emoji.min.js"></script>`  
+* Referencing emojis
+  * Emojis are referenced like this: `:emoji:`  
+    * Example: `:frog:`  
+      * I like wrapping it in a span like so: `<span style='width: 20px; display:inline-block'>:frog:</span>`  
+  * The full list of emojis are [here](https://unpkg.com/browse/docsify@4.13.1/lib/plugins/emoji.js)  
+
+
+**<font size="4">PlantUML</font>**    
+* PlantUML allows you to quickly insert UML diagrams into your Docsify page using PlantUML.  
+  * [Github Website](https://github.com/imyelo/docsify-plantuml)  
+  * [UNPKG Website](https://unpkg.com/browse/docsify-plantuml@1.3.2/dist/)  
+    * You can navigate up and change the version, if you wish  
+* Install:  
+  * Place this script towards the end of the `</body>` in the Docsify `index.html` file:  
+    * `<script src="//unpkg.com/docsify-plantuml/dist/docsify-plantuml.min.js"></script>`  
+    * Remember, you can also just download the `.js` files, HOWEVER thsoe `.js` files reference [plantuml.com](https://plantuml.com) so it may be moot in this instance.  
+  * Place this in `window.$docsify` in the Docsify `index.html` file:  
+```
+       plantuml: {
+          skin: 'classic',
+          renderSvgAsObject: true,
+       },
+```  
+    * `renderSvgAsObject: true` allows it to be interactive (i.e. links will work)  
+      * That said, adding this will remove the zoom functionality - which is also important  
+    * `serverPath` is not used here
+      * By default, the official PlantUML server is used. 
+      If you have your own, configure it using the serverPath option: `serverPath: 'https://custom-server.local/plantuml/png/',`  
+
+
+**<font size="4">Prism</font>**  
+* Prism is a lightweight, extensible syntax highlighter  
+  * [Website](http://prismjs.com/)  
+    * [Examples](https://prismjs.com/examples.html)  
+  * [UNPKG Website](https://unpkg.com/browse/prismjs@1.13.0/components/)  
+    * You can navigate up and change the version, if you wish  
+* Install:  
+  * Place this script towards the end of the `</body>` in the Docsify `index.html` file:  
+    * `<script src="//unpkg.com/browse/prismjs@1.29.0/components/prism-java.min.js"></script>`  
+      * There are several of these - this is simply one example  
+* Scripts I typically use  
+  * prism-bash.min.js  
+  * prism-c.min.js  
+  * prism-cpp.min.js  
+  * prism-latex.min.js  
+  * prism-python.min.js  
+  * prism-sql.min.js  
+  * prism-perl.min.js  
+  * prism-java.min.js  
+  * prism-javascript.min.js  
+
+
+---  
 
 # Handling Secure Boot
 <span style='width: 20px; display:inline-block'>:rotating_light:</span> 
@@ -2148,6 +2639,8 @@ echo "deb [arch=amd64] https://brave-browser-apt-release.s3.brave.com/ $UBUNTU_C
 ```
 apt install brave-keyring brave-browser
 ```
+
+!> While not mandatory, you should disable 'Use graphics acceleration when available' in `settings/System` - otherwise, Brave (and Chrome, for that matter) has a tendency to over-use resources, sometimes leading your laptop to lock!  
 
 # Adding Security To Firefox
 <span style='width: 20px; display:inline-block'>:rotating_light:</span> <span style='width: 20px; display:inline-block'>:frog:</span>
@@ -2265,9 +2758,9 @@ Steps to Install (note this is not done under root, but your own login):
 
 1\. Download the latest version of [Android Studio here](http://developer.android.com/sdk/index.html); you will download a zip file for Linux. Make sure it’s the ‘Studio Package’ and NOT the ‘SDK Tools Only’ package.
 
-2\. Pick a directory (I used `/android-studio`) and open the zip file in that directory.
+2\. Pick a directory (I used either `/android-studio` or `~/apps/android-studio` (this one preferable)) and open the zip file in that directory.
 
-3\. Switch to the ‘bin’ directory in the directory you created: `cd /android-studio/bin`
+3\. Switch to the ‘bin’ directory in the directory you created: `cd ~/apps/android-studio/bin`
 
 4\. Run the studio launcher: `./studio.sh`
 
@@ -2523,3 +3016,22 @@ apt-get install python-rpy
 apt-get install python-rpy-doc
 apt-get install python-rpy2
 ```
+
+---  
+
+# Monitor Setup  
+
+## GDM3 - Login Screen Setup  
+
+<span style='width: 20px; display:inline-block'>:bangbang:</span> <span style='width: 20px; display:inline-block'>:frog:</span>  
+
+Modern versions of Ubuntu (as of 2024) use GDM3. Often, on Ubuntu laptops, its advantageous to have a default monitor setup for the initial login screen. If you have an account with the monitors set, you can simply take its associated `monitors.xml` file and move it to the global GDM3 spot.  
+
+If you already have a `monitors.xml` file (for example, in the `USERNAME` username's home directory):  
+
+1\. [Become root](/operating_systems/ubuntu/linux_notes?id=becoming-root)  
+
+2\. Copy the file: `cp /home/USERNAME/.config/monitors.xml /var/lib/gdm3/.config/monitors.xml`  
+* You will have to replace `USERNAME` with the actual username.  
+
+3\. Change ownership of the file: `chown gdm:gdm /var/lib/gdm3/.config/monitors.xml`  

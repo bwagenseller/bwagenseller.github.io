@@ -21,7 +21,8 @@
 - [Logback](/learn_to_code/java/logback) - Powerful logging tool in Java.
 - [Watson - Speech and Text](/learn_to_code/java/watson_speech_and_text_JavaSDK) - Using Watson's SDK in Java for speech to text.  
 - [Ant](/learn_to_code/java/ant) - The Ant tool, which is used to build Java projects.
-- [Maven](/learn_to_code/java/maven) - The Maven tool, which is used to build Java projects.
+- [Maven](/learn_to_code/java/maven) - The Maven tool, which is used to build Java projects.  
+- [Gradle](/learn_to_code/java/gradle) - The Gradle tool, which is used to build Java projects.  
 - [IntelliJ](/learn_to_code/java/intellij) - Using the IDE 'IntelliJ'.
 
 # Mobile Development  

@@ -41,3 +41,4 @@ Brent Wagenseller's journey to learn the intricacies of Java.
 **Build Tools**
 - [Ant](/learn_to_code/java/ant) - The Ant tool, which is used to build Java projects.
 - [Maven](/learn_to_code/java/maven) - The Maven tool, which is used to build Java projects.
+- [Gradle](/learn_to_code/java/gradle) - The Gradle tool, which is used to build Java projects.  

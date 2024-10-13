@@ -48,7 +48,8 @@ It can be a bit intimidating to know what to do next, but here is a screen shot 
 
 ![launching kvmm from xfce image](images/launching_kvmm_from_xfce.png)
 * Press the 'Applications' button, then select 'Terminal Editor'
-* A terminal will open - type the command `virt-manager` and press enter (middle screen).
+* A terminal will open - type the command `virt-manager` and press enter (middle screen).  
+  * If this does not work, it may be because its running on the host machine already - you may have to kill the process first.  
 * The KVM Virtual Machine Manager opens (on the left)!
 
 !> If there is an error and you cannot launch the terminal emulator, see [A Note On XFCE Errors](operating_systems/ubuntu/linux_notes?id=general-notes-on-connecting-remotely).

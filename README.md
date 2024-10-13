@@ -40,6 +40,7 @@ I decided to do something similar here. The following notes are from a combinati
 - [Git](/learn_to_code/git/) - My notes to get up to speed on git. 
 - [Kafka](/tools/kafka/) - Kafka, an event-driven tool.  
 - [StatsD Page](/learn_to_code/statsd/) - StatsD is a package that graphs stats; can be used in Python, Java, and more.  
+- [Plex](/tools/plex/) - Plex, a home media server.  
 
 # Learning To Code
 - [Android](/learn_to_code/android/) - Brent's notes on his journey to learn Android.  
@@ -57,6 +58,10 @@ I decided to do something similar here. The following notes are from a combinati
 - [Asterisk Operations](/telephony/asterisk) - Day to day operations in Asterisk.  
 - [Kamailio](/telephony/kamailio/) - Using the SIP-centric Kamailio.  
 - [Misc Tools](/telephony/misc_tools) - Various small tools in telephony.  
+
+# AI Media  
+- [AI Media](/ai_media/) - The landing page for AI media.  
+- [Stable Diffusion](/ai_media/stable_diffusion/) - My notes on Stable Diffusion, an AI art model.  
 
 # Microsoft Office
 - [Vlookup](/office/excel_vlookup) - Working tips on how to use VLookup in Excel (and Ubuntu's LibreOffice).

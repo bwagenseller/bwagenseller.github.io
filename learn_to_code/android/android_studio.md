@@ -26,7 +26,11 @@
 
 8\. Unzip the tarball to your favorite directory - I usually pick `/android-studio`, but the choice is ours.  
 
-9\. <font color="red">Optional</font> Follow [these instructions](operating_systems/ubuntu/linux_notes?id=creating-executable-icons) on how to make an executable icon for Android Studio.  
+9\. Download the Android Studio Platform tools [here](https://developer.android.com/tools/releases/platform-tools).  
+
+10\. Unzip the tarball to your favorite directory - I usually pick `/android-studio/platform-tools`, but the choice is ours.  
+
+11\. <font color="red">Optional</font> Follow [these instructions](operating_systems/ubuntu/linux_notes?id=creating-executable-icons) on how to make an executable icon for Android Studio.  
    * If you do not take this step, **you will have to run** `/android-studio/bin/studio.sh` every time you want to run Android Studio.  
      * This assumes you unzipped the tarball in step #8 above to `/android-studio`; if you did not, you will have to run `studio.sh` from that directory.  
    * I named my desktop file <font color="purple">Android Studio.desktop</font> but you are free to name it whatever you wish - the contents are:
@@ -47,16 +51,16 @@ StartupWMClass=jetbrains-studio
      * You will have to do this step [as root](/operating_systems/ubuntu/linux_notes?id=becoming-root) (and only this step - once the file is added exit root).  
    * You _will probably_ have to alter the 'Custom Values' field after you launch `dconf-editor` for the icon to stay (and work).  
    
-10\. Run Android Sudio (either via the executable `studio.sh` _or_ your icon).  
+12\. Run Android Sudio (either via the executable `studio.sh` _or_ your icon).  
    * The first time you run this, you will be prompted to set up / install the **<font color="purple">Android SDK</font>** - do so.  
    * Not only does this install the **<font color="purple">Android SDK</font>**, it also installs critical tools to interact with the Android emulator (i.e. `adb` and `emulator`).  
    * By default, **<font color="purple">Android SDK</font>** installs to your directory `~/Android/Sdk` (its specific to you, it does not seem to be a global install).  
 
-11\. Add this line to your [.profile](operating_systems/ubuntu/linux_notes?id=the-profile), as the Android SDK that was installed in step #10 above installs a bunch of critical tools as well (`adb` and `emulator` to name a few):  
+13\. Add this line to your [.profile](operating_systems/ubuntu/linux_notes?id=the-profile), as the Android SDK that was installed in step #9/10 above installs a bunch of critical tools as well (`adb` and `emulator` to name a few):  
 ```
-PATH="$HOME/Android/Sdk/cmdline-tools/latest/bin:$HOME/Android/Sdk/emulator:$HOME/Android/Sdk/platform-tools:$PATH"
+PATH="$HOME/Android/Sdk/emulator:/android-studio/platform-tools:$PATH"
 ```  
-   * This assumes you installed the Android SDK to the default of `~/Android/Sdk`  
+   * This assumes you installed the Android SDK to the default of `~/Android/Sdk` and the platform tools to `/android-studio/platform-tools`.   
 
 12\. [Source in](operating_systems/ubuntu/linux_notes?id=sourcing-your-profile) your .profile.  
    * This is only necessary if you have a terminal up and you are ready to run Android SDK commands immediately in that terminal.  

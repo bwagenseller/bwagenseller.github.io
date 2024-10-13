@@ -708,6 +708,7 @@ import com.google.protobuf.Message;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
@@ -736,6 +737,7 @@ public class FruitServerActor extends AbstractActorWithTimers {
     private int individualFruitNumber;
 
     private ActorRef outboundActor;
+    List<Message> unsentMessages = new ArrayList<>(); // This is needed to stash messages if there are messages to be sent before outboundActor is established
 
     private boolean alreadySentDone = false;
 
@@ -771,6 +773,18 @@ public class FruitServerActor extends AbstractActorWithTimers {
     // We capture that actorRef here.
     private void setOutboundActor(MaterializedDestination msg) {
         outboundActor = msg.getMaterializedActorRef();
+
+        if(unsentMessages.size() > 0) {
+            //if there were stashed messages before the outboundActor was identified
+
+            // send all queued messages
+            for (Message element : unsentMessages) {
+                outboundActor.tell(element, self());
+            }
+
+            //re-set the unsentMessages list
+            unsentMessages = new ArrayList<>();
+        }
     }
 
     private void handleStatusFailure(Status.Failure msg) {
@@ -853,8 +867,23 @@ public class FruitServerActor extends AbstractActorWithTimers {
                 .setMessage(Any.pack(response)).build();
 
         //send the message to the client!
-        outboundActor.tell(envelope, getSelf());
+        sendMessageToClient(envelope);
 
+    }
+
+    /**
+     * Sends the message to the client.
+     *
+     * @param envelope
+     */
+    private void sendMessageToClient(Message envelope) {
+        if (outboundActor == null) {
+            // if the outbound actor is null, stash the message
+            unsentMessages.add(envelope);
+        } else {
+            // The envelope goes to the server over the materialized actor
+            outboundActor.tell(envelope, self());
+        }
     }
 
     private void handleVeggie(HealthServiceMsg.Veggie request) {
@@ -871,8 +900,7 @@ public class FruitServerActor extends AbstractActorWithTimers {
                 .setMessage(Any.pack(response)).build();
 
         //send the message to the client!
-        outboundActor.tell(envelope, getSelf());
-
+        sendMessageToClient(envelope);
     }
 
     private void handleFruitRequest(HealthServiceMsg.FruitRequest request) {
@@ -895,8 +923,12 @@ public class FruitServerActor extends AbstractActorWithTimers {
         if (individualFruitNumber >=5) {
             logger.info("All out of fruit type [{}]! Notifying client we are done", fruitType, individualFruitNumber);
 
-            outboundActor.tell(Done.getInstance(), getSelf());
-            //outboundActor.tell(Done.done(), getSelf());
+            if (outboundActor != null) {
+                // if the outbound actor is not null, tell the gRPC actor to end
+                outboundActor.tell(Done.getInstance(), getSelf());
+                //outboundActor.tell(Done.done(), getSelf());
+            }
+
 
         } else {
             logger.info("Throwing fruit type [{}] (number [{}]) to the client!", fruitType, individualFruitNumber);
@@ -911,7 +943,7 @@ public class FruitServerActor extends AbstractActorWithTimers {
                     .setMessage(Any.pack(fruitResponse)).build();
 
             //send the message to the client!
-            outboundActor.tell(envelope, getSelf());
+            sendMessageToClient(envelope);
         }
     }
 
@@ -983,6 +1015,9 @@ import com.google.protobuf.Message;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * The basic flow of the client:
  * 1. Create a new FruitClientActor (in Client.java)
@@ -1003,6 +1038,7 @@ public class FruitClientActor extends AbstractActorWithTimers {
     private final int MAX_FRUIT_TO_EAT = 30;
 
     private ActorRef outboundActor;
+    List<Message> unsentMessages = new ArrayList<>(); // This is needed to stash messages if there are messages to be sent before outboundActor is established
 
     private boolean alreadySentDone = false;
 
@@ -1143,10 +1179,21 @@ public class FruitClientActor extends AbstractActorWithTimers {
 
         logger.debug("Setting materialized actor to [{}] for fruit [{}]", outboundActor.path(), fruitType);
 
+        if(unsentMessages.size() > 0) {
+            //if there were stashed messages before the outboundActor was identified
+
+            // send all queued messages
+            for (Message element : unsentMessages) {
+                outboundActor.tell(element, self());
+            }
+
+            //re-set the unsentMessages list
+            unsentMessages = new ArrayList<>();
+        }
+
         // now that we have the materialized actorRef, we can  interact with it - send the server a request for fruit!
         HealthServiceMsg.FruitRequest newFruit = HealthServiceMsg.FruitRequest.newBuilder().setFruitType(fruitType).build();
-        sendMessageToServer(newFruit);
-
+        sendMessageToServer(newFruit, true);
     }
 
     /**
@@ -1183,29 +1230,47 @@ public class FruitClientActor extends AbstractActorWithTimers {
      *
      * @param msg
      */
-    private void sendMessageToServer(Message msg) {
+    private void sendMessageToServer(Message msg, boolean wrapInEnvelope) {
 
-        // We will use a builder for this. Start building the envelope using what we can fill out now
-        HealthServiceMsg.FruitRequestEnvelope.Builder envelopeBuilder = HealthServiceMsg.FruitRequestEnvelope.newBuilder().setInternalID("12345");
+        if(wrapInEnvelope) {
+            // We will use a builder for this. Start building the envelope using what we can fill out now
+            HealthServiceMsg.FruitRequestEnvelope.Builder envelopeBuilder = HealthServiceMsg.FruitRequestEnvelope.newBuilder().setInternalID("12345");
 
-        // To add the message, the object MUST be of type T and NOT Object - so if we did not declare msg as an Object above we would be fine, but since we did, we need to
-        // explicitly typecast the object
-        if (msg instanceof HealthServiceMsg.FruitRequest) {
-            envelopeBuilder = envelopeBuilder.setMessage(Any.pack((HealthServiceMsg.FruitRequest) msg));
-        } else if (msg instanceof HealthServiceMsg.Sword) {
-            envelopeBuilder = envelopeBuilder.setMessage(Any.pack((HealthServiceMsg.Sword) msg));
-        } else if (msg instanceof HealthServiceMsg.Veggie) {
-            envelopeBuilder = envelopeBuilder.setMessage(Any.pack((HealthServiceMsg.Veggie) msg));
-        } else if (msg instanceof HealthServiceMsg.EndFruit) {
-            envelopeBuilder = envelopeBuilder.setMessage(Any.pack((HealthServiceMsg.EndFruit) msg));
+            // To add the message, the object MUST be of type T and NOT Object - so if we did not declare msg as an Object above we would be fine, but since we did, we need to
+            // explicitly typecast the object
+            if (msg instanceof HealthServiceMsg.FruitRequest) {
+                envelopeBuilder = envelopeBuilder.setMessage(Any.pack((HealthServiceMsg.FruitRequest) msg));
+            } else if (msg instanceof HealthServiceMsg.Sword) {
+                envelopeBuilder = envelopeBuilder.setMessage(Any.pack((HealthServiceMsg.Sword) msg));
+            } else if (msg instanceof HealthServiceMsg.Veggie) {
+                envelopeBuilder = envelopeBuilder.setMessage(Any.pack((HealthServiceMsg.Veggie) msg));
+            } else if (msg instanceof HealthServiceMsg.EndFruit) {
+                envelopeBuilder = envelopeBuilder.setMessage(Any.pack((HealthServiceMsg.EndFruit) msg));
+            }
+
+            // finish building the envelope
+            HealthServiceMsg.FruitRequestEnvelope envelope = envelopeBuilder.build();
+
+            if (outboundActor == null) {
+                // if the outbound actor is null, stash the message
+                unsentMessages.add(envelope);
+            } else {
+                // The envelope goes to the server over the materialized actor
+                outboundActor.tell(envelope, self());
+            }
+        } else {
+            // no envelope needed - sometimes this is used for the Done message at the end
+            if (outboundActor == null) {
+                // if the outbound actor is null, stash the message
+                unsentMessages.add(msg);
+            } else {
+                // The envelope goes to the server over the materialized actor
+                outboundActor.tell(msg, self());
+            }
         }
 
-        // finish building the envelope
-        HealthServiceMsg.FruitRequestEnvelope envelope = envelopeBuilder.build();
-
-        // The envelope goes to the server over the materialized actor
-        outboundActor.tell(envelope, self());
     }
+
 
     /**
      * This should never be used, but I put it in here for posterity.
@@ -1269,7 +1334,7 @@ public class FruitClientActor extends AbstractActorWithTimers {
         HealthServiceMsg.Sword throwSword = HealthServiceMsg.Sword.newBuilder().setSwordType("machete").build();
 
         // Throw the sword at the server! This called method will wrap the message in an envelope and then send it
-        sendMessageToServer(throwSword);
+        sendMessageToServer(throwSword, true);
     }
 
     /**
@@ -1283,7 +1348,7 @@ public class FruitClientActor extends AbstractActorWithTimers {
         HealthServiceMsg.Veggie requestVeggie = HealthServiceMsg.Veggie.newBuilder().setVeggieType("cabbage").build();
 
         // Request the veggie from the server!
-        sendMessageToServer(requestVeggie);
+        sendMessageToServer(requestVeggie, true);
     }
 
     public Receive createReceive() {

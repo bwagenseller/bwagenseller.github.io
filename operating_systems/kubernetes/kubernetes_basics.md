@@ -70,6 +70,12 @@ As defined on [kubernetes.io](https://kubernetes.io/docs/concepts/overview/compo
 
 A <font color="green">Cluster</font> will direct a group of nodes, so long as all of those nodes have the same (or practically the same) goal.  
 
+## Namespace  
+
+According to [kubernetes.io](https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/), a <font color="green">Namespace</font> provides a mechanism for isolating groups of resources within a single cluster. Its mostly used when resources in Kubernetes are spread across many users in multiple teams / projects. It is stated that different <font color="green">Namespaces</font> are typically only necessary if there are more than a few dozen users.  
+
+> The default <font color="green">Namespace</font> is `default`, but kubernetes.io suggests _not_ using `default` in production.  
+
 ## Node  
 
 A <font color="green">Node</font> is a 'worker machine' - this is (usually) a server, but it could also be a laptop, a desktop, etc. It doesnt even have to be a 'bare metal' machine - it could also be a virtual machine. a <font color="green">Node</font> can run multiple pods.  A <font color="green">Node</font> is responsible for providing compute resources (memory, CPU cycles, etc) to pods.  
@@ -120,6 +126,10 @@ Due to all of the above, a <font color="green">Service</font> usually has a stat
 
 Examples of Kubernetes services:  
 * [Kubeproxy](operating_systems/kubernetes/kubernetes_basics?id=kubeproxy)  
+
+## ReplicaSet  
+
+A <font color="green">ReplicaSet</font> maintains a _collection_ of replicated pods running within a cluster.  
 
 ## Deployment  
 

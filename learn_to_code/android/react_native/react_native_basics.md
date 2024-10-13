@@ -18,7 +18,8 @@ React Native is a JavaScript-based framework that allows the software engineer t
 
 ## React Native Install 
 
-1\. Install the Android SDK, preferably via the [installation of Android Studio](learn_to_code/android/android_studio?id=installation).  
+1\. Install the Android SDK Platform tools, preferably via the [installation of Android Studio](learn_to_code/android/android_studio?id=installation).  
+* You can probably skip most of this by just downloading the Android Studio Platform tools [here](https://developer.android.com/tools/releases/platform-tools), unzipping to your favorite directory (I usually pick `/android-studio/platform-tools`), and then sourcing this directory in your profile (see the [installation of Android Studio](learn_to_code/android/android_studio?id=installation)).  
 
 2\. Get a Github account on [github.com](https://github.com) and then set up your [Github public key](https://github.com/settings/keys).  
    * This step _may_ be able to be skipped if you do _not_ have any remote connections to [Git](learn_to_code/git/) or remote connections to a Git-like service (i.e. Bitbucket).  
@@ -72,6 +73,8 @@ You can use git to connect to Bitbucket. Shell access is disabled
 curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
 apt-get install -y nodejs
 ```  
+
+> According to [DigitalOcean](https://www.digitalocean.com/community/tutorials/how-to-install-node-js-on-ubuntu-20-04), you can simply run `apt install nodejs` and then `apt install npm` if yo udo not care about getting an older version of node.js _or_ npm - that said, if you want a more modern version of either, use the curl command given.  
    
 8\. Upgrade `npm`
    * The version of `npm` installed by node.js is probably very old, so upgrade it.  

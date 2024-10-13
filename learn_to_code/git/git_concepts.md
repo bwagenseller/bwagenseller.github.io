@@ -136,7 +136,17 @@ It should be noted that every commit will give a [SHA1 ID](learn_to_code/git/git
 
 > See [this article on Git-Scm](https://git-scm.com/book/en/v2/Git-Basics-Viewing-the-Commit-History) for more on viewing the commit history.  
 
-!> Commits can _only_ happen on a branch in the [local repository](learn_to_code/git/git_concepts?id=local-repository), _never_ on a branch in a [remote repository](learn_to_code/git/git_concepts?id=remote-repository)!
+!> Commits can _only_ happen on a branch in the [local repository](learn_to_code/git/git_concepts?id=local-repository), _never_ on a branch in a [remote repository](learn_to_code/git/git_concepts?id=remote-repository)!  
+
+# Rebase  
+
+A <font color="green">rebase</font> is used when you wish to 're-merge' back to the original branch that you branched your current branch from (usually the `master` branch, but this can be different). You could just merge the base branch into your current branch, but it can lead to problems. Instead, use <font color="green">rebase</font>, which rewrites commits from the original branch to your current branch to make your current branch in sync.  
+
+To do (using master as an example): 
+```
+git rebase master
+```
+* This is run while you are in the current branch you are working on (i.e. not master)  
 
 ---
 

@@ -14,6 +14,16 @@
 
 ## Context  
 
+A single <font color="green">Context</font> represents a single Kubernetes cluster / environment; put another way, a single <font color="green">Context</font> represents a Kubernetes 'universe' that is independent from other universes.  
+
+Practically speaking, you may have several independent Kubernetes clusters you may have to interact with - for example, you may have to issue Kubernetes commands to your 
+* Development Environment  
+* Staging Environment  
+* Production Environment  
+* Local Environment (for testing etc)  
+
+Each of the above Kubernetes clusters are independent of each other; they each represent a unique <font color="green">Context</font>.  
+
 # Setup  
 
 ## Install 
@@ -77,28 +87,110 @@ kubectl config use-context [DESIRED_CONTEXT_NAME_HERE]
 
 You can see a great deal of information about a node, deployment, service, or pod with a Describe. For example, you can describe all pods (or a single pod) with:  
 ```
-kubectl describe node
+kubectl describe pods
 ```  
 
 The above describes all nodes (as none are specified).  To specify a specif entity, we can do that as well. For example, if we had a pod named `hello-minikube-77b6f68484-x5qwb` we could get information on that specific pod by:  
 ```
 kubectl describe pods hello-minikube-77b6f68484-x5qwb
 ```  
+## Describe Node  
 
-# Get Pods  
+> You can shorten `node` by just using `no` in all commands.  
+
+To see all info about a node:  
+```
+kubectl describe node [NODE_NAME]
+```  
+* Do _not_ include the brackets `[]`.  
+   * For all nodes, simply leave off the node name entirely.  
+
+Some select fields that I like:  
+* Name - shows the name of the node.  
+* Roles - shows the role of the node.  
+* Labels - lists all labels that are available to query via [the selector](operating_systems/kubernetes/kubectl?id=selector).  
+* Addresses / InternalIP:  The IP of the node.  
+
+
+
+* This is from the example on the [minikube site](https://minikube.sigs.k8s.io/docs/start/).  
+
+
+## Describe Pods  
+
+> You can shorten `pods` by just using `pod` or even `po` in all commands.  
+
+## Describe Service  
+
+## Describe Deployment  
+
+> You can shorten `deployment` by just using `deploy` in all commands.  
+
+## Describe ReplicaSet  
+
+> You can shorten `replicaset` by just using `rs` in all commands.  
+
+# Get  
+
+## Get Node  
+
+> You can shorten `node` by just using `no` in all commands.  
+
+## Get Pods  
+
+> You can shorten `pods` by just using `pod` or even `po` in all commands.  
 
 To display all [pods](operating_systems/kubernetes/kubernetes_basics?id=pod):  
 ```
-kubectl get pods --context=[DESIRED_CONTEXT_NAME_HERE]  
+kubectl get pods  
 ```  
-* `--context`  
-   * Do _not_ include the brackets `[]`.  
-   * This is _only_ needed if you need to switch the context - otherwise, you can leave this off.  
-     * You can [check the current context](operating_systems/kubernetes/kubectl?id=listing-showing-current-context), and if need be, you can [switch the context](operating_systems/kubernetes/kubectl?id=context-switching).  
-* `--all-namespaces=true`  
-   * This can be replaced by `-A`  
-   * By default, most pods are put in a `default` namespace and only these are shown with `get pods`
-     * This allows you to see other namespaces, which is useful if you are running Kubernetes locally and you need to see the pods running that support Kubernetes.  
+* If you wanted to see a _specific_ pod, you would simply include its name after the command.  
+   * You can use a [selector](operating_systems/kubernetes/kubectl?id=selector) to get multiple pods with the same label, if desired.  
+* Remember, you can use the [common flags](operating_systems/kubernetes/kubectl?id=common-flags) as well as teh [get-specific flags](operating_systems/kubernetes/kubectl?id=get-flags).  
+
+## Get Services  
+
+To display all running [services](operating_systems/kubernetes/kubernetes_basics?id=service):  
+```
+kubectl get service  
+```  
+
+## Get Deployment  
+
+> You can shorten `deployment` by just using `deploy` in all commands.  
+
+## Get ReplicaSet  
+
+> You can shorten `replicaset` by just using `rs` in all commands.  
+
+```
+kubectl get replicaset
+```  
+
+## Get Flags  
+
+In addition to the [common flags](operating_systems/kubernetes/kubectl?id=common-flags), `get` has some unique flags that can be used.  
+
+**<font size="4">Output</font>**  
+
+You can use an <font color="green">Output</font> flag to display a different output like so:
+```
+kubectl get pods --output wide  
+```  
+* In place of `--output` you could simply use `-o`  
+* The above specified the 'wide' output, which would give more information
+* There is also `--output name` which prints _just_ the name - this may be helpful for inputting into other commands later.  
+* There are others as well - see `kubectl get --help` for those  
+
+I like the `-o wide` option because:  
+* For nodes, this adds both the internal and external IPs, the OS image, the kernel version, and the container-runtime.  
+* For pods, this adds the IP of the pod as well as its associated node.   
+* For deployments, this adds the containers, images, and selectors.   
+* For replicasets, this adds the containers, images, and selectors.   
+* For services....it just adds the selector. Meh.  
+
+
+
 
 # Show Deployments 
 
@@ -141,11 +233,49 @@ kubectl scale deployment hello-minikube --replicas 0
 * This uses the example on the [minikube site](https://minikube.sigs.k8s.io/docs/start/).  
 * The name is `hello-minikube`, but you should change this to whatever you wish.  
 
-# Get Services  
-
-To display all running [services](operating_systems/kubernetes/kubernetes_basics?id=service):  
-```
-kubectl get service  
-```  
 
 # Port Forward  
+
+# Common Flags  
+
+These common flags are _usually_ applicable to all `kubectl` commands (but not always).  
+
+## Context Flag  
+
+Its possible to run a kubectl command against a specific [context](operating_systems/kubernetes/kubectl?id=context) via the flag:  
+```
+ --context=[DESIRED_CONTEXT_NAME_HERE]  
+```  
+* `--context`  
+   * Do _not_ include the brackets `[]`.  
+* This is _only_ needed if you need to switch the context - otherwise, you can leave this off.  
+   * You can [check the current context](operating_systems/kubernetes/kubectl?id=listing-showing-current-context), and if need be, you can [switch the context](operating_systems/kubernetes/kubectl?id=context-switching).  
+
+## All Namespaces  
+
+To display all [namespaces](operating_systems/kubernetes/kubernetes_basics?id=namespace), use the flag:  
+```
+--all-namespaces=true
+```  
+* This can be replaced by `-A`  
+* By default, most pods are put in a `default` namespace and only these are shown with `get pods`
+  * This allows you to see other namespaces, which is useful if you are running Kubernetes locally and you need to see the pods running that support Kubernetes.  
+
+## Selector  
+
+The selector flag can be used to identify an entity ([pod](operating_systems/kubernetes/kubernetes_basics?id=pod), [service](operating_systems/kubernetes/kubernetes_basics?id=service), etc) based off of a label. 
+
+This can be advantageous, as sometimes you do not wish to look up the specific name (especially for pods) and / or you wish to return all pods with a single attribute as defined in a label. You can use a [describe](operating_systems/kubernetes/kubectl?id=describe) to find labels for entities.  
+
+> Where is this label created? That can be complicated.  At least for [Helm charts](operating_systems/kubernetes/helm), this can be defined in the `_helpers.tpl` file.  
+
+An implementation of the `--selector` flag is as follows:  
+``` 
+--selector app.kubernetes.io/name=some-element-name
+```  
+* You can replace `--selector` with `-l`  
+* The label we are searching for above is `app.kubernetes.io/name`, and the value is `some-element-name`  
+   * Note you have to be specific - you cannot just use `name`, you _must_ use the full label i.e. `app.kubernetes.io/name`  
+   * It seems the format `app.kubernetes.io/XXXXX` is common for labels.  
+* you can have multiple labels represented, just separate them with a comma i.e. `-l app.kubernetes.io/name=some-element-name,app.kubernetes.io/managed-by=Helm`  
+ 

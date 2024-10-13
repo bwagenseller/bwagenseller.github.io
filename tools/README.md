@@ -18,3 +18,7 @@
 # Kafka  
 - [Kafka](/tools/kafka/) - Kafka, an event-driven tool.  
 - [Kafka Basics](/tools/kafka/kafka_basics) - The basics of Kafka.  
+
+# Plex  
+- [Plex](/tools/plex/) - Plex, a multimedia server.  
+- [Plex Basics](/tools/plex/plex_basics) - The basics of Plex.  

@@ -1,0 +1,2 @@
+- [**Plex**](/tools/plex/)  
+- [**Plex Basics**](/tools/plex/plex_basics)  

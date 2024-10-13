@@ -1,0 +1,6 @@
+- [**Main AI Media Page**](/ai_media/)
+- [**Stable Diffusion Overview**](/ai_media/stable_diffusion/)  
+ - [Stable Diffusion](/ai_media/stable_diffusion/stable_diffusion)  
+ - [Easy Diffusion](/ai_media/stable_diffusion/easy_diffusion)  
+ - [AUTOMATIC1111 WebUI](/ai_media/stable_diffusion/automatic1111)  
+ - [Kohya](/ai_media/stable_diffusion/kohya)   

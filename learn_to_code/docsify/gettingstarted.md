@@ -90,14 +90,19 @@ Markdown is like a computer language (loosely defined), and its a simplified way
 # Files Needed
 
 For general purposes, [Docisfy](https://docsify.now.sh/) requires three files for each folder under the main directory:
-* README.md - This file is written in the Markdown language and acts as a 'hub' for the folder.  Typically, the contents of README.md is a simple listing of the markdown files available in the current folder, but you could put other things in here as well if you wanted. EVERY folder in the 'library' folder in docsify MUST have a README.md. 
-* _sidebar.md - This file populates the sidebar navigation menu on the left of the page.
-* _navbar.md - This file populates the navigation menu.
+* `README.md` - This file is written in the Markdown language and acts as a 'hub' for the folder.  Typically, the contents of README.md is a simple listing of the markdown files available in the current folder, but you could put other things in here as well if you wanted. 
+  * While not required, its good to have a `README.md` for every directory as it will act as an index page.  
+* `_sidebar.md` - This file populates the sidebar navigation menu on the left of the page.  
+  * `window.$docsify` in the file `index.html` controls the depth of this.   
+    * I like to set `maxLevel: 4` and `subMaxLevel: 4`.  
+* `_navbar.md` - This file populates the navigation menu, which goes across the top of the page.  
+  * `_navbar.md` is _not_ required for every level - if a sublevel is missing this file, it will inherit it from a parent directory.  
+  * The position is _not_ static - it will scroll away if you go down the page  
+  * The initial level goes across the top  
+    * Subsequent levels go in a dropdown  
+    * I dont like going more than one sublevel, as it gives it a box with scrollbars   
 
-Docsify allows different 'pages' under its main folder. Your Docsify will be located in one (or many) of these folders. For each folder in this main folder, at least three files must be present:
-* README.md - This file is written in the Markdown language and acts as a 'hub' for the folder.  Typically, the contents of README.md is a simple listing of the markdown files available in the current folder, but you could put other things in here as well if you wanted. EVERY folder MUST have a README.md. 
-* _sidebar.md - This file populates the sidebar navigation menu on the left of the page.
-* ???.md - This file will be named something logical that describes your documentation (so if this was documentation about birds, it may be called birds.md, for example). This file will be the main document that houses all of the critical information contained in your documentation, describing whatever process you are covering in detail.
+Docsify allows different 'pages' under its main folder. Your Docsify pages will be located in one (or many) of these folders. You can also have many different `???.md` files that are on different topics.
 
 If you want more information on the needed files for Docsify, [we have put together some information here](/operating_systems/ubuntu/server_build?id=basics-of-docsify-files-and-locations).
 
@@ -124,7 +129,7 @@ Now, this is for your document file - but if you wanted to link to a directory y
 This is where README.md becomes important, as whatever in the README.md is used as the default display when you navigate to a directory this way.
 
 
-For an example, say we have a file called gettingstarted.md (which is this file) and its located in the folder /mnt/docsify_library/learn_to_code/docsify (as specified [here](operating_systems/ubuntu/server_build?id=docsify-setup); when referencing the file you lop off the base, so this will just be /learn_to_code/docsify/.  If we wanted to link to this file in Markdown we could say
+For an example, say we have a file called `gettingstarted.md` (which is this file) and its located in the folder `/mnt/docsify_library/learn_to_code/docsify` (as specified [here](operating_systems/ubuntu/server_build?id=docsify-setup)); when referencing the file you lop off the base, so this will just be `/learn_to_code/docsify/`.  If we wanted to link to this file in Markdown we could say
 
 ```
 [Click HERE](/learn_to_code/docsify/gettingstarted)
