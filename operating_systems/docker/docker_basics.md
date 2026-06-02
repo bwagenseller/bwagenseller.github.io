@@ -103,11 +103,71 @@ Docker is also good at <font color="green">Isolation</font>, which means running
 
 # Installation 
 
+## Docker Desktop Installation (Ubuntu)  
+
+> The official Docker Desktop install instructions are [here](https://docs.docker.com/desktop/setup/install/linux/ubuntu/); if you get the `docker-ce-cli but it is not installable` error, [follow these instructions](https://stackoverflow.com/questions/72299444/docker-desktop-doesnt-install-saying-docker-ce-cli-not-installable). Also, <font color="red">please note</font> that these instructions also install [Docker Engine](operating_systems/docker/docker_basics?id=docker-engine-installation-ubuntu); the only real reason to install Docker Engine over Desktop is you are running this on a business laptop and dont want to pay the business fee - in that case, install Docker Engine instead.
+
+1\. [Become root](/operating_systems/ubuntu/linux_notes?id=becoming-root).  
+
+2\. Update - run: `apt-get update`  
+
+3\. Install various packages - run: `apt-get install ca-certificates curl gnupg lsb-release`  
+
+4\. Add Docker’s official GPG key: `curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg`   
+  * _If_ `/etc/apt/keyrings` does not exist: make it first: `mkdir -p /etc/apt/keyrings`  
+5\. Set up the Docker repository - run: `echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null`  
+
+6\. Update the newly acquired Docker repository - run: `apt-get update -y`  
+
+7\. Download the .deb file for Docker Desktop [here](https://desktop.docker.com/linux/main/amd64/docker-desktop-amd64.deb?utm_source=docker&utm_medium=webreferral&utm_campaign=docs-driven-download-linux-amd64)  
+  * Checksums are [here](https://docs.docker.com/desktop/release-notes/)  
+
+8\. Install the file you just downloaded: `apt-get install ./docker-desktop-amd64.deb`  
+  * If you see this error, just ignore it:  
+```
+N: Download is performed unsandboxed as root, as file '/home/user/Downloads/docker-desktop.deb' couldn't be accessed by user '_apt'. - pkgAcquire::Run (13: Permission denied)
+```  
+
+9\. Test to see if Docker installed properly - run: `docker version`; If you see (something like) this it was successful:  
+```
+Client: Docker Engine - Community
+ Version:           20.10.13
+ API version:       1.41
+ Go version:        go1.16.15
+ Git commit:        a224086
+ Built:             Thu Mar 10 14:07:52 2022
+ OS/Arch:           linux/amd64
+ Context:           default
+ Experimental:      true
+
+Server: Docker Engine - Community
+ Engine:
+  Version:          20.10.13
+  API version:      1.41 (minimum version 1.12)
+  Go version:       go1.16.15
+  Git commit:       906f57f
+  Built:            Thu Mar 10 14:05:41 2022
+  OS/Arch:          linux/amd64
+  Experimental:     false
+ containerd:
+  Version:          1.5.10
+  GitCommit:        2a1d4dbdb2a1030dc5b01e96fb110a9d9f150ecc
+ runc:
+  Version:          1.0.3
+  GitCommit:        v1.0.3-0-gf46b6ba
+ docker-init:
+  Version:          0.19.0
+  GitCommit:        de40ad0
+```
+
+!> _All_ Docker commands _must_ be run as root!  
+
+
 ## Docker Engine Installation (Ubuntu)  
 
-> For the install, I followed the official install instructions [here](https://docs.docker.com/engine/install/ubuntu/) - but its condensed below.  
+> For the install, I followed the official install instructions [here](https://docs.docker.com/engine/install/ubuntu/) - but its condensed below. Also, [Docker Desktop](operating_systems/docker/docker_basics?id=docker-desktop-installation-ubuntu) is preferred over this, so - you may want to install that instead. If not, follow these instructions.   
 
-Unfortunately, Docker Desktop is not available on an LTS version of Ubuntu (currently) - we need to install <font color="green">Docker Engine</font> instead. To do so, follow these abridged instructions:  
+To install <font color="green">Docker Engine</font>, follow these abridged instructions:  
 
 1\. [Become root](/operating_systems/ubuntu/linux_notes?id=becoming-root).  
 2\. Update - run: `apt-get update`  
@@ -158,9 +218,23 @@ Server: Docker Engine - Community
 
 ## Docker Compose Installation (Ubuntu) 
 
-> Inspiration for the below instructions came from [here](https://www.cloudsigma.com/how-to-install-and-configure-docker-compose-on-ubuntu-20-04/).  
+> The instructions for this are [here](https://docs.docker.com/compose/install/).  
 
-You will also need <font color="green">Docker Compose</font>; simply grab the binary from its github home. Here is how to do so.
+Its <font color="red">critical to note</font> that <font color="green">Docker Compose</font> is _no longer installed via manually getting the binary in Git_ - as of 2025 its typically installed with Docker Desktop or Docker Engine.  
+
+That said, if for some reason its not:  
+
+1\. [Become root](/operating_systems/ubuntu/linux_notes?id=becoming-root).  
+2\. Update - run: `apt-get update`  
+3\. Install: `apt-get install docker-compose-plugin`  
+
+!> Note that old versions would have you run `docker-compose` to run <font color="green">Docker Compose</font> commands; in the more modern version, its a straight docker command i.e. run `docker compose` instead (without the dash).  
+
+### Antiquated Compose Install  
+
+These are antiquated instructions that came from [here](https://www.cloudsigma.com/how-to-install-and-configure-docker-compose-on-ubuntu-20-04/) - this is <font color="red">note the recommended way</font> to install <font color="green">Docker Compose</font>, but  left it in for historical purposes.  
+
+This old method had you grab the binary from its github home. Here is how to do so.  
 
 1\. [Become root](/operating_systems/ubuntu/linux_notes?id=becoming-root).  
 2\. Run: `curl -L "https://github.com/docker/compose/releases/download/v2.3.3/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose`  
@@ -168,6 +242,7 @@ You will also need <font color="green">Docker Compose</font>; simply grab the bi
 * If you wish to use anything prior to 2.0.0, do _not_ use `...download/vX.X.X/docker-compose...` as above; remove the `v` in the version.  
 
 3\. Change permissions on the file: `chmod +x /usr/local/bin/docker-compose`  
+
 4\. Test: `docker-compose version`  
 * If you see `Docker Compose version v2.3.3`, it worked!  
 * If you see `/usr/local/bin/docker-compose: line 1: Not: command not found` it means the binary file did not download (you probably have the version wrong, or forgot to add / forgot to remove the 'v' near the version).  

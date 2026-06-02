@@ -37,6 +37,8 @@ So in order to fully utilize <font color="green">Kubernetes</font>, you will nee
 ## Useful Links  
 
 * [My Docker Overview](/operating_systems/docker/)  
+* [An Introduction To Kubernetes - For Beginners](https://www.youtube.com/watch?v=PlWPH_VUlNE)  
+* Udemy course [Docker and Kubernetes: The Complete Guide](https://www.udemy.com/course/docker-and-kubernetes-the-complete-guide/?couponCode=BFCPSALE24)  
 
 ## Why I Do This
 
@@ -58,6 +60,8 @@ My main note sources are:
 
 You will have to understand Docker (or an equivalent) to use Kubernetes. See [my Docker overview](/operating_systems/docker/).  
 
+> It's worth knowing that Kubernetes doesn't require Docker. It uses any container runtime that implements the `CRI` (`Container Runtime Interface`) standard. Docker is common but so is `containerd` and `CRI-O`. In fact, modern Kubernetes clusters often use `containerd` directly.
+
 ## Kubectl is Critical  
 
 You will have to understand Kubectl (or an equivalent tool) to use Kubernetes. See [my Kubectl overview](/operating_systems/kubernetes/kubectl).  
@@ -70,33 +74,72 @@ As defined on [kubernetes.io](https://kubernetes.io/docs/concepts/overview/compo
 
 A <font color="green">Cluster</font> will direct a group of nodes, so long as all of those nodes have the same (or practically the same) goal.  
 
+## Namespace  
+
+According to [kubernetes.io](https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/), a <font color="green">Namespace</font> provides a mechanism for isolating groups of resources within a single cluster. Its mostly used when resources in Kubernetes are spread across many users in multiple teams / projects. It is stated that different <font color="green">Namespaces</font> are typically only necessary if there are more than a few dozen users.  
+
+The most practical reason <font color="green">Namespaces</font> exist is name collision prevention. In Kubernetes, every resource has a name, and names must be unique - but only within a <font color="green">Namespace</font>. So you could have a Service called `api` in a `dev` <font color="green">Namespace</font> and a completely separate Service also called `api` in a `prod` <font color="green">Namespace</font>, and they coexist without any conflict. Small teams often use <font color="green">Namespaces</font> to separate environments like dev, staging, and prod within the same cluster. 
+
+The other big reason is access control and resource isolation. You can apply permissions (via RBAC) and resource quotas at the <font color="green">Namespace</font> level, so team A can't accidentally mess with team B's stuff.  
+
+A really common real-world pattern looks like this:
+* `default` - where things land if you don't specify a namespace  
+* `kube-system` - where Kubernetes' own internal components live (you'll see this right away with kubectl get pods -n kube-system)  
+* `dev` / `staging` / `prod` — environment separation  
+* Team or app-specific namespaces in larger orgs  
+
+The key takeaway: namespaces are a way to carve up one cluster into logical sections. 
+
+> The default <font color="green">Namespace</font> is `default`, but kubernetes.io suggests _not_ using `default` in production.  
+
 ## Node  
 
 A <font color="green">Node</font> is a 'worker machine' - this is (usually) a server, but it could also be a laptop, a desktop, etc. It doesnt even have to be a 'bare metal' machine - it could also be a virtual machine. a <font color="green">Node</font> can run multiple pods.  A <font color="green">Node</font> is responsible for providing compute resources (memory, CPU cycles, etc) to pods.  
 
-### Master Node  
+### Control Plane  
 
-A <font color="green">Master Node</font> is a type of [node](operating_systems/kubernetes/kubernetes_basics?id=node) that is meant to be a server (bare metal or virtual) that controls the [slave nodes](operating_systems/kubernetes/kubernetes_basics?id=slave-node). 
+The term '<font color="green">Control Plane</font>' has two definitions. The first <font color="green">Control Plane</font> (formerly: <font color="green">Master Node</font>) is a type of [node](operating_systems/kubernetes/kubernetes_basics?id=node) that is meant to be a server (bare metal or virtual) that controls the [slave nodes](operating_systems/kubernetes/kubernetes_basics?id=worker-node). 
 
 A <font color="green">Master Node</font>:  
 * Is meant to act as an administrative node / as a 'point of contact' for DevOps engineers to interact with the entire [cluster](operating_systems/kubernetes/kubernetes_basics?id=cluster).  
-   * For example, all requests for pods will be sent through the <font color="green">Master Node</font>, and from there, a [slave node](operating_systems/kubernetes/kubernetes_basics?id=slave-node) will actually run the [pod](operating_systems/kubernetes/kubernetes_basics?id=pod).  
+   * For example, all requests for pods will be sent through the <font color="green">Master Node</font>, and from there, a [worker node](operating_systems/kubernetes/kubernetes_basics?id=worker-node) will actually run the [pod](operating_systems/kubernetes/kubernetes_basics?id=pod).  
 * Does not _usually_ host [pods](operating_systems/kubernetes/kubernetes_basics?id=pod) itself.  
-* Manages the [slave nodes](operating_systems/kubernetes/kubernetes_basics?id=slave-node).  
+* Manages the [worker nodes](operating_systems/kubernetes/kubernetes_basics?id=worker-node).  
 * Handles authentication.  
 * There are typically multiple <font color="green">Master Node</font> in a [cluster](operating_systems/kubernetes/kubernetes_basics?id=cluster).  
-   * There are usually less <font color="green">Master Nodes</font> than slave nodes.  
-* The <font color="green">Master Nodes</font> require less resources (CPU, memory, etc) than the slave nodes.  
+   * There are usually less <font color="green">Master Nodes</font> than worker nodes.  
+* The <font color="green">Master Nodes</font> require less resources (CPU, memory, etc) than the worker nodes.  
 
-### Slave Node  
+The second definition of <font color="green">Control Plane</font> is the collection of components that actually do the work; the term is used at both levels, which can be a bit confusing.  
 
-A <font color="green">Slave Node</font> is a node that runs [pods](operating_systems/kubernetes/kubernetes_basics?id=pod) as a worker node; it is not a node that an administrator would directly interact with, typically.  
+The apps that are comprised of this definition of the <font color="green">Control Plane</font> are required for Kubernetes to function; these apps run in pods on the <font color="green">Control Plane</font>. The <font color="green">Control Plane</font> consists of:
+* kube-apiserver  
+  * The front door to the entire cluster.  
+  * Everything talks to it: kubectl, other control plane components, worker nodes.  
+  * It's the only component that talks to etcd directly.  
+* etcd  
+  * The cluster's database.  
+  * Stores all cluster state and configuration as key-value pairs.  
+  * If etcd dies, the cluster loses its memory of what should exist.  
+* kube-scheduler  
+  * Watches for newly created pods that don't have a node assigned yet, and decides which worker node to place them on based on available resources, constraints, etc.  
+* kube-controller-manager  
+  * Runs a bunch of control loops in the background.  
+    * For example, if a pod dies and you said you wanted 3 replicas, the controller manager notices and creates a replacement.  
+
+
+
+### Worker Node  
+
+A <font color="green">Worker Node</font> (formerly: <font color="green">Slave Node</font>) is a node that runs [pods](operating_systems/kubernetes/kubernetes_basics?id=pod) as a worker node; it is not a node that an administrator would directly interact with, typically.  
 
 ## Pod  
 
 A <font color="green">Pod</font> is the smallest deployable unit in Kubernetes and is similar to a [Docker Container](operating_systems/docker/docker_basics?id=container); It could be a Docker container, but it does not _have to be a Docker container. 
 
 Its not uncommon to have multiple pods with the _exact_ same configuration, performing the same tasks. This is done so the application the pods are supporting is horizontally scalable.  
+
+> A Pod can run multiple containers, not just one. However, the typical and recommended pattern is one main application container per pod. Multiple containers in a pod (called "sidecar" containers) are used for specific patterns, like a logging agent or a proxy running alongside your main app. So "one app runs in one pod" is a good default mental model.  
 
 ## Container  
 
@@ -116,10 +159,18 @@ A <font color="green">Controller</font> is a [control loop](operating_systems/ku
 
 A <font color="green">Service</font> is a Kubernetes entity that provides specific services for pods. For example, a <font color="green">Service</font> can act like a load balancer, spreading traffic between pods that have the same function; all incoming traffic goes through the service. A <font color="green">Service</font> can be internal or external; an external <font color="green">Service</font> can be accessed from outside of the cluster (for example, a service that exposes an external websocket), while an internal <font color="green">Service</font> can be accessed only from inside of the cluster.  
 
-Due to all of the above, a <font color="green">Service</font> usually has a static IP address.  
+Due to all of the above, a <font color="green">Service</font> usually has a static IP address. Pods are ephemeral; they get created and destroyed all the time, and their individual IPs change. A Service sits in front of them with a stable IP (called a `ClusterIP`) so other things in the cluster always have a reliable address to talk to, regardless of what's happening with the underlying pods. 
 
 Examples of Kubernetes services:  
-* [Kubeproxy](operating_systems/kubernetes/kubernetes_basics?id=kubeproxy)  
+* `ClusterIP` - internal only, the default
+* `NodePort` - exposes a port on every node, accessible externally  
+* `LoadBalancer` - provisions an external load balancer (common in cloud environments)  
+* `ExternalName` - maps a service to an external DNS name  
+
+
+## ReplicaSet  
+
+A <font color="green">ReplicaSet</font> maintains a _collection_ of replicated pods running within a cluster.  
 
 ## Deployment  
 
@@ -163,17 +214,8 @@ The application <font color="green">Kubeproxy</font> proxies and load balances r
 
 The application <font color="green">Kubelet</font> interacts with the pods and the node itself.  <font color="green">Kubelet</font>:  
 * Registers the node with the [kube-apiserver](operating_systems/kubernetes/kubernetes_basics?id=kube-apiserver).  
-* Receives the description (i.e. [Helm Charts](operating_systems/kubernetes/helm)) on how to configure pods from the [master node](operating_systems/kubernetes/kubernetes_basics?id=master-node).  
+* Receives the description (i.e. [Helm Charts](operating_systems/kubernetes/helm)) on how to configure pods from the [control plane](operating_systems/kubernetes/kubernetes_basics?id=control-plane).  
 * Ensures [pods](operating_systems/kubernetes/kubernetes_basics?id=pod) are running and healthy.  
-
-## Control Plane  
-
-The <font color="green">Control Plane</font> is a collection of apps that are required for Kubernetes to function; these apps run in pods on a [master node](operating_systems/kubernetes/kubernetes_basics?id=master-node). The <font color="green">Control Plane</font> consists of:  
-* `kube-apiserver`  
-* `kube-controller-manager`  
-* `kube-scheduler`  
-* `etcd`  
-
 
 ## kube-apiserver
 

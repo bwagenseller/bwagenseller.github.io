@@ -1,0 +1,5 @@
+- **NAS**  
+  - [TrueNAS Scale](/operating_systems/nas/truenas_scale)  
+- **Services**  
+  - [NFS](/operating_systems/nas/nfs)  
+  - [Samba](/operating_systems/nas/samba)  

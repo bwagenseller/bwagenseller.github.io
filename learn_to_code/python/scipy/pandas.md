@@ -166,7 +166,7 @@ This would print:
 
 ## Loading from CSV
 
-> This can be used to pull in [machine learning datasets from the web](learn_to_code/python/scipy/machine_learning_in_python?id=test-datasets); just replace the file name with the web address.
+> This can be used to pull in [machine learning datasets from the web](learn_to_code/python/machine_learning/machine_learning_in_python?id=test-datasets); just replace the file name with the web address.
 
 For the sake of argument, lets say we had a CSV `test.csv` as follows:
 ```
@@ -500,6 +500,93 @@ Similarly, if you wanted to get the column count you could use `shape[1]`:
 ```
 columnCount = myDF.shape[1]
 ```
+
+## Applying a Function to Column  
+
+Sometimes, you need to apply a function to an entire column; you can do this with `.apply(FUNCTION_NAME_HERE)`:
+
+```Python  
+import pandas as pd
+
+data = {'Score': [75, 92, 45, 88, 60]}
+df = pd.DataFrame(data)
+
+print("Original DataFrame:")
+print(df)
+print("-" * 30)
+
+# Define a custom function
+def grade_assigner(score):
+    if score >= 90:
+        return 'A'
+    elif score >= 80:
+        return 'B'
+    elif score >= 70:
+        return 'C'
+    elif score >= 60:
+        return 'D'
+    else:
+        return 'F'
+
+# Apply the function to the 'Score' column and save to 'Grade'
+df['Grade'] = df['Score'].apply(grade_assigner)
+
+print("\nDataFrame with new 'Grade' column:")
+print(df)
+```  
+
+## Populate Column w/ Conditional Logic  
+
+For conditional assignments (if-else logic), especially on large DataFrames, NumPy's `where()` or `select()` functions are often much faster than apply() because they are vectorized.  
+
+np.where() (for simple if-else):
+```Python
+
+import pandas as pd
+import numpy as np
+
+data = {'Temperature_C': [25, 30, 15, 35, 20]}
+df = pd.DataFrame(data)
+
+print("Original DataFrame:")
+print(df)
+print("-" * 30)
+
+# Convert Celsius to Fahrenheit: F = C * 9/5 + 32
+df['Temperature_F'] = df['Temperature_C'] * (9/5) + 32
+
+# Assign 'Status' based on 'Temperature_C'
+df['Status'] = np.where(df['Temperature_C'] > 28, 'Hot', 'Normal')
+
+print("\nDataFrame with new columns (np.where):")
+print(df)
+```  
+
+np.select() (for multiple conditions):
+```Python
+
+import pandas as pd
+import numpy as np
+
+data = {'Humidity': [70, 40, 85, 55, 30]}
+df = pd.DataFrame(data)
+
+print("Original DataFrame:")
+print(df)
+print("-" * 30)
+
+conditions = [
+    (df['Humidity'] > 80),
+    (df['Humidity'] > 60) & (df['Humidity'] <= 80),
+    (df['Humidity'] > 40) & (df['Humidity'] <= 60)
+]
+choices = ['Very High', 'High', 'Moderate']
+
+df['Humidity_Level'] = np.select(conditions, choices, default='Low')
+
+print("\nDataFrame with new 'Humidity_Level' column (np.select):")
+print(df)
+```  
 
 ---  
 

@@ -4,6 +4,10 @@ This is my quick notes on [Minikube](https://minikube.sigs.k8s.io/docs/), a Kube
 
 !> Minikube cannot run by itself - you will also need to install [kubectl](operating_systems/kubernetes/kubectl?id=install) and something that can deploy containers (the most popular one, and the one I use, is [Docker](operating_systems/docker/docker_basics?id=docker-engine-installation-ubuntu)).  
 
+# Links  
+
+* [minikube start](https://minikube.sigs.k8s.io/docs/start/?arch=%2Flinux%2Fx86-64%2Fstable%2Fbinary+download)   
+
 # Install  
 
 ## Minikube Install  

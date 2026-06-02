@@ -13,9 +13,9 @@ I decided to do something similar here. The following notes are from a combinati
 - [Kubernetes](/operating_systems/kubernetes/) - Brent Wagenseller's notes on Kubernetes.  
 - [Generic Ubuntu Server Build](/operating_systems/ubuntu/server_build) - Documents how to build an Ubuntu server from the ground up.
 - [journalctl](/operating_systems/ubuntu/package_operations/journalctl) - Investigate logging with `journalctl`.
-- [KVM Install](/operating_systems/ubuntu/package_install/kvm_install) - Details on how to install KVM.
-- [KVM Notes](/operating_systems/ubuntu/package_operations/kvm_notes) - Day to day operations in KVM.
-- [Linux Quick Reference](/operating_systems/ubuntu/linux_notes) - Some quick notes on Unix/Linux administration.
+- [KVM](/operating_systems/kvm/) - Brent Wagenseller's notes on KVM.  
+- [Linux Quick Reference](/operating_systems/ubuntu/linux_notes) - Some quick notes on Unix/Linux administration.  
+- [NAS](/operating_systems/nas/) - My notes on about NAS systems.  
 
 
 # Raspberry Pi
@@ -40,6 +40,9 @@ I decided to do something similar here. The following notes are from a combinati
 - [Git](/learn_to_code/git/) - My notes to get up to speed on git. 
 - [Kafka](/tools/kafka/) - Kafka, an event-driven tool.  
 - [StatsD Page](/learn_to_code/statsd/) - StatsD is a package that graphs stats; can be used in Python, Java, and more.  
+- [Plex](/tools/plex/) - Plex, a home media server.  
+- [RetroArch](/tools/retroarch/) - RetroArch, a cross-platform frontend for retro game emulators.  
+- [Open Broadcaster Software (OBS) Studio](/tools/obs_studio/) - OBS Studio, software for video recording and live streaming.  
 
 # Learning To Code
 - [Android](/learn_to_code/android/) - Brent's notes on his journey to learn Android.  
@@ -57,6 +60,20 @@ I decided to do something similar here. The following notes are from a combinati
 - [Asterisk Operations](/telephony/asterisk) - Day to day operations in Asterisk.  
 - [Kamailio](/telephony/kamailio/) - Using the SIP-centric Kamailio.  
 - [Misc Tools](/telephony/misc_tools) - Various small tools in telephony.  
+
+# AI Media  
+- [AI Media](/ai_media/) - The landing page for AI media.  
+- [Stable Diffusion](/ai_media/stable_diffusion/) - My notes on Stable Diffusion, an AI art model.  
+- [llama.cpp Overview](/ai_media/llama.cpp/) - My notes on a local llama.cpp instance in Ubuntu.  
+- [Ovi](/ai_media/ovi/) - Ovi, an AI video / audio tool.  
+
+# Agentic AI  
+- [Agentic AI](/agentic/) - The landing page for agentic AI.  
+- [General Notes](agentic/general/) - General Agentic AI concepts.  
+- [Claude Code](/agentic/claude_code/) - My notes on using the Claude Code CLI.  
+- [Codex CLI](/agentic/codex_cli/) - My notes on using the Codex CLI.  
+- [Aider](/agentic/aider/) - My notes on using the Aider CLI.  
+- [OpenClaw](/agentic/openclaw/) - My notes on using OpenClaw.  
 
 # Microsoft Office
 - [Vlookup](/office/excel_vlookup) - Working tips on how to use VLookup in Excel (and Ubuntu's LibreOffice).

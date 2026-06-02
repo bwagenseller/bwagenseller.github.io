@@ -1,2 +1,0 @@
-- [**Generic Ubuntu Server Build**](/operating_systems/ubuntu/server_build)
-- [**KVM Install Instructions**](/operating_systems/ubuntu/package_install/kvm_install)

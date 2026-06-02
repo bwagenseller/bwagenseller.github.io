@@ -1,0 +1,8 @@
+- [**Main Agentic AI Page**](/agentic/)  
+- [**Claude Code**](agentic/claude_code/)  
+- [Claude Code Basics](/agentic/claude_code/claude_code_basics)  
+- [Context Management](/agentic/claude_code/context_management)  
+- [Configuration](/agentic/claude_code/configuration)  
+- [Channels](/agentic/claude_code/channels)  
+- [Hooks](/agentic/claude_code/hooks)  
+- [MCP Servers](/agentic/claude_code/mcp)  

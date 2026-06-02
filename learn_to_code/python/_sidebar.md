@@ -1,7 +1,29 @@
 - [Home](https://bwagenseller.github.io/#/)
-- [Basics of Python](/learn_to_code/python/python_basic)
-- [Scipy](/learn_to_code/python/scipy/)
-- [Multithreading in Python](/learn_to_code/python/python_multithreading)
-- [Media in Python](/learn_to_code/python/python_media)
-- [Machine Learning in Python](/learn_to_code/python/scipy/machine_learning_in_python)
-- [SQL in Python](/learn_to_code/python/python_sql)
+- **Basics**
+  - [PyCharm](/learn_to_code/python/pycharm)  
+  - [Basics of Python](/learn_to_code/python/python_basic)  
+  - [PIP](/learn_to_code/python/pip)  
+  - [Conda](/learn_to_code/python/conda)  
+  - [Local Packages](/learn_to_code/python/local_packages)  
+  - [SQL in Python](/learn_to_code/python/python_sql)  
+  - [Multithreading in Python](/learn_to_code/python/python_multithreading)  
+- **Scipy**  
+  - [Scipy](/learn_to_code/python/scipy/)  
+  - [Pandas](/learn_to_code/python/scipy/pandas)  
+  - [Numpy](/learn_to_code/python/scipy/numpy)  
+  - [Matplotlib](/learn_to_code/python/scipy/matplotlib)  
+- **AI / Media**  
+  - [Machine Learning in Python](/learn_to_code/python/machine_learning/machine_learning_in_python)  
+  - [Media Basics](/learn_to_code/python/media_manipulation/media_basics)  
+  - [YouTube](/learn_to_code/python/media_manipulation/youtube)  
+  - [PyTorch](/learn_to_code/python/machine_learning/pytorch)  
+  - **TTS**  
+    - [Bark](/learn_to_code/python/machine_learning/bark-tts)  
+    - [Coqui-tts](/learn_to_code/python/machine_learning/coqui-tts)  
+    - [F5-tts](/learn_to_code/python/machine_learning/f5-tts)  
+    - [Kokoro](/learn_to_code/python/machine_learning/kokoro-tts)  
+    - [Tortoise](/learn_to_code/python/machine_learning/tortoise-tts)  
+  - **OCR**  
+    - [Pytesseract](/learn_to_code/python/machine_learning/pytesseract)  
+  - **ASR**  
+    - [WhisperX](/learn_to_code/python/machine_learning/whisperx)  

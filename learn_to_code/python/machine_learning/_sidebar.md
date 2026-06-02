@@ -1,0 +1,15 @@
+- **Basics**
+  - [Machine Learning in Python](/learn_to_code/python/machine_learning/machine_learning_in_python)  
+  - [Media in Python](/learn_to_code/python/media_manipulation/)  
+  - [YouTube](/learn_to_code/python/media_manipulation/youtube)  
+  - [PyTorch](/learn_to_code/python/machine_learning/pytorch)  
+- **TTS**  
+  - [Bark](/learn_to_code/python/machine_learning/bark-tts)  
+  - [Coqui-tts](/learn_to_code/python/machine_learning/coqui-tts)  
+  - [F5-tts](/learn_to_code/python/machine_learning/f5-tts)  
+  - [Kokoro](/learn_to_code/python/machine_learning/kokoro-tts)  
+  - [Tortoise](/learn_to_code/python/machine_learning/tortoise-tts)  
+- **OCR**  
+  - [Pytesseract](/learn_to_code/python/machine_learning/pytesseract)  
+- **ASR**  
+  - [WhisperX](/learn_to_code/python/machine_learning/whisperx)    

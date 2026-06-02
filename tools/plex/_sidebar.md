@@ -1,0 +1,4 @@
+- [**Plex**](/tools/plex/)  
+- [**Plex Basics**](/tools/plex/plex_basics)  
+- **Adjacent Tools**  
+  - [**HD HomeRun**](/tools/plex/hdhomerun)  

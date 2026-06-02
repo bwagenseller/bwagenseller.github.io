@@ -10,3 +10,9 @@
 # Asterisk  
 - [Asterisk](/telephony/asterisk/) - Landing page for Kamailio.  
 - [Asterisk Basics](/telephony/asterisk/asterisk_basics) - The basics in Asterisk.  
+- [Modules](/telephony/asterisk/modules) - The various modules of Asterisk.  
+- [Dialplans](/telephony/asterisk/dialplans) - Dialplans in Asterisk.  
+
+# FreePBX  
+
+- [FreePBX](/telephony/asterisk/freepbx) - The FreePBX web GUI interface to Asterisk.  

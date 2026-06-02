@@ -1,0 +1,5 @@
+- **Basics**
+- [Media in Python](/learn_to_code/python/media_manipulation/)  
+- [Machine Learning in Python](/learn_to_code/python/machine_learning/)  
+- [YouTube](/learn_to_code/python/media_manipulation/youtube)  
+- [Media Basics](/learn_to_code/python/media_manipulation/media_basics)  

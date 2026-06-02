@@ -11,8 +11,6 @@ These documents detail everything I care to record about the Ubuntu (Debian) Lin
 # Server Operations
 - [Linux Quick Reference](/operating_systems/ubuntu/linux_notes) - Some quick notes on Unix/Linux administration.
 - [Generic Ubuntu Server Build](/operating_systems/ubuntu/server_build) - Documents how to build an Ubuntu server from the ground up.
-- [KVM Install Instructions](/operating_systems/ubuntu/package_install/kvm_install) - Details on how to install KVM.
-- [KVM Notes](/operating_systems/ubuntu/package_operations/kvm_notes) - Day to day operations in KVM.
 
 # Log Investigation
 - [journalctl](/operating_systems/ubuntu/package_operations/journalctl) - Investigate logging with `journalctl`.

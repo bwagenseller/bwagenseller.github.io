@@ -1,14 +1,16 @@
 **Ubuntu Server Operations**
 - [**Linux Quick Reference**](/operating_systems/ubuntu/linux_notes)
 - [**Generic Ubuntu Server Build**](/operating_systems/ubuntu/server_build)
-- [**KVM Install Instructions**](/operating_systems/ubuntu/package_install/kvm_install)
-- [**KVM Notes**](/operating_systems/ubuntu/package_operations/kvm_notes)
 - [**journalctl**](/operating_systems/ubuntu/package_operations/journalctl)
 **Raspberry Pi**  
 - [**Raspberry Pi Key Terms**](/operating_systems/raspberry_pi/raspberry_pi_key_terms)  
 - [**Raspberry Pi Setup**](/operating_systems/raspberry_pi/raspberry_pi_install)  
 - [**Learning Raspbian OS**](/operating_systems/raspberry_pi/raspbian)  
 - [**RetroPie**](/operating_systems/raspberry_pi/retropie)  
+**KVM**  
+- [**KVM**](/operating_systems/kvm/)  
+- [**KVM Install Instructions**](/operating_systems/kvm/kvm_install)
+- [**KVM Notes**](/operating_systems/kvm/kvm_notes)
 **Docker**  
 - [**Docker**](/operating_systems/docker/)  
 - [**Docker Basics**](/operating_systems/docker/docker_basics)  
@@ -26,3 +28,7 @@
 - [**Kubectl**](/operating_systems/kubernetes/kubectl)  
 - [**Helm**](/operating_systems/kubernetes/helm)  
 - [**Minikube**](/operating_systems/kubernetes/minikube)  
+**NAS**  
+- [**TrueNAS Scale**](/operating_systems/nas/truenas_scale)  
+- [**NFS**](/operating_systems/nas/nfs)  
+- [**Samba**](/operating_systems/nas/samba)  

@@ -1,11 +1,11 @@
 - **Ubuntu Links**
  - [Linux Quick Reference](/operating_systems/ubuntu/linux_notes)
  - [Generic Ubuntu Server Build](/operating_systems/ubuntu/server_build)
- - [KVM Install Instructions](/operating_systems/ubuntu/package_install/kvm_install)
- - [KVM Notes](/operating_systems/ubuntu/package_operations/kvm_notes)
  - [journalctl](/operating_systems/ubuntu/package_operations/journalctl) 
  - [Docker](/operating_systems/docker/)  
+ - [KVM](/operating_systems/kvm/)  
  - [Kubernetes](/operating_systems/kubernetes/)  
+ - [NAS](/operating_systems/nas/)  
 - **Raspberry Pi**
  - [Raspberry Pi](/operating_systems/raspberry_pi/) 
 - **Databases**
@@ -25,6 +25,9 @@
  - [Git](/learn_to_code/git/)  
  - [Kafka](/tools/kafka/)  
  - [StatsD Page](/learn_to_code/statsd/)  
+ - [Plex](/tools/plex/)  
+ - [RetroArch](/tools/retroarch/)  
+ - [OBS Studio](/tools/obs_studio/)  
 - **Computer Science**  
  - [Android](/learn_to_code/android/)  
  - [Akka](/learn_to_code/java/akka/)
@@ -41,5 +44,17 @@
  - [Asterisk Operations](/telephony/asterisk)  
  - [Kamailio](/telephony/kamailio/)  
  - [Misc Tools](/telephony/misc_tools)  
+- **AI Media**
+ - [AI Media](/ai_media/)
+ - [Stable Diffusion](/ai_media/stable_diffusion/)
+ - [llama.cpp](/ai_media/llama.cpp/)
+ - [Ovi](/ai_media/ovi/)
+- **Agentic AI**
+ - [Agentic AI](/agentic/)
+ - [General Notes](agentic/general/)  
+ - [Claude Code](/agentic/claude_code/)
+ - [Codex CLI](/agentic/codex_cli/)  
+ - [Aider](/agentic/aider/)
+ - [OpenClaw](/agentic/openclaw/)  
 - **Microsoft Office**
  - [Vlookup](/office/excel_vlookup)

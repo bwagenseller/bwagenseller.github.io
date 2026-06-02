@@ -13,8 +13,8 @@ git branch -v --all
 
 This will show all branches. Example output:
 ```
-  add_XML                1b49acd Added XML file
-* master                 aade838 Merged in iss53 (pull request #1)
+  add_XML  1b49acd Added XML file
+* master  aade838 Merged in iss53 (pull request #1)
   remotes/origin/add_XML 1b49acd Added XML file
   remotes/origin/master  aade838 Merged in iss53 (pull request #1)
 ```
@@ -151,33 +151,33 @@ When you run `git log` you will see all information about al of the commits up t
 bwagenseller@HomeComputer:~/Documents/Code/Java/brentsgit$ git log
 commit 60a0412ef173b2a813ebd9701f6ba49a96901590 (origin/master, master)
 Author: bwagenseller <brent.b.wagenseller@yahoo.com>
-Date:   Thu Jul 25 22:32:31 2019 -0400
+Date:  Thu Jul 25 22:32:31 2019 -0400
 
-    Add anotherTest.md
+  Add anotherTest.md
 
 commit 2724711aa94a11d7a55730f19ed6937915545526
 Author: bwagenseller <brent.b.wagenseller@yahoo.com>
-Date:   Wed Jul 24 12:09:36 2019 -0400
+Date:  Wed Jul 24 12:09:36 2019 -0400
 
-    Changed test message
+  Changed test message
 
 commit d91fee11e257332d6c69b06a822d2fb9794ba9b6
 Author: bwagenseller <brent.b.wagenseller@yahoo.com>
-Date:   Wed Jul 24 11:27:31 2019 -0400
+Date:  Wed Jul 24 11:27:31 2019 -0400
 
-    add test.md
+  add test.md
 
 commit 83a963fd728d9093679a1578ff1c70087f1a9e63
 Author: bwagenseller <brent.b.wagenseller@yahoo.com>
-Date:   Wed Jul 24 11:18:48 2019 -0400
+Date:  Wed Jul 24 11:18:48 2019 -0400
 
-    Updated java_basics.md
+  Updated java_basics.md
 
 commit 9487fcaa7f271aac0d20eafef042807157ed4c29 (HEAD)
 Author: bwagenseller <brent.b.wagenseller@yahoo.com>
-Date:   Wed Jul 24 00:11:23 2019 -0400
+Date:  Wed Jul 24 00:11:23 2019 -0400
 
-    First commit in the GUI!
+  First commit in the GUI!
 
 ```
 
@@ -282,14 +282,14 @@ git remote add origin https://YOUR_BITBUCKET_USERNAME@bitbucket.org/GROUP/reposi
 git push -u origin master
 ```
  * The above assumes its a Bitbucket remote repository.
-   * `YOUR_BITBUCKET_USERNAME` is your username in Bitbucket.
-   * `GROUP` is the group; if this is your personal repository this may be your username, but if it is your company's Group it will probably reflect your company's name.
-   * `repository.git` is the repository; the base name will be different (it will probably match your local base directory for your local repository) but it will end in `.git`. 
+  * `YOUR_BITBUCKET_USERNAME` is your username in Bitbucket.
+  * `GROUP` is the group; if this is your personal repository this may be your username, but if it is your company's Group it will probably reflect your company's name.
+  * `repository.git` is the repository; the base name will be different (it will probably match your local base directory for your local repository) but it will end in `.git`. 
  * This command expressly lists '[origin](learn_to_code/git/git_concepts?id=remote-name)' as the remote name; that said:
-   * You can name it differently; unless you have a reason to, do not.
-   * `origin` is the default, so you can run this without this keyword.
-   * It is actually possible to have [multiple remote repositories](learn_to_code/git/git_concepts?id=remote-repository), which can be viewed with the [git remote](learn_to_code/git/git_cli_commands?id=viewing-sources) command.
-     * If you have a reason to do this, simply swap out the word `origin` for whatever you want to call this remote source.
+  * You can name it differently; unless you have a reason to, do not.
+  * `origin` is the default, so you can run this without this keyword.
+  * It is actually possible to have [multiple remote repositories](learn_to_code/git/git_concepts?id=remote-repository), which can be viewed with the [git remote](learn_to_code/git/git_cli_commands?id=viewing-sources) command.
+  * If you have a reason to do this, simply swap out the word `origin` for whatever you want to call this remote source.
 	 * Be careful with multiple remote sources.
 
 
@@ -389,8 +389,254 @@ git push --all -u
 ```
 * `-u` (or `--set-upstream`) adds an upstream (remote) tracking reference
 
----
+---  
+
+# Apply  
+
+  
+`git apply` takes a `.patch` or `.diff` file and applies its changes to your working tree without creating a commit. Useful when someone hands you changes as a patch file (from `git diff > foo.patch`, `git format-patch`, or another source) and you want to apply them to a branch you control. 
+  
+## Basic Usage  
+  
+```bash  
+  git apply /path/to/change.patch
+```  
+
+The patch modifies files in your working tree. Nothing is staged and nothing is committed - you review, stage, and commit manually.  
 
 
+**<font size="4">Typical Workflow</font>**  
+  
+1\. Check out the target branch: `git checkout MY-BRANCH-HERE`  
+  
+2\. Apply the patch: `git apply /path/to/change.patch`  
 
----
+3\. Review:  
+```
+git status
+git diff  
+``` 
+4\. Stage and commit with your own identity  
+```
+git add <files>
+git commit -m "Your commit message"
+```  
+
+5\. Push when ready: `git push`  
+  
+**<font size="4">When it fails</font>**  
+
+If git apply fails with "patch does not apply", it usually means one of:
+* The files the patch targets have changed in ways that conflict with it (someone else modified the same lines)
+* The patch was generated against a different base than your current branch  
+* The target files have been renamed or deleted  
+  
+**Option A** - apply what you can, leave conflicts for manual resolution:  
+```
+git apply --reject /path/to/change.patch  
+```  
+
+This applies every hunk it can cleanly. For hunks that fail, it writes a .rej file alongside the target file containing the rejected hunk. You edit the target file manually to incorporate the rejected changes, then delete the .rej file.  
+  
+**Option B** - see what would happen without actually applying:  
+```
+git apply --check /path/to/change.patch
+```  
+* Runs the apply in dry-run mode and prints any conflicts. Useful before you commit to the operation.  
+  
+**Option C** - tolerate whitespace mismatches:  
+```  
+git apply --whitespace=fix /path/to/change.patch  
+```  
+* Fixes whitespace errors in the patch (trailing spaces, tab/space mixing) rather than rejecting them.  
+
+## git apply vs am  
+
+* `git apply` just modifies files. No commit is created. You commit yourself.  
+  * Use git apply when you want to author the commit yourself or when the patch came from git diff.  
+* `git am` applies patches that include commit metadata (author, date, message) and creates commits as part of the operation. It's for patches produced by git format-patch.  
+  * Use git am when you want to preserve the original author's commit metadata from a patch produced by git format-patch.  
+  
+
+## Generating Patches  
+
+For reference, the counterpart commands for producing patch files:  
+* Patch of current uncommitted changes: `git diff > my-changes.patch`  
+* Patch of staged changes: `git diff --staged > my-changes.patch`  
+* Patch of changes between two commits or branches: `git diff main..my-branch > my-changes.patch`  
+* Patch of changes limited to specific paths: `git diff main..my-branch -- src/ > my-changes.patch`  
+* Patch from a range of commits, one file per commit, with metadata: `git format-patch main..my-branch`  
+  
+## Apply Safety Notes
+  
+* `git apply` doesn't touch history - it only modifies the working tree.  Reverting is as simple as `git checkout -- <files>` or `git reset --hard` (if you haven't staged/committed yet).  
+* Always review with git diff before committing. A patch that applies cleanly isn't necessarily a patch that does what you want.  
+* Patches don't carry the commit author, message, or date.  
+  * If those matter, use `git format-patch` + `git am` instead.  
+
+---  
+
+# Troubleshooting  
+
+## Failure to Merge Master Into Branch  
+
+This assumes you are getting failures on merging in the master branch to a child branch. Here are the steps you can take to fix it. 
+
+1\. Commit all changes to the child branch (if any).  
+
+2\. `git checkout master`  
+
+3\. `git pull`  
+  * To make sure master is up to date  
+
+4\. `git checkout SOME_BRANCH_HERE`  
+  * Checkout the branch that has the issue  
+
+5\. `git rebase master`  
+  * Pulls master in, or attempts to  
+
+6\. `git status`  
+  * This is to find the merge conflicts  
+  * Find the merge conflict in the file, indicated by the lines, and correct it  
+
+7\. `git add FILENAME_YOU_CORRECTED_HERE`  
+
+8\. `git status`  
+
+9\. `git rebase --continue`  
+
+10\. `git status`  
+
+11\. `git push --force`  
+
+12\. `git status`  
+
+---  
+
+# Cheetsheet  
+
+
+## CS: Branches  
+
+**<font size="4">Show All Branches</font>**  
+To see all branches: `git branch`  
+
+**<font size="4">Create New Branch (No Checkout)</font>**  
+To create a new branch: `git branch NEW_BRANCH_NAME_HERE`  
+
+**<font size="4">Create New Branch (With Checkout)</font>**  
+To create a new branch (with checkout): `git checkout -b NEW_BRANCH_NAME_HERE`  
+
+**<font size="4">Checkout an Existing Branch</font>**  
+To checkout an existing branch: `git checkout BRANCH_NAME_HERE`  
+
+**<font size="4">Rename a Branch</font>**  
+To rename the current branch: `git branch -m NEW_NAME`  
+To rename a different branch: `git branch -m OLD_NAME NEW_NAME`  
+  
+**<font size="4">Delete a Branch</font>**  
+To delete a local branch that's been merged: `git branch -d BRANCH_NAME`
+To force-delete a local branch (even if unmerged): `git branch -D BRANCH_NAME`  
+To delete a remote branch: `git push origin --delete BRANCH_NAME`  
+
+**<font size="4">Pull From Remote</font>**  
+To update the current branch from remote: `git pull`  
+To pull and rebase instead of merge: `git pull --rebase`  (cleaner history, no merge commits)  
+
+**<font size="4">Push a New Branch to Remote</font>**  
+To push a branch that doesn't yet exist on the remote: `git push -u origin BRANCH_NAME`
+  * The `-u` sets up tracking so future `git push` and `git pull` work without arguments.  
+
+**<font size="4">Push Existing Branch to Remote</font>**  
+To push the _current_ branch to the remote server: `git push`  
+ 
+**<font size="4">Force Push (Use With Care)</font>**  
+To overwrite a remote branch with your local version: `git push --force`  
+Safer alternative that refuses if someone else has pushed: `git push --force-with-lease`  
+  * Never force-push shared branches like main/master.  
+
+
+## CS: Check Status / Log  
+
+**<font size="4">Check Status</font>**  
+To see what's changed, staged, and untracked: `git status`  
+
+**<font size="4">See Changes</font>**  
+To see unstaged changes: `git diff`  
+To see staged changes: `git diff --staged`
+To see changes between branches: `git diff BRANCH_A..BRANCH_B`  
+  * Usually, if you eventually merge to master, is best to set `BRANCH_A` as `master`  
+To see only the files changed between two branches: `git diff BRANCH_A..BRANCH_B --name-only`  
+  * Usually, if you eventually merge to master, is best to set `BRANCH_A` as `master`  
+To see only the count of files changed, insertions, and deletions between two branches: `git diff BRANCH_A..BRANCH_B --shortstat`  
+  * Usually, if you eventually merge to master, is best to set `BRANCH_A` as `master`  
+  
+
+**<font size="4">View Commit History</font>**  
+To see recent commits: `git log`  
+Compact one-line format: `git log --oneline`  
+Recent N commits only: `git log -n 10`  
+Commits touching a specific file: `git log -- path/to/file`  
+  
+**<font size="4">See Who Changed Each Line</font>**  
+To find the commit that last touched each line of a file: `git blame path/to/file`  
+
+## CS: Stage and Commit  
+
+**<font size="4">Stage Files</font>**  
+To stage a specific file: `git add path/to/file`
+To stage all changes: `git add -A` or `git add .` (avoid blindly staging - it grabs everything, including secrets or build artifacts)  
+To stage interactively: `git add -p`  (review and stage piece by piece)  
+
+**<font size="4">Commit</font>**  
+To commit staged changes: `git commit -m "message"`  
+To stage and commit all tracked-file changes in one step: `git commit -am "message"`  (does NOT add new/untracked files)  
+
+**<font size="4">Amend the Last Commit</font>**  
+To add staged changes to the most recent commit: `git commit --amend`  
+To change just the last commit's message: `git commit --amend -m "new message"`  
+  * If the commit has been pushed, amending requires a force push - think twice.  
+
+**<font size="4">Revert Uncommitted Working-Ttree Changes</font>**  
+If you have not staged or committed the changes to a file, simply run: `git restore path/to/file1.java path/to/file2.conf`  
+  * You can add as many files as you like.  
+  * Or, alternatively, you can do everything: `git restore .`  
+  * If there are _staged_ things you could do: `git restore --staged --worktree .`  
+
+**<font size="4">Undo Unstaged Changes to a File</font>**
+To discard uncommitted changes in the working tree: `git checkout -- path/to/file`  
+(Warning: this is destructive \u2014 the changes are gone.)  
+  
+**<font size="4">Unstage a File</font>**  
+To unstage a file without discarding its changes: `git reset HEAD path/to/file`  
+To unstage everything: `git reset`  
+
+## CS: Rebasing to Master  
+
+To rebase a branch to master:  
+```
+git checkout YOUR_TARGET_BRANCH
+git fetch origin
+git rebase origin/master
+# resolve any conflicts if they arise
+git push --force-with-lease  
+```  
+
+!> If you have ANY trouble with this - i.e. the rebase has an issue - [follow these instructions](learn_to_code/git/git_cli_commands?id=failure-to-merge-master-into-branch); you will probably start at step number 6 (`git status`).  
+
+## CS: Patching  
+
+**<font size="4">Applying a Patch to Current Branch</font>**  
+To apply a .patch file to the _current_ branch: `git apply /path/to/change.patch`  
+
+## CS: Stashing  
+  
+**<font size="4">Stash Work in Progress</font>**  
+To save uncommitted changes and clean the working tree: `git stash`  
+To save with a description: `git stash push -m "what I was working on"`  
+To list stashes: `git stash list`  
+To reapply the most recent stash: `git stash pop`  (removes it from the stash list)  
+To reapply without removing: `git stash apply`  
+  
+
+  

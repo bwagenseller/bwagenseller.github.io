@@ -152,7 +152,7 @@ Its possible to set up a remote desktop on Raspbian; this makes it possible to i
 
 ## Installing Remote Access Packages
 
-You will need to install some packages in order to connect remotely. [These are the same as used in KVM](operating_systems/ubuntu/package_install/kvm_install?id=install-remote-access-packages), so install the packages listed there.
+You will need to install some packages in order to connect remotely. [These are the same as used in KVM](operating_systems/kvm/kvm_install?id=install-remote-access-packages), so install the packages listed there.
 
 !> You only have to install the packages listed under the small section 'Install Remote Access Packages'.
 

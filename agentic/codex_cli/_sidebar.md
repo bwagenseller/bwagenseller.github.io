@@ -1,0 +1,3 @@
+- [**Main Agentic AI Page**](/agentic/)  
+- [**Codex CLI**](agentic/codex_cli/)  
+- [Basics](/agentic/codex_cli/codex_cli_basics)  

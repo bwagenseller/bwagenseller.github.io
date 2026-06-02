@@ -1,3 +1,7 @@
 - [**Telephony**](/telephony/)  
+- [**Terms**](/telephony/terms)  
 - [**Asterisk**](/telephony/asterisk/)  
-- [**Asterisk Basics**](/telephony/asterisk/asterisk_basics)  
+  - [Asterisk Basics](/telephony/asterisk/asterisk_basics)  
+  - [Modules](/telephony/asterisk/modules)  
+  - [Dialplans](/telephony/asterisk/dialplans)  
+  - [FreePBX](/telephony/asterisk/freepbx)  
