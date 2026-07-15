@@ -14,6 +14,12 @@
 - [Streams](/learn_to_code/java/akka/streams) - My notes on using Akka streams.  
 - [Telemetry](/learn_to_code/java/akka/telemetry) - My notes on monitoring Akka with Lightbend Telemetry.  
 
+# Akka Deep Dive (Concepts / Classic / Typed)  
+- [Concepts](/learn_to_code/java/akka/concepts/) - API-agnostic ideas: singleton, sharding, passivation, rehydration, serialization, split-brain.  
+- [Classic API](/learn_to_code/java/akka/classic/) - Implementations using the classic AbstractActor API.  
+- [Typed API](/learn_to_code/java/akka/typed/) - Implementations using the typed Behaviors API.  
+- [Versions and Licensing](/learn_to_code/java/akka/versions_and_licensing) - Classic vs Typed; Akka 2.6 / 2.7-BSL / Pekko.  
+
 # Akka Resources  
 * [lightbend.com](https://developer.lightbend.com/guides/akka-quickstart-java/index.html)
  * [Lightbend Academy](https://academy.lightbend.com/)  

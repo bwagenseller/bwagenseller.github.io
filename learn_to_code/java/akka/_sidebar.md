@@ -5,6 +5,11 @@
  - [Clustering](/learn_to_code/java/akka/clustering)  
  - [Streams](/learn_to_code/java/akka/streams)  
  - [Telemetry](/learn_to_code/java/akka/telemetry)  
+- **Akka Deep Dive**  
+ - [Concepts](/learn_to_code/java/akka/concepts/)  
+ - [Classic API](/learn_to_code/java/akka/classic/)  
+ - [Typed API](/learn_to_code/java/akka/typed/)  
+ - [Versions and Licensing](/learn_to_code/java/akka/versions_and_licensing)  
 - [**Akka Examples**](/learn_to_code/java/akka/examples/)  
  - [Akka Basic Examples](/learn_to_code/java/akka/examples/akka_basic_examples)  
  - [Akka Cluster Examples](/learn_to_code/java/akka/examples/cluster_example)  

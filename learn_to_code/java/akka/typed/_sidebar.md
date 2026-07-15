@@ -1,0 +1,11 @@
+- [**Home**](http://192.168.1.220/wagenseller_notes/#/)
+- [**Back To Akka**](/learn_to_code/java/akka/)
+- **Typed API**  
+ - [Cluster Singleton](/learn_to_code/java/akka/typed/cluster_singleton)  
+ - [Cluster Sharding](/learn_to_code/java/akka/typed/cluster_sharding)  
+ - [Passivation](/learn_to_code/java/akka/typed/passivation)  
+ - [Rehydration and WakeUp](/learn_to_code/java/akka/typed/rehydration_and_wakeup)  
+ - [Serialization and Actor Refs](/learn_to_code/java/akka/typed/serialization_and_actor_refs)  
+- **Other Branches**  
+ - [Concepts](/learn_to_code/java/akka/concepts/)  
+ - [Classic Branch](/learn_to_code/java/akka/classic/)  

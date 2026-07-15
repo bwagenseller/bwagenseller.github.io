@@ -158,13 +158,6 @@ Use exactly one ToolSearch invocation with `select:TaskCreate,TaskUpdate,TaskLis
 ---  
 
 
-## Claude Code
-
-Here are some additional instructions for Claude Code - use them wisely.  
-
-```  
-
---- 
 
 # settings.json
 
@@ -192,9 +185,23 @@ The permissions block controls which tools Claude Code can run without asking:
     ]
   }
 }
-```
+```  
 
-Permissions use glob-style matching against tool calls. `allow` rules auto-approve; `deny` rules block outright.
+Permissions use glob-style matching against tool calls. `allow` rules auto-approve; `deny` rules block outright.  
+
+One thing you can do is just ... allow Claude to run anything it wants. This is obviously dangerous if you have not taken other precautions - the account its running on has limited access, its in a Docker Container / VM, etc etc. If Claude is properly contained, though, you can just allow it to run what it wants to with this in the permissions slot instead:  
+
+```json  
+{
+  "permissions": {
+    "defaultMode": "bypassPermissions"
+  }
+}
+```  
+
+> Remember that you can interrupt Claude at any time by pressing `Esc` - this is especially helpful if you allow Claude to run what it wants to run.  
+
+---  
 
 # Environment Variables
 

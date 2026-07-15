@@ -58,6 +58,27 @@ The `whoami` command is important any time you are switching to and from root (o
 whoami
 ```
 
+## Adding Passwordless Switch to Root  
+
+!> Be very careful with this - usually, you want a password to switch to root, but if you are in a situation where you need to switch to root without a password, follow these instructions.  
+
+1\. [Become root](/operating_systems/ubuntu/linux_notes?id=becoming-root).  
+
+2\. create a user-specific entry in /etc/sudoers.d: `visudo -f /etc/sudoers.d/USER_NAME_HERE`  
+  * Switch out `USER_NAME_HERE`  
+  * You do not have to use `visudo`, but visudo is the safe editor wrapper for sudoers files - It opens the sudoers file in an editor, but before saving it checks the syntax. That matters because a bad sudoers file can lock you out of sudo.  
+  * You could also use vi: `EDITOR=vi visudo -f /etc/sudoers.d/USER_NAME_HERE`  
+
+3\. In that file, add:  
+```
+USER_NAME_HERE ALL=(ALL) NOPASSWD: ALL
+```  
+  * Switch out `USER_NAME_HERE`  
+  * You could add multiple permissions here, but the above gives the user all access.  
+
+4\. Change the permissions: `chmod 0440 /etc/sudoers.d/USER_NAME_HERE`  
+  * Switch out `USER_NAME_HERE`  
+
 # Updating / Upgrading All Packages
 
 Typically, its important to update all packages before installing any new package (note: this does not actually change them, it simply updates info on them).  This is done by [becoming root](/operating_systems/ubuntu/linux_notes?id=becoming-root) and then running the following:
@@ -1355,6 +1376,26 @@ Example of changing the group of all files and directories in the current direct
 ```
 chgrp -R groupName *
 ```
+
+## Making Group a Directory Default  
+
+You can force all new files in a directory to inherit the group (but not owner) like so:  
+```
+sudo find ABSOLUTE_PATH_HERE -type d -exec chmod g+s {} +
+```  
+* `sudo` is not needed, but it must be run by someone who can actually do it (usually `sudo`)  
+* walk the tree recursively: `find`  
+* directories only - never files (important): `-type d`  
+  * `-type d` is doing real work, not just saving time.  
+  * `Setgid` on a directory means "new entries inherit my group."  
+    * `Setgid` on a file means something completely different and unrelated (setgid-on-execute).  
+    * A blind `chmod -R g+s` would hit both and is a genuine mistake.  
+* add the setgid bit: `-exec`  
+* batch args: a few chmod: `g+s {} +`  
+  * `{} +` batches paths into few `chmod` invocations; `{} \;` would fork one per directory. Same result, much slower.  
+
+
+Setgid makes new files inherit the directory's own group - _whatever_ that group happens to be.  
 
 ---
 

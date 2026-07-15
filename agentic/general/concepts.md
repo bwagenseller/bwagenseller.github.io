@@ -9,6 +9,10 @@ An <font color="green">AI Agent</font> (or simply <font color="green">Agent</fon
 * write code  
 * act as you / on your behalf - anything the account on your machine can do with you, the AI Agent can usually do it too.  
 
+# Agent Instruction File  
+
+<font color="green">Agent Instruction Files</font> (or, sometimes alternatively, <font color="purple">Context Files</font>, or <font color="purple">Codebase Instructions</font>) are files that provide persistent instructions, context, and constraints to an AI agent operating in that codebase - analogous to a system prompt but scoped to a project and authored by the developer rather than the AI provider. Conventionally, this will be your set of <font color="purple">AGENTS.md</font>, <font color="purple">CLAUDE.md</font>, or similar files.  
+
 # Agentic Loop  
 
 The <font color="green">Agentic Loop</font> is a repeated cycle where an AI model <font color="purple">thinks</font> about what to do, <font color="purple">acts</font> by calling a tool, and <font color="purple">observes</font> the result, looping until it decides the task is complete.  

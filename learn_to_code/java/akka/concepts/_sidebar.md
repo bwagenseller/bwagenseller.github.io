@@ -1,0 +1,13 @@
+- [**Home**](http://192.168.1.220/wagenseller_notes/#/)
+- [**Back To Akka**](/learn_to_code/java/akka/)
+- **Akka Concepts**  
+ - [Cluster Singleton](/learn_to_code/java/akka/concepts/cluster_singleton)  
+ - [Cluster Sharding](/learn_to_code/java/akka/concepts/cluster_sharding)  
+ - [Passivation](/learn_to_code/java/akka/concepts/passivation)  
+ - [Rehydration and WakeUp](/learn_to_code/java/akka/concepts/rehydration_and_wakeup)  
+ - [Serialization and Actor Refs](/learn_to_code/java/akka/concepts/serialization_and_actor_refs)  
+ - [Split Brain and Quorum](/learn_to_code/java/akka/concepts/split_brain_and_quorum)  
+- **Implementations**  
+ - [Classic Branch](/learn_to_code/java/akka/classic/)  
+ - [Typed Branch](/learn_to_code/java/akka/typed/)  
+- [Versions and Licensing](/learn_to_code/java/akka/versions_and_licensing)  
